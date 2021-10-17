@@ -1,0 +1,16 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name = "DigiserviceApp"
+include ':app'
+include ':core-data'
+include ':core-navigation'
+include ':core-util'
+include ':core-resource'
+include ':feature-auth'
+include ':feature-home'
