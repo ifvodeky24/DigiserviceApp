@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorRed">#e21100</color>
+    <color name="colorDarkRed">#AF1004</color>
+    <color name="colorRegular">#555555</color>
+
+    <color name="colorMedsOral">#0076B3</color>
+    <color name="colorGrassyGreen">#29af00</color>
+    <color name="colorGrassyGreen50">#8029af00</color>
+    <color name="colorPastelGreen">#8077DD77</color>
+    <color name="colorNero">#171717</color>
+    <color name="colorGreyishBrown">#555555</color>
+    <color name="colorCobaltBlue">#00109c</color>
+    <color name="colorCobaltBlue30">#4d00109c</color>
+    <color name="colorCobaltBlue40">#6600109c</color>
+    <color name="colorDarkBlue">#050087</color>
+    <color name="colorVeryLightBlue">#dee7f8</color>
+    <color name="colorGainsboro">#dddddd</color>
+    <color name="colorRed20">#33e21100</color>
+    <color name="colorBattleshipGrey">#76767c</color>
+    <color name="colorPalePurple">#afaac2</color>
+    <color name="colorHintOfRed">#f4f3f2</color>
+    <color name="colorMale">#1b29e5</color>
+    <color name="colorFemale">#e51b94</color>
+    <color name="colorOrangeYellow">#ffa300</color>
+    <color name="colorSea">#319c9c</color>
+    <color name="colorLightBlueGrey">#cdd2dd</color>
+    <color name="colorLightBlueGreyOut">#CDD2DE</color>
+    <color name="colorLightBlue">#DEE7F8</color>
+    <color name="colorWhisper">#e6e6e6</color>
+    <color name="colorOrangePeel">#ffa200</color>
+    <color name="colorGrey57">#919191</color>
+    <color name="colorMildPurple">#EAE0FC</color>
+    <color name="colorDodgerBlue">#1172F7</color>
+    <color name="colorFairPink">#F8E6D9</color>
+    <color name="colorUltraMarine">#1F1B91</color>
+    <color name="colorBgColorTextInput">#EEEFF3</color>
+    <color name="colorDelete">#F20000</color>
+    <color name="colorDeleteBackground">#EFCDCA</color>
+    <color name="colorLightPink">#C3807B</color>
+    <color name="colorCard">#F0F1F7</color>
+    <color name="colorBorderCard">#D8D9DE</color>
+    <color name="colorTeaGreen">#C5F5B5</color>
+    <color name="colorGreyBrown">#AFAAC2</color>
+
+    <color name="colorTranslucentNavigationBar">#80FFFFFF</color>
+    <color name="colorButtonPrimaryVariant">#29af00</color>
+    <color name="colorCoralCandy">#EFCDCA</color>
+    <color name="colorIconBaru">#4D9B35</color>
+    <color name="color_pampas">#F4F3F2</color>
+    <color name="dividerLine">#CCCCCC</color>
+
+    <color name="colorTransparentPin">#40FFFFFF</color>
+    <color name="colorVividBlue">#1F2DE9</color>
+    <color name="color_mischka">#CDCED9</color>
+    <color name="color_lucky_point">#1A2268</color>
+    <string name="colorBlackOverlay">#99000000</string>
+    <color name="colorGreyBlue">#53598E</color>
+
+    <color name="colorLogan">#AFAAC3</color>
+
+    <color name="colorMoodyBlue">#8683D5</color>
+    <color name="colorRedStop">#E84118</color>
+</resources>
