@@ -4,8 +4,13 @@ import android.content.Context
 import android.content.Intent
 
 enum class ActivityClassPath(private val className: String) {
-    Auth("$BASE_PATH.feature_auth.AuthActivity");
+    Auth("$BASE_PATH.feature_auth.AuthActivity"),
+    Home("$BASE_PATH.feature_home.HomeActivity"),
+    Profile("$BASE_PATH.feature_profile.HomeActivity"),
+    History("$BASE_PATH.feature_history.HomeActivity"),
+    Service("$BASE_PATH.feature_service.HomeActivity");
 
     fun getIntent(context: Context) = Intent(context, Class.forName(className))
 }
+
 private const val BASE_PATH = "com.example"

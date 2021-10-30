@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.DigiserviceApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.DigiserviceApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.DigiserviceApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

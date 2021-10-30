@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_store">Toko</string>
+    <string name="title_service">Service</string>
+    <string name="title_history">Riwayat</string>
+    <string name="title_account">Akun</string>
+</resources>

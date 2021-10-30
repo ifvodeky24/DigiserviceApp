@@ -19,6 +19,7 @@ ext.versions = [
         //region Plugin
         agp                  : '7.0.3',
         kotlin               : '1.5.31',
+        navigation_safe_args : '2.3.3',
         //endregion
 
         //region Common Dependencies
@@ -28,41 +29,48 @@ ext.versions = [
 
         room                 : '2.3.0-rc01',
 
-        debug_banner               : '1.0.4',
+        debug_banner         : '1.0.4',
+
+
+        navigation           : '2.3.5',
+        material             : '1.4.0',
+        appcompat            : '1.3.1',
+        constraint_layout    : '2.1.1',
 ]
 
 ext.plugin = [
-        agp   : "com.android.tools.build:gradle:$versions.agp",
-        kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        agp                 : "com.android.tools.build:gradle:$versions.agp",
+        kotlin              : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        navigation_safe_args: "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation_safe_args",
 ]
 
 ext.deps = [
-        moshi          : [
+        moshi            : [
                 "com.squareup.moshi:moshi-kotlin:$versions.moshi",
                 "com.squareup.moshi:moshi-adapters:$versions.moshi"
         ],
-        okhttp         : [
+        okhttp           : [
                 "com.squareup.okhttp3:okhttp:$versions.okhttp",
                 "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
         ],
-        retrofit       : [
+        retrofit         : [
                 "com.squareup.retrofit2:retrofit:$versions.retrofit",
                 "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
                 "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
         ],
-        cookiejar      : [
+        cookiejar        : [
                 "net.gotev:cookie-store:$versions.cookiejar",
                 "net.gotev:cookie-store-okhttp:$versions.cookiejar"
         ],
 
-        moshi_compiler : "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi",
+        moshi_compiler   : "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi",
 
 
-        coroutines     : [
+        coroutines       : [
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutine",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutine"
         ],
-        koin           : [
+        koin             : [
                 "org.koin:koin-core:$versions.koin",
                 "org.koin:koin-androidx-scope:$versions.koin",
                 "org.koin:koin-androidx-viewmodel:$versions.koin",
@@ -70,13 +78,27 @@ ext.deps = [
         ],
 
 
-        chucker_debug  : "com.github.chuckerteam.chucker:library:$versions.chucker",
-        chucker_release: "com.github.chuckerteam.chucker:library-no-op:$versions.chucker",
+        chucker_debug    : "com.github.chuckerteam.chucker:library:$versions.chucker",
+        chucker_release  : "com.github.chuckerteam.chucker:library-no-op:$versions.chucker",
 
-        room           : [
+        room             : [
                 "androidx.room:room-ktx:$versions.room",
                 "androidx.room:room-migration:$versions.room"
         ],
 
-        debug_banner        : "com.github.armcha:DebugBanner:$versions.debug_banner",
+        debug_banner     : "com.github.armcha:DebugBanner:$versions.debug_banner",
+
+        navigation       : [
+                "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+                "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+        ],
+
+        material         : "com.google.android.material:material:$versions.material",
+
+        appcompat        : [
+                "androidx.appcompat:appcompat:$versions.appcompat",
+                "androidx.appcompat:appcompat-resources:$versions.appcompat"
+        ],
+
+        constraint_layout: "androidx.constraintlayout:constraintlayout:$versions.constraint_layout",
 ]

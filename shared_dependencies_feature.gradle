@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+apply from: '../shared_dependencies.gradle'
+
+android {
+    defaultConfig {
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation project(':core-data')
+    implementation project(':core-navigation')
+    implementation project(':core-resource')
+    implementation project(':core-util')
+
+    implementation deps.navigation
+    implementation deps.material
+    implementation deps.appcompat
+    implementation deps.constraint_layout
+}

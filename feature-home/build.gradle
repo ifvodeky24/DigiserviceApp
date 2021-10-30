@@ -2,8 +2,8 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
-apply(from: "../shared_dependencies.gradle")
+apply(from: "../shared_dependencies_feature.gradle")
 
 dependencies {
-
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
