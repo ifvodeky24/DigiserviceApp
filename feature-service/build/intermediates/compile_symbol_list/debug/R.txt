@@ -3575,7 +3575,6 @@ int style Widget_Design_TabLayout 0x0
 int style Widget_Design_TextInputEditText 0x0
 int style Widget_Design_TextInputLayout 0x0
 int style Widget_DigiService_Button_Secondary 0x0
-int style Widget_DigiService_Spinner 0x0
 int style Widget_MaterialComponents_ActionBar_Primary 0x0
 int style Widget_MaterialComponents_ActionBar_PrimarySurface 0x0
 int style Widget_MaterialComponents_ActionBar_Solid 0x0
