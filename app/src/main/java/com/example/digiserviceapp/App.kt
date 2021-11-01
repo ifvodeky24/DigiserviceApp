@@ -1,6 +1,7 @@
 package com.example.digiserviceapp
 
 import android.app.Application
+import com.example.core_data.dataModule
 import io.armcha.debugBanner.Banner
 import io.armcha.debugBanner.DebugBanner
 import org.koin.android.ext.koin.androidContext
@@ -11,7 +12,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        when (BuildConfig.BUILD_TYPE){
+        when (BuildConfig.BUILD_TYPE) {
             "debug" -> "DEV"
             else -> ""
         }.let {
@@ -21,6 +22,11 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
+            modules(
+                listOf(
+                    dataModule
+                )
+            )
         }
     }
 }
