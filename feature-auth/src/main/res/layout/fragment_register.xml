@@ -269,14 +269,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_next"
         style="@style/ThemeOverlay.DigiServices.Button.Secondary"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:enabled="false"
         android:layout_marginTop="@dimen/medium"
         android:paddingVertical="@dimen/small_fit"
-        android:text="DAFTAR SEKARANG"
+        android:text="LANJUT DAFTAR"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

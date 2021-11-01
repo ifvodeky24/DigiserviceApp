@@ -9,4 +9,9 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.DigiServices.Button.Secondary</item>
         <item name="cornerRadius">@dimen/small</item>
     </style>
+    <style name="Widget.DigiService.Spinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="endIconTint">@color/colorGreyishBrown</item>
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/colorLightBlueGrey</item>
+    </style>
 </resources>
