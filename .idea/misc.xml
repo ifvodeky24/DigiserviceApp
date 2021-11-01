@@ -4,23 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/DigiserviceApp/app/src/main/res/layout/activity_main.xml" value="0.14583333333333334" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_home_black_24dp.xml" value="0.25925925925925924" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.25925925925925924" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_search.xml" value="0.25925925925925924" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/activity_auth.xml" value="0.12360688956433637" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_login.xml" value="0.2" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_register.xml" value="0.12360688956433637" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_splash_screen.xml" value="0.176" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/activity_home.xml" value="0.19701086956521738" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_history.xml" value="0.1911231884057971" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_home.xml" value="0.19701086956521738" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_service.xml" value="0.1911231884057971" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/menu/bottom_navigation_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-profile/src/main/res/layout/activity_profile.xml" value="0.19701086956521738" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_selector_disable.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_disable.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_enable_focusable.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_focusable.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/activity_auth.xml" value="0.16" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_login.xml" value="0.2" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_register.xml" value="0.2" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

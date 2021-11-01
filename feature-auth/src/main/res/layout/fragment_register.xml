@@ -1,14 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/medium"
+    android:layout_marginVertical="@dimen/medium"
     tools:context=".register.RegisterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorRed"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="@dimen/small"
+        app:layout_constraintStart_toEndOf="@+id/tv_name"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_layout_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_input_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_selector_disabled" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:layout_marginTop="@dimen/medium"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_layout_name"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorRed"
+        app:layout_constraintTop_toTopOf="@+id/tv_email"
+        android:layout_marginHorizontal="@dimen/small"
+        app:layout_constraintStart_toEndOf="@+id/tv_email"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_layout_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_selector_disabled" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Toko"
+        android:layout_marginTop="@dimen/medium"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_layout_email"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorRed"
+        app:layout_constraintTop_toTopOf="@+id/tv_store_name"
+        android:layout_marginHorizontal="@dimen/small"
+        app:layout_constraintStart_toEndOf="@+id/tv_store_name"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_layout_store_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue"
+        app:layout_constraintTop_toBottomOf="@+id/tv_store_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_input_store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_selector_disabled" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_notifications_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pin_store_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_pin_store_address"
+        app:tint="@color/colorRedStop" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_pin_store_address"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/smaller"
+        android:layout_marginTop="@dimen/medium"
+        android:text="Wajib disini, Mohon pilih pin untuk menjangkau alamat Anda dengan akurat"
+        android:textColor="@color/colorOrangeYellow"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+        app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_name" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/smaller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pin_store_address" />
+
+    <View
+        android:id="@+id/mapViewButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00AABBCC"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toTopOf="@+id/map_view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_store_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alamat Toko"
+        android:layout_marginTop="@dimen/medium"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_view"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorRed"
+        app:layout_constraintTop_toTopOf="@+id/tv_store_address"
+        android:layout_marginHorizontal="@dimen/small"
+        app:layout_constraintStart_toEndOf="@+id/tv_store_address"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_layout_store_address"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue"
+        app:layout_constraintTop_toBottomOf="@+id/tv_store_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_input_store_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/large_fit"
+            android:background="@drawable/bg_selector_disabled" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_store_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deskripsi Toko"
+        android:layout_marginTop="@dimen/medium"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_address"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorRed"
+        app:layout_constraintTop_toTopOf="@+id/tv_store_description"
+        android:layout_marginHorizontal="@dimen/small"
+        app:layout_constraintStart_toEndOf="@+id/tv_store_description"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_layout_store_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue"
+        app:layout_constraintTop_toBottomOf="@+id/tv_store_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_input_store_description"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/very_large"
+            android:background="@drawable/bg_selector_disabled" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/ThemeOverlay.DigiServices.Button.Secondary"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/medium"
+        android:paddingVertical="@dimen/small_fit"
+        android:text="DAFTAR SEKARANG"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_description"
+        tools:ignore="TooManyViews" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

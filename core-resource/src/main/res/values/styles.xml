@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ThemeOverlay.DigiServices.Button.Secondary" parent="">
+        <item name="colorPrimary">@color/colorCobaltBlue</item>
+    </style>
+
+    <style name="Widget.DigiService.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.DigiServices.Button.Secondary</item>
+        <item name="cornerRadius">@dimen/small</item>
+    </style>
+</resources>
