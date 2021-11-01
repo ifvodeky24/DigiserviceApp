@@ -14,11 +14,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/medium"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/spacing_large"
-            android:paddingRight="@dimen/spacing_large">
+            android:paddingLeft="@dimen/medium"
+            android:paddingRight="@dimen/medium">
 
             <TextView
                 android:layout_width="0dp"
@@ -27,7 +27,7 @@
                 android:text="Terbaru"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/colorBattleshipGrey"/>
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -37,7 +37,7 @@
                 android:id="@+id/tv_selanjutnya_terbaru"
                 android:minWidth="0dp"
                 android:text="Selanjutnya"
-                android:textColor="@color/grey_60" />
+                android:textColor="@color/colorBattleshipGrey" />
 
         </LinearLayout>
 
@@ -45,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/spacing_medium"
+            android:padding="@dimen/medium"
             android:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:id="@+id/cv_new_product_1"
                 android:clickable="true"
                 android:layout_weight="1"
@@ -67,7 +67,7 @@
                         android:id="@+id/iv_newproduct_1"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <LinearLayout
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large">
+                        android:padding="@dimen/medium">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -90,7 +90,7 @@
                                 android:id="@+id/highlight1"
                                 android:singleLine="true"
                                 android:text="Mauris sagittis non elit"
-                                android:textColor="@color/grey_90" />
+                                android:textColor="@color/colorBattleshipGrey" />
 
                             <TextView
                                 android:id="@+id/tv_price"
@@ -105,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_more_vert"
-                            app:tint="@color/grey_40" />
+                            app:tint="@color/colorBattleshipGrey" />
 
                     </LinearLayout>
 
@@ -117,7 +117,7 @@
                 android:clickable="true"
                 android:id="@+id/cv_new_product_2"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="2dp">
@@ -131,7 +131,7 @@
                         android:id="@+id/iv_newproduct_2"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <LinearLayout
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large">
+                        android:padding="@dimen/medium">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -154,7 +154,7 @@
                                 android:id="@+id/highlight2"
                                 android:singleLine="true"
                                 android:text="Aliquam"
-                                android:textColor="@color/grey_90" />
+                                android:textColor="@color/colorBattleshipGrey" />
 
                             <TextView
                                 android:id="@+id/tv_price_2"
@@ -169,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_more_vert"
-                            app:tint="@color/grey_40" />
+                            app:tint="@color/colorBattleshipGrey" />
 
                     </LinearLayout>
 
@@ -183,8 +183,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/spacing_large"
-            android:paddingRight="@dimen/spacing_large">
+            android:paddingLeft="@dimen/medium"
+            android:paddingRight="@dimen/medium">
 
             <TextView
                 android:layout_width="0dp"
@@ -193,7 +193,7 @@
                 android:text="Terdekat"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textColor="@color/colorBattleshipGrey" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -202,7 +202,7 @@
                 android:gravity="center"
                 android:minWidth="0dp"
                 android:text="Selanjutnya"
-                android:textColor="@color/grey_60" />
+                android:textColor="@color/colorBattleshipGrey" />
 
         </LinearLayout>
 
@@ -210,13 +210,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/spacing_medium"
+            android:padding="@dimen/medium"
             android:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 app:cardCornerRadius="2dp"
                 android:clickable="true"
@@ -231,7 +231,7 @@
                         android:id="@+id/iv_technician_1"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <TextView
@@ -239,10 +239,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:padding="@dimen/spacing_large"
+                        android:padding="@dimen/medium"
                         android:singleLine="true"
                         android:text="Curabitur tempus"
-                        android:textColor="@color/grey_90" />
+                        android:textColor="@color/colorBattleshipGrey" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -250,7 +250,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 android:clickable="true"
                 app:cardCornerRadius="2dp"
@@ -265,7 +265,7 @@
                         android:id="@+id/iv_technician_2"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <TextView
@@ -273,10 +273,10 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:id="@+id/tv_technician_2"
-                        android:padding="@dimen/spacing_large"
+                        android:padding="@dimen/medium"
                         android:singleLine="true"
                         android:text="Quisque"
-                        android:textColor="@color/grey_90" />
+                        android:textColor="@color/colorBattleshipGrey" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -284,7 +284,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 android:clickable="true"
                 app:cardCornerRadius="2dp"
@@ -299,18 +299,18 @@
                         android:id="@+id/iv_technician_3"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:padding="@dimen/spacing_large"
+                        android:padding="@dimen/medium"
                         android:singleLine="true"
                         android:id="@+id/tv_technician_3"
                         android:text="Aliquam ac elit"
-                        android:textColor="@color/grey_90" />
+                        android:textColor="@color/colorBattleshipGrey" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -322,8 +322,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/spacing_large"
-            android:paddingRight="@dimen/spacing_large">
+            android:paddingLeft="@dimen/medium"
+            android:paddingRight="@dimen/medium">
 
             <TextView
                 android:layout_width="0dp"
@@ -332,7 +332,7 @@
                 android:text="Terpopuler"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textColor="@color/colorBattleshipGrey" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -341,22 +341,22 @@
                 android:gravity="center"
                 android:minWidth="0dp"
                 android:text="Selanjutnya"
-                android:textColor="@color/grey_60" />
+                android:textColor="@color/colorBattleshipGrey" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xxxlarge"
+            android:layout_marginBottom="@dimen/medium"
             android:orientation="horizontal"
-            android:padding="@dimen/spacing_medium"
+            android:padding="@dimen/medium"
             android:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 android:clickable="true"
                 app:cardCornerRadius="2dp"
@@ -371,7 +371,7 @@
                         android:id="@+id/iv_popular_1"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <LinearLayout
@@ -379,7 +379,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large">
+                        android:padding="@dimen/medium">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -394,7 +394,7 @@
                                 android:maxLines="1"
                                 android:singleLine="true"
                                 android:text="Suspendisse ornare"
-                                android:textColor="@color/grey_90" />
+                                android:textColor="@color/colorBattleshipGrey" />
 
                             <TextView
                                 android:id="@+id/tv_address_1"
@@ -409,7 +409,7 @@
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_more_vert"
-                            app:tint="@color/grey_40" />
+                            app:tint="@color/colorBattleshipGrey" />
 
                     </LinearLayout>
 
@@ -420,7 +420,7 @@
                 android:layout_width="0dp"
                 android:clickable="true"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/medium"
                 android:layout_weight="1"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="2dp">
@@ -434,7 +434,7 @@
                         android:id="@+id/iv_popular_2"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:background="@color/grey_40"
+                        android:background="@color/colorBattleshipGrey"
                         android:scaleType="centerCrop" />
 
                     <LinearLayout
@@ -442,7 +442,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large">
+                        android:padding="@dimen/medium">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -457,7 +457,7 @@
                                 android:id="@+id/tv_popular_2"
                                 android:singleLine="true"
                                 android:text="Placerat vel ipsum"
-                                android:textColor="@color/grey_90" />
+                                android:textColor="@color/colorBattleshipGrey" />
 
                             <TextView
                                 android:id="@+id/tv_address_2"
@@ -472,7 +472,7 @@
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_more_vert"
-                            app:tint="@color/grey_40" />
+                            app:tint="@color/colorBattleshipGrey" />
 
                     </LinearLayout>
 
