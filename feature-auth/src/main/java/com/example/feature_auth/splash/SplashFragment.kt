@@ -33,8 +33,8 @@ class SplashFragment : Fragment(), ModuleNavigator {
         requireActivity().actionBar?.hide()
 
         Handler(Looper.getMainLooper()).postDelayed({
-//            findNavController().navigate(R.id.loginFragment)
-            navigateToAuthActivity(true)
+            findNavController().navigate(R.id.loginFragment)
+//            navigateToHomeActivity(true)
         }, 3000)
     }
 
