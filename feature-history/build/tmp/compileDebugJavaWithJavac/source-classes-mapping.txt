@@ -1,0 +1,4 @@
+com/example/feature_history/BuildConfig.java
+ com.example.feature_history.BuildConfig
+com/example/feature_history/databinding/ActivityHistoryBinding.java
+ com.example.feature_history.databinding.ActivityHistoryBinding
