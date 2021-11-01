@@ -9,8 +9,11 @@
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_enable_focusable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_focusable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/activity_auth.xml" value="0.16" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_choose.xml" value="0.264" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_register.xml" value="0.2" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_splash.xml" value="0.1" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/activity_home.xml" value="0.1" />
       </map>
     </option>
   </component>
