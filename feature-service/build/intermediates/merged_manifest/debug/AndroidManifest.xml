@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.feature_service" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="31" />
+
+    <application>
+        <activity
+            android:name="com.example.feature_service.ServiceActivity"
+            android:exported="false"
+            android:label="@string/title_activity_service"
+            android:theme="@style/Theme.DigiserviceApp.NoActionBar" />
+    </application>
+
+</manifest>

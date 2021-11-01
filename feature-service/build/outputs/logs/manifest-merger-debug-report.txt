@@ -1,0 +1,37 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:2:1-13:12
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:2:1-13:12
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:2:1-13:12
+	package
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:3:5-42
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:5:5-11:19
+activity#com.example.feature_service.ServiceActivity
+ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:6:9-10:71
+	android:label
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:9:13-59
+	android:exported
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:8:13-37
+	android:theme
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:10:13-68
+	android:name
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml:7:13-44
+uses-sdk
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-service\src\main\AndroidManifest.xml
