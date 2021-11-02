@@ -16,9 +16,12 @@ dependencies {
     implementation project(':core-resource')
     implementation project(':core-util')
 
+    implementation deps.koin
+    implementation deps.coroutines
+
     implementation deps.navigation
     implementation deps.material
     implementation deps.appcompat
     implementation deps.constraint_layout
-    implementation deps.coroutines
+
 }

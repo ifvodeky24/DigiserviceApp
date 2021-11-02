@@ -40,6 +40,8 @@ ext.versions = [
         junit                : "4.13-beta-3",
         test_ext_junit_ktx   : "1.1.2",
         core                 : "1.6.0",
+
+        timber                     : '4.7.1',
 ]
 
 ext.plugin = [
@@ -109,4 +111,8 @@ ext.deps = [
         junit            : "junit:junit:$versions.junit",
         test_ext_junit_ktx   : "androidx.test.ext:junit-ktx:$versions.test_ext_junit_ktx",
         core             : "androidx.core:core-ktx:$versions.core",
+
+        timber              : "com.jakewharton.timber:timber:$versions.timber",
+
+        room_compiler       : "androidx.room:room-compiler:$versions.room",
 ]

@@ -29,13 +29,7 @@ internal fun httpClient(
 ): OkHttpClient = OkHttpClient.Builder()
     .cookieJar(cookieJar)
     .addInterceptor(HttpLoggingInterceptor().apply {
-        level = if (BuildConfig.DEBUG) {
-            // development build
-            loggingLevel
-        } else {
-            // production build
-            HttpLoggingInterceptor.Level.NONE
-        }
+        setLevel(loggingLevel)
     })
     .apply {
         interceptors.forEach {
@@ -47,7 +41,6 @@ internal fun httpClient(
     .connectTimeout(timeOut, TimeUnit.SECONDS)
     .writeTimeout(timeOut, TimeUnit.SECONDS)
     .build()
-
 
 internal inline fun <reified T> Moshi.getAdapter() =
     adapter(T::class.java)

@@ -32,7 +32,7 @@ val Application.dataModule
         single {
             httpClient(
                 TIMEOUT,
-                HttpLoggingInterceptor.Level.BODY,
+                HttpLoggingInterceptor.Level.BASIC,
                 get(),
                 ChuckerInterceptor.Builder(get()).build()
             )
@@ -49,6 +49,7 @@ val Application.dataModule
                 .build()
         }
         single { get<CoreDatabase>().authDao() }
+//        single { get<CoreDatabase>().jenisHpDao() }
 
         single { AuthRepository(get(), get(), get(), get()) }
     }
