@@ -16,6 +16,7 @@ import com.example.core_data.persistence.entity.toEntity
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 class AuthRepository internal constructor(
     private val apiExecutor: ApiExecutor,
@@ -42,6 +43,8 @@ class AuthRepository internal constructor(
             val apiResult = apiExecutor.callApi(apiId) {
                 authService.login(body)
             }
+
+            Timber.d("yoooo $apiResult")
 
             val apiEvent: ApiEvent<Auth> = when (apiResult) {
                 is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()

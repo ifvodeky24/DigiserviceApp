@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
+import com.example.core_data.api.ApiEvent
 import com.example.core_util.bindLifecycle
 import com.example.core_util.dismissKeyboard
 import com.example.core_util.hideProgress
@@ -57,36 +58,50 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupInput()
+        observeLogin()
+    }
+
+    private fun observeLogin() {
+        authViewModel.registerServiceResponse.observe(viewLifecycleOwner, { event ->
+            when(event)
+            {
+                is ApiEvent.OnProgress -> showProgress()
+                is ApiEvent.OnSuccess -> event.getData()?.let {
+                    hideProgress(true)
+                    findNavController().navigate(R.id.chooseFragment)
+                }
+                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
+                {
+                    hideProgress(true)
+                }
+            }
+        })
     }
 
     private fun setupInput() {
         with(binding){
             form {
                 useRealTimeValidation(disableSubmit = true)
-                inputLayout(R.id.edt_input_email){
+                inputLayout(R.id.edt_layout_email){
                     isNotEmpty().description(textHintEmptyEmail)
                 }
-                inputLayout(R.id.edt_input_name){
+                inputLayout(R.id.edt_layout_name){
                     isNotEmpty().description(textHintEmptyName)
                 }
-                inputLayout(R.id.edt_input_store_name){
+                inputLayout(R.id.edt_layout_store_name){
                     isNotEmpty().description(textHintEmptyStoreName)
                 }
-                inputLayout(R.id.edt_input_store_address){
+                inputLayout(R.id.edt_layout_store_address){
                     isNotEmpty().description(textHintEmptyStoreAddress)
                 }
-                inputLayout(R.id.edt_input_store_description){
-                    isNotEmpty().description(textHintEmptyStoreDescription)
-                }
+//                inputLayout(R.id.edt_layout_store_description){
+//                    isNotEmpty().description(textHintEmptyStoreDescription)
+//                }
                 submitWith(R.id.btn_next) { registerService() }
             }
         }
 
         binding.btnNext.bindLifecycle(viewLifecycleOwner)
-
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.chooseFragment)
-        }
     }
 
     private fun registerService() {
@@ -95,7 +110,7 @@ class RegisterFragment : Fragment() {
             authViewModel.registerService(
                 edtInputEmail.text.toString(),
                 edtInputName.text.toString(),
-                "",
+                "123456",
                 edtInputStoreName.text.toString(),
                 edtInputStoreAddress.text.toString(),
                 0f,

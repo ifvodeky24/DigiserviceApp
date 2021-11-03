@@ -48,6 +48,8 @@ ext.versions = [
         keyboard_watcher       : '3.0.0-RC3',
         progress_button        : '2.1.0',
 
+
+        timber                     : '4.7.1',
 ]
 
 ext.plugin = [
@@ -125,4 +127,8 @@ ext.deps = [
         progress_button        : "com.github.razir.progressbutton:progressbutton:$versions.progress_button",
         keyboard_watcher       : "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$versions.keyboard_watcher",
 
+
+        timber              : "com.jakewharton.timber:timber:$versions.timber",
+
+        room_compiler       : "androidx.room:room-compiler:$versions.room",
 ]

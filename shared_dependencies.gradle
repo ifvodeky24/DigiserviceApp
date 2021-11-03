@@ -26,6 +26,9 @@ android {
 dependencies {
     implementation deps.koin
     implementation deps.core
+    implementation deps.coroutines
     testImplementation deps.junit
     androidTestImplementation deps.test_ext_junit_ktx
+
+    implementation deps.timber
 }

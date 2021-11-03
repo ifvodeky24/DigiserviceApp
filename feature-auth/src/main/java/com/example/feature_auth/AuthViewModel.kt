@@ -1,9 +1,6 @@
 package com.example.feature_auth
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.auth.Auth
@@ -13,12 +10,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    var email = ""
-    var password = ""
-    var level = ""
+//    var email = ""
+//    var password = ""
+//    var level = ""
 
     private val _loginRequest = MutableLiveData<ApiEvent<Auth?>>()
     val loginRequest: LiveData<ApiEvent<Auth?>> = _loginRequest
@@ -29,9 +26,9 @@ class AuthViewModel(
     private val _registerServiceSuccess = MutableLiveData<Boolean>()
     val registerServiceSuccess: LiveData<Boolean> = _registerServiceSuccess
 
-    fun login() {
+    fun login(email: String, password: String, level: String) {
         viewModelScope.launch {
-            authRepository.login(email, password , level)
+            authRepository.login(email, password, level)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _loginRequest.value = it }
         }

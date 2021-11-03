@@ -7,7 +7,7 @@ apply(from: "../shared_dependencies.gradle")
 
 android {
     String schemaDatabaseVersion
-    String BASE_URL = "\"http://localhost/digi-service/public/api/\""
+    String BASE_URL = "\"http://192.168.216.23/digi-service/public/api/\""
     String COOKIE_NAME = "\"digi_service_cookies\""
     String DB_NAME = "\"digi_service_db\""
 
@@ -39,12 +39,17 @@ dependencies {
     implementation deps.okhttp
     implementation deps.retrofit
     implementation deps.cookiejar
+    implementation deps.core
 
+    implementation deps.koin
     implementation deps.coroutines
 
     implementation deps.room
+    kapt deps.room_compiler
 
     debugImplementation deps.chucker_debug
+
+    implementation deps.timber
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'

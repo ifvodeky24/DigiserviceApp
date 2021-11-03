@@ -2,10 +2,12 @@ package com.example.core_data.api.service
 
 import com.example.core_data.api.request.LoginRequest
 import com.example.core_data.api.response.CommonResponse
+import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.auth.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 internal interface AuthService {
@@ -14,6 +16,9 @@ internal interface AuthService {
     suspend fun login(
         @Body body: LoginRequest
     ): LoginResponse
+
+    @GET(GetJenisHpAll)
+    suspend fun getJenisHpAll(): JenisHpResponse
 
     @FormUrlEncoded
     @POST(RegiterService)
@@ -30,6 +35,7 @@ internal interface AuthService {
 
     companion object {
         const val Login = "login"
+        const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
     }
 }
