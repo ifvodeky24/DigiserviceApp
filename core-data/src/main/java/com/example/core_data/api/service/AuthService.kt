@@ -3,16 +3,16 @@ package com.example.core_data.api.service
 import com.example.core_data.api.request.LoginRequest
 import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.auth.LoginResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 internal interface AuthService {
 
+    @FormUrlEncoded
     @POST(Login)
     suspend fun login(
-        @Body body: LoginRequest
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("level") level: String,
     ): LoginResponse
 
     @GET(GetJenisHpAll)
