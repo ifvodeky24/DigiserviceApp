@@ -2178,6 +2178,7 @@ id bodyLine
 id bottom
 id bounce
 id buttonPanel
+id button_text
 id cancel_action
 id cancel_button
 id carryVelocity
@@ -3550,6 +3551,7 @@ style Widget_Design_TabLayout
 style Widget_Design_TextInputEditText
 style Widget_Design_TextInputLayout
 style Widget_DigiService_Button_Secondary
+style Widget_DigiService_Spinner
 style Widget_MaterialComponents_ActionBar_Primary
 style Widget_MaterialComponents_ActionBar_PrimarySurface
 style Widget_MaterialComponents_ActionBar_Solid

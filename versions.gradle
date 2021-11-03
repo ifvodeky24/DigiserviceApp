@@ -30,6 +30,7 @@ ext.versions = [
         room                 : '2.3.0-rc01',
 
         debug_banner         : '1.0.4',
+        validator            : '0.5.2',
 
 
         navigation           : '2.3.5',
@@ -40,6 +41,13 @@ ext.versions = [
         junit                : "4.13-beta-3",
         test_ext_junit_ktx   : "1.1.2",
         core                 : "1.6.0",
+
+        services_maps        : "17.0.1",
+        legacy_support       : "1.0.0",
+
+        keyboard_watcher       : '3.0.0-RC3',
+        progress_button        : '2.1.0',
+
 ]
 
 ext.plugin = [
@@ -91,6 +99,7 @@ ext.deps = [
         ],
 
         debug_banner     : "com.github.armcha:DebugBanner:$versions.debug_banner",
+        validator        : "com.afollestad:vvalidator:$versions.validator",
 
         navigation       : [
                 "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
@@ -109,4 +118,11 @@ ext.deps = [
         junit            : "junit:junit:$versions.junit",
         test_ext_junit_ktx   : "androidx.test.ext:junit-ktx:$versions.test_ext_junit_ktx",
         core             : "androidx.core:core-ktx:$versions.core",
+
+        services_maps    : "com.google.android.gms:play-services-maps:$versions.services_maps",
+        legacy_support   : "androidx.legacy:legacy-support-v4:$versions.legacy_support",
+
+        progress_button        : "com.github.razir.progressbutton:progressbutton:$versions.progress_button",
+        keyboard_watcher       : "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$versions.keyboard_watcher",
+
 ]

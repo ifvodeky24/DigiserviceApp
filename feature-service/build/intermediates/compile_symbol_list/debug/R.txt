@@ -2184,6 +2184,7 @@ int id bounce 0x0
 int id buttonPanel 0x0
 int id button_first 0x0
 int id button_second 0x0
+int id button_text 0x0
 int id cancel_action 0x0
 int id cancel_button 0x0
 int id carryVelocity 0x0
@@ -3575,6 +3576,7 @@ int style Widget_Design_TabLayout 0x0
 int style Widget_Design_TextInputEditText 0x0
 int style Widget_Design_TextInputLayout 0x0
 int style Widget_DigiService_Button_Secondary 0x0
+int style Widget_DigiService_Spinner 0x0
 int style Widget_MaterialComponents_ActionBar_Primary 0x0
 int style Widget_MaterialComponents_ActionBar_PrimarySurface 0x0
 int style Widget_MaterialComponents_ActionBar_Solid 0x0

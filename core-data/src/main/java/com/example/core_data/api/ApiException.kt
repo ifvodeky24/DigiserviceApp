@@ -5,7 +5,12 @@ sealed class ApiException {
     object Offline : ApiException()
     object Timeout : ApiException()
     object Network : ApiException()
-    data class FailedResponse<T>(val error: T? = null) : ApiException()
+    data class FailedResponse<T>(val error: T? = null) : ApiException(){
+        companion object {
+            const val STATUS_FAILED = false
+            const val MESSAGE_FAILED = "FAILED"
+        }
+    }
     data class InvalidResponse(val throwable: Throwable) : ApiException()
     data class Unknown(val throwable: Throwable) : ApiException()
 

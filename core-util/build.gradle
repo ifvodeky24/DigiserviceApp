@@ -5,5 +5,22 @@ plugins {
 apply(from: "../shared_dependencies.gradle")
 
 dependencies {
+    //region Common
 
+    implementation deps.coroutines
+    implementation deps.material
+
+    //endregion
+    //region JetPack
+
+    implementation deps.core
+
+    //endregion
+
+    //region Extras
+
+    implementation deps.progress_button
+    implementation deps.keyboard_watcher
+
+    //endregio
 }

@@ -6,13 +6,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.afollestad.vvalidator.form
+import com.example.core_util.bindLifecycle
+import com.example.core_util.dismissKeyboard
+import com.example.core_util.hideProgress
+import com.example.core_util.showProgress
+import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
 
+    private val textBtnNext by lazy {
+        "LANJUTKAN DAFTAR"
+    }
+    private val textHintEmptyEmail by lazy {
+        "Email harus diisi"
+    }
+    private val textHintEmptyName by lazy {
+        "Nama harus diisi"
+    }
+    private val textHintEmptyPassword by lazy {
+        "Password harus diisi"
+    }
+    private val textHintEmptyStoreName by lazy {
+        "Nama toko harus diisi"
+    }
+    private val textHintEmptyStoreAddress by lazy {
+        "Alamat toko harus diisi"
+    }
+    private val textHintEmptyStoreDescription by lazy {
+        "Deskripsi harus diisi"
+    }
+
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,14 +60,81 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setupInput() {
+        with(binding){
+            form {
+                useRealTimeValidation(disableSubmit = true)
+                inputLayout(R.id.edt_input_email){
+                    isNotEmpty().description(textHintEmptyEmail)
+                }
+                inputLayout(R.id.edt_input_name){
+                    isNotEmpty().description(textHintEmptyName)
+                }
+                inputLayout(R.id.edt_input_store_name){
+                    isNotEmpty().description(textHintEmptyStoreName)
+                }
+                inputLayout(R.id.edt_input_store_address){
+                    isNotEmpty().description(textHintEmptyStoreAddress)
+                }
+                inputLayout(R.id.edt_input_store_description){
+                    isNotEmpty().description(textHintEmptyStoreDescription)
+                }
+                submitWith(R.id.btn_next) { registerService() }
+            }
+        }
+
+        binding.btnNext.bindLifecycle(viewLifecycleOwner)
+
         binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.chooseFragment)
+        }
+    }
+
+    private fun registerService() {
+        dismissKeyboard()
+        with(binding) {
+            authViewModel.registerService(
+                edtInputEmail.text.toString(),
+                edtInputName.text.toString(),
+                "",
+                edtInputStoreName.text.toString(),
+                edtInputStoreAddress.text.toString(),
+                0f,
+                0f,
+                edtInputStoreDescription.text.toString(),
+            )
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun showProgress() = with(binding) {
+        listOf(
+            btnNext, edtLayoutEmail, edtLayoutName,
+            edtLayoutStoreAddress, edtLayoutStoreDescription,
+        ).forEach { it.isEnabled = false }
+
+        btnNext.showProgress()
+    }
+
+    private fun hideProgress(isEnable: Boolean) = with(binding) {
+        btnNext.postDelayed(
+            {
+                listOf(
+                    btnNext, edtLayoutEmail, edtLayoutName,
+                    edtLayoutStoreAddress, edtLayoutStoreDescription,
+                ).forEach { it.isEnabled = true }
+            }, 1000L
+        )
+
+        btnNext.hideProgress(textBtnNext) {
+            isEnable && with(binding) {
+                "${edtInputName.text}".isNotBlank() && "${edtInputEmail.text}".isNotBlank()
+            }
+        }
     }
 
 }

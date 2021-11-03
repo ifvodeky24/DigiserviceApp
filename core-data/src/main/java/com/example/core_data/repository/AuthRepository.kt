@@ -1,9 +1,11 @@
 package com.example.core_data.repository
 
-import com.example.core_data.api.ApiEvent
+import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.ApiResult
+import com.example.core_data.api.apiClient
 import com.example.core_data.api.request.LoginRequest
+import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.auth.toDomain
 import com.example.core_data.api.service.AuthService
 import com.example.core_data.api.toFailedEvent
@@ -66,4 +68,56 @@ class AuthRepository internal constructor(
             emit(it.toFailedEvent<Auth>())
         }
     }
+
+    fun registerService(
+        email: String,
+        teknisiNama: String,
+        password: String,
+        teknisiNamaToko: String,
+        teknisiAlamat: String,
+        teknisiLat: Float,
+        teknisiLng: Float,
+        teknisiDeskripsi: String,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+        runCatching {
+            val apiId = AuthService.RegiterService
+
+            val apiResult =apiExecutor.callApi(apiId) {
+                authService.registerService(
+                    teknisiNama = teknisiNama,
+                    password = password,
+                    email = email,
+                    teknisiNamaToko = teknisiNamaToko,
+                    teknisiAlamat = teknisiAlamat,
+                    teknisiLat = teknisiLat,
+                    teknisiLng = teknisiLng,
+                    teknisiDeskripsi = teknisiDeskripsi
+                )
+            }
+
+            val apiEvent:ApiEvent<CommonResponse?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        success == ApiException.FailedResponse.STATUS_FAILED -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
 }
