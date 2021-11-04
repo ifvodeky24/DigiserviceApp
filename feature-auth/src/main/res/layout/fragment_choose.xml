@@ -11,10 +11,10 @@
     tools:context=".register.RegisterFragment">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_phone_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jenis Handphone"
+        android:text="@string/phone_type"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,53 +23,37 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="*"
+        android:text="@string/required"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
         android:textColor="@color/colorRed"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginHorizontal="@dimen/small"
-        app:layout_constraintStart_toEndOf="@+id/tv_name"/>
+        app:layout_constraintStart_toEndOf="@+id/tv_phone_type"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edt_layout_hp_type"
-        style="@style/Widget.DigiService.Spinner"
-        android:layout_width="@dimen/empty"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_phone_type"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small"
-        android:paddingVertical="@dimen/very_small"
-        android:textColorHint="@color/colorGreyishBrown"
-        app:boxStrokeColor="@color/colorCobaltBlue"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone_type"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/spinner_hp_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_selector_disabled"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="none" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_skills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Keahlian"
+        android:text="@string/skills"
         android:layout_marginTop="@dimen/medium"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_layout_hp_type"/>
+        app:layout_constraintTop_toBottomOf="@+id/rv_phone_type"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="*"
+        android:text="@string/required"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
         android:textColor="@color/colorRed"
@@ -77,29 +61,13 @@
         android:layout_marginHorizontal="@dimen/small"
         app:layout_constraintStart_toEndOf="@+id/tv_skills"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edt_layout_skills"
-        style="@style/Widget.DigiService.Spinner"
-        android:layout_width="@dimen/empty"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_skills"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small"
-        android:paddingVertical="@dimen/very_small"
-        android:textColorHint="@color/colorGreyishBrown"
-        app:boxStrokeColor="@color/colorCobaltBlue"
         app:layout_constraintTop_toBottomOf="@+id/tv_skills"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/spinner_skills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_selector_disabled"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="none" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_submit"

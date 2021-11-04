@@ -1,17 +1,18 @@
 package com.example.core_data.repository
 
+import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.ApiResult
-import com.example.core_data.api.apiClient
-import com.example.core_data.api.request.LoginRequest
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.auth.toDomain
+import com.example.core_data.api.response.toDomain
 import com.example.core_data.api.service.AuthService
 import com.example.core_data.api.toFailedEvent
+import com.example.core_data.domain.ListJenisHp
+import com.example.core_data.domain.ListJenisKerusakan
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
-import com.example.core_data.persistence.entity.toDomain
 import com.example.core_data.persistence.entity.toEntity
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
@@ -32,38 +33,29 @@ class AuthRepository internal constructor(
     ): Flow<ApiEvent<Auth>> = flow {
         runCatching {
             val apiId = AuthService.Login
-            val auth = requireNotNull(dao.selectAuth()?.toDomain())
 
-            val body = LoginRequest(
+//            Log.d("heii", "tes $apiId")
+//            Timber.d("tes1 $apiId")
+
+           /* val body = LoginRequest(
                 email = email,
                 password = password,
                 level = level
-            )
+            )*/
+
 
             val apiResult = apiExecutor.callApi(apiId) {
-                authService.login(body)
+                authService.login(email, password, level)
             }
 
             Timber.d("yoooo $apiResult")
 
             val apiEvent: ApiEvent<Auth> = when (apiResult) {
                 is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
-                is ApiResult.OnSuccess -> {
-                    apiResult.response.result.toDomain(auth).run {
-                        dao.replace(
-                            auth.copy(
-                                id = id,
-                                name = name,
-                                email = email,
-                                password = password,
-                                aksesId = aksesId,
-                                level = level,
-                                teknisiId = teknisiId,
-                                isLogin = isLogin
-                            ).toEntity()
-                        )
-                        ApiEvent.OnSuccess.fromServer(this)
-                    }
+
+                is ApiResult.OnSuccess -> with(apiResult.response.result) {
+                    dao.replace(this.toDomain().toEntity())
+                    ApiEvent.OnSuccess.fromServer(this.toDomain())
                 }
             }
             emit(apiEvent)
@@ -102,11 +94,6 @@ class AuthRepository internal constructor(
                 is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
                 is ApiResult.OnSuccess -> with(apiResult.response){
                     when {
-                        success == ApiException.FailedResponse.STATUS_FAILED -> {
-                            ApiException.FailedResponse(message).let {
-                                it.toFailedEvent()
-                            }
-                        }
                         message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
                             ApiException.FailedResponse(message).let {
                                 it.toFailedEvent()
@@ -120,6 +107,62 @@ class AuthRepository internal constructor(
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun getJenisHpAll() :Flow<ApiEvent<ListJenisHp>> = flow {
+        runCatching {
+            val apiId = AuthService.GetJenisHpAll
+            val apiResult = apiExecutor.callApi(apiId) {
+                authService.getJenisHpAll()
+            }
+
+            val apiEvent: ApiEvent<ListJenisHp> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result){
+                    toDomain().run {
+                        if (isEmpty())
+                        {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        }
+                        else
+                        {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListJenisHp>())
+        }
+    }
+
+    fun getJenisKerusakanAll() :Flow<ApiEvent<ListJenisKerusakan>> = flow {
+        runCatching {
+            val apiId = AuthService.GetJenisKerusakanAll
+            val apiResult = apiExecutor.callApi(apiId) {
+                authService.getJenisKerusakanAll()
+            }
+
+            val apiEvent: ApiEvent<ListJenisKerusakan> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result){
+                    toDomain().run {
+                        if (isEmpty())
+                        {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        }
+                        else
+                        {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListJenisKerusakan>())
         }
     }
 

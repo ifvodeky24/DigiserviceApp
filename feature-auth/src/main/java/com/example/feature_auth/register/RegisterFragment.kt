@@ -94,9 +94,9 @@ class RegisterFragment : Fragment() {
                 inputLayout(R.id.edt_layout_store_address){
                     isNotEmpty().description(textHintEmptyStoreAddress)
                 }
-//                inputLayout(R.id.edt_layout_store_description){
-//                    isNotEmpty().description(textHintEmptyStoreDescription)
-//                }
+                inputLayout(R.id.edt_layout_store_description){
+                    isNotEmpty().description(textHintEmptyStoreDescription)
+                }
                 submitWith(R.id.btn_next) { registerService() }
             }
         }

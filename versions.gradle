@@ -48,8 +48,11 @@ ext.versions = [
         keyboard_watcher       : '3.0.0-RC3',
         progress_button        : '2.1.0',
 
-
         timber                     : '4.7.1',
+
+        recyclical             : '1.1.1',
+        recyclical_swipe       : '1.1.1',
+        recycler_view_divider  : '3.5.0',
 ]
 
 ext.plugin = [
@@ -131,4 +134,10 @@ ext.deps = [
         timber              : "com.jakewharton.timber:timber:$versions.timber",
 
         room_compiler       : "androidx.room:room-compiler:$versions.room",
+
+        recycler_view_util     : [
+                "com.afollestad:recyclical:$versions.recyclical",
+                "com.afollestad:recyclical-swipe:$versions.recyclical_swipe",
+                "com.github.fondesa:recycler-view-divider:$versions.recycler_view_divider"
+        ],
 ]

@@ -7,14 +7,13 @@ import com.example.core_data.domain.auth.Auth
 @Entity
 internal data class AuthEntity(
     @PrimaryKey
-    val id: Int,
-    val name: String,
-    val email: String,
-    val password: String,
-    val aksesId: Int,
-    val level: String,
-    val teknisiId: Int,
-    val isLogin: Boolean,
+    val id: Int = 0,
+    val name: String = "",
+    val email: String = "",
+    val password: String = "",
+    val aksesId: Int = 0,
+    val level: String = "",
+    val teknisiId: Int = 0
 )
 
 internal fun AuthEntity.toDomain() =
@@ -25,8 +24,7 @@ internal fun AuthEntity.toDomain() =
         password = password,
         aksesId = aksesId,
         level = level,
-        teknisiId = teknisiId,
-        isLogin = isLogin
+        teknisiId = teknisiId
     )
 
 internal fun Auth.toEntity() =
@@ -37,6 +35,5 @@ internal fun Auth.toEntity() =
         password = password,
         aksesId = aksesId,
         level = level,
-        teknisiId = teknisiId,
-        isLogin = isLogin
+        teknisiId = teknisiId
     )

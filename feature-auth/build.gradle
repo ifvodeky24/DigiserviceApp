@@ -9,4 +9,5 @@ dependencies {
     implementation deps.legacy_support
     implementation deps.services_maps
     implementation deps.validator
+    implementation deps.recycler_view_util
 }
