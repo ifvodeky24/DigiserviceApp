@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.example.core_data.api.ApiEvent
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.databinding.FragmentLoginBinding
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -36,7 +35,7 @@ class LoginFragment : Fragment() {
 //                val email = binding.etEmail.text.toString()
 //                val password = binding.etPassword.text.toString()
                 val email = "ryan@gmail.com"
-                val password = "admins"
+                val password = "admin"
                 val level = "Teknisi"
 
 //                viewModel.email = email
@@ -61,7 +60,6 @@ class LoginFragment : Fragment() {
                     }
                 })
             }
-
         }
     }
 

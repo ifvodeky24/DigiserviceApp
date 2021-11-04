@@ -1,6 +1,5 @@
 package com.example.core_data.api.service
 
-import com.example.core_data.api.request.LoginRequest
 import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.auth.LoginResponse
 import retrofit2.http.*
