@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.example.core_data.api.ApiEvent
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.databinding.FragmentLoginBinding
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -61,7 +60,6 @@ class LoginFragment : Fragment() {
                     }
                 })
             }
-
         }
     }
 

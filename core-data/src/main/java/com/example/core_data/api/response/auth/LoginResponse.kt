@@ -7,7 +7,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 internal data class LoginResponse(
     val code: Int,
-    val result: LoginDataResponse
+    val result: LoginDataResponse,
+    val message: String
 )
 
 @JsonClass(generateAdapter = true)
@@ -32,6 +33,3 @@ internal fun LoginDataResponse.toDomain() = Auth(
     level = level,
     teknisiId = teknisiId
 )
-
-//internal fun LoginDataResponse.toDomain(auth: Auth) =
-//    auth.copy(id = id, name = name, email = email, password = password, aksesId = aksesId, level = level, teknisiId = teknisiId)
