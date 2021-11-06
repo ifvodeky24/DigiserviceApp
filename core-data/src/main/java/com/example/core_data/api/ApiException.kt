@@ -5,7 +5,12 @@ sealed class ApiException {
     object Offline : ApiException()
     object Timeout : ApiException()
     object Network : ApiException()
-    data class FailedResponse<T>(val error: T? = null) : ApiException()
+    data class FailedResponse<T>(val error: T? = null) : ApiException(){
+        companion object {
+            const val STATUS_FAILED = false
+            const val MESSAGE_FAILED = "FAILED"
+        }
+    }
     data class InvalidResponse(val throwable: Throwable) : ApiException()
     data class Unknown(val throwable: Throwable) : ApiException()
 
@@ -37,6 +42,7 @@ sealed class ApiException {
         const val SERVER_FAILED_TO_SET_LANGUAGE = 439
         const val SERVER_FAILED_SUBMIT_REGISTER_REQUEST = 440
         const val INVALID_SIGNATURE = 441
+
         const val ALREADY_SUBMIT_REGISTER_REQUEST = 442
         const val SERVER_FAILED_TO_LOAD_CALENDAR_LIST = 444
         const val SERVER_FAILED_TO_LOAD_HEALTH_HISTORY = 445

@@ -1,33 +1,33 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
+ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:1-11:12
 	package
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:3:5-42
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:3:5-42
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:5:5-9:19
+ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:5:5-9:19
 activity#com.example.feature_history.HistoryActivity
-ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:6:9-8:40
+ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:6:9-8:40
 	android:exported
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:8:13-37
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:8:13-37
 	android:name
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:7:13-44
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml:7:13-44
 uses-sdk
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-		ADDED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
-		INJECTED from D:\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		ADDED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ridho\AndroidStudioProjects\DigiserviceApp\feature-history\src\main\AndroidManifest.xml
