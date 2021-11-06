@@ -1,12 +1,9 @@
 package com.example.core_data.api.service
 
-import com.example.core_data.api.request.LoginRequest
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.JenisKerusakanResponse
 import com.example.core_data.api.response.auth.LoginResponse
-import retrofit2.http.*
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

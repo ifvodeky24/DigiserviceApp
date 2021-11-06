@@ -7,10 +7,7 @@ import retrofit2.http.Path
 internal interface TechnicianService {
 
     @GET(GetTechnicianAll)
-    fun getTechnicianAll(
-        @Path("param")param:String,
-        @Path("order")order:String
-    ): TechnicianGetAllResponse
+    suspend fun getTechnicianAll(): TechnicianGetAllResponse
 
     companion object {
         const val GetTechnicianAll = "teknisi-all"

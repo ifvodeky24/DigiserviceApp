@@ -48,6 +48,7 @@
             android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_terbaru"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small"
@@ -91,6 +92,7 @@
             android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_terdekat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small"
@@ -136,6 +138,7 @@
             android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_terpopuler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small"

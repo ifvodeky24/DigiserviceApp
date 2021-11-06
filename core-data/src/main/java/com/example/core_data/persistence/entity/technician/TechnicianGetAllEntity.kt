@@ -3,6 +3,7 @@ package com.example.core_data.persistence.entity.technician
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.core_data.domain.auth.Auth
+import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 
 @Entity
@@ -18,12 +19,14 @@ internal data class TechnicianGetAllEntity(
     val teknisiHp: String,
     val createdAt: String,
     val updatedA: String,
-    val teknisiTotal_score: Int,
-    val teknisiTotal_responden: Int,
+    val teknisiTotalScore: Double,
+    val teknisiTotalResponden: Double,
     val teknisiDeskripsi: String,
     val teknisiFoto: String,
     val teknisiSertifikat: String
 )
+
+internal typealias TechnicianGetAllEntities = List<TechnicianGetAllEntity>
 
 internal fun TechnicianGetAllEntity.toDomain() =
     TechnicianGetAll(
@@ -37,12 +40,15 @@ internal fun TechnicianGetAllEntity.toDomain() =
         teknisiHp = teknisiHp,
         createdAt = createdAt,
         updatedA = updatedA,
-        teknisiTotal_score = teknisiTotal_score,
-        teknisiTotal_responden = teknisiTotal_responden,
+        teknisiTotalScore = teknisiTotalScore,
+        teknisiTotalResponden = teknisiTotalResponden,
         teknisiDeskripsi = teknisiDeskripsi,
         teknisiFoto = teknisiFoto,
         teknisiSertifikat = teknisiSertifikat
     )
+
+internal fun TechnicianGetAllEntities.toDomain() =
+    map { it.toDomain() }
 
 internal fun TechnicianGetAll.toEntity() =
     TechnicianGetAllEntity(
@@ -56,9 +62,12 @@ internal fun TechnicianGetAll.toEntity() =
         teknisiHp = teknisiHp,
         createdAt = createdAt,
         updatedA = updatedA,
-        teknisiTotal_score = teknisiTotal_score,
-        teknisiTotal_responden = teknisiTotal_responden,
+        teknisiTotalScore = teknisiTotalScore,
+        teknisiTotalResponden = teknisiTotalResponden,
         teknisiDeskripsi = teknisiDeskripsi,
         teknisiFoto = teknisiFoto,
         teknisiSertifikat = teknisiSertifikat
     )
+
+internal fun ListTechnicianGetAll.toEntity() =
+    map { it.toEntity() }
