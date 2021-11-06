@@ -1,4 +1,4 @@
-package com.example.core_data.persistence.entity
+package com.example.core_data.persistence.entity.auth
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,7 +8,7 @@ import com.example.core_data.api.service.AuthService
 import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
-import com.example.core_data.persistence.entity.toEntity
+import com.example.core_data.persistence.entity.auth.toEntity
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

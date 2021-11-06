@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.core_data.api.ApiEvent
+import com.example.core_navigation.ModuleNavigator
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.databinding.FragmentLoginBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(), ModuleNavigator {
     private val viewModel by sharedViewModel<AuthViewModel>()
 
     private var _binding: FragmentLoginBinding? = null
@@ -53,6 +53,7 @@ class LoginFragment : Fragment() {
                         }
                         is ApiEvent.OnSuccess ->  {
                             Timber.d("sukses ${login.getData()}")
+                            navigateToHomeActivity(finnishCurrent = true)
                         }
                         is ApiEvent.OnFailed -> {
                             Timber.d("gagal ${login.getException()}")
