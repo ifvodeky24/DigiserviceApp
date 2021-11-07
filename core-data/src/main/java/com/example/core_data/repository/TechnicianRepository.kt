@@ -10,6 +10,7 @@ import com.example.core_data.api.response.technician.toDomain
 import com.example.core_data.api.response.toDomain
 import com.example.core_data.api.service.TechnicianService
 import com.example.core_data.api.toFailedEvent
+import com.example.core_data.domain.technician.ListNearbyTechnician
 import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_data.persistence.dao.TechnicianDao
@@ -51,6 +52,35 @@ class TechnicianRepository internal constructor(
             emit(apiEvent)
         }.onFailure {
             emit(it.toFailedEvent<ListTechnicianGetAll>())
+        }
+    }
+
+    fun findNearbyTechnician(latitude: String, longitude: String) : Flow<ApiEvent<ListNearbyTechnician>> = flow {
+        runCatching {
+            val apiId = TechnicianService.FindNearbyTechnician
+            val apiResult = apiExecutor.callApi(apiId) {
+                technicianService.findNearbyTechnician(latitude, longitude)
+            }
+
+            val apiEvent: ApiEvent<ListNearbyTechnician> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result){
+                    toDomain().run {
+                        dao.replaceFindNearbyTechnician(this.toEntity())
+                        if (isEmpty())
+                        {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        }
+                        else
+                        {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListNearbyTechnician>())
         }
     }
 }

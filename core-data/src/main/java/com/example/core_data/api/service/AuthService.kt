@@ -15,8 +15,7 @@ internal interface AuthService {
     @POST(Login)
     suspend fun login(
         @Field("email") email: String,
-        @Field("password") password: String,
-        @Field("level") level: String,
+        @Field("password") password: String
     ): LoginResponse
 
     @GET(GetJenisHpAll)
