@@ -15,8 +15,10 @@ import com.bumptech.glide.Glide
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisKerusakan
 import com.example.core_data.domain.technician.ListTechnicianGetAll
+import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.databinding.FragmentHomeBinding
+import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -41,8 +43,45 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.technicianGetAll()
+        homeViewModel.findNearbyTechnician("1","1")
 
         observeTechnicianGetAll()
+        observeNearbyTechnician()
+    }
+
+    private fun observeNearbyTechnician() {
+        homeViewModel.findNearbyTechnicianResponse.observe(viewLifecycleOwner, { findNearbyTechnician ->
+            when (findNearbyTechnician) {
+                is ApiEvent.OnProgress -> {
+                }
+                is ApiEvent.OnSuccess -> findNearbyTechnician.getData()?.let {
+                    onDataFindNearbyTechnicianLoaded(findNearbyTechnician.getData()!!)
+                    Timber.d(" uiuiuiui ${findNearbyTechnician.getData()}")
+                }
+                is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) {
+                    Timber.d(" booom ${findNearbyTechnician.getException()}")
+                }
+            }
+        })
+    }
+
+    private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
+        if (data.isNotEmpty()) {
+            binding.rvTerdekat.setup{
+                withDataSource(dataSourceTypedOf(data))
+                withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat){
+                    onBind(::ItemNearbyViewHolder){ index, item ->
+                        tvTeknisiName.text = item.teknisiNama
+                       Glide
+                            .with(requireActivity())
+                            .load(item.teknisiFoto)
+                            .centerCrop()
+//                            .placeholder(R.drawable.loading_spinner)
+                            .into(ivTeknisi);
+                    }
+                }
+            }
+        }
     }
 
     private fun observeTechnicianGetAll() {

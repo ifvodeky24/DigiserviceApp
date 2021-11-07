@@ -13,9 +13,8 @@ class AuthViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-//    var email = ""
-//    var password = ""
-//    var level = ""
+    var email = ""
+    var password = ""
 
     private val _loginRequest = MutableLiveData<ApiEvent<Auth?>>()
     val loginRequest: LiveData<ApiEvent<Auth?>> = _loginRequest
@@ -26,9 +25,9 @@ class AuthViewModel(
     private val _registerServiceSuccess = MutableLiveData<Boolean>()
     val registerServiceSuccess: LiveData<Boolean> = _registerServiceSuccess
 
-    fun login(email: String, password: String, level: String) {
+    fun login(email: String, password: String) {
         viewModelScope.launch {
-            authRepository.login(email, password, level)
+            authRepository.login(email, password)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _loginRequest.value = it }
         }
