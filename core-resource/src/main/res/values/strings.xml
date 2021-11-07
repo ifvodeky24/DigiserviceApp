@@ -7,4 +7,5 @@
     <string name="title_service">Service</string>
     <string name="title_history">Riwayat</string>
     <string name="title_account">Akun</string>
+    <string name="text_dash">-</string>
 </resources>

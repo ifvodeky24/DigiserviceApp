@@ -34,4 +34,9 @@
         android:id="@+id/chooseFragment"
         android:name="com.example.feature_auth.choose.ChooseFragment"
         android:label="ChooseFragment" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.feature_auth.register.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

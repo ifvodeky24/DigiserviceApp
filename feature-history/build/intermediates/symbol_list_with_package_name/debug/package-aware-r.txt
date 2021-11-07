@@ -374,6 +374,9 @@ attr destination
 attr dialogCornerRadius
 attr dialogPreferredPadding
 attr dialogTheme
+attr digi_edit_text_style
+attr digi_font_family
+attr digi_font_style
 attr displayOptions
 attr divider
 attr dividerHorizontal
@@ -1163,6 +1166,8 @@ color chucker_status_default
 color chucker_status_error
 color chucker_status_requested
 color colorAccent
+color colorBackgroundPrimary
+color colorBackgroundSecondary
 color colorBattleshipGrey
 color colorBgColorTextInput
 color colorBlack
@@ -1177,6 +1182,7 @@ color colorDarkBlue
 color colorDarkRed
 color colorDelete
 color colorDeleteBackground
+color colorDivider
 color colorDodgerBlue
 color colorFairPink
 color colorFemale
@@ -1203,6 +1209,7 @@ color colorOrangePeel
 color colorOrangeYellow
 color colorPalePurple
 color colorPastelGreen
+color colorPlaceHolder
 color colorPrimary
 color colorPrimaryDark
 color colorRed
@@ -1211,6 +1218,8 @@ color colorRedStop
 color colorRegular
 color colorSea
 color colorTeaGreen
+color colorTextPrimary
+color colorTextSecondary
 color colorTranslucentNavigationBar
 color colorTransparentPin
 color colorUltraMarine
@@ -1554,6 +1563,7 @@ dimen design_tab_text_size_2line
 dimen design_textinput_caption_translate_y
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
+dimen divider
 dimen dotTitleCardWidth
 dimen dotWidth
 dimen dotWidthSmall
@@ -1862,6 +1872,13 @@ dimen notification_top_pad
 dimen notification_top_pad_large_text
 dimen paddingEditText
 dimen primaryButtonHeight
+dimen profilePicture
+dimen profilePictureBig
+dimen profilePictureMedium
+dimen radius
+dimen radiusCircle
+dimen radiusInput
+dimen radiusSmall
 dimen small
 dimen smallDotWidth
 dimen smallIconWidth
@@ -2038,6 +2055,7 @@ drawable ic_account_circle
 drawable ic_clock_black_24dp
 drawable ic_home_black_24dp
 drawable ic_keyboard_black_24dp
+drawable ic_map
 drawable ic_more_vert
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
@@ -2082,11 +2100,14 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable shape_circle_placeholder
+drawable shape_round
 drawable test_custom_background
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id BOTTOM_END
 id BOTTOM_START
+id GoogleSans
 id NO_DEBUG
 id SHOW_ALL
 id SHOW_PATH
@@ -2094,6 +2115,7 @@ id SHOW_PROGRESS
 id TOP_END
 id TOP_START
 id accelerate
+id accent
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
 id accessibility_custom_action_1
@@ -2175,6 +2197,8 @@ id bestChoice
 id binaryData
 id blocking
 id bodyLine
+id bold
+id bold_italic
 id bottom
 id bounce
 id buttonPanel
@@ -2324,6 +2348,8 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id media_actions
+id medium
+id medium_italic
 id message
 id method
 id middle
@@ -2395,11 +2421,13 @@ id percent
 id pin
 id position
 id postLayout
+id primary
 id progress_circular
 id progress_horizontal
 id protocol
 id radio
 id rectangles
+id regular
 id requestSize
 id requestSizeLabel
 id requestTime
@@ -2440,6 +2468,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id secondary
 id select_dialog_listview
 id selected
 id selection_type
@@ -2928,6 +2957,7 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string search_menu_title
 string status_bar_notification_info_overflow
+string text_dash
 string title_account
 string title_dashboard
 string title_history
@@ -3336,6 +3366,9 @@ style TextAppearance_MaterialComponents_Tooltip
 style TextAppearance_Widget_AppCompat_ExpandedMenu_Item
 style TextAppearance_Widget_AppCompat_Toolbar_Subtitle
 style TextAppearance_Widget_AppCompat_Toolbar_Title
+style ThemeLayoutHorizontal
+style ThemeLayoutVertical
+style ThemeMarginHorizontal
 style ThemeOverlayColorAccentRed
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar
@@ -3720,6 +3753,7 @@ styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_a
 styleable CustomAttribute attributeName customBoolean customColorDrawableValue customColorValue customDimension customFloatValue customIntegerValue customPixelDimension customReference customStringValue methodName
 styleable DesignTheme bottomSheetDialogTheme bottomSheetStyle
 styleable DialogFragmentNavigator android_name
+styleable DigiView digi_edit_text_style digi_font_family digi_font_style
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable DrawerLayout elevation
 styleable ExtendedFloatingActionButton collapsedSize elevation extendMotionSpec hideMotionSpec showMotionSpec shrinkMotionSpec

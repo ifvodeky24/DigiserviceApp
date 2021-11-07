@@ -7,6 +7,8 @@ import com.squareup.moshi.JsonClass
 data class CommonResponse(
     @Json(name = "code")
     val code: Int,
+    @Json(name = "status")
+    val status: String = "",
     @Json(name = "message")
     val message: String = "",
     @Json(name = "result")

@@ -1,10 +1,14 @@
 package com.example.feature_auth.register
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
@@ -15,9 +19,32 @@ import com.example.core_util.showProgress
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.GroundOverlayOptions
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        val sydney = LatLng(-0.989818, 113.915863)
+        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
 
     private val textBtnNext by lazy {
         "LANJUTKAN DAFTAR"
@@ -44,6 +71,10 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var map: GoogleMap
+
+    private val REQUEST_LOCATION_PERMISSION = 1
+
     private val authViewModel: AuthViewModel by viewModel()
 
     override fun onCreateView(
@@ -59,7 +90,24 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupInput()
         observeLogin()
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+        //binding.mapView.getMapAsync(this)
     }
+
+//    private fun bindMap(lat: String, lng: String) {
+//        binding.mapView.onResume()
+//        binding.mapView.getMapAsync { googleMap ->
+//            map = googleMap
+//            try {
+//                map.addMarker( MarkerOptions().position(LatLng(lat.toDouble(), lng.toDouble())))
+//            } catch (e: Exception)
+//            {
+//
+//            }
+//        }
+//
+//    }
 
     private fun observeLogin() {
         authViewModel.registerServiceResponse.observe(viewLifecycleOwner, { event ->
@@ -102,6 +150,9 @@ class RegisterFragment : Fragment() {
         }
 
         binding.btnNext.bindLifecycle(viewLifecycleOwner)
+        binding.mapViewButton.setOnClickListener {
+
+        }
     }
 
     private fun registerService() {
@@ -148,6 +199,85 @@ class RegisterFragment : Fragment() {
         btnNext.hideProgress(textBtnNext) {
             isEnable && with(binding) {
                 "${edtInputName.text}".isNotBlank() && "${edtInputEmail.text}".isNotBlank()
+            }
+        }
+    }
+
+//    override fun onMapReady(map: GoogleMap) {
+//        val lat = -0.989818
+//        val lng = 113.915863
+//        val zoomLevel = 15f
+//        val overlaySize = 100f
+//
+//        val defaultLatLng = LatLng(lat, lng)
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, zoomLevel))
+//        map.addMarker(MarkerOptions().position(defaultLatLng))
+//
+//        val googleOverlay = GroundOverlayOptions()
+//            .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_map))
+//            .position(defaultLatLng, overlaySize)
+//        map.addGroundOverlay(googleOverlay)
+//
+//        //enableMyLocation()
+//
+//        if (isPermissionGranted()){
+//
+//        }
+//        else{
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
+//                REQUEST_LOCATION_PERMISSION
+//            )
+//        }
+//
+//    }
+
+//    private fun enableMyLocation() {
+//        return ContextCompat.checkSelfPermission(
+//            requireActivity(),
+//            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        //map.isMyLocationEnabled = true
+
+//        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+//            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
+//            PackageManager.PERMISSION_GRANTED) {
+//                map.isMyLocationEnabled = true
+//        }
+//        else{
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                REQUEST_LOCATION_PERMISSION
+//            )
+//        }
+//    }
+
+    private fun isPermissionGranted() : Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+//    private fun isPermissionGranted(): Boolean {
+//        return ( ActivityCompat.checkSelfPermission(
+//            requireActivity(),
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//            requireActivity(),
+//            Manifest.permission.ACCESS_COARSE_LOCATION
+//        ) != PackageManager.PERMISSION_GRANTED)
+//    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        // Check if location permissions are granted and if so enable the
+        // location data layer.
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
+                //enableMyLocation()
             }
         }
     }

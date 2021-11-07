@@ -6,6 +6,8 @@
     <string name="login">Login</string>
     <string name="logo">logo</string>
     <string name="required">*</string>
-    <string name="phone_type">Jenis Handphone</string>
-    <string name="skills">Keahlian</string>
+    <string name="phone_type">Pilih Jenis Handphone</string>
+    <string name="skills">Pilih Keahlian/Jenis Kerusakan HP</string>
+    <string name="deskripsi">Deskripsi Kerusakan HP/Keahlian</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

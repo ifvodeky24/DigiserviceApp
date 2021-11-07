@@ -1,6 +1,7 @@
 package com.example.core_data.api.service
 
 import com.example.core_data.api.request.LoginRequest
+import com.example.core_data.api.request.RequestChoose
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.JenisKerusakanResponse
@@ -41,10 +42,14 @@ internal interface AuthService {
         @Field("teknisi_deskripsi") teknisiDeskripsi: String,
     ): CommonResponse
 
+    @POST(SaveChoose)
+    suspend fun saveChoose(@Body request: RequestChoose) : CommonResponse
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
         const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
+        const val SaveChoose = "insert-teknisi-jenis-hp-keahlian"
     }
 }

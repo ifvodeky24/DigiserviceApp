@@ -4,6 +4,7 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.ApiResult
+import com.example.core_data.api.request.RequestChoose
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.auth.toDomain
 import com.example.core_data.api.response.toDomain
@@ -150,6 +151,36 @@ class AuthRepository internal constructor(
             emit(apiEvent)
         }.onFailure {
             emit(it.toFailedEvent<ListJenisKerusakan>())
+        }
+    }
+
+    fun saveFormChoose(
+        choose: RequestChoose
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+        runCatching {
+            val apiId = AuthService.RegiterService
+
+            val apiResult =apiExecutor.callApi(apiId) {
+                authService.saveChoose(choose)
+            }
+
+            val apiEvent:ApiEvent<CommonResponse?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        message.equals(ApiException.FailedResponse.STATUS_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
         }
     }
 

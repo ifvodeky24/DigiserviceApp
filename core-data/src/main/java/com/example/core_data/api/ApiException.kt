@@ -7,7 +7,7 @@ sealed class ApiException {
     object Network : ApiException()
     data class FailedResponse<T>(val error: T? = null) : ApiException(){
         companion object {
-            const val STATUS_FAILED = false
+            const val STATUS_FAILED = "FAILED"
             const val MESSAGE_FAILED = "FAILED"
         }
     }

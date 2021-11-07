@@ -373,6 +373,9 @@ int attr destination 0x0
 int attr dialogCornerRadius 0x0
 int attr dialogPreferredPadding 0x0
 int attr dialogTheme 0x0
+int attr digi_edit_text_style 0x0
+int attr digi_font_family 0x0
+int attr digi_font_style 0x0
 int attr displayOptions 0x0
 int attr divider 0x0
 int attr dividerHorizontal 0x0
@@ -1162,6 +1165,8 @@ int color chucker_status_default 0x0
 int color chucker_status_error 0x0
 int color chucker_status_requested 0x0
 int color colorAccent 0x0
+int color colorBackgroundPrimary 0x0
+int color colorBackgroundSecondary 0x0
 int color colorBattleshipGrey 0x0
 int color colorBgColorTextInput 0x0
 int color colorBlack 0x0
@@ -1176,6 +1181,7 @@ int color colorDarkBlue 0x0
 int color colorDarkRed 0x0
 int color colorDelete 0x0
 int color colorDeleteBackground 0x0
+int color colorDivider 0x0
 int color colorDodgerBlue 0x0
 int color colorFairPink 0x0
 int color colorFemale 0x0
@@ -1202,6 +1208,7 @@ int color colorOrangePeel 0x0
 int color colorOrangeYellow 0x0
 int color colorPalePurple 0x0
 int color colorPastelGreen 0x0
+int color colorPlaceHolder 0x0
 int color colorPrimary 0x0
 int color colorPrimaryDark 0x0
 int color colorRed 0x0
@@ -1210,6 +1217,8 @@ int color colorRedStop 0x0
 int color colorRegular 0x0
 int color colorSea 0x0
 int color colorTeaGreen 0x0
+int color colorTextPrimary 0x0
+int color colorTextSecondary 0x0
 int color colorTranslucentNavigationBar 0x0
 int color colorTransparentPin 0x0
 int color colorUltraMarine 0x0
@@ -1553,6 +1562,7 @@ int dimen design_tab_text_size_2line 0x0
 int dimen design_textinput_caption_translate_y 0x0
 int dimen disabled_alpha_material_dark 0x0
 int dimen disabled_alpha_material_light 0x0
+int dimen divider 0x0
 int dimen dotTitleCardWidth 0x0
 int dimen dotWidth 0x0
 int dimen dotWidthSmall 0x0
@@ -1861,6 +1871,13 @@ int dimen notification_top_pad 0x0
 int dimen notification_top_pad_large_text 0x0
 int dimen paddingEditText 0x0
 int dimen primaryButtonHeight 0x0
+int dimen profilePicture 0x0
+int dimen profilePictureBig 0x0
+int dimen profilePictureMedium 0x0
+int dimen radius 0x0
+int dimen radiusCircle 0x0
+int dimen radiusInput 0x0
+int dimen radiusSmall 0x0
 int dimen small 0x0
 int dimen smallDotWidth 0x0
 int dimen smallIconWidth 0x0
@@ -2037,6 +2054,7 @@ int drawable ic_account_circle 0x0
 int drawable ic_clock_black_24dp 0x0
 int drawable ic_home_black_24dp 0x0
 int drawable ic_keyboard_black_24dp 0x0
+int drawable ic_map 0x0
 int drawable ic_more_vert 0x0
 int drawable ic_mtrl_checked_circle 0x0
 int drawable ic_mtrl_chip_checked_black 0x0
@@ -2081,11 +2099,14 @@ int drawable notification_template_icon_bg 0x0
 int drawable notification_template_icon_low_bg 0x0
 int drawable notification_tile_bg 0x0
 int drawable notify_panel_notification_icon_bg 0x0
+int drawable shape_circle_placeholder 0x0
+int drawable shape_round 0x0
 int drawable test_custom_background 0x0
 int drawable tooltip_frame_dark 0x0
 int drawable tooltip_frame_light 0x0
 int id BOTTOM_END 0x0
 int id BOTTOM_START 0x0
+int id GoogleSans 0x0
 int id NO_DEBUG 0x0
 int id SHOW_ALL 0x0
 int id SHOW_PATH 0x0
@@ -2093,6 +2114,7 @@ int id SHOW_PROGRESS 0x0
 int id TOP_END 0x0
 int id TOP_START 0x0
 int id accelerate 0x0
+int id accent 0x0
 int id accessibility_action_clickable_span 0x0
 int id accessibility_custom_action_0 0x0
 int id accessibility_custom_action_1 0x0
@@ -2174,6 +2196,8 @@ int id bestChoice 0x0
 int id binaryData 0x0
 int id blocking 0x0
 int id bodyLine 0x0
+int id bold 0x0
+int id bold_italic 0x0
 int id bottom 0x0
 int id bounce 0x0
 int id buttonPanel 0x0
@@ -2323,6 +2347,8 @@ int id material_timepicker_ok_button 0x0
 int id material_timepicker_view 0x0
 int id material_value_index 0x0
 int id media_actions 0x0
+int id medium 0x0
+int id medium_italic 0x0
 int id message 0x0
 int id method 0x0
 int id middle 0x0
@@ -2394,12 +2420,14 @@ int id percent 0x0
 int id pin 0x0
 int id position 0x0
 int id postLayout 0x0
+int id primary 0x0
 int id profile_navigation 0x0
 int id progress_circular 0x0
 int id progress_horizontal 0x0
 int id protocol 0x0
 int id radio 0x0
 int id rectangles 0x0
+int id regular 0x0
 int id requestSize 0x0
 int id requestSizeLabel 0x0
 int id requestTime 0x0
@@ -2440,6 +2468,7 @@ int id search_mag_icon 0x0
 int id search_plate 0x0
 int id search_src_text 0x0
 int id search_voice_btn 0x0
+int id secondary 0x0
 int id select_dialog_listview 0x0
 int id selected 0x0
 int id selection_type 0x0
@@ -2929,6 +2958,7 @@ int string path_password_eye_mask_visible 0x0
 int string path_password_strike_through 0x0
 int string search_menu_title 0x0
 int string status_bar_notification_info_overflow 0x0
+int string text_dash 0x0
 int string title_account 0x0
 int string title_dashboard 0x0
 int string title_history 0x0
@@ -3337,6 +3367,9 @@ int style TextAppearance_MaterialComponents_Tooltip 0x0
 int style TextAppearance_Widget_AppCompat_ExpandedMenu_Item 0x0
 int style TextAppearance_Widget_AppCompat_Toolbar_Subtitle 0x0
 int style TextAppearance_Widget_AppCompat_Toolbar_Title 0x0
+int style ThemeLayoutHorizontal 0x0
+int style ThemeLayoutVertical 0x0
+int style ThemeMarginHorizontal 0x0
 int style ThemeOverlayColorAccentRed 0x0
 int style ThemeOverlay_AppCompat 0x0
 int style ThemeOverlay_AppCompat_ActionBar 0x0
@@ -4627,6 +4660,10 @@ int styleable DesignTheme_bottomSheetDialogTheme 0
 int styleable DesignTheme_bottomSheetStyle 1
 int[] styleable DialogFragmentNavigator { 0x1010003 }
 int styleable DialogFragmentNavigator_android_name 0
+int[] styleable DigiView { 0x0, 0x0, 0x0 }
+int styleable DigiView_digi_edit_text_style 0
+int styleable DigiView_digi_font_family 1
+int styleable DigiView_digi_font_style 2
 int[] styleable DrawerArrowToggle { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
 int styleable DrawerArrowToggle_arrowHeadLength 0
 int styleable DrawerArrowToggle_arrowShaftLength 1

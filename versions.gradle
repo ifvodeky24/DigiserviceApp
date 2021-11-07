@@ -53,6 +53,8 @@ ext.versions = [
         recyclical             : '1.1.1',
         recyclical_swipe       : '1.1.1',
         recycler_view_divider  : '3.5.0',
+
+        activity               : '1.3.0-alpha06',
 ]
 
 ext.plugin = [
@@ -118,6 +120,7 @@ ext.deps = [
                 "androidx.appcompat:appcompat-resources:$versions.appcompat"
         ],
 
+        activity               : "androidx.activity:activity-ktx:$versions.activity",
         constraint_layout: "androidx.constraintlayout:constraintlayout:$versions.constraint_layout",
 
         junit            : "junit:junit:$versions.junit",

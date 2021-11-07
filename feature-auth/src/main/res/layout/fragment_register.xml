@@ -167,10 +167,11 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_name" />
 
-        <com.google.android.gms.maps.MapView
+        <fragment
             android:id="@+id/map_view"
             android:layout_width="0dp"
             android:layout_height="150dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_marginTop="@dimen/smaller"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
