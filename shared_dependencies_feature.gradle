@@ -23,5 +23,9 @@ dependencies {
     implementation deps.material
     implementation deps.appcompat
     implementation deps.constraint_layout
+    implementation deps.recycler_view_util
+
+    implementation deps.glide
+    annotationProcessor deps.glide
 
 }

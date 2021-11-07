@@ -45,11 +45,15 @@ ext.versions = [
         services_maps        : "17.0.1",
         legacy_support       : "1.0.0",
 
-        keyboard_watcher       : '3.0.0-RC3',
-        progress_button        : '2.1.0',
+        keyboard_watcher     : '3.0.0-RC3',
+        progress_button      : '2.1.0',
 
-        timber                     : '4.7.1',
+        timber               : '4.7.1',
 
+        recyclical           : '1.1.1',
+        recyclical_swipe     : '1.1.1',
+        recycler_view_divider: '3.5.0',
+        glide                : '4.12.0',
         recyclical             : '1.1.1',
         recyclical_swipe       : '1.1.1',
         recycler_view_divider  : '3.5.0',
@@ -64,32 +68,32 @@ ext.plugin = [
 ]
 
 ext.deps = [
-        moshi            : [
+        moshi             : [
                 "com.squareup.moshi:moshi-kotlin:$versions.moshi",
                 "com.squareup.moshi:moshi-adapters:$versions.moshi"
         ],
-        okhttp           : [
+        okhttp            : [
                 "com.squareup.okhttp3:okhttp:$versions.okhttp",
                 "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
         ],
-        retrofit         : [
+        retrofit          : [
                 "com.squareup.retrofit2:retrofit:$versions.retrofit",
                 "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
                 "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
         ],
-        cookiejar        : [
+        cookiejar         : [
                 "net.gotev:cookie-store:$versions.cookiejar",
                 "net.gotev:cookie-store-okhttp:$versions.cookiejar"
         ],
 
-        moshi_compiler   : "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi",
+        moshi_compiler    : "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi",
 
 
-        coroutines       : [
+        coroutines        : [
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutine",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutine"
         ],
-        koin             : [
+        koin              : [
                 "org.koin:koin-core:$versions.koin",
                 "org.koin:koin-androidx-scope:$versions.koin",
                 "org.koin:koin-androidx-viewmodel:$versions.koin",
@@ -97,50 +101,56 @@ ext.deps = [
         ],
 
 
-        chucker_debug    : "com.github.chuckerteam.chucker:library:$versions.chucker",
-        chucker_release  : "com.github.chuckerteam.chucker:library-no-op:$versions.chucker",
+        chucker_debug     : "com.github.chuckerteam.chucker:library:$versions.chucker",
+        chucker_release   : "com.github.chuckerteam.chucker:library-no-op:$versions.chucker",
 
-        room             : [
+        room              : [
                 "androidx.room:room-ktx:$versions.room",
                 "androidx.room:room-migration:$versions.room"
         ],
 
-        debug_banner     : "com.github.armcha:DebugBanner:$versions.debug_banner",
-        validator        : "com.afollestad:vvalidator:$versions.validator",
+        debug_banner      : "com.github.armcha:DebugBanner:$versions.debug_banner",
+        validator         : "com.afollestad:vvalidator:$versions.validator",
 
-        navigation       : [
+        navigation        : [
                 "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
                 "androidx.navigation:navigation-ui-ktx:$versions.navigation"
         ],
 
-        material         : "com.google.android.material:material:$versions.material",
+        material          : "com.google.android.material:material:$versions.material",
 
-        appcompat        : [
+        appcompat         : [
                 "androidx.appcompat:appcompat:$versions.appcompat",
                 "androidx.appcompat:appcompat-resources:$versions.appcompat"
         ],
 
+        constraint_layout : "androidx.constraintlayout:constraintlayout:$versions.constraint_layout",
         activity               : "androidx.activity:activity-ktx:$versions.activity",
         constraint_layout: "androidx.constraintlayout:constraintlayout:$versions.constraint_layout",
 
-        junit            : "junit:junit:$versions.junit",
-        test_ext_junit_ktx   : "androidx.test.ext:junit-ktx:$versions.test_ext_junit_ktx",
-        core             : "androidx.core:core-ktx:$versions.core",
+        junit             : "junit:junit:$versions.junit",
+        test_ext_junit_ktx: "androidx.test.ext:junit-ktx:$versions.test_ext_junit_ktx",
+        core              : "androidx.core:core-ktx:$versions.core",
 
-        services_maps    : "com.google.android.gms:play-services-maps:$versions.services_maps",
-        legacy_support   : "androidx.legacy:legacy-support-v4:$versions.legacy_support",
+        services_maps     : "com.google.android.gms:play-services-maps:$versions.services_maps",
+        legacy_support    : "androidx.legacy:legacy-support-v4:$versions.legacy_support",
 
-        progress_button        : "com.github.razir.progressbutton:progressbutton:$versions.progress_button",
-        keyboard_watcher       : "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$versions.keyboard_watcher",
+        progress_button   : "com.github.razir.progressbutton:progressbutton:$versions.progress_button",
+        keyboard_watcher  : "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$versions.keyboard_watcher",
 
 
-        timber              : "com.jakewharton.timber:timber:$versions.timber",
+        timber            : "com.jakewharton.timber:timber:$versions.timber",
 
-        room_compiler       : "androidx.room:room-compiler:$versions.room",
+        room_compiler     : "androidx.room:room-compiler:$versions.room",
 
-        recycler_view_util     : [
+        recycler_view_util: [
                 "com.afollestad:recyclical:$versions.recyclical",
                 "com.afollestad:recyclical-swipe:$versions.recyclical_swipe",
                 "com.github.fondesa:recycler-view-divider:$versions.recycler_view_divider"
         ],
+
+        glide             : [
+                "com.github.bumptech.glide:glide:$versions.glide",
+                "com.github.bumptech.glide:compiler:$versions.glide"
+        ]
 ]

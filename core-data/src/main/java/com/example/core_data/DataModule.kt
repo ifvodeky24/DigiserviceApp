@@ -8,7 +8,9 @@ import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.apiClient
 import com.example.core_data.api.httpClient
 import com.example.core_data.api.service.AuthService
+import com.example.core_data.api.service.TechnicianService
 import com.example.core_data.repository.AuthRepository
+import com.example.core_data.repository.TechnicianRepository
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -42,6 +44,7 @@ val Application.dataModule
         single { ApiExecutor(get()) }
 
         single { apiClient<AuthService>(BASE_URL, get()) }
+        single { apiClient<TechnicianService>(BASE_URL, get()) }
 
         single {
             Room.databaseBuilder(get(), CoreDatabase::class.java, DB_NAME)
@@ -49,9 +52,10 @@ val Application.dataModule
                 .build()
         }
         single { get<CoreDatabase>().authDao() }
-//        single { get<CoreDatabase>().jenisHpDao() }
+        single { get<CoreDatabase>().technicianDao() }
 
         single { AuthRepository(get(), get(), get(), get()) }
+        single { TechnicianRepository(get(), get(), get(), get()) }
     }
 
 private const val TIMEOUT = 30L

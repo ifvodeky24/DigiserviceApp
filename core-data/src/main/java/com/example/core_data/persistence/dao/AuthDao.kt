@@ -1,7 +1,7 @@
 package com.example.core_data.persistence.dao
 
 import androidx.room.*
-import com.example.core_data.persistence.entity.AuthEntity
+import com.example.core_data.persistence.entity.auth.AuthEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
