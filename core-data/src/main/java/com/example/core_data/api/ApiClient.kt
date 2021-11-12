@@ -1,6 +1,5 @@
 package com.example.core_data.api
 
-import com.example.core_data.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import okhttp3.CookieJar

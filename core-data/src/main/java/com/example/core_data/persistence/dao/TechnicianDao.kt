@@ -53,4 +53,7 @@ internal abstract class TechnicianDao {
         deleteFindNearbyTechnician()
         insertFindNearbyTechnician(entities)
     }
+
+    @Query("SELECT * FROM TechnicianGetAllEntity WHERE email IS :email ")
+    abstract fun getCurrentTechnicianAsFlow(email: String): Flow<TechnicianGetAllEntity>
 }

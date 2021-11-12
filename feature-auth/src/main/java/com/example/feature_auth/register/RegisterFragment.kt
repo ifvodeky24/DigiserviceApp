@@ -32,15 +32,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class RegisterFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         val sydney = LatLng(-0.989818, 113.915863)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
@@ -51,6 +42,9 @@ class RegisterFragment : Fragment() {
     }
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
+    }
+    private val textHintEmptyPwd by lazy {
+        "Password harus diisi"
     }
     private val textHintEmptyName by lazy {
         "Nama harus diisi"
@@ -95,20 +89,6 @@ class RegisterFragment : Fragment() {
         //binding.mapView.getMapAsync(this)
     }
 
-//    private fun bindMap(lat: String, lng: String) {
-//        binding.mapView.onResume()
-//        binding.mapView.getMapAsync { googleMap ->
-//            map = googleMap
-//            try {
-//                map.addMarker( MarkerOptions().position(LatLng(lat.toDouble(), lng.toDouble())))
-//            } catch (e: Exception)
-//            {
-//
-//            }
-//        }
-//
-//    }
-
     private fun observeLogin() {
         authViewModel.registerServiceResponse.observe(viewLifecycleOwner, { event ->
             when(event)
@@ -130,11 +110,14 @@ class RegisterFragment : Fragment() {
         with(binding){
             form {
                 useRealTimeValidation(disableSubmit = true)
+                inputLayout(R.id.edt_layout_name){
+                    isNotEmpty().description(textHintEmptyName)
+                }
                 inputLayout(R.id.edt_layout_email){
                     isNotEmpty().description(textHintEmptyEmail)
                 }
-                inputLayout(R.id.edt_layout_name){
-                    isNotEmpty().description(textHintEmptyName)
+                inputLayout(R.id.edt_layout_pwd){
+                    isNotEmpty().description(textHintEmptyPwd)
                 }
                 inputLayout(R.id.edt_layout_store_name){
                     isNotEmpty().description(textHintEmptyStoreName)
@@ -161,7 +144,7 @@ class RegisterFragment : Fragment() {
             authViewModel.registerService(
                 edtInputEmail.text.toString(),
                 edtInputName.text.toString(),
-                "123456",
+                edtInputPwd.text.toString(),
                 edtInputStoreName.text.toString(),
                 edtInputStoreAddress.text.toString(),
                 0f,
@@ -179,7 +162,7 @@ class RegisterFragment : Fragment() {
 
     private fun showProgress() = with(binding) {
         listOf(
-            btnNext, edtLayoutEmail, edtLayoutName,
+            btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
             edtLayoutStoreAddress, edtLayoutStoreDescription,
         ).forEach { it.isEnabled = false }
 
@@ -190,7 +173,7 @@ class RegisterFragment : Fragment() {
         btnNext.postDelayed(
             {
                 listOf(
-                    btnNext, edtLayoutEmail, edtLayoutName,
+                    btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
                     edtLayoutStoreAddress, edtLayoutStoreDescription,
                 ).forEach { it.isEnabled = true }
             }, 1000L

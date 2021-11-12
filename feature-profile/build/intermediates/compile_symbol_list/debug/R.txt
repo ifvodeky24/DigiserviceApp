@@ -827,6 +827,12 @@ int attr reactiveGuide_animateChange 0x0
 int attr reactiveGuide_applyToAllConstraintSets 0x0
 int attr reactiveGuide_applyToConstraintSet 0x0
 int attr reactiveGuide_valueId 0x0
+int attr recyclerViewDividerAsSpace 0x0
+int attr recyclerViewDividerDrawable 0x0
+int attr recyclerViewDividerInsetEnd 0x0
+int attr recyclerViewDividerInsetStart 0x0
+int attr recyclerViewDividerSize 0x0
+int attr recyclerViewDividerTint 0x0
 int attr recyclerViewStyle 0x0
 int attr region_heightLessThan 0x0
 int attr region_heightMoreThan 0x0
@@ -1887,6 +1893,10 @@ int dimen subtitle_corner_radius 0x0
 int dimen subtitle_outline_width 0x0
 int dimen subtitle_shadow_offset 0x0
 int dimen subtitle_shadow_radius 0x0
+int dimen swipe_default_text_size 0x0
+int dimen swipe_text_margin 0x0
+int dimen swipe_text_margin_half 0x0
+int dimen swipe_text_margin_less 0x0
 int dimen test_mtrl_calendar_day_cornerSize 0x0
 int dimen test_navigation_bar_active_item_max_width 0x0
 int dimen test_navigation_bar_active_item_min_width 0x0
@@ -2104,6 +2114,7 @@ int drawable shape_round 0x0
 int drawable test_custom_background 0x0
 int drawable tooltip_frame_dark 0x0
 int drawable tooltip_frame_light 0x0
+int font antic 0x0
 int id BOTTOM_END 0x0
 int id BOTTOM_START 0x0
 int id GoogleSans 0x0
@@ -2291,6 +2302,7 @@ int id fragment_container_view_tag 0x0
 int id frost 0x0
 int id ghost_view 0x0
 int id ghost_view_holder 0x0
+int id glide_custom_view_target_tag 0x0
 int id gone 0x0
 int id group_divider 0x0
 int id guideline 0x0
@@ -2426,6 +2438,8 @@ int id progress_circular 0x0
 int id progress_horizontal 0x0
 int id protocol 0x0
 int id radio 0x0
+int id rec_view_item_selectable_data_source 0x0
+int id rec_view_item_view_holder 0x0
 int id rectangles 0x0
 int id regular 0x0
 int id requestSize 0x0

@@ -10,21 +10,34 @@ import com.example.core_data.api.response.auth.toDomain
 import com.example.core_data.api.response.toDomain
 import com.example.core_data.api.service.AuthService
 import com.example.core_data.api.toFailedEvent
-import com.example.core_data.domain.ListJenisHp
-import com.example.core_data.domain.ListJenisKerusakan
+import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
+import com.example.core_data.persistence.dao.TechnicianDao
+import com.example.core_data.persistence.entity.auth.toDomain
 import com.example.core_data.persistence.entity.auth.toEntity
+import com.example.core_data.persistence.entity.technician.toDomain
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class AuthRepository internal constructor(
     private val apiExecutor: ApiExecutor,
     private val authService: AuthService,
     private val dao: AuthDao,
+    private val techDao: TechnicianDao,
     private val jsonParser: Moshi,
 ) {
+
+    fun getCurrentUserAsFlow() = dao.selectAuthAsFlow().map { auth ->
+        ApiEvent.OnSuccess.fromCache(auth?.toDomain())
+    }
+
+    fun getCurrentTechnicianAsFlow(email: String) = techDao.getCurrentTechnicianAsFlow(email).map {
+        ApiEvent.OnSuccess.fromCache(it?.toDomain())
+    }
+
 
     fun login(
         email: String,
@@ -124,6 +137,55 @@ class AuthRepository internal constructor(
             emit(it.toFailedEvent<ListJenisHp>())
         }
     }
+
+    fun getCurrentSkilAll(teknisiId: Int) :Flow<ApiEvent<ResultSkils>> = flow {
+        runCatching {
+            val apiId = AuthService.SkilsBy
+            val apiResult = apiExecutor.callApi(apiId) {
+                authService.getCurrenSkils(teknisiId)
+            }
+
+            val apiEvent: ApiEvent<ResultSkils> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result){
+                    toDomain().run {
+                        ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ResultSkils>())
+        }
+    }
+
+//    fun getCurrentJenisHp(teknisiId: Int) :Flow<ApiEvent<ListJenisHp>> = flow {
+//        runCatching {
+//            val apiId = AuthService.JenisHpBy
+//            val apiResult = apiExecutor.callApi(apiId) {
+//                authService.getCurrenJenisHp(teknisiId)
+//            }
+//
+//            val apiEvent: ApiEvent<ListJenisHp> = when(apiResult){
+//                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+//                is ApiResult.OnSuccess -> with(apiResult.response.result){
+//                    toDomain().run {
+//                        if (isEmpty())
+//                        {
+//                            ApiEvent.OnSuccess.fromServer(emptyList())
+//                        }
+//                        else
+//                        {
+//                            ApiEvent.OnSuccess.fromServer(this)
+//                        }
+//                    }
+//                }
+//            }
+//            emit(apiEvent)
+//        }.onFailure {
+//            emit(it.toFailedEvent<ListJenisHp>())
+//        }
+//    }
 
     fun getJenisKerusakanAll() :Flow<ApiEvent<ListJenisKerusakan>> = flow {
         runCatching {

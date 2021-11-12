@@ -828,6 +828,12 @@ attr reactiveGuide_animateChange
 attr reactiveGuide_applyToAllConstraintSets
 attr reactiveGuide_applyToConstraintSet
 attr reactiveGuide_valueId
+attr recyclerViewDividerAsSpace
+attr recyclerViewDividerDrawable
+attr recyclerViewDividerInsetEnd
+attr recyclerViewDividerInsetStart
+attr recyclerViewDividerSize
+attr recyclerViewDividerTint
 attr recyclerViewStyle
 attr region_heightLessThan
 attr region_heightMoreThan
@@ -1888,6 +1894,10 @@ dimen subtitle_corner_radius
 dimen subtitle_outline_width
 dimen subtitle_shadow_offset
 dimen subtitle_shadow_radius
+dimen swipe_default_text_size
+dimen swipe_text_margin
+dimen swipe_text_margin_half
+dimen swipe_text_margin_less
 dimen test_mtrl_calendar_day_cornerSize
 dimen test_navigation_bar_active_item_max_width
 dimen test_navigation_bar_active_item_min_width
@@ -2105,6 +2115,7 @@ drawable shape_round
 drawable test_custom_background
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+font antic
 id BOTTOM_END
 id BOTTOM_START
 id GoogleSans
@@ -2292,6 +2303,7 @@ id fragment_container_view_tag
 id frost
 id ghost_view
 id ghost_view_holder
+id glide_custom_view_target_tag
 id gone
 id group_divider
 id guideline
@@ -2427,6 +2439,8 @@ id progress_circular
 id progress_horizontal
 id protocol
 id radio
+id rec_view_item_selectable_data_source
+id rec_view_item_view_holder
 id rectangles
 id regular
 id requestSize
