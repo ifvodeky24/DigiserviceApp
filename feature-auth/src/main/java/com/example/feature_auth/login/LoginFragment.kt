@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
@@ -53,6 +54,8 @@ class LoginFragment : Fragment(), ModuleNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
         setupInput()
         with(binding) {
             tvDaftar.setOnClickListener {
@@ -74,9 +77,10 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)
                     Timber.d("gagal ${login.getException()}")
-                    Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT)
+                        .show()
 
-//                    when (val exception = login.getException()) {
+                    when (val exception = login.getException()) {
 //                        is ApiException.FailedResponse<*> -> when (val errorResponse =
 //                            exception.error) {
 //                            is ErrorResponse -> when {
@@ -92,11 +96,13 @@ class LoginFragment : Fragment(), ModuleNavigator {
 //                        is ApiException.Offline -> showErrorFail(getString(R.string.oops_network))
 //                        is ApiException.Unknown -> showErrorFail(getString(R.string.unknown_error))
 //                        else -> showErrorMessage()
-//                    }
+                    }
                 }
             }
         })
     }
+
+
 
     private fun setupInput() {
         with(binding) {
@@ -110,13 +116,13 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 submitWith(R.id.btn_login) {
                     dismissKeyboard()
-                val email = binding.edtEmail.text.toString()
-                val password = binding.edtPassword.text.toString()
+                    val email = binding.edtEmail.text.toString()
+                    val password = binding.edtPassword.text.toString()
 //                    val email = "ryan@gmail.com"
 //                    val password = "admins"
 
-                viewModel.email = email
-                viewModel.password = password
+                    viewModel.email = email
+                    viewModel.password = password
 
                     Timber.d("cekkkk $email dan ${password} dan ")
 

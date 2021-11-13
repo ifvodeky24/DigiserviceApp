@@ -17,19 +17,13 @@ internal data class NearbyTechnicianEntity(
     val teknisiLng: String,
     val teknisiHp: String,
     val createdAt: String,
-    val updatedA: String,
+    val updatedAt: String,
     val teknisiTotalScore: Double,
     val teknisiTotalResponden: Double,
     val teknisiDeskripsi: String,
     val teknisiFoto: String,
     val teknisiSertifikat: String,
-    val jenisId: Int,
-    val jenisNama: String,
-    val jenisThumbnail: String,
-    val idJenisKerusakan: Int,
-    val namaKerusakan: String,
-    val deskripsiKerusakan: String,
-    val distance: Int,
+    val distance: Double,
 )
 
 internal typealias NearbyTechnicianEntities = List<NearbyTechnicianEntity>
@@ -45,18 +39,12 @@ internal fun NearbyTechnicianEntity.toDomain() =
         teknisiLng = teknisiLng,
         teknisiHp = teknisiHp,
         createdAt = createdAt,
-        updatedA = updatedA,
+        updatedAt = updatedAt,
         teknisiTotalScore = teknisiTotalScore,
         teknisiTotalResponden = teknisiTotalResponden,
         teknisiDeskripsi = teknisiDeskripsi,
         teknisiFoto = teknisiFoto,
         teknisiSertifikat = teknisiSertifikat,
-        jenisId = jenisId,
-        jenisNama = jenisNama,
-        jenisThumbnail = jenisThumbnail,
-        idJenisKerusakan = idJenisKerusakan,
-        namaKerusakan = namaKerusakan,
-        deskripsiKerusakan = deskripsiKerusakan,
         distance = distance
     )
 
@@ -74,18 +62,12 @@ internal fun NearbyTechnician.toEntity() =
         teknisiLng = teknisiLng,
         teknisiHp = teknisiHp,
         createdAt = createdAt,
-        updatedA = updatedA,
+        updatedAt = updatedAt,
         teknisiTotalScore = teknisiTotalScore,
         teknisiTotalResponden = teknisiTotalResponden,
         teknisiDeskripsi = teknisiDeskripsi,
         teknisiFoto = teknisiFoto,
         teknisiSertifikat = teknisiSertifikat,
-        jenisId = jenisId,
-        jenisNama = jenisNama,
-        jenisThumbnail = jenisThumbnail,
-        idJenisKerusakan = idJenisKerusakan,
-        namaKerusakan = namaKerusakan,
-        deskripsiKerusakan = deskripsiKerusakan,
         distance = distance
     )
 

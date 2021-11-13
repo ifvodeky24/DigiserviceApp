@@ -10,19 +10,13 @@ data class NearbyTechnician(
     val teknisiLng: String = "",
     val teknisiHp: String = "",
     val createdAt: String = "",
-    val updatedA: String = "",
+    val updatedAt: String = "",
     val teknisiTotalScore: Double = 0.0,
     val teknisiTotalResponden: Double = 0.0,
     val teknisiDeskripsi: String = "",
     val teknisiFoto: String = "",
     val teknisiSertifikat: String = "",
-    val jenisId: Int = 0,
-    val jenisNama: String = "",
-    val jenisThumbnail: String = "",
-    val idJenisKerusakan: Int = 0,
-    val namaKerusakan: String = "",
-    val deskripsiKerusakan: String = "",
-    val distance: Int = 0
+    val distance: Double = 0.0
 )
 
 typealias ListNearbyTechnician = List<NearbyTechnician>

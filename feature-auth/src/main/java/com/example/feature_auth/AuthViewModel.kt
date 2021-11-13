@@ -13,6 +13,10 @@ class AuthViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
+    val auth = liveData<Auth?> {
+        emit(authRepository.getAuth())
+    }
+
     var email = ""
     var password = ""
 

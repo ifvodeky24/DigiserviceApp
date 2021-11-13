@@ -1,10 +1,8 @@
 package com.example.feature_home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.domain.auth.Auth
 import com.example.core_data.domain.technician.ListNearbyTechnician
 import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
@@ -14,7 +12,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val technicianRepository: TechnicianRepository
+    private val technicianRepository: TechnicianRepository,
 ) : ViewModel() {
 
     private val _technicianGetAllResponse = MutableLiveData<ApiEvent<ListTechnicianGetAll?>>()

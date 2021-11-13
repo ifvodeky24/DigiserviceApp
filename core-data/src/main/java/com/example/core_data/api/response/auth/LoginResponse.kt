@@ -31,5 +31,6 @@ internal fun LoginDataResponse.toDomain() = Auth(
     password = password,
     aksesId = aksesId,
     level = level,
-    teknisiId = teknisiId
+    teknisiId = teknisiId,
+    isLogin = false
 )

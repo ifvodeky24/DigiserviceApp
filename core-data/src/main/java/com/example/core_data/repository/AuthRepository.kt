@@ -13,6 +13,7 @@ import com.example.core_data.domain.ListJenisHp
 import com.example.core_data.domain.ListJenisKerusakan
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
+import com.example.core_data.persistence.entity.auth.toDomain
 import com.example.core_data.persistence.entity.auth.toEntity
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,9 @@ class AuthRepository internal constructor(
     private val dao: AuthDao,
     private val jsonParser: Moshi,
 ) {
+
+    suspend fun getAuth() = dao.selectAuth()
+        ?.toDomain()
 
     fun login(
         email: String,
@@ -40,7 +44,9 @@ class AuthRepository internal constructor(
                 is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
 
                 is ApiResult.OnSuccess -> with(apiResult.response.result) {
-                    dao.replace(this.toDomain().toEntity())
+                    dao.replace(this.toDomain().toEntity().copy(
+                        isLogin = true
+                    ))
                     ApiEvent.OnSuccess.fromServer(this.toDomain())
                 }
             }
