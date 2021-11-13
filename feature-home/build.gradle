@@ -5,5 +5,7 @@ plugins {
 apply(from: "../shared_dependencies_feature.gradle")
 
 dependencies {
+    implementation deps.coil
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

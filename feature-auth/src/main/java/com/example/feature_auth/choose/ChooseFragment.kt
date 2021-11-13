@@ -1,10 +1,13 @@
 package com.example.feature_auth.choose
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -36,6 +39,20 @@ class ChooseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
+        setInput()
+    }
+
+    private fun setInput() {
+        binding.edtInputDescription.addTextChangedListener { text ->
+            chooseViewModel.putEditDataValue(
+                inputType = TypeInput.ITEM_INPUT_TYPE_DESKRIPSI,
+                indexId = -1,
+                value = text.toString()
+            )
+        }
+        binding.btnSubmit.setOnClickListener {
+            chooseViewModel.saveForm(chooseViewModel.getFinalInput())
+        }
     }
 
     private fun observeData() {
@@ -43,8 +60,9 @@ class ChooseFragment : Fragment() {
         chooseViewModel.liveJenisHp.observe(viewLifecycleOwner, { event ->
             when(event)
             {
-                //is ApiEvent.OnProgress -> showProgress()
+                // is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
+                    chooseViewModel jenisHp it
                     setupRecycler(it)
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
@@ -59,6 +77,7 @@ class ChooseFragment : Fragment() {
             {
                 //is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
+                    chooseViewModel jenisKerusakan it
                     setupRecyclerJenisKeruskan(it)
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
@@ -67,6 +86,28 @@ class ChooseFragment : Fragment() {
                 }
             }
         })
+        chooseViewModel.isFormCompleted.observe(viewLifecycleOwner, {
+            disableEnableButton(it)
+        })
+    }
+
+    private fun disableEnableButton(isEnable: Boolean) {
+        if (isEnable)
+        {
+            binding.btnSubmit.isEnabled = isEnable
+            binding.btnSubmit.backgroundTintList =ContextCompat.getColorStateList(
+                requireContext(),
+                R.color.colorCobaltBlue
+            )
+        }
+        else
+        {
+            binding.btnSubmit.isEnabled = isEnable
+            binding.btnSubmit.backgroundTintList = ContextCompat.getColorStateList(
+                requireContext(),
+                R.color.colorLightBlueGrey
+            )
+        }
     }
 
     private fun setupRecyclerJenisKeruskan(listJenisKerusakan: ListJenisKerusakan) {
@@ -76,6 +117,14 @@ class ChooseFragment : Fragment() {
             withItem<JenisKerusakan, ItemViewHolder>(R.layout.layout_items){
                 onBind(::ItemViewHolder){ index, item ->
                     titleCheckBox.text = item.namaKerusakan
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        chooseViewModel.putEditDataValue(
+                            itemId =item.idKerusakan,
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
                 }
             }
         }
@@ -88,6 +137,14 @@ class ChooseFragment : Fragment() {
             withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
                 onBind(::ItemViewHolder){ index, item ->
                     titleCheckBox.text = item.jenisNama
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        chooseViewModel.putEditDataValue(
+                            itemId =item.jenisId,
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
                 }
             }
         }
@@ -98,4 +155,10 @@ class ChooseFragment : Fragment() {
         _binding = null
     }
 
+}
+
+internal enum class TypeInput(val inputType: String){
+    ITEM_INPUT_TYPE_JENIS_HP("JENIS_HP"),
+    ITEM_INPUT_TYPE_JENIS_KERUSAKAN("JENIS_KERUSAKAN"),
+    ITEM_INPUT_TYPE_DESKRIPSI("DESKRIPSI")
 }

@@ -54,7 +54,7 @@ val Application.dataModule
         single { get<CoreDatabase>().authDao() }
         single { get<CoreDatabase>().technicianDao() }
 
-        single { AuthRepository(get(), get(), get(), get()) }
+        single { AuthRepository(get(), get(), get(), get(), get()) }
         single { TechnicianRepository(get(), get(), get(), get()) }
     }
 

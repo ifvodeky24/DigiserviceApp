@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.ApiException
-import com.example.core_data.api.response.ErrorResponse
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.bindLifecycle
 import com.example.core_util.dismissKeyboard

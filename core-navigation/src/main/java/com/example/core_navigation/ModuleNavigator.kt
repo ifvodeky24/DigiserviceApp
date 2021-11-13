@@ -1,6 +1,8 @@
 package com.example.core_navigation
 
+import android.content.Context
 import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
@@ -48,3 +50,31 @@ private fun Fragment.startActivity(intent: Intent, finnishCurrent: Boolean) {
 
 private fun Fragment.startActivity(activityClassPath: ActivityClassPath, finnishCurrent: Boolean) =
     startActivity(activityClassPath.getIntent(requireContext()), finnishCurrent)
+
+interface Auth :ModuleNavigator {
+
+}
+
+data class MapParameter(
+    val lat: Double,
+    val lng: Double,
+)
+data class ResultMapParameter(
+    val lat: Double,
+    val lng: Double,
+    val address: String,
+)
+
+private class DataMapsResult : ActivityResultContract<MapParameter, ResultMapParameter>(){
+    override fun createIntent(context: Context, input: MapParameter?): Intent {
+//        ActivityClassPath.Map.getIntent(context).apply {
+//            putExtra()
+//        }
+        TODO("Not yet implemented")
+    }
+
+    override fun parseResult(resultCode: Int, intent: Intent?): ResultMapParameter {
+        TODO("Not yet implemented")
+    }
+
+}

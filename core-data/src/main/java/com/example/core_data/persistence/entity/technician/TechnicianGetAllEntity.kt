@@ -7,7 +7,7 @@ import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 
 @Entity
-internal data class TechnicianGetAllEntity(
+data class TechnicianGetAllEntity(
     @PrimaryKey
     val teknisiId: Int,
     val email: String,

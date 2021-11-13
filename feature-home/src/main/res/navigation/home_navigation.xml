@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.feature_home.AccountFragment"
+        android:name="com.example.feature_home.account.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
 

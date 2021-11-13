@@ -7,6 +7,8 @@ apply(from: "../shared_dependencies.gradle")
 dependencies {
     //region Common
 
+    implementation project(':core-resource')
+
     implementation deps.coroutines
     implementation deps.material
 

@@ -77,4 +77,16 @@
     <color name="grey_90">#263238</color>
     <color name="grey_95">#1a1a1a</color>
     <color name="grey_100_">#0d0d0d</color>
+
+    <color name="colorBackgroundPrimary">#F7F7F7</color>
+
+    <color name="colorPlaceHolder">#B6B6B6</color>
+
+    <color name="colorTextPrimary">#101010</color>
+
+    <color name="colorTextSecondary">#999999</color>
+
+    <color name="colorBackgroundSecondary">#FFFFFF</color>
+    <color name="colorDivider">#F5F5F5</color>
+
 </resources>

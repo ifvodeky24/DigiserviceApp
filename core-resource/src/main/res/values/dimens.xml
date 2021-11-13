@@ -88,6 +88,12 @@
     <dimen name="width60">60dp</dimen>
     <dimen name="height1">1dp</dimen>
 
+
+    <dimen name="radius">20dp</dimen>
+    <dimen name="radiusSmall">6dp</dimen>
+    <dimen name="radiusCircle">200dp</dimen>
+    <dimen name="radiusInput">10dp</dimen>
+
     <!-- Card -->
     <dimen name="cardPaddingTop">25dp</dimen>
     <dimen name="cardPaddingLeft">16dp</dimen>
@@ -103,4 +109,11 @@
     <!-- Button -->
     <dimen name="buttonNavigationBottomHeight">44dp</dimen>
     <dimen name="buttonImportantNotesHeight">40dp</dimen>
+
+    <dimen name="profilePicture">44dp</dimen>
+    <dimen name="profilePictureMedium">55dp</dimen>
+    <dimen name="profilePictureBig">65dp</dimen>
+
+    <dimen name="divider">0.8dp</dimen>
+
 </resources>

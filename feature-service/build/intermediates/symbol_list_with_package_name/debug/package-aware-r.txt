@@ -374,6 +374,9 @@ attr destination
 attr dialogCornerRadius
 attr dialogPreferredPadding
 attr dialogTheme
+attr digi_edit_text_style
+attr digi_font_family
+attr digi_font_style
 attr displayOptions
 attr divider
 attr dividerHorizontal
@@ -825,6 +828,12 @@ attr reactiveGuide_animateChange
 attr reactiveGuide_applyToAllConstraintSets
 attr reactiveGuide_applyToConstraintSet
 attr reactiveGuide_valueId
+attr recyclerViewDividerAsSpace
+attr recyclerViewDividerDrawable
+attr recyclerViewDividerInsetEnd
+attr recyclerViewDividerInsetStart
+attr recyclerViewDividerSize
+attr recyclerViewDividerTint
 attr recyclerViewStyle
 attr region_heightLessThan
 attr region_heightMoreThan
@@ -1163,6 +1172,8 @@ color chucker_status_default
 color chucker_status_error
 color chucker_status_requested
 color colorAccent
+color colorBackgroundPrimary
+color colorBackgroundSecondary
 color colorBattleshipGrey
 color colorBgColorTextInput
 color colorBlack
@@ -1177,6 +1188,7 @@ color colorDarkBlue
 color colorDarkRed
 color colorDelete
 color colorDeleteBackground
+color colorDivider
 color colorDodgerBlue
 color colorFairPink
 color colorFemale
@@ -1203,6 +1215,7 @@ color colorOrangePeel
 color colorOrangeYellow
 color colorPalePurple
 color colorPastelGreen
+color colorPlaceHolder
 color colorPrimary
 color colorPrimaryDark
 color colorRed
@@ -1211,6 +1224,8 @@ color colorRedStop
 color colorRegular
 color colorSea
 color colorTeaGreen
+color colorTextPrimary
+color colorTextSecondary
 color colorTranslucentNavigationBar
 color colorTransparentPin
 color colorUltraMarine
@@ -1554,6 +1569,7 @@ dimen design_tab_text_size_2line
 dimen design_textinput_caption_translate_y
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
+dimen divider
 dimen dotTitleCardWidth
 dimen dotWidth
 dimen dotWidthSmall
@@ -1863,6 +1879,13 @@ dimen notification_top_pad
 dimen notification_top_pad_large_text
 dimen paddingEditText
 dimen primaryButtonHeight
+dimen profilePicture
+dimen profilePictureBig
+dimen profilePictureMedium
+dimen radius
+dimen radiusCircle
+dimen radiusInput
+dimen radiusSmall
 dimen small
 dimen smallDotWidth
 dimen smallIconWidth
@@ -1872,6 +1895,10 @@ dimen subtitle_corner_radius
 dimen subtitle_outline_width
 dimen subtitle_shadow_offset
 dimen subtitle_shadow_radius
+dimen swipe_default_text_size
+dimen swipe_text_margin
+dimen swipe_text_margin_half
+dimen swipe_text_margin_less
 dimen test_mtrl_calendar_day_cornerSize
 dimen test_navigation_bar_active_item_max_width
 dimen test_navigation_bar_active_item_min_width
@@ -2039,6 +2066,7 @@ drawable ic_account_circle
 drawable ic_clock_black_24dp
 drawable ic_home_black_24dp
 drawable ic_keyboard_black_24dp
+drawable ic_map
 drawable ic_more_vert
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
@@ -2083,12 +2111,16 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable shape_circle_placeholder
+drawable shape_round
 drawable test_custom_background
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+font antic
 id BOTTOM_END
 id BOTTOM_START
 id FirstFragment
+id GoogleSans
 id NO_DEBUG
 id SHOW_ALL
 id SHOW_PATH
@@ -2097,6 +2129,7 @@ id SecondFragment
 id TOP_END
 id TOP_START
 id accelerate
+id accent
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
 id accessibility_custom_action_1
@@ -2180,6 +2213,8 @@ id bestChoice
 id binaryData
 id blocking
 id bodyLine
+id bold
+id bold_italic
 id bottom
 id bounce
 id buttonPanel
@@ -2276,6 +2311,7 @@ id fragment_container_view_tag
 id frost
 id ghost_view
 id ghost_view_holder
+id glide_custom_view_target_tag
 id gone
 id group_divider
 id guideline
@@ -2332,6 +2368,8 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id media_actions
+id medium
+id medium_italic
 id message
 id method
 id middle
@@ -2405,11 +2443,15 @@ id percent
 id pin
 id position
 id postLayout
+id primary
 id progress_circular
 id progress_horizontal
 id protocol
 id radio
+id rec_view_item_selectable_data_source
+id rec_view_item_view_holder
 id rectangles
+id regular
 id requestSize
 id requestSizeLabel
 id requestTime
@@ -2450,6 +2492,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id secondary
 id select_dialog_listview
 id selected
 id selection_type
@@ -2950,6 +2993,7 @@ string previous
 string search_menu_title
 string second_fragment_label
 string status_bar_notification_info_overflow
+string text_dash
 string title_account
 string title_activity_service
 string title_dashboard
@@ -3359,6 +3403,9 @@ style TextAppearance_MaterialComponents_Tooltip
 style TextAppearance_Widget_AppCompat_ExpandedMenu_Item
 style TextAppearance_Widget_AppCompat_Toolbar_Subtitle
 style TextAppearance_Widget_AppCompat_Toolbar_Title
+style ThemeLayoutHorizontal
+style ThemeLayoutVertical
+style ThemeMarginHorizontal
 style ThemeOverlayColorAccentRed
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar
@@ -3746,6 +3793,7 @@ styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_a
 styleable CustomAttribute attributeName customBoolean customColorDrawableValue customColorValue customDimension customFloatValue customIntegerValue customPixelDimension customReference customStringValue methodName
 styleable DesignTheme bottomSheetDialogTheme bottomSheetStyle
 styleable DialogFragmentNavigator android_name
+styleable DigiView digi_edit_text_style digi_font_family digi_font_style
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable DrawerLayout elevation
 styleable ExtendedFloatingActionButton collapsedSize elevation extendMotionSpec hideMotionSpec showMotionSpec shrinkMotionSpec

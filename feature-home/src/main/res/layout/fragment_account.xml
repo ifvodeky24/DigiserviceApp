@@ -1,14 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
+    style="@style/ThemeLayoutVertical"
+    android:background="@color/colorBackgroundPrimary"
+    android:clipToPadding="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/ThemeLayoutHorizontal"
+            android:id="@+id/layoutTopUser"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingLeft="@dimen/medium"
+            android:paddingRight="@dimen/medium"
+            android:paddingTop="@dimen/medium_fit"
+            android:paddingBottom="@dimen/medium_fit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry">
+
+            <ImageView
+                android:id="@+id/imageProfilePicture"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/shape_circle_placeholder"
+                android:layout_width="@dimen/profilePictureBig"
+                android:layout_height="@dimen/profilePictureBig"
+                android:contentDescription="@string/image" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toTopOf="@id/imageProfilePicture"
+                app:layout_constraintBottom_toBottomOf="@id/imageProfilePicture"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/imageProfilePicture"
+                android:layout_marginStart="@dimen/very_small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="bold"
+                    android:id="@+id/labelStoreName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_dash"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginEnd="@dimen/medium"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/labelPhone"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_small"
+                    app:layout_constraintTop_toBottomOf="@id/labelStoreName"
+                    app:layout_constraintLeft_toLeftOf="@id/labelStoreName"
+                    app:layout_constraintRight_toRightOf="@id/labelStoreName"
+                    android:text="@string/text_dash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/ThemeMarginHorizontal"
+            android:id="@+id/layoutUserInformation"
+            android:layout_marginTop="@dimen/medium"
+            app:layout_constraintTop_toBottomOf="@id/layoutTopUser"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="@dimen/medium_fit"
+            android:background="@drawable/shape_round"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <com.example.core_util.DigiTextView
+                android:id="@+id/labelUserInformation"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:digi_font_style="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_medium"
+                android:text="Informasi Pengguna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.example.core_util.DigiTextView
+                android:id="@+id/buttonSignOut"
+                app:layout_constraintTop_toTopOf="@id/labelUserInformation"
+                app:layout_constraintBottom_toBottomOf="@id/labelUserInformation"
+                app:layout_constraintRight_toLeftOf="@id/buttonEdit"
+                android:layout_marginEnd="@dimen/medium"
+                app:digi_font_style="bold"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_small"
+                android:text="Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.example.core_util.DigiTextView
+                android:id="@+id/buttonEdit"
+                app:layout_constraintTop_toTopOf="@id/labelUserInformation"
+                app:layout_constraintBottom_toBottomOf="@id/labelUserInformation"
+                app:layout_constraintRight_toRightOf="parent"
+                app:digi_font_style="bold"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_small"
+                android:text="Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                app:layout_constraintTop_toBottomOf="@id/labelUserInformation"
+                android:layout_marginTop="@dimen/medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="medium"
+                    android:id="@+id/labelEmail"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/text_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Nama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="medium"
+                    android:id="@+id/labelName"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/text_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Deskripsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="medium"
+                    android:textColor="@color/colorTextPrimary"
+                    android:id="@+id/labelDescription"
+                    android:text="@string/text_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="medium"
+                    android:id="@+id/labelAddress"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/text_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.example.core_util.DigiTextView
+                    android:layout_marginTop="@dimen/medium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_small"
+                    android:text="Jenis HP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_jenis_hp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

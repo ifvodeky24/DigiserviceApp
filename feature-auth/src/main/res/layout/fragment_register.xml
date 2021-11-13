@@ -100,6 +100,51 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:layout_marginTop="@dimen/medium"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_layout_email"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            android:textColor="@color/colorRed"
+            app:layout_constraintTop_toTopOf="@+id/tv_pwd"
+            android:layout_marginHorizontal="@dimen/small"
+            app:layout_constraintStart_toEndOf="@+id/tv_pwd"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_layout_pwd"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/empty"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small"
+            android:paddingVertical="@dimen/very_small"
+            android:textColorHint="@color/colorGreyishBrown"
+            app:boxStrokeColor="@color/colorCobaltBlue"
+            app:layout_constraintTop_toBottomOf="@+id/tv_pwd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_input_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:background="@drawable/bg_selector_disabled" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_store_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,7 +153,7 @@
             android:textSize="@dimen/text_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_layout_email"/>
+            app:layout_constraintTop_toBottomOf="@+id/edt_layout_pwd"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -167,10 +212,11 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_name" />
 
-        <com.google.android.gms.maps.MapView
+        <fragment
             android:id="@+id/map_view"
             android:layout_width="0dp"
             android:layout_height="150dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_marginTop="@dimen/smaller"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
