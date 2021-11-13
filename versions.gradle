@@ -159,7 +159,6 @@ ext.deps = [
 
         coil              : "io.coil-kt:coil:$versions.coil",
 
-        ],
         lifecycle           : [
                 "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
                 "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
