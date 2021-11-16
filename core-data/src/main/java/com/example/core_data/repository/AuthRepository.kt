@@ -39,6 +39,9 @@ class AuthRepository internal constructor(
     }
 
 
+    suspend fun getAuth() = dao.selectAuth()
+        ?.toDomain()
+
     fun login(
         email: String,
         password: String
@@ -54,7 +57,9 @@ class AuthRepository internal constructor(
                 is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
 
                 is ApiResult.OnSuccess -> with(apiResult.response.result) {
-                    dao.replace(this.toDomain().toEntity())
+                    dao.replace(this.toDomain().toEntity().copy(
+                        isLogin = true
+                    ))
                     ApiEvent.OnSuccess.fromServer(this.toDomain())
                 }
             }

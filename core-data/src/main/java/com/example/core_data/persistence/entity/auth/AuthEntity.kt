@@ -13,7 +13,8 @@ internal data class AuthEntity(
     val password: String = "",
     val aksesId: Int = 0,
     val level: String = "",
-    val teknisiId: Int = 0
+    val teknisiId: Int = 0,
+    val isLogin: Boolean = false
 )
 
 internal fun AuthEntity.toDomain() =
@@ -24,7 +25,8 @@ internal fun AuthEntity.toDomain() =
         password = password,
         aksesId = aksesId,
         level = level,
-        teknisiId = teknisiId
+        teknisiId = teknisiId,
+        isLogin = isLogin
     )
 
 internal fun Auth.toEntity() =
@@ -35,5 +37,6 @@ internal fun Auth.toEntity() =
         password = password,
         aksesId = aksesId,
         level = level,
-        teknisiId = teknisiId
+        teknisiId = teknisiId,
+        isLogin = isLogin
     )

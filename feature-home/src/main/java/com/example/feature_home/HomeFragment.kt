@@ -1,20 +1,15 @@
 package com.example.feature_home
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.domain.JenisKerusakan
-import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.databinding.FragmentHomeBinding
@@ -42,12 +37,27 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+        setHasOptionsMenu(true)
+
         homeViewModel.technicianGetAll()
         homeViewModel.findNearbyTechnician("1","1")
 
         observeTechnicianGetAll()
         observeNearbyTechnician()
+
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search -> {
+                    Toast.makeText(requireActivity(), "search", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
     }
+
 
     private fun observeNearbyTechnician() {
         homeViewModel.findNearbyTechnicianResponse.observe(viewLifecycleOwner, { findNearbyTechnician ->
@@ -118,6 +128,17 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.menu_home, menu);
+//
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

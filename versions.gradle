@@ -54,6 +54,7 @@ ext.versions = [
         recyclical_swipe     : '1.1.1',
         recycler_view_divider: '3.5.0',
         glide                : '4.12.0',
+        lifecycle                  : '2.4.0-alpha01',
         recyclical             : '1.1.1',
         recyclical_swipe       : '1.1.1',
         recycler_view_divider  : '3.5.0',
@@ -160,6 +161,14 @@ ext.deps = [
 
         coil              : "io.coil-kt:coil:$versions.coil",
 
-        lottie            : "com.airbnb.android:lottie:$versions.lottie"
+        lottie            : "com.airbnb.android:lottie:$versions.lottie",
 
+        lifecycle           : [
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
+                "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
+                "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycle",
+                "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
+                "androidx.lifecycle:lifecycle-service:$versions.lifecycle",
+                "androidx.lifecycle:lifecycle-process:$versions.lifecycle"
+        ],
 ]

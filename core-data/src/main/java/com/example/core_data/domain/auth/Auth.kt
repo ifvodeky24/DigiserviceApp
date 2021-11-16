@@ -7,5 +7,6 @@ data class Auth(
     val password: String = "",
     val aksesId: Int = 0,
     val level: String = "",
-    val teknisiId: Int = 0
+    val teknisiId: Int = 0,
+    val isLogin: Boolean = false,
 )

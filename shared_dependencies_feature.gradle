@@ -28,4 +28,6 @@ dependencies {
     implementation deps.glide
     annotationProcessor deps.glide
 
+    implementation deps.lifecycle
+
 }
