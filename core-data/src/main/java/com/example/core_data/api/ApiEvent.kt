@@ -2,7 +2,7 @@ package com.example.core_data.api
 
 sealed class ApiEvent<out DATA> {
 
-    protected var hasBeenConsumed: Boolean = false
+    var hasBeenConsumed: Boolean = false
     val hasNotBeenConsumed: Boolean
         get() = hasBeenConsumed.not()
 

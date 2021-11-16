@@ -71,11 +71,24 @@
 
     <color name="colorPlaceHolder">#B6B6B6</color>
 
-    <color name="colorTextPrimary">#101010</color>
-
-    <color name="colorTextSecondary">#999999</color>
-
     <color name="colorBackgroundSecondary">#FFFFFF</color>
     <color name="colorDivider">#F5F5F5</color>
+
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="colorButtonTextPrimary">#FFF</color>
+
+    <color name="colorInputSecondaryDisabled">#6D6D6D</color>
+
+    <color name="colorTextAccent">#053F5E</color>
+    <color name="colorTextPrimary">#101010</color>
+    <color name="colorTextSecondary">#999999</color>
+    <color name="colorTextPressed">#000000</color>
+    <color name="colorTextDisabled">#C9505050</color>
+
+    <color name="colorInputPrimary">#FFFFFF</color>
+    <color name="colorInputPrimaryPressed">#F3F3F3</color>
+    <color name="colorInputPrimaryFocused">#F0F0F0</color>
+    <color name="colorInputPrimaryDisabled">#6D6D6D</color>
 
 </resources>

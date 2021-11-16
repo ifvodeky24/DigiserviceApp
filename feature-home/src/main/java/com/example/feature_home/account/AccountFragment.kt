@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -38,6 +39,11 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.buttonEdit.setOnClickListener {
+            findNavController().navigate(R.id.editAccountFragment)
+        }
+
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
             if (auth?.level == "teknisi"){
                 binding.labelEmail.text = auth.email
@@ -45,7 +51,9 @@ class AccountFragment : Fragment() {
                 accountViewModel.setCurrentTechinicial(auth.email)
 
                 accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
-                    if (tech?.teknisiFoto?.isNotEmpty() == true) binding.imageProfilePicture.load(tech?.teknisiFoto){
+                    if (tech?.teknisiFoto?.isNotEmpty() == true) binding.imageProfilePicture.load(
+                        tech.teknisiFoto
+                    ){
                         crossfade(true)
                         transformations(CircleCropTransformation())
                     }
@@ -82,8 +90,6 @@ class AccountFragment : Fragment() {
             }
 
         })
-
-
     }
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {

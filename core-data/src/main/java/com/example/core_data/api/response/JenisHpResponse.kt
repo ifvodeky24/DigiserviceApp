@@ -13,6 +13,10 @@ internal data class JenisHpResponse(
 
 @JsonClass(generateAdapter = true)
 internal data class DataJenisHpResponse(
+    @Json(name = "id")
+    val idDetailJenisKerusakan: Int = 0,
+    @Json(name = "teknisi_jenis_hp_id")
+    val teknisiJenisHpId: Int = 0,
     @Json(name = "jenis_id")
     val jenisId: Int = 0,
     @Json(name = "jenis_nama")
@@ -28,6 +32,8 @@ internal fun ListJenisHpResponse.toDomain() = map {
 }
 
 internal fun DataJenisHpResponse.toDomain() = JenisHp(
+    id = idDetailJenisKerusakan,
+    teknisiJenisHpId = teknisiJenisHpId,
     jenisId = jenisId,
     jenisNama = jenisNama,
     jenisThumbnail = jenisThumbnail

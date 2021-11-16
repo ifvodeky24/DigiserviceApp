@@ -2,7 +2,6 @@ package com.example.core_data.persistence.entity.technician
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.core_data.domain.auth.Auth
 import com.example.core_data.domain.technician.ListTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 

@@ -16,12 +16,14 @@ data class RequestChoose(
 
 @JsonClass(generateAdapter = true)
 data class JenisHpRequest(
+    val id: Int = 0,
     @Json(name = "jenis_hp_id")
     val jenisHpId: Int
 )
 
 @JsonClass(generateAdapter = true)
 data class JenisKerusakanRequest(
+    val id: Int = 0,
     @Json(name = "kerusakan_jenis_hp_id")
     val kerusakanJenisHpId: Int
 )

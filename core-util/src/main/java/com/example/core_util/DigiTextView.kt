@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatTextView
+import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
 
-class DigiTextView : AppCompatTextView {
+class DigiTextView : MaterialTextView {
     private var fontStyle: Int = 0
     private var fontName: Int = 0
 

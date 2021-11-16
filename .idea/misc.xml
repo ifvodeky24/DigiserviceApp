@@ -10,19 +10,28 @@
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_disable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_enable_focusable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_focusable.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/dialog_api_failed_network.xml" value="0.26205128205128203" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_close_white.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_map.xml" value="0.14537037037037037" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_user.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/input_primary.xml" value="0.2703125" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/input_secondary.xml" value="0.1" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/shape_circle_placeholder.xml" value="0.14074074074074075" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/layout/fragment_error_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/layout/fragment_progress_dialog.xml" value="0.25" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/activity_auth.xml" value="0.16" />
-        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_choose.xml" value="0.136" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_choose.xml" value="0.1" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_maps.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_register.xml" value="0.4" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_register.xml" value="0.27030033370411566" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/fragment_splash.xml" value="0.1" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/layout_items.xml" value="0.4" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_account.xml" value="0.264" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_edit_account.xml" value="0.4" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_produk.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_skils.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/layout_items.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

@@ -664,6 +664,24 @@ attr listPreferredItemPaddingRight
 attr listPreferredItemPaddingStart
 attr logo
 attr logoDescription
+attr lottieAnimationViewStyle
+attr lottie_autoPlay
+attr lottie_cacheComposition
+attr lottie_colorFilter
+attr lottie_enableMergePathsForKitKatAndAbove
+attr lottie_fallbackRes
+attr lottie_fileName
+attr lottie_ignoreDisabledSystemAnimations
+attr lottie_imageAssetsFolder
+attr lottie_loop
+attr lottie_progress
+attr lottie_rawRes
+attr lottie_renderMode
+attr lottie_repeatCount
+attr lottie_repeatMode
+attr lottie_scale
+attr lottie_speed
+attr lottie_url
 attr materialAlertDialogBodyTextStyle
 attr materialAlertDialogTheme
 attr materialAlertDialogTitleIconStyle
@@ -1179,6 +1197,7 @@ color colorBgColorTextInput
 color colorBlack
 color colorBorderCard
 color colorButtonPrimaryVariant
+color colorButtonTextPrimary
 color colorCard
 color colorCobaltBlue
 color colorCobaltBlue30
@@ -1201,6 +1220,11 @@ color colorGreyBrown
 color colorGreyishBrown
 color colorHintOfRed
 color colorIconBaru
+color colorInputPrimary
+color colorInputPrimaryDisabled
+color colorInputPrimaryFocused
+color colorInputPrimaryPressed
+color colorInputSecondaryDisabled
 color colorLightBlue
 color colorLightBlueGrey
 color colorLightBlueGreyOut
@@ -1224,9 +1248,13 @@ color colorRedStop
 color colorRegular
 color colorSea
 color colorTeaGreen
+color colorTextAccent
+color colorTextDisabled
+color colorTextPressed
 color colorTextPrimary
 color colorTextSecondary
 color colorTranslucentNavigationBar
+color colorTransparent
 color colorTransparentPin
 color colorUltraMarine
 color colorVeryLightBlue
@@ -1516,6 +1544,16 @@ dimen compat_button_padding_vertical_material
 dimen compat_control_corner_material
 dimen compat_notification_large_icon_max_height
 dimen compat_notification_large_icon_max_width
+dimen component_big
+dimen component_extra
+dimen component_extra_big
+dimen component_huge
+dimen component_medium
+dimen component_normal
+dimen component_small
+dimen component_special
+dimen component_super
+dimen component_tiny
 dimen cornerRadius1x
 dimen countWidth
 dimen def_drawer_elevation
@@ -1593,6 +1631,8 @@ dimen huge_fit
 dimen huge_fit_min
 dimen huge_fit_pluss
 dimen huge_plus
+dimen input_height
+dimen input_height_big
 dimen item_touch_helper_max_drag_scroll_per_frame
 dimen item_touch_helper_swipe_escape_max_velocity
 dimen item_touch_helper_swipe_escape_velocity
@@ -1910,14 +1950,20 @@ dimen test_navigation_bar_item_min_width
 dimen test_navigation_bar_label_padding
 dimen test_navigation_bar_shadow_height
 dimen test_navigation_bar_text_size
+dimen text_big
+dimen text_extra
+dimen text_extra_tiny
 dimen text_huge
 dimen text_huge_fit
 dimen text_large
 dimen text_large_fit
 dimen text_medium
 dimen text_medium_fit
+dimen text_normal
 dimen text_regular
 dimen text_small
+dimen text_special
+dimen text_super
 dimen text_tiny
 dimen text_very_huge
 dimen text_very_large
@@ -2032,7 +2078,6 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
-drawable bg_selector_disabled
 drawable bg_text_disable
 drawable bg_text_enable_focusable
 drawable bg_text_focusable
@@ -2061,8 +2106,10 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable dialog_api_failed_network
 drawable ic_account_circle
 drawable ic_clock_black_24dp
+drawable ic_close_white
 drawable ic_home_black_24dp
 drawable ic_keyboard_black_24dp
 drawable ic_map
@@ -2075,6 +2122,9 @@ drawable ic_notifications_black_24dp
 drawable ic_search
 drawable ic_service
 drawable ic_shopping_cart
+drawable ic_user
+drawable input_primary
+drawable input_secondary
 drawable logo
 drawable material_cursor_drawable
 drawable material_ic_calendar_black_24dp
@@ -2198,6 +2248,8 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
+id automatic
+id av
 id barrier
 id barrierRequestSize
 id barrierRequestTime
@@ -2212,6 +2264,8 @@ id bold
 id bold_italic
 id bottom
 id bounce
+id btn_close
+id btn_positive
 id buttonPanel
 id button_text
 id cancel_action
@@ -2307,6 +2361,7 @@ id glide_custom_view_target_tag
 id gone
 id group_divider
 id guideline
+id hardware
 id header_title
 id home
 id honorRequest
@@ -2337,6 +2392,7 @@ id linear
 id listMode
 id list_item
 id loadingProgress
+id lottie_layer_name
 id masked
 id match_constraint
 id match_parent
@@ -2453,11 +2509,14 @@ id responseSize
 id responseSizeLabel
 id responseTime
 id responseTimeLabel
+id restart
+id reverse
 id reverseSawtooth
 id right
 id rightToLeft
 id right_icon
 id right_side
+id root
 id rounded
 id row_index_key
 id save_body
@@ -2500,6 +2559,7 @@ id slide
 id smallLabel
 id snackbar_action
 id snackbar_text
+id software
 id south
 id spacer
 id special_effects_controller_view_tag
@@ -2587,6 +2647,8 @@ id transition_transform
 id triangle
 id tutorialLink
 id tutorialView
+id tv_content
+id tv_title
 id unchecked
 id uniform
 id unlabeled
@@ -2707,6 +2769,8 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_password_icon
 layout design_text_input_start_icon
+layout fragment_error_dialog
+layout fragment_progress_dialog
 layout material_chip_input_combo
 layout material_clock_display
 layout material_clock_display_divider
@@ -2790,6 +2854,10 @@ menu chucker_transaction
 menu chucker_transactions_list
 navigation profile_navigation
 plurals mtrl_badge_content_description
+raw dialog_api_failed_offline
+raw dialog_api_failed_server
+raw dialog_api_failed_unknown
+raw lottie_loading
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -2902,6 +2970,14 @@ string chucker_url
 string chucker_yes
 string clear_text_end_icon_content_description
 string colorBlackOverlay
+string dialog_api_failed_network_content
+string dialog_api_failed_network_title
+string dialog_api_failed_offline_content
+string dialog_api_failed_offline_title
+string dialog_api_failed_server_content
+string dialog_api_failed_server_title
+string dialog_api_failed_unknown_content
+string dialog_api_failed_unknown_title
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
@@ -2971,6 +3047,7 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string progress_dialog_please_wait
 string search_menu_title
 string status_bar_notification_info_overflow
 string text_dash
@@ -2989,6 +3066,9 @@ style Animation_AppCompat_DropDownUp
 style Animation_AppCompat_Tooltip
 style Animation_Design_BottomSheetDialog
 style Animation_MaterialComponents_BottomSheetDialog
+style BaseTheme_BottomSheet
+style BaseTheme_BottomSheet_ShapeAppearanceOverlay
+style BaseTheme_BottomSheet_Style
 style Base_AlertDialog_AppCompat
 style Base_AlertDialog_AppCompat_Light
 style Base_Animation_AppCompat_Dialog
@@ -3209,6 +3289,7 @@ style Base_Widget_MaterialComponents_Snackbar
 style Base_Widget_MaterialComponents_TextInputEditText
 style Base_Widget_MaterialComponents_TextInputLayout
 style Base_Widget_MaterialComponents_TextView
+style Button
 style CardView
 style CardView_Dark
 style CardView_Light
@@ -3218,6 +3299,10 @@ style Chucker_TextAppearance_ListItem
 style Chucker_TextAppearance_Title
 style Chucker_TextAppearance_Value
 style Chucker_Theme
+style CoreTheme_BottomSheet_Dialog
+style EditText
+style EditText_Primary
+style EditText_Secondary
 style EmptyTheme
 style MaterialAlertDialog_MaterialComponents
 style MaterialAlertDialog_MaterialComponents_Body_Text
@@ -3800,6 +3885,7 @@ styleable LinearLayoutCompat android_baselineAligned android_baselineAlignedChil
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_height android_layout_weight android_layout_width
 styleable LinearProgressIndicator indeterminateAnimationType indicatorDirectionLinear
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
+styleable LottieAnimationView lottie_autoPlay lottie_cacheComposition lottie_colorFilter lottie_enableMergePathsForKitKatAndAbove lottie_fallbackRes lottie_fileName lottie_ignoreDisabledSystemAnimations lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_renderMode lottie_repeatCount lottie_repeatMode lottie_scale lottie_speed lottie_url
 styleable MaterialAlertDialog backgroundInsetBottom backgroundInsetEnd backgroundInsetStart backgroundInsetTop
 styleable MaterialAlertDialogTheme materialAlertDialogBodyTextStyle materialAlertDialogTheme materialAlertDialogTitleIconStyle materialAlertDialogTitlePanelStyle materialAlertDialogTitleTextStyle
 styleable MaterialAutoCompleteTextView android_inputType

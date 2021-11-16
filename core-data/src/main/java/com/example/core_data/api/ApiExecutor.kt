@@ -1,5 +1,6 @@
 package com.example.core_data.api
 
+import android.util.Log
 import com.example.core_data.api.response.ErrorResponse
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
@@ -29,13 +30,29 @@ internal class ApiExecutor(private val jsonParser: Moshi) {
                 is InterruptedIOException -> ApiException.Timeout
                 is ConnectException -> ApiException.Offline
                 is IOException -> ApiException.Network
-                is HttpException -> it.toFailedResponse(errorAdapters + errorResponseAdapters)
+                is HttpException -> {
+                    Log.e("error.http", "error -> HttpException")
+                    it.toHttpException()
+                    it.toFailedResponse(errorAdapters + errorResponseAdapters)
+                }
                 is IllegalArgumentException,
                 is JsonDataException -> ApiException.InvalidResponse(it)
-                else -> ApiException.Unknown(it)
+                else -> {
+                    Log.e("error.http", "error -> UnknownException")
+                    ApiException.Unknowns
+                }
             }
 
         )
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun HttpException.toHttpException(): ApiException.Http = try {
+        response()?.errorBody()?.source()?.let {
+            ApiException.Http(code(), message())
+        } ?: ApiException.Http(code(), message())
+    } catch (exception: Exception) {
+        ApiException.Http(code(), message())
     }
 
     private fun HttpException.toFailedResponse(

@@ -52,7 +52,7 @@
                 android:id="@+id/edt_input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/edt_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -183,7 +183,7 @@
                 android:id="@+id/edt_input_store_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -271,7 +271,7 @@
                 android:id="@+id/edt_input_store_address"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/very_large_plus"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -314,7 +314,7 @@
                 android:id="@+id/edt_input_store_description"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/very_large_plus"
-                android:background="@drawable/bg_selector_disabled" />
+                android:background="@drawable/input_secondary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

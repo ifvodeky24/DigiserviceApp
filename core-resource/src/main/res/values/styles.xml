@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="ThemeOverlay.DigiServices.Button.Secondary" parent="">
         <item name="colorPrimary">@color/colorCobaltBlue</item>
     </style>
 
     <style name="Widget.DigiService.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="digi_font_family">GoogleSans</item>
+        <item name="digi_font_style">bold</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/colorButtonTextPrimary</item>
+        <item name="android:paddingLeft">@dimen/component_big</item>
+        <item name="android:paddingRight">@dimen/component_big</item>
+        <item name="android:paddingTop">@dimen/component_normal</item>
+        <item name="android:paddingBottom">@dimen/component_normal</item>
+        <item name="android:layout_height">@dimen/input_height</item>
+        <item name="android:minHeight">@dimen/input_height</item>
+        <item name="android:maxHeight">@dimen/input_height</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.DigiServices.Button.Secondary</item>
         <item name="cornerRadius">@dimen/small</item>
     </style>
+
     <style name="Widget.DigiService.Spinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="endIconTint">@color/colorGreyishBrown</item>
         <item name="hintEnabled">false</item>
         <item name="boxStrokeColor">@color/colorLightBlueGrey</item>
     </style>
+
     <style name="ThemeLayoutHorizontal">
         <item name="android:paddingLeft">@dimen/medium</item>
         <item name="android:paddingRight">@dimen/medium</item>
     </style>
+
     <style name="ThemeLayoutVertical">
         <item name="android:paddingBottom">@dimen/medium</item>
         <item name="android:paddingTop">@dimen/medium</item>
@@ -29,4 +43,69 @@
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
     </style>
+
+    <style name="Button">
+        <item name="digi_font_family">GoogleSans</item>
+        <item name="digi_font_style">bold</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/colorButtonTextPrimary</item>
+        <item name="android:paddingLeft">@dimen/component_big</item>
+        <item name="android:paddingRight">@dimen/component_big</item>
+        <item name="android:paddingTop">@dimen/component_normal</item>
+        <item name="android:paddingBottom">@dimen/component_normal</item>
+        <item name="android:layout_height">@dimen/input_height</item>
+        <item name="android:minHeight">@dimen/input_height</item>
+        <item name="android:maxHeight">@dimen/input_height</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="EditText">
+        <item name="digi_font_family">GoogleSans</item>
+        <item name="digi_font_style">regular</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:paddingLeft">@dimen/component_big</item>
+        <item name="android:paddingRight">@dimen/component_big</item>
+        <item name="android:paddingTop">@dimen/component_big</item>
+        <item name="android:paddingBottom">@dimen/component_big</item>
+    </style>
+
+    <style name="EditText.Primary">
+        <item name="digi_edit_text_style">primary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="EditText.Secondary">
+        <item name="digi_edit_text_style">secondary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="BaseTheme.BottomSheet.ShapeAppearanceOverlay" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/large</item>
+        <item name="cornerSizeTopRight">@dimen/large</item>
+        <item name="cornerSizeBottomLeft">@dimen/empty</item>
+        <item name="cornerSizeBottomRight">@dimen/empty</item>
+    </style>
+
+    <style name="BaseTheme.BottomSheet.Style" parent="@style/Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">
+            @style/BaseTheme.BottomSheet.ShapeAppearanceOverlay
+        </item>
+    </style>
+
+    <style name="BaseTheme.BottomSheet" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="bottomSheetStyle">@style/BaseTheme.BottomSheet.Style</item>
+    </style>
+
+    <style name="CoreTheme.BottomSheet.Dialog" parent="BaseTheme.BottomSheet">
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+    </style>
+
 </resources>

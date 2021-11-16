@@ -8,4 +8,14 @@
     <string name="title_history">Riwayat</string>
     <string name="title_account">Akun</string>
     <string name="text_dash">-</string>
+    <string name="progress_dialog_please_wait">Mohon Tunggu Sejenak</string>
+    <string name="dialog_api_failed_unknown_title">Error</string>
+    <string name="dialog_api_failed_unknown_content">Mohon maaf, terjadi kesalahan teknis. Silahkan coba kembali.</string>
+    <string name="dialog_api_failed_offline_title">Koneksi Terputus?</string>
+    <string name="dialog_api_failed_offline_content">Mohon periksa koneksi internet perangkat anda.</string>
+    <string name="dialog_api_failed_network_title">Jaringan Error</string>
+    <string name="dialog_api_failed_network_content">Koneksi terganggu. Silahkan coba kembali beberapa saat lagi.</string>
+    <string name="dialog_api_failed_server_title">Gangguan Server</string>
+    <string name="dialog_api_failed_server_content">Server sedang dalam gangguan. Silahkan coba kembali beberapa saat lagi.</string>
+
 </resources>

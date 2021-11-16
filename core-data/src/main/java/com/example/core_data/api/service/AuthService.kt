@@ -1,6 +1,8 @@
 package com.example.core_data.api.service
 
+import androidx.room.Update
 import com.example.core_data.api.request.RequestChoose
+import com.example.core_data.api.request.RequestUpdateTeknisi
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.JenisKerusakanResponse
@@ -49,14 +51,17 @@ internal interface AuthService {
     @POST(SaveChoose)
     suspend fun saveChoose(@Body request: RequestChoose) : CommonResponse
 
+    @POST(UpdateTeknisi)
+    suspend fun updateTeknisi(@Path("id") id: Int, @Body request: RequestUpdateTeknisi) : CommonResponse
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
         const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
         const val SaveChoose = "insert-teknisi-jenis-hp-keahlian"
-        const val JenisKerusakanBy = "insert-teknisi-jenis-hp-keahlian"
         const val SkilsBy = "keahlian-teknisi-by/{teknisi_id}"
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"
+        const val UpdateTeknisi = "teknisi-update/{id}"
     }
 }

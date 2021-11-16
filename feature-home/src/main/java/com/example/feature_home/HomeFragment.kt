@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             binding.rvTerdekat.setup{
                 withDataSource(dataSourceTypedOf(data))
                 withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat){
-                    onBind(::ItemNearbyViewHolder){ index, item ->
+                    onBind(::ItemNearbyViewHolder){ _, item ->
                         tvTeknisiName.text = item.teknisiNama
                        Glide
                             .with(requireActivity())
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
             binding.rvTerpopuler.setup{
                 withDataSource(dataSourceTypedOf(data))
                 withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_terpopuler){
-                    onBind(::ItemPopulerViewHolder){ index, item ->
+                    onBind(::ItemPopulerViewHolder){ _, item ->
                         tvTeknisiName.text = item.teknisiNama
                         tvRating.text = String.format("%.1f", (item.teknisiTotalScore/item.teknisiTotalResponden)).toDouble().toString()
                         Glide

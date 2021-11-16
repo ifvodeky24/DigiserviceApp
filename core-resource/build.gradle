@@ -8,10 +8,18 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src\\main\\java'
+            }
+        }
+    }
 }
 
 dependencies {
     implementation deps.material
-
     implementation deps.constraint_layout
+    implementation deps.lottie
+    implementation project(path: ':core-data')
 }

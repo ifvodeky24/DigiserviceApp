@@ -5,7 +5,9 @@ data class Skils(
     val teknisiKerusakanJenisHpId: Int,
     val jenisKerusakanHpId: Int,
     val teknisiNama: String = "",
-    val namaKerusakan: String = ""
+    val namaKerusakan: String = "",
+    var value: String = "",
+    var isChecked: Boolean = false,
 )
 
 data class ResultSkils(

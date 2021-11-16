@@ -2,16 +2,38 @@ package com.example.core_data.api
 
 sealed class ApiException {
 
+    object Unknowns : ApiException()
     object Offline : ApiException()
     object Timeout : ApiException()
     object Network : ApiException()
+    object NullResponse : ApiException()
+    object EmptyResponse : ApiException()
+
+    data class Http(val httpCode: Int, val message: String) : ApiException() {
+        @Suppress("unused")
+        companion object {
+            const val BAD_REQUEST  = 400
+            const val CLIENT_ERROR = 422
+            const val SERVER_ERROR = 500
+        }
+    }
+
     data class FailedResponse<T>(val error: T? = null) : ApiException(){
         companion object {
             const val STATUS_FAILED = "FAILED"
             const val MESSAGE_FAILED = "FAILED"
         }
     }
+
+//    data class FailedResponse(val errorCode: String) : ApiException() {
+//        companion object {
+//            const val STATUS_FAIL  = "Fail"
+//            const val MESSAGE_FAIL = "FAIL"
+//        }
+//    }
+
     data class InvalidResponse(val throwable: Throwable) : ApiException()
+
     data class Unknown(val throwable: Throwable) : ApiException()
 
     companion object {
