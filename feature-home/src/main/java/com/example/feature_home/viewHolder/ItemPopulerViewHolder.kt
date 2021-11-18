@@ -10,6 +10,6 @@ import com.example.feature_home.R
 class ItemPopulerViewHolder (view: View) : ViewHolder(view) {
     val ivTeknisi: ImageView = view.findViewById(R.id.iv_teknisi)
     val tvTeknisiName: TextView = view.findViewById(R.id.tv_teknisi_name)
-    val tvRating: TextView = view.findViewById(R.id.tv_rating)
+    val tvRating: TextView = view.findViewById(R.id.tv_description)
     val ibMore: ImageButton = view.findViewById(R.id.ib_more)
 }

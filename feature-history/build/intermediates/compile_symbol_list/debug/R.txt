@@ -1311,6 +1311,16 @@ int color error_color_material_dark 0x0
 int color error_color_material_light 0x0
 int color foreground_material_dark 0x0
 int color foreground_material_light 0x0
+int color grey_10 0x0
+int color grey_100_ 0x0
+int color grey_20 0x0
+int color grey_3 0x0
+int color grey_40 0x0
+int color grey_5 0x0
+int color grey_60 0x0
+int color grey_80 0x0
+int color grey_90 0x0
+int color grey_95 0x0
 int color highlighted_text_material_dark 0x0
 int color highlighted_text_material_light 0x0
 int color material_blue_grey_800 0x0
@@ -2107,8 +2117,10 @@ int drawable design_password_eye 0x0
 int drawable design_snackbar_background 0x0
 int drawable dialog_api_failed_network 0x0
 int drawable ic_account_circle 0x0
+int drawable ic_arrow_forward 0x0
 int drawable ic_clock_black_24dp 0x0
 int drawable ic_close_white 0x0
+int drawable ic_comment 0x0
 int drawable ic_home_black_24dp 0x0
 int drawable ic_keyboard_black_24dp 0x0
 int drawable ic_map 0x0
@@ -2118,9 +2130,11 @@ int drawable ic_mtrl_chip_checked_black 0x0
 int drawable ic_mtrl_chip_checked_circle 0x0
 int drawable ic_mtrl_chip_close_circle 0x0
 int drawable ic_notifications_black_24dp 0x0
+int drawable ic_report 0x0
 int drawable ic_search 0x0
 int drawable ic_service 0x0
 int drawable ic_shopping_cart 0x0
+int drawable ic_star 0x0
 int drawable ic_user 0x0
 int drawable input_primary 0x0
 int drawable input_secondary 0x0
@@ -2894,6 +2908,7 @@ int string abc_searchview_description_voice 0x0
 int string abc_shareactionprovider_share_with 0x0
 int string abc_shareactionprovider_share_with_application 0x0
 int string abc_toolbar_collapse_description 0x0
+int string androidx_startup 0x0
 int string appbar_scrolling_view_behavior 0x0
 int string bottom_sheet_behavior 0x0
 int string bottomsheet_action_expand_halfway 0x0
@@ -3063,6 +3078,7 @@ int style Animation_AppCompat_DropDownUp 0x0
 int style Animation_AppCompat_Tooltip 0x0
 int style Animation_Design_BottomSheetDialog 0x0
 int style Animation_MaterialComponents_BottomSheetDialog 0x0
+int style AppTheme 0x0
 int style BaseTheme_BottomSheet 0x0
 int style BaseTheme_BottomSheet_ShapeAppearanceOverlay 0x0
 int style BaseTheme_BottomSheet_Style 0x0
@@ -3546,6 +3562,7 @@ int style Theme_Design_Light 0x0
 int style Theme_Design_Light_BottomSheetDialog 0x0
 int style Theme_Design_Light_NoActionBar 0x0
 int style Theme_Design_NoActionBar 0x0
+int style Theme_DigiserviceApp 0x0
 int style Theme_MaterialComponents 0x0
 int style Theme_MaterialComponents_BottomSheetDialog 0x0
 int style Theme_MaterialComponents_Bridge 0x0
@@ -3595,6 +3612,7 @@ int style Theme_MaterialComponents_Light_NoActionBar 0x0
 int style Theme_MaterialComponents_Light_NoActionBar_Bridge 0x0
 int style Theme_MaterialComponents_NoActionBar 0x0
 int style Theme_MaterialComponents_NoActionBar_Bridge 0x0
+int style Toolbar_Light 0x0
 int style Widget_AppCompat_ActionBar 0x0
 int style Widget_AppCompat_ActionBar_Solid 0x0
 int style Widget_AppCompat_ActionBar_TabBar 0x0

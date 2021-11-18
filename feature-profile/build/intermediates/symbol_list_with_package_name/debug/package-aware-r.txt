@@ -1312,6 +1312,16 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color grey_10
+color grey_100_
+color grey_20
+color grey_3
+color grey_40
+color grey_5
+color grey_60
+color grey_80
+color grey_90
+color grey_95
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -2108,8 +2118,10 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dialog_api_failed_network
 drawable ic_account_circle
+drawable ic_arrow_forward
 drawable ic_clock_black_24dp
 drawable ic_close_white
+drawable ic_comment
 drawable ic_home_black_24dp
 drawable ic_keyboard_black_24dp
 drawable ic_map
@@ -2119,9 +2131,11 @@ drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_notifications_black_24dp
+drawable ic_report
 drawable ic_search
 drawable ic_service
 drawable ic_shopping_cart
+drawable ic_star
 drawable ic_user
 drawable input_primary
 drawable input_secondary
@@ -2897,6 +2911,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string androidx_startup
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string bottomsheet_action_expand_halfway
@@ -3066,6 +3081,7 @@ style Animation_AppCompat_DropDownUp
 style Animation_AppCompat_Tooltip
 style Animation_Design_BottomSheetDialog
 style Animation_MaterialComponents_BottomSheetDialog
+style AppTheme
 style BaseTheme_BottomSheet
 style BaseTheme_BottomSheet_ShapeAppearanceOverlay
 style BaseTheme_BottomSheet_Style
@@ -3549,6 +3565,7 @@ style Theme_Design_Light
 style Theme_Design_Light_BottomSheetDialog
 style Theme_Design_Light_NoActionBar
 style Theme_Design_NoActionBar
+style Theme_DigiserviceApp
 style Theme_MaterialComponents
 style Theme_MaterialComponents_BottomSheetDialog
 style Theme_MaterialComponents_Bridge
@@ -3598,6 +3615,7 @@ style Theme_MaterialComponents_Light_NoActionBar
 style Theme_MaterialComponents_Light_NoActionBar_Bridge
 style Theme_MaterialComponents_NoActionBar
 style Theme_MaterialComponents_NoActionBar_Bridge
+style Toolbar_Light
 style Widget_AppCompat_ActionBar
 style Widget_AppCompat_ActionBar_Solid
 style Widget_AppCompat_ActionBar_TabBar

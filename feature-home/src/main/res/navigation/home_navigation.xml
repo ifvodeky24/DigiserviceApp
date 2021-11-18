@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_service" />
     <fragment
         android:id="@+id/storeFragment"
-        android:name="com.example.feature_home.StoreFragment"
+        android:name="com.example.feature_home.store.StoreFragment"
         android:label="fragment_store"
         tools:layout="@layout/fragment_store" />
     <fragment
@@ -35,5 +35,10 @@
         android:name="com.example.feature_home.account.EditAccountFragment"
         android:label="EditAccountFragment"
         tools:layout="@layout/fragment_edit_account" />
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.example.feature_home.store.ProductFragment"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product" />
 
 </navigation>
