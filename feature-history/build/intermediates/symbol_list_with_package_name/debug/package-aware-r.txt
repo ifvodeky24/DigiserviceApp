@@ -2088,6 +2088,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable bg_image
 drawable bg_text_disable
 drawable bg_text_enable_focusable
 drawable bg_text_focusable
@@ -2118,11 +2119,14 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dialog_api_failed_network
 drawable ic_account_circle
+drawable ic_add_black
+drawable ic_arrow_back
 drawable ic_arrow_forward
 drawable ic_clock_black_24dp
 drawable ic_close_white
 drawable ic_comment
 drawable ic_home_black_24dp
+drawable ic_image_black
 drawable ic_keyboard_black_24dp
 drawable ic_map
 drawable ic_more_vert

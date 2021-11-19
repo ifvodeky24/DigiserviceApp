@@ -2088,6 +2088,7 @@ int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
+int drawable bg_image 0x0
 int drawable bg_text_disable 0x0
 int drawable bg_text_enable_focusable 0x0
 int drawable bg_text_focusable 0x0
@@ -2118,11 +2119,14 @@ int drawable design_password_eye 0x0
 int drawable design_snackbar_background 0x0
 int drawable dialog_api_failed_network 0x0
 int drawable ic_account_circle 0x0
+int drawable ic_add_black 0x0
+int drawable ic_arrow_back 0x0
 int drawable ic_arrow_forward 0x0
 int drawable ic_clock_black_24dp 0x0
 int drawable ic_close_white 0x0
 int drawable ic_comment 0x0
 int drawable ic_home_black_24dp 0x0
+int drawable ic_image_black 0x0
 int drawable ic_keyboard_black_24dp 0x0
 int drawable ic_map 0x0
 int drawable ic_more_vert 0x0
