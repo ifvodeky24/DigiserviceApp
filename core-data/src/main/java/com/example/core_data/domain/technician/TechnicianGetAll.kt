@@ -1,6 +1,9 @@
 package com.example.core_data.domain.technician
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TechnicianGetAll(
     val teknisiId: Int = 0,
     val email: String = "",
@@ -17,6 +20,6 @@ data class TechnicianGetAll(
     val teknisiDeskripsi: String = "",
     val teknisiFoto: String = "",
     val teknisiSertifikat: String = ""
-)
+) : Parcelable
 
 typealias ListTechnicianGetAll = List<TechnicianGetAll>

@@ -1312,6 +1312,16 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color grey_10
+color grey_100_
+color grey_20
+color grey_3
+color grey_40
+color grey_5
+color grey_60
+color grey_80
+color grey_90
+color grey_95
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -2079,6 +2089,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable baseline_gallery_white_24
 drawable bg_text_disable
 drawable bg_text_enable_focusable
 drawable bg_text_focusable
@@ -2109,8 +2120,11 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dialog_api_failed_network
 drawable ic_account_circle
+drawable ic_back
+drawable ic_chat
 drawable ic_clock_black_24dp
 drawable ic_close_white
+drawable ic_filter
 drawable ic_home_black_24dp
 drawable ic_keyboard_black_24dp
 drawable ic_map
@@ -2161,6 +2175,9 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable rounded_corner_global_transparent_shape
+drawable rounded_corner_grey_shape
+drawable rounded_menu_grey_shape
 drawable shape_circle_placeholder
 drawable shape_round
 drawable test_custom_background
@@ -2911,6 +2928,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string androidx_startup
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string bottomsheet_action_expand_halfway
@@ -3087,6 +3105,7 @@ style Animation_AppCompat_DropDownUp
 style Animation_AppCompat_Tooltip
 style Animation_Design_BottomSheetDialog
 style Animation_MaterialComponents_BottomSheetDialog
+style AppTheme
 style BaseTheme_BottomSheet
 style BaseTheme_BottomSheet_ShapeAppearanceOverlay
 style BaseTheme_BottomSheet_Style
@@ -3570,6 +3589,7 @@ style Theme_Design_Light
 style Theme_Design_Light_BottomSheetDialog
 style Theme_Design_Light_NoActionBar
 style Theme_Design_NoActionBar
+style Theme_DigiserviceApp
 style Theme_DigiserviceApp_AppBarOverlay
 style Theme_DigiserviceApp_NoActionBar
 style Theme_DigiserviceApp_PopupOverlay
@@ -3622,6 +3642,7 @@ style Theme_MaterialComponents_Light_NoActionBar
 style Theme_MaterialComponents_Light_NoActionBar_Bridge
 style Theme_MaterialComponents_NoActionBar
 style Theme_MaterialComponents_NoActionBar_Bridge
+style Toolbar_Light
 style Widget_AppCompat_ActionBar
 style Widget_AppCompat_ActionBar_Solid
 style Widget_AppCompat_ActionBar_TabBar

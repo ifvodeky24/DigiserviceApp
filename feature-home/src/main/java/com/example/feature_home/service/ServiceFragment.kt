@@ -1,0 +1,209 @@
+package com.example.feature_home.service
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.recyclical.datasource.dataSourceTypedOf
+import com.afollestad.recyclical.setup
+import com.afollestad.recyclical.withItem
+import com.bumptech.glide.Glide
+import com.example.core_data.api.ApiEvent
+import com.example.core_data.domain.JenisHp
+import com.example.core_data.domain.ResultSkils
+import com.example.core_data.domain.Skils
+import com.example.core_data.domain.technician.TechnicianGetAll
+import com.example.feature_home.HomeViewModel
+import com.example.feature_home.R
+import com.example.feature_home.account.AccountViewModel
+import com.example.feature_home.account.ItemViewHolder
+import com.example.feature_home.account.TypeInput
+import com.example.feature_home.databinding.FragmentServiceBinding
+import com.example.feature_home.viewHolder.ItemPopulerViewHolder
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
+
+class ServiceFragment : Fragment() {
+
+    private var _binding: FragmentServiceBinding? = null
+    private val binding get() = _binding!!
+    lateinit var drawer: DrawerLayout
+
+    private val accountViewModel: AccountViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by viewModel()
+    private val serviceViewModel: ServiceViewModel by viewModel()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        _binding = FragmentServiceBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+        setHasOptionsMenu(true)
+        observer()
+        initToolbar()
+        initComponent()
+        setInput()
+    }
+
+    private fun setInput() {
+        binding.btnFilter.setOnClickListener {
+            val listJenisHp = serviceViewModel.getFinalJenisHpRequest()
+            val listJenisKerusakan = serviceViewModel.getFinalJenisKerusakanHpRequest()
+            serviceViewModel.filterTechnicianGetAll(listJenisHp, listJenisKerusakan)
+            drawer.closeDrawer(GravityCompat.END)
+        }
+    }
+
+    private fun observer() {
+
+        homeViewModel.technicianGetAll()
+
+        homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
+            when (technicianGetAll) {
+                is ApiEvent.OnProgress -> {
+                }
+                is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
+                    onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
+                }
+                is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
+                    Timber.d("Error ${technicianGetAll.getException()}")
+                }
+            }
+        })
+
+        accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
+            accountViewModel.setCurrentTechinicial(auth?.email ?: "")
+            accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
+                accountViewModel.setCurrentSkill(tech?.teknisiId ?: 0)
+            })
+            accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
+                when(event) {
+                    is ApiEvent.OnSuccess -> event.getData()?.let {
+                        setupRecyclerSkils(it)
+                    }
+                    is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                        // hideProgress(true)
+                    }
+                }
+            })
+        })
+
+        serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
+            when(event){
+                is ApiEvent.OnProgress -> {
+
+                }
+                is ApiEvent.OnSuccess -> event.getData()?.let {
+                    onDataTechnicianGetAllLoaded(it, true)
+                }
+                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                    // hideProgress(true)
+                }
+            }
+        }
+    }
+
+    private fun onDataTechnicianGetAllLoaded(data: List<TechnicianGetAll>, isFilter: Boolean = false) {
+        if (data.isNotEmpty()) {
+            binding.recyclerView.setup{
+                withLayoutManager(GridLayoutManager(requireContext(),2))
+                withDataSource(dataSourceTypedOf(data))
+                withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_terpopuler){
+                    onBind(::ItemPopulerViewHolder){ index, item ->
+                        tvTeknisiName.text = item.teknisiNama
+                        tvRating.text = String.format("%.1f", (item.teknisiTotalScore/item.teknisiTotalResponden)).toDouble().toString()
+                        Glide
+                            .with(requireActivity())
+                            .load(item.teknisiFoto)
+                            .centerCrop()
+                            .into(ivTeknisi)
+                        layoutCard.setOnClickListener {
+                            val directionTechnicianGetAll = ServiceFragmentDirections.actionServiceFragmentToServiceDetailFragment(item)
+                            findNavController().navigate(directionTechnicianGetAll)
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.filter -> {
+                    drawer.openDrawer(GravityCompat.END)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun initComponent() {
+        drawer = binding.drawerLayout
+    }
+
+    private fun setupRecyclerSkils(listSkils: ResultSkils){
+        serviceViewModel jenisKerusakan listSkils.skils
+        serviceViewModel jenisHp listSkils.jenisHp
+        binding.rvJenisHp.setup {
+            withLayoutManager(LinearLayoutManager(requireContext()))
+            withDataSource(dataSourceTypedOf(listSkils.skils))
+            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
+                onBind(::ItemViewHolder){ index, item ->
+                    titleCheckBox.text = item.namaKerusakan
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        serviceViewModel.putEditDataValue(
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
+                            itemId =item.id,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
+                }
+            }
+        }
+        binding.rvJenisKerusakanHp.setup {
+            withLayoutManager(LinearLayoutManager(requireContext()))
+            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
+            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
+                onBind(::ItemViewHolder){ index, item ->
+                    titleCheckBox.text = item.jenisNama
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        serviceViewModel.putEditDataValue(
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
+                            itemId =item.id,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+}
