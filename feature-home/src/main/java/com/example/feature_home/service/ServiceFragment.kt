@@ -83,7 +83,7 @@ class ServiceFragment : Fragment() {
                     onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
                 }
                 is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
-                    Timber.d("Error ${technicianGetAll.getException()}")
+                    Timber.d("Error.${technicianGetAll.getException()}")
                 }
             }
         })
