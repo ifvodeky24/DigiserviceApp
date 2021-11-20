@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/feature-history/build
+/feature-profile/build
+/feature-service/build

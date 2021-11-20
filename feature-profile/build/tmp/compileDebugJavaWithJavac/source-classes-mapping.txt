@@ -1,4 +1,0 @@
-com/example/feature_profile/BuildConfig.java
- com.example.feature_profile.BuildConfig
-com/example/feature_profile/databinding/ActivityProfileBinding.java
- com.example.feature_profile.databinding.ActivityProfileBinding

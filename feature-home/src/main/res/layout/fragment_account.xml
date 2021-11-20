@@ -129,8 +129,8 @@
                 android:orientation="vertical">
 
                 <com.example.core_util.DigiTextView
-                    android:layout_marginTop="@dimen/medium"
                     android:textColor="@color/colorTextSecondary"
+                    android:layout_marginTop="@dimen/medium"
                     android:textSize="@dimen/text_small"
                     android:text="Email"
                     android:layout_width="match_parent"
