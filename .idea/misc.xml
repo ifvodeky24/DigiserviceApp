@@ -9,12 +9,16 @@
         <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_teknisi_terdekat.xml" value="0.12158054711246201" />
         <entry key="..\:/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/menu/menu_home.xml" value="0.25" />
         <entry key="..\:/Users/ridho/.gradle/caches/transforms-3/a25f1e6318654046eb45598079ce89dd/transformed/jetified-play-services-base-17.0.0/res/drawable/common_google_signin_btn_icon_dark_normal.xml" value="0.14537037037037037" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_image.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_selector_disable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_selector_disabled.xml" value="0.2388888888888889" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_disable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_enable_focusable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/bg_text_focusable.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/dialog_api_failed_network.xml" value="0.26205128205128203" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_add_black.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_arrow_back.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_arrow_forward.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_chat.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_close_white.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/core-resource/src/main/res/drawable/ic_map.xml" value="0.14537037037037037" />
@@ -37,10 +41,14 @@
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-auth/src/main/res/layout/layout_items.xml" value="0.4" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_account.xml" value="0.264" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_add_product.xml" value="0.1203125" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_edit_account.xml" value="0.264" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_home.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_product.xml" value="0.25" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_service.xml" value="0.25" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_service_detail.xml" value="0.264" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/fragment_store.xml" value="0.25" />
+        <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_product.xml" value="0.25" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_produk.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_skils.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ridho/AndroidStudioProjects/DigiserviceApp/feature-home/src/main/res/layout/item_teknisi_terdekat.xml" value="0.25" />

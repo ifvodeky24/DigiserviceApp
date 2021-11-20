@@ -1,5 +1,0 @@
-R_DEF: Internal format may change without notice
-local
-id profile_navigation
-layout activity_profile
-navigation profile_navigation
