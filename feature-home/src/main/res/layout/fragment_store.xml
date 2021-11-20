@@ -1,14 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StoreFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".store.StoreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/Toolbar.Light"
+                app:title="Digiservice"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/ThemeLayoutHorizontal"
+            android:id="@+id/layoutTopUser"
+            android:paddingLeft="@dimen/medium"
+            android:paddingRight="@dimen/medium"
+            android:paddingTop="@dimen/medium_fit"
+            android:paddingBottom="@dimen/medium_fit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry">
+
+            <ImageView
+                android:id="@+id/imageProfilePicture"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/shape_circle_placeholder"
+                android:layout_width="@dimen/profilePictureBig"
+                android:layout_height="@dimen/profilePictureBig"
+                android:contentDescription="@string/image" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toTopOf="@id/imageProfilePicture"
+                app:layout_constraintBottom_toBottomOf="@id/imageProfilePicture"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/imageProfilePicture"
+                android:layout_marginStart="@dimen/very_small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <com.example.core_util.DigiTextView
+                    app:digi_font_style="bold"
+                    android:id="@+id/labelStoreName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_dash"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginEnd="@dimen/medium"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/labelPhone"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_small"
+                    app:layout_constraintTop_toBottomOf="@id/labelStoreName"
+                    app:layout_constraintLeft_toLeftOf="@id/labelStoreName"
+                    app:layout_constraintRight_toRightOf="@id/labelStoreName"
+                    android:text="@string/text_dash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/shape_round"
+            android:paddingVertical="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp">
+
+            <com.example.core_util.DigiTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:digi_font_style="medium"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/produk"
+                android:textAllCaps="true" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/see_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <com.example.core_util.DigiTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daftar Produk Kamu"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:contentDescription="Lihat Daftar Produk" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/shape_round"
+            android:paddingVertical="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp">
+
+            <com.example.core_util.DigiTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:digi_font_style="medium"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextSecondary"
+                android:text="KATA PEMBELI"
+                android:textAllCaps="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Lihat Daftar Produk"
+                    android:src="@drawable/ic_star"
+                    android:layout_marginEnd="16dp"/>
+
+                <com.example.core_util.DigiTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ulasan"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    android:textColor="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Lihat Daftar Produk"
+                    android:src="@drawable/ic_comment"
+                    android:layout_marginEnd="16dp"/>
+
+                <com.example.core_util.DigiTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diskusi"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    android:textColor="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Lihat Daftar Produk"
+                    android:src="@drawable/ic_report"
+                    android:layout_marginEnd="16dp"/>
+
+                <com.example.core_util.DigiTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pemesanan Komplain"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    android:textColor="@color/colorTextPrimary" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
