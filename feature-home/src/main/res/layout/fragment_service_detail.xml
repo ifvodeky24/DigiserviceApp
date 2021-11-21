@@ -13,10 +13,11 @@
         <ScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/itemOwnerConstraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="-273dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -24,8 +25,8 @@
                 android:background="@color/colorBackgroundPrimary"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPagerCoverUserImageView"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_store"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
@@ -77,7 +78,7 @@
                         android:layout_marginEnd="4dp"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_small"
-                        
+
                         app:layout_constraintBottom_toBottomOf="@+id/imageViewShare0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageViewShare0"
@@ -85,20 +86,73 @@
                         tools:text="3 photos" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/meetTheSellerConstraintLayout"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/itemDetailFirstCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintHorizontal_bias="0.0"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="248dp"
+                    android:layout_marginTop="220dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingVertical="@dimen/medium">
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:paddingBottom="@dimen/small_fit"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_big"
+                            app:digi_font_style="medium"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Item name" />
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_no_hp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_small"
+                            app:layout_constraintStart_toStartOf="@+id/tv_name"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                            tools:text="Email" />
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/small_fit"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_small"
+                            app:layout_constraintStart_toStartOf="@+id/tv_no_hp"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_no_hp"
+                            tools:text="Nomor Handphone" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/meetTheSellerConstraintLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginEnd="16dp"
+                    android:paddingBottom="@dimen/small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/itemDetailFirstCardView">
+
+                    <com.example.core_util.DigiTextView
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -109,69 +163,30 @@
                         app:layout_constraintStart_toStartOf="@+id/chatButton"
                         app:layout_constraintTop_toBottomOf="@+id/chatButton" />
 
-                    <TextView
+                    <com.example.core_util.DigiTextView
                         android:id="@+id/tv_rating_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/small"
                         android:textColor="@color/colorTextPrimary"
-                        android:textStyle="bold"
                         android:textSize="@dimen/text_small"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/ratingBarInformation"
                         app:layout_constraintStart_toEndOf="@+id/ratingBarInformation"
                         app:layout_constraintTop_toTopOf="@+id/ratingBarInformation"
                         tools:text="4.8" />
 
-                    <TextView
-                        android:id="@+id/categoriAddressTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="16dp"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="-" />
-
-                    <TextView
-                        android:id="@+id/addressUserTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginLeft="@dimen/small"
-                        android:text="-"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_normal"
-                        
-                        app:layout_constraintBottom_toBottomOf="@+id/categoriAddressTextView"
-                        app:layout_constraintStart_toEndOf="@+id/categoriAddressTextView"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="-" />
-
-                    <TextView
+                    <com.example.core_util.DigiTextView
                         android:id="@+id/tv_store_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginTop="@dimen/medium"
-                        android:textColor="@color/colorTextAccent"
+                        android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_normal"
+                        app:digi_font_style="medium"
                         app:layout_constraintStart_toEndOf="@+id/userImageView"
-                        app:layout_constraintTop_toBottomOf="@+id/categoriAddressTextView"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="Nama" />
-
-                    <TextView
-                        android:id="@+id/tv_store_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:textColor="@color/colorTextAccent"
-                        android:textSize="@dimen/text_normal"
-                        app:layout_constraintStart_toEndOf="@+id/userImageView"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_store_name"
-                        tools:text="Email" />
 
                     <View
                         android:id="@+id/chatButton"
@@ -203,6 +218,7 @@
                         android:layout_marginStart="16dp"
                         android:contentDescription="@string/image"
                         android:src="@drawable/shape_circle_placeholder"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/ratingBarInformation"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_store_name" />
@@ -212,23 +228,11 @@
                         style="@style/Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:focusable="true"
                         android:numStars="5"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/userImageView"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_store_email"/>
-
-<!--                    <TextView-->
-<!--                        android:visibility="gone"-->
-<!--                        android:id="@+id/phoneTextView"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="4dp"-->
-<!--                        android:textColor="@color/colorTextPrimary"-->
-<!--                        android:textSize="@dimen/text_normal"-->
-<!--                        app:layout_constraintVertical_bias="0.25"-->
-<!--                        tools:text="09456548" />-->
+                        app:layout_constraintTop_toBottomOf="@+id/tv_store_name" />
 
                     <View
                         android:id="@+id/view65"
@@ -248,37 +252,37 @@
                     android:id="@+id/DescriptionProductConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintHorizontal_bias="0.0"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/small"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meetTheSellerConstraintLayout">
 
                     <com.example.core_util.DigiTextView
-                        app:digi_font_style="medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Deskripsi Toko"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_medium"
+                        app:digi_font_style="medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.example.core_util.DigiTextView
-                        android:textColor="@color/colorTextSecondary"
                         android:id="@+id/tv_store_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_normal"
                         android:paddingTop="@dimen/medium"
-                        tools:text="-"
                         android:text="@{item.description}"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="@dimen/text_normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="-" />
 
                     <View
                         android:layout_width="match_parent"
@@ -307,21 +311,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/DescriptionProductConstraintLayout">
 
                     <com.example.core_util.DigiTextView
-                        app:digi_font_style="medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Jenis Handphone"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_medium"
-                        
+                        app:digi_font_style="medium"
+
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_jenis_hp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/medium"/>
+                        android:layout_height="wrap_content" />
 
                     <View
                         android:layout_width="match_parent"
@@ -350,20 +353,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/jenisHpConstraintLayout">
 
                     <com.example.core_util.DigiTextView
-                        app:digi_font_style="medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Jenis Kerusakan"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_medium"
+                        app:digi_font_style="medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_jenis_kerusakan_hp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/medium"/>
+                        android:layout_height="wrap_content" />
 
                     <View
                         android:layout_width="match_parent"
@@ -382,57 +384,72 @@
                     android:id="@+id/AddressConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintHorizontal_bias="0.0"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/small"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/jenisKerusakanHpConstraintLayout">
 
                     <com.example.core_util.DigiTextView
-                        app:digi_font_style="medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Alamat Usaha"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_medium"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:text="Alamat Usaha" />
-
-                    <com.example.core_util.DigiTextView
-                        android:textColor="@color/colorTextSecondary"
-                        android:id="@+id/tv_store_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_normal"
-                        android:paddingTop="@dimen/medium"
-                        tools:text="-"
+                        app:digi_font_style="medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:id="@+id/viewEmptySpace"
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_store_address"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="40dp"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/medium"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="@dimen/text_normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        tools:layout_editor_absoluteY="72dp" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="-" />
+
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/medium"
                         android:background="@color/dividerLine"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteY="72dp" />
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:layout_marginVertical="@dimen/medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="0dp"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="PAKAI KURIR"
+                            app:strokeWidth="@dimen/tiny"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_weight="1"
+                            android:text="TIDAK"
+                            app:strokeWidth="@dimen/tiny"/>
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 </LinearLayout>
 
@@ -455,6 +472,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium"
                 android:paddingVertical="@dimen/small_fit"
+                android:layout_marginBottom="@dimen/large"
                 android:layout_marginHorizontal="@dimen/medium"
                 android:text="PESAN"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +17,6 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
-import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.account.SkillsItemViewHolder
@@ -33,8 +31,6 @@ class ServiceDetailFragment : Fragment() {
     val args: ServiceDetailFragmentArgs by navArgs()
 
     private val accountViewModel: AccountViewModel by viewModel()
-    private val homeViewModel: HomeViewModel by viewModel()
-    private val serviceViewModel: ServiceViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,23 +48,13 @@ class ServiceDetailFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        Toast.makeText(requireContext(), "${args.technician}", Toast.LENGTH_SHORT).show()
-        with(args.technician){
-            if (teknisiFoto?.isNotEmpty() == true) binding.userImageView.load(
-                teknisiFoto
-            ){
-                crossfade(true)
-                transformations(CircleCropTransformation())
-            }
-            binding.tvRatingCount.text = String.format("%.1f", (teknisiTotalScore/teknisiTotalResponden)).toDouble().toString()
-            binding.tvStoreName.text = teknisiNamaToko
-            binding.tvStoreEmail.text = email
-            binding.tvStoreAddress.text = teknisiAlamat
-            binding.tvStoreDesc.text = teknisiDeskripsi
-            accountViewModel.setCurrentSkill(teknisiId ?: 0)
+        setupDisplay()
 
-        }
+        setupObserver()
 
+    }
+
+    private fun setupObserver() {
         accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
             when(event)
             {
@@ -81,15 +67,33 @@ class ServiceDetailFragment : Fragment() {
                 }
             }
         })
+    }
 
+    private fun setupDisplay() {
+        with(args.technician){
+            if (this?.teknisiFoto?.isNotEmpty() == true) binding.ivStore.load(
+                teknisiFoto
+            ){
+                crossfade(true)
+            }
+            binding.tvRatingCount.text = String.format("%.1f", (this?.teknisiTotalScore?.div(teknisiTotalResponden))).toDouble().toString()
+            binding.tvStoreName.text = this?.teknisiNamaToko ?: ""
+            binding.tvName.text = this?.teknisiNama ?: ""
+            binding.tvNoHp.text = this?.teknisiHp ?: ""
+            binding.tvEmail.text = this?.email
+            binding.tvStoreAddress.text = this?.teknisiAlamat ?: ""
+            binding.tvStoreDesc.text = this?.teknisiDeskripsi
+            accountViewModel.setCurrentSkill(this?.teknisiId ?: 0)
+
+        }
     }
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {
         binding.rvJenisKerusakanHp.setup {
             withLayoutManager(LinearLayoutManager(requireContext()))
             withDataSource(dataSourceTypedOf(listSkils.skils))
-            withItem<Skils, SkillsItemViewHolder>(R.layout.item_skils){
-                onBind(::SkillsItemViewHolder){ _, item ->
+            withItem<Skils, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary){
+                onBind(::SkillsItemSecondaryViewHolder){ _, item ->
                     titleSkils.text = "- ${item.namaKerusakan}"
                 }
             }
@@ -97,8 +101,8 @@ class ServiceDetailFragment : Fragment() {
         binding.rvJenisHp.setup {
             withLayoutManager(LinearLayoutManager(requireContext()))
             withDataSource(dataSourceTypedOf(listSkils.jenisHp))
-            withItem<JenisHp, SkillsItemViewHolder>(R.layout.item_skils){
-                onBind(::SkillsItemViewHolder){ _, item ->
+            withItem<JenisHp, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary){
+                onBind(::SkillsItemSecondaryViewHolder){ _, item ->
                     titleSkils.text = "- ${item.jenisNama}"
                 }
             }

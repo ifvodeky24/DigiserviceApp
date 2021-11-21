@@ -12,9 +12,13 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/serviceFragment"
-        android:name="com.example.feature_home.ServiceFragment"
+        android:name="com.example.feature_home.service.ServiceFragment"
         android:label="fragment_service"
-        tools:layout="@layout/fragment_service" />
+        tools:layout="@layout/fragment_service" >
+        <action
+            android:id="@+id/action_serviceFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/storeFragment"
         android:name="com.example.feature_home.store.StoreFragment"
@@ -35,6 +39,16 @@
         android:name="com.example.feature_home.account.EditAccountFragment"
         android:label="EditAccountFragment"
         tools:layout="@layout/fragment_edit_account" />
+    <fragment
+        android:id="@+id/serviceDetailFragment"
+        android:name="com.example.feature_home.service.ServiceDetailFragment"
+        android:label="ServiceDetailFragment"
+        tools:layout="@layout/fragment_service_detail">
+        <argument
+            android:name="technician"
+            app:argType="com.example.core_data.domain.technician.TechnicianGetAll"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/productFragment"
         android:name="com.example.feature_home.store.ProductFragment"
