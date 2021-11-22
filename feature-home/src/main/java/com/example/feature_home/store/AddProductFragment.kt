@@ -54,10 +54,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.firstImageView.setOnClickListener(this)
-        binding.secImageView.setOnClickListener(this)
-        binding.thirdImageView.setOnClickListener(this)
-        binding.fouthImageView.setOnClickListener(this)
-        binding.fifthImageView.setOnClickListener(this)
+
     }
 
     private fun setupToolbar() {
@@ -72,18 +69,6 @@ class AddProductFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v?.id == R.id.firstImageView) {
             showBottomSheet(Constants.ONE)
-        }
-        if (v?.id == R.id.secImageView) {
-            showBottomSheet(Constants.TWO)
-        }
-        if (v?.id == R.id.thirdImageView) {
-            showBottomSheet(Constants.THREE)
-        }
-        if (v?.id == R.id.fouthImageView) {
-            showBottomSheet(Constants.FOUR)
-        }
-        if (v?.id == R.id.fifthImageView) {
-            showBottomSheet(Constants.FIVE)
         }
     }
 
@@ -158,13 +143,13 @@ class AddProductFragment : Fragment(), View.OnClickListener {
 
     private fun callImageUpload(imageCount: Int) {
         if (isSecImageSelected) {
-            productViewModel.setUploadItemImageObj(
-                imagePathList.get(imageCount),
-                imageUriList.get(imageCount),
-                itemViewModel.itemId,
-                secImageId,
-                activity!!.contentResolver
-            )
+//            productViewModel.setUploadItemImageObj(
+//                imagePathList.get(imageCount),
+//                imageUriList.get(imageCount),
+//                itemViewModel.itemId,
+//                secImageId,
+//                activity!!.contentResolver
+//            )
             isSecImageSelected = false
         }
     }
