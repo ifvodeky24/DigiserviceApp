@@ -8,9 +8,11 @@ import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.apiClient
 import com.example.core_data.api.httpClient
 import com.example.core_data.api.service.AuthService
+import com.example.core_data.api.service.ServiceHandphoneService
 import com.example.core_data.api.service.StoreService
 import com.example.core_data.api.service.TechnicianService
 import com.example.core_data.repository.AuthRepository
+import com.example.core_data.repository.ServiceHandphoneRepository
 import com.example.core_data.repository.StoreRepository
 import com.example.core_data.repository.TechnicianRepository
 import com.squareup.moshi.Moshi
@@ -48,6 +50,7 @@ val Application.dataModule
         single { apiClient<AuthService>(BASE_URL, get()) }
         single { apiClient<TechnicianService>(BASE_URL, get()) }
         single { apiClient<StoreService>(BASE_URL, get()) }
+        single { apiClient<ServiceHandphoneService>(BASE_URL, get()) }
 
         single {
             Room.databaseBuilder(get(), CoreDatabase::class.java, DB_NAME)
@@ -60,6 +63,7 @@ val Application.dataModule
         single { AuthRepository(get(), get(), get(), get(), get()) }
         single { TechnicianRepository(get(), get(), get(), get()) }
         single { StoreRepository(get(), get()) }
+        single { ServiceHandphoneRepository(get(), get()) }
     }
 
 private const val TIMEOUT = 30L

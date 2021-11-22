@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -52,6 +54,10 @@ class ServiceDetailFragment : Fragment() {
 
         setupObserver()
 
+        binding.btnOrder.setOnClickListener {
+            val byKurir = if (binding.kurirYes.isChecked) 1 else 0
+            OrderTechicianDialog.newInstance(args.technician, byKurir).show(childFragmentManager, OrderTechicianDialog.TAG)
+        }
     }
 
     private fun setupObserver() {
