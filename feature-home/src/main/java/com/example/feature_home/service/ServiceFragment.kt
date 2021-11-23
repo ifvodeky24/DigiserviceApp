@@ -58,9 +58,6 @@ class ServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-
-        setHasOptionsMenu(true)
         observer()
         initToolbar()
         initComponent()
@@ -174,7 +171,7 @@ class ServiceFragment : Fragment() {
                 withLayoutManager(LinearLayoutManager(context))
                 withDataSource(dataSourceTypedOf(data))
                 withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHeadphoneTechnicianViewHolder>(R.layout.item_service_technician) {
-                    onBind(::ItemServiceHeadphoneTechnicianViewHolder) {index, item ->
+                    onBind(::ItemServiceHeadphoneTechnicianViewHolder) {_, item ->
                         tvServiceHpName.text = item.pelangganNama
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan
@@ -182,9 +179,6 @@ class ServiceFragment : Fragment() {
                             .load(item.pelangganFoto)
                             .transform(CircleCrop())
                             .into(ivServiceCustomerPhoto)
-                        layoutCard.setOnClickListener {
-
-                        }
                     }
                 }
             }

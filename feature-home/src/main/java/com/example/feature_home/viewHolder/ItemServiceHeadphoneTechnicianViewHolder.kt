@@ -13,5 +13,5 @@ class ItemServiceHeadphoneTechnicianViewHolder(val view: View) : ViewHolder(view
     val tvServiceHpType: TextView = view.findViewById(R.id.tv_service_hp_type)
     val tvServiceHpDamageType: TextView = view.findViewById(R.id.tv_service_hp_damage_type)
     val ivServiceCustomerPhoto: ImageView = view.findViewById(R.id.iv_service_costumer_photo)
-    val layoutCard: CardView = view.findViewById(R.id.layoutCard)
+    val layoutCard: CardView = view.findViewById(R.id.card_service_technician)
 }
