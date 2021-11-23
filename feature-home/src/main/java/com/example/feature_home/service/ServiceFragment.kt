@@ -16,10 +16,13 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
+import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
@@ -28,6 +31,7 @@ import com.example.feature_home.account.ItemViewHolder
 import com.example.feature_home.account.TypeInput
 import com.example.feature_home.databinding.FragmentServiceBinding
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
+import com.example.feature_home.viewHolder.ItemServiceHeadphoneTechnicianViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -40,6 +44,7 @@ class ServiceFragment : Fragment() {
     private val accountViewModel: AccountViewModel by viewModel()
     private val homeViewModel: HomeViewModel by viewModel()
     private val serviceViewModel: ServiceViewModel by viewModel()
+    private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,48 +78,65 @@ class ServiceFragment : Fragment() {
 
     private fun observer() {
 
-        homeViewModel.technicianGetAll()
+        accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
+            if (auth?.level == "pelanggan") {
 
-        homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
-            when (technicianGetAll) {
-                is ApiEvent.OnProgress -> {
-                }
-                is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
-                    onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
-                }
-                is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
-                    Timber.d("Error.${technicianGetAll.getException()}")
-                }
-            }
-        })
+                homeViewModel.technicianGetAll()
 
-        accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
-            accountViewModel.setCurrentTechinicial(auth?.email ?: "")
-            accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
-                accountViewModel.setCurrentSkill(tech?.teknisiId ?: 0)
-            })
-            accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
-                when(event) {
-                    is ApiEvent.OnSuccess -> event.getData()?.let {
-                        setupRecyclerSkils(it)
+                homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
+                    when (technicianGetAll) {
+                        is ApiEvent.OnProgress -> {
+                        }
+                        is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
+                            onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
+                        }
+                        is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
+                            Timber.d("Error.${technicianGetAll.getException()}")
+                        }
                     }
-                    is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
-                        // hideProgress(true)
+                })
+
+                accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
+                    accountViewModel.setCurrentTechinicial(auth?.email ?: "")
+                    accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
+                        accountViewModel.setCurrentSkill(tech?.teknisiId ?: 0)
+                    })
+                    accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
+                        when(event) {
+                            is ApiEvent.OnSuccess -> event.getData()?.let {
+                                setupRecyclerSkils(it)
+                            }
+                            is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                                // hideProgress(true)
+                            }
+                        }
+                    })
+                })
+
+                serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
+                    when(event){
+                        is ApiEvent.OnProgress -> {
+
+                        }
+                        is ApiEvent.OnSuccess -> event.getData()?.let {
+                            onDataTechnicianGetAllLoaded(it, true)
+                        }
+                        is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                            // hideProgress(true)
+                        }
                     }
                 }
-            })
-        })
+            } else if (auth?.level == "teknisi") {
+                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.id)
 
-        serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
-            when(event){
-                is ApiEvent.OnProgress -> {
-
-                }
-                is ApiEvent.OnSuccess -> event.getData()?.let {
-                    onDataTechnicianGetAllLoaded(it, true)
-                }
-                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
-                    // hideProgress(true)
+                serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
+                    when(event) {
+                        is ApiEvent.OnProgress -> {}
+                        is ApiEvent.OnSuccess -> event.getData()?.let {
+                            onDataServiceHandphoneGetAllLoaded(it)
+                        }
+                        is ApiEvent.OnFailed -> {}
+                    }
                 }
             }
         }
@@ -142,6 +164,29 @@ class ServiceFragment : Fragment() {
 
                 }
 
+            }
+        }
+    }
+
+    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneTechnicianGetAll>) {
+        if (data.isNotEmpty()) {
+            binding.recyclerView.setup {
+                withLayoutManager(LinearLayoutManager(context))
+                withDataSource(dataSourceTypedOf(data))
+                withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHeadphoneTechnicianViewHolder>(R.layout.item_service_technician) {
+                    onBind(::ItemServiceHeadphoneTechnicianViewHolder) {index, item ->
+                        tvServiceHpName.text = item.pelangganNama
+                        tvServiceHpType.text = item.jenisHp
+                        tvServiceHpDamageType.text = item.jenisKerusakan
+                        Glide.with(this@ServiceFragment)
+                            .load(item.pelangganFoto)
+                            .transform(CircleCrop())
+                            .into(ivServiceCustomerPhoto)
+                        layoutCard.setOnClickListener {
+
+                        }
+                    }
+                }
             }
         }
     }
