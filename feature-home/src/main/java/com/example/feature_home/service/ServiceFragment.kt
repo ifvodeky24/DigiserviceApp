@@ -179,6 +179,11 @@ class ServiceFragment : Fragment() {
                             .load(item.pelangganFoto)
                             .transform(CircleCrop())
                             .into(ivServiceCustomerPhoto)
+
+                        layoutCard.setOnClickListener {
+                            val toServiceHandphoneDetail = ServiceFragmentDirections.actionServiceFragmentToServiceHandphoneTechnicianFragment(item)
+                            findNavController().navigate(toServiceHandphoneDetail)
+                        }
                     }
                 }
             }

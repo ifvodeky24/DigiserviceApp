@@ -1,7 +1,10 @@
 package com.example.core_data.domain.servicehp
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ServiceHandphoneTechnicianGetAll(
     val pelangganId: Int = 0,
     val serviceHandphoneId: Int = 0,
@@ -18,6 +21,6 @@ data class ServiceHandphoneTechnicianGetAll(
     val pelangganHp: String = "",
     val pelangganAlamat: String = "",
     val email: String = ""
-)
+) : Parcelable
 
 typealias ListServiceHandphoneTechnicianGetAll = List<ServiceHandphoneTechnicianGetAll>
