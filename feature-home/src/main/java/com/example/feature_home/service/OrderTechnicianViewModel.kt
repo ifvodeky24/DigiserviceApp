@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.request.ServiceHandphoneRequest
+import com.example.core_data.api.request.RequestAddServiceHandphone
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.repository.ServiceHandphoneRepository
 import kotlinx.coroutines.flow.collect
@@ -22,9 +22,9 @@ class OrderTechnicianViewModel(
     private val saveForm = MutableLiveData<ApiEvent<CommonResponse?>>()
     val isSaveForm: LiveData<ApiEvent<CommonResponse?>> = saveForm
 
-    fun insertServiceHandphone(serviceHandphoneRequest: ServiceHandphoneRequest) {
+    fun insertServiceHandphone(requestAddServiceHandphone: RequestAddServiceHandphone) {
         viewModelScope.launch {
-            serviceHandphoneRepository.insertServiceHandphone(serviceHandphoneRequest)
+            serviceHandphoneRepository.insertServiceHandphone(requestAddServiceHandphone)
                 .onStart {
                     emit(ApiEvent.OnProgress())
                 }

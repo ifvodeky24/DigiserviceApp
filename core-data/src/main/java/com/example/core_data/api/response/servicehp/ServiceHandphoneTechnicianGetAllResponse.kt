@@ -12,6 +12,13 @@ data class ServiceHandphoneTechnicianGetAllResponse(
 )
 
 @JsonClass(generateAdapter = true)
+data class ServiceHandphoneTechnicianGetResponse(
+	val result: ServiceHandphoneTechnicianGetAllDataResponse,
+	val code: Int,
+	val message: String
+)
+
+@JsonClass(generateAdapter = true)
 data class ServiceHandphoneTechnicianGetAllDataResponse(
 	@Json(name="pelanggan_id")
 	val pelangganId: Int = 0,
@@ -37,6 +44,8 @@ data class ServiceHandphoneTechnicianGetAllDataResponse(
 	val updatedAt: String = "",
 	@Json(name="by_kurir")
 	val byKurir: Int = 0,
+	@Json(name="status_service")
+	val statusService: String = "",
 	@Json(name="pelanggan_nama")
 	val pelangganNama: String = "",
 	@Json(name="pelanggan_hp")
@@ -66,6 +75,7 @@ fun ServiceHandphoneTechnicianGetAllDataResponse.toDomain() =
 		pelangganDateCreated = pelangganDateCreated,
 		jenisHp = jenisHp,
 		byKurir = byKurir,
+		statusService = statusService,
 		pelangganNama = pelangganNama,
 		pelangganHp = pelangganHp,
 		pelangganAlamat = pelangganAlamat,

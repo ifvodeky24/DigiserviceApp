@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
@@ -17,7 +15,6 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -31,7 +28,7 @@ import com.example.feature_home.account.ItemViewHolder
 import com.example.feature_home.account.TypeInput
 import com.example.feature_home.databinding.FragmentServiceBinding
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
-import com.example.feature_home.viewHolder.ItemServiceHeadphoneTechnicianViewHolder
+import com.example.feature_home.viewHolder.ItemServiceHandphoneTechnicianViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -74,7 +71,6 @@ class ServiceFragment : Fragment() {
     }
 
     private fun observer() {
-
         accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
             if (auth?.level == "pelanggan") {
 
@@ -170,8 +166,8 @@ class ServiceFragment : Fragment() {
             binding.recyclerView.setup {
                 withLayoutManager(LinearLayoutManager(context))
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHeadphoneTechnicianViewHolder>(R.layout.item_service_technician) {
-                    onBind(::ItemServiceHeadphoneTechnicianViewHolder) {_, item ->
+                withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
+                    onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
                         tvServiceHpName.text = item.pelangganNama
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan

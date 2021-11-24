@@ -7,15 +7,11 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.request.ServiceHandphoneRequest
-import com.example.core_data.api.response.CommonResponse
+import com.example.core_data.api.request.RequestAddServiceHandphone
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.OrderTechnicianDialogBinding
-import com.example.feature_home.store.ProductViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -27,7 +23,7 @@ class OrderTechicianDialog : DialogFragment() {
     private val accountViewModel: AccountViewModel by viewModel()
     private val orderTechnicianViewModel: OrderTechnicianViewModel by viewModel()
 
-    private val serviceHandphoneRequest by lazy { ServiceHandphoneRequest() }
+    private val serviceHandphoneRequest by lazy { RequestAddServiceHandphone() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,15 +63,15 @@ class OrderTechicianDialog : DialogFragment() {
 
             orderTechnicianViewModel.isSaveForm.observe(viewLifecycleOwner) { event ->
                 when(event) {
-                    is ApiEvent.OnProgress -> {
+                    is ApiEvent.OnProgress -> {}
+                    is ApiEvent.OnSuccess -> {
                         activity?.onBackPressed()
-                        Toast.makeText(context, "Berhasil membuat pesanan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Berhasil membuat pesanan", Toast.LENGTH_LONG).show()
                         Timber.d(serviceHandphoneRequest.toString())
                     }
-                    is ApiEvent.OnSuccess -> {
+                    is ApiEvent.OnFailed -> {
                         Timber.d("Failed")
                     }
-                    is ApiEvent.OnFailed -> {}
                 }
             }
         }

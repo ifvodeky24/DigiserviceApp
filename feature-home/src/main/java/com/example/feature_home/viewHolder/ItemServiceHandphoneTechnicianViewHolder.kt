@@ -8,7 +8,7 @@ import com.afollestad.recyclical.ViewHolder
 import com.example.feature_home.R
 import com.example.feature_home.databinding.ItemServiceTechnicianBinding
 
-class ItemServiceHeadphoneTechnicianViewHolder(val view: View) : ViewHolder(view) {
+class ItemServiceHandphoneTechnicianViewHolder(val view: View) : ViewHolder(view) {
     val tvServiceHpName: TextView = view.findViewById(R.id.tv_service_hp_name)
     val tvServiceHpType: TextView = view.findViewById(R.id.tv_service_hp_type)
     val tvServiceHpDamageType: TextView = view.findViewById(R.id.tv_service_hp_damage_type)

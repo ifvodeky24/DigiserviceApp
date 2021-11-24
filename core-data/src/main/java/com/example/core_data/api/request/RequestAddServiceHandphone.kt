@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ServiceHandphoneRequest(
+data class RequestAddServiceHandphone(
     @Json(name = "pelanggan_id")
     var pelangganId: Int = 0,
     @Json(name = "teknisi_id")

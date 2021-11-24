@@ -93,6 +93,25 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_margin="@dimen/medium"
+                app:cardCornerRadius="@dimen/medium"
+                app:layout_constraintEnd_toEndOf="@+id/itemDetailFirstCardView"
+                app:layout_constraintTop_toTopOf="@+id/itemDetailFirstCardView">
+                <TextView
+                    android:id="@+id/tv_service_hp_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorCobaltBlue"
+                    android:textColor="@color/colorWhite"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="Progress" />
+            </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:id="@+id/container_service_hp_name"
                 android:layout_width="match_parent"

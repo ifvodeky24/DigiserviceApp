@@ -17,6 +17,7 @@ data class ServiceHandphoneTechnicianGetAll(
     val pelangganDateCreated: String = "",
     val jenisHp: String = "",
     val byKurir: Int = 0,
+    val statusService: String = "",
     val pelangganNama: String = "",
     val pelangganHp: String = "",
     val pelangganAlamat: String = "",
