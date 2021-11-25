@@ -13,17 +13,30 @@ import com.example.core_data.domain.servicehp.ListServiceHandphoneTechnicianGetA
 import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.http.Field
 
 class ServiceHandphoneRepository internal constructor(
     private val apiExecutor: ApiExecutor,
     private val serviceHandphoneService: ServiceHandphoneService
 ) {
-    fun insertServiceHandphone(orderTechnician: RequestAddServiceHandphone) : Flow<ApiEvent<CommonResponse?>> = flow {
+    fun insertServiceHandphone(
+        teknisiId: Int,
+        pelangganId: Int,
+        jenisHp: String,
+        jenisKerusakan: String,
+        byKurir: Int
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
         runCatching {
-            val apiId = ServiceHandphoneService.ServiceHandphone
+            val apiId = ServiceHandphoneService.ServiceHandphoneInsert
 
             val apiResult = apiExecutor.callApi(apiId) {
-                serviceHandphoneService.insertServiceHandphone(orderTechnician)
+                serviceHandphoneService.insertServiceHandphone(
+                    teknisiId,
+                    pelangganId,
+                    jenisHp,
+                    jenisKerusakan,
+                    byKurir
+                )
             }
 
             val apiEvent: ApiEvent<CommonResponse?> = when(apiResult) {

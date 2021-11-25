@@ -10,9 +10,13 @@ import retrofit2.http.*
 interface ServiceHandphoneService {
 
     @FormUrlEncoded
-    @POST(ServiceHandphone)
+    @POST(ServiceHandphoneInsert)
     suspend fun insertServiceHandphone(
-        @Body orderTechnician: RequestAddServiceHandphone
+        @Field("teknisi_id") teknisiId: Int,
+        @Field("pelanggan_id") pelangganId: Int,
+        @Field("jenis_hp") jenisHp: String,
+        @Field("jenis_kerusakan") jenisKerusakan: String,
+        @Field("by_kurir") byKurir: Int,
     ) : CommonResponse
 
     @FormUrlEncoded
@@ -35,6 +39,7 @@ interface ServiceHandphoneService {
     companion object {
 
         const val ServiceHandphone = "service-handphone"
+        const val ServiceHandphoneInsert = "service-handphone-insert"
         const val ServiceHandphoneGetByTechnician = "service-handphone-by-teknisi/{technician_id}"
         const val ServiceHandphoneGetById = "service-handphone-by-id/{service_handphone_id}"
         const val ServiceHandphoneUpdate = "service-handphone-update/{service_handphone_id}"

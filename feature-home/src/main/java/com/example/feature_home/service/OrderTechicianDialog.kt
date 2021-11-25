@@ -59,7 +59,13 @@ class OrderTechicianDialog : DialogFragment() {
                 byKurir = kurir
             }
 
-            orderTechnicianViewModel.insertServiceHandphone(serviceHandphoneRequest)
+            orderTechnicianViewModel.insertServiceHandphone(
+                teknisiId = serviceHandphoneRequest.teknisiId,
+                pelangganId = serviceHandphoneRequest.pelangganId,
+                jenisHp = serviceHandphoneRequest.jenisHp,
+                jenisKerusakan = serviceHandphoneRequest.jenisKerusakan,
+                byKurir = serviceHandphoneRequest.byKurir
+            )
 
             orderTechnicianViewModel.isSaveForm.observe(viewLifecycleOwner) { event ->
                 when(event) {
@@ -70,7 +76,7 @@ class OrderTechicianDialog : DialogFragment() {
                         Timber.d(serviceHandphoneRequest.toString())
                     }
                     is ApiEvent.OnFailed -> {
-                        Timber.d("Failed")
+                        Timber.d("Failed ${event.getException()}" )
                     }
                 }
             }

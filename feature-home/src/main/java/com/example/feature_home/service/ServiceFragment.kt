@@ -90,20 +90,7 @@ class ServiceFragment : Fragment() {
                 })
 
                 accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
-                    accountViewModel.setCurrentTechinicial(auth?.email ?: "")
-                    accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
-                        accountViewModel.setCurrentSkill(tech?.teknisiId ?: 0)
-                    })
-                    accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
-                        when(event) {
-                            is ApiEvent.OnSuccess -> event.getData()?.let {
-                                setupRecyclerSkils(it)
-                            }
-                            is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
-                                // hideProgress(true)
-                            }
-                        }
-                    })
+
                 })
 
                 serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->

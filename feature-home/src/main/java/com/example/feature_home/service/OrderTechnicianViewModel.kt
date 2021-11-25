@@ -22,9 +22,21 @@ class OrderTechnicianViewModel(
     private val saveForm = MutableLiveData<ApiEvent<CommonResponse?>>()
     val isSaveForm: LiveData<ApiEvent<CommonResponse?>> = saveForm
 
-    fun insertServiceHandphone(requestAddServiceHandphone: RequestAddServiceHandphone) {
+    fun insertServiceHandphone(
+        teknisiId: Int,
+        pelangganId: Int,
+        jenisHp: String,
+        jenisKerusakan: String,
+        byKurir: Int
+    ) {
         viewModelScope.launch {
-            serviceHandphoneRepository.insertServiceHandphone(requestAddServiceHandphone)
+            serviceHandphoneRepository.insertServiceHandphone(
+                teknisiId,
+                pelangganId,
+                jenisHp,
+                jenisKerusakan,
+                byKurir
+            )
                 .onStart {
                     emit(ApiEvent.OnProgress())
                 }
