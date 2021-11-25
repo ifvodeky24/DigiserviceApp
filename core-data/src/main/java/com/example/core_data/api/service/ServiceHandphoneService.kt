@@ -24,12 +24,12 @@ interface ServiceHandphoneService {
 
     @GET(ServiceHandphoneGetByTechnician)
     suspend fun getServiceHeadphoneByTechnician(
-        @Path(value = "technician_id") technician_id: Int
+        @Path(value = "technician_id") technicianId: Int
     ) : ServiceHandphoneTechnicianGetAllResponse
 
     @GET(ServiceHandphoneGetById)
     suspend fun getServiceHeadphoneById(
-        @Path(value = "service_handphone_id") technician_id: Int
+        @Path(value = "service_handphone_id") technicianId: Int
     ) : ServiceHandphoneTechnicianGetResponse
 
     companion object {

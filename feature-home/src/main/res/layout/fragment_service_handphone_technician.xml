@@ -113,7 +113,7 @@
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
-                android:id="@+id/container_service_hp_name"
+                android:id="@+id/container_service_hp_created"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium"
@@ -129,6 +129,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:text="Tanggal Service Handphone"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium" />
+
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/tv_service_hp_created"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2021-11-22"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/container_service_hp_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/shape_round"
+                android:orientation="vertical"
+                android:paddingVertical="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/container_service_hp_created">
+
+                <com.example.core_util.DigiTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="Nama Handphone"
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="16sp"
@@ -138,7 +173,7 @@
                     android:id="@+id/tv_customer_hp_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lenovo"
+                    tools:text="Lenovo"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="16sp"
                     app:digi_font_style="medium"
@@ -172,7 +207,7 @@
                     android:id="@+id/tv_customer_hp_damage_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LCD Pecah"
+                    tools:text="LCD Pecah"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="16sp"
                     app:digi_font_style="medium"
@@ -219,7 +254,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="PAKAI KURIR"
+                        android:text="YA"
                         app:strokeWidth="@dimen/tiny" />
 
                     <com.google.android.material.button.MaterialButton

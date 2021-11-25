@@ -101,6 +101,7 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
             tvCustomerNoHp.text = serviceHandphoneTechnician.pelangganHp
             tvCustomerHpName.text = serviceHandphoneTechnician.jenisHp
             tvCustomerHpDamageName.text = serviceHandphoneTechnician.jenisKerusakan
+            tvServiceHpCreated.text = serviceHandphoneTechnician.createdAt
             tvServiceHpStatus.text = serviceHandphoneTechnician.statusService
 
             val isKurir = when (serviceHandphoneTechnician.byKurir) {
