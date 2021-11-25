@@ -23,6 +23,7 @@ dependencies {
 
     implementation deps.progress_button
     implementation deps.keyboard_watcher
+    implementation deps.coil
 
     //endregio
 }
