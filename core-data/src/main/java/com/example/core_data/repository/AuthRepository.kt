@@ -1,5 +1,6 @@
 package com.example.core_data.repository
 
+import android.net.Uri
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
@@ -269,6 +270,48 @@ class AuthRepository internal constructor(
                         jenisKerusakanHp = jenisKerusakanHp,
                         jenisHp = jenisHp,
                     )
+                )
+            }
+
+            val apiEvent:ApiEvent<CommonResponse?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        message.equals(ApiException.FailedResponse.STATUS_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun updatePelanggan(
+        pelangganId: Int,
+        userId: Int,
+        pelangganNama: String,
+        pelangganEmail: String,
+        pelangganAlamat: String,
+        pelangganHp: String,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+        runCatching {
+            val apiId = AuthService.UpdatePelanggan
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                authService.updatePelanggan(
+                    id = userId,
+                    pelangganId = pelangganId,
+                    pelangganNama = pelangganNama,
+                    pelangganEmail = pelangganEmail,
+                    pelangganAlamat = pelangganAlamat,
+                    pelangganHp = pelangganHp,
                 )
             }
 

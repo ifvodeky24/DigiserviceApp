@@ -15,7 +15,7 @@ data class ProductGetAllResponse(
 data class ProductGetAllDataResponse(
 	@Json(name="jual_id")
 	val jualId: Int = 0,
-	@Json(name = "path_photo")
+	@Json(name = "foto_produk")
 	val pathPhoto: String = "",
 	@Json(name="jual_status")
 	val jualStatus: String = "",

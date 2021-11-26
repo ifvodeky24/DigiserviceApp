@@ -28,4 +28,12 @@ object Constants {
 
     const val RESULT_OK = -1
 
+    const val maxHeight = 1024f
+    const val maxWidth = 1024f
+
+    const val CHECHNICIAN = "teknisi"
+    const val CUSTOMER = "pelanggan"
+
+    const val APP_IMAGES_URL = "http://192.168.1.3/digi-service/public/foto-produk/"
+
 }

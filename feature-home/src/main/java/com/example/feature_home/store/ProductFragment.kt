@@ -14,6 +14,7 @@ import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
+import com.example.core_util.Constants
 import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentProductBinding
@@ -78,7 +79,7 @@ class ProductFragment : Fragment() {
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(item.pathPhoto)
+                            .load(Constants.APP_IMAGES_URL+item.pathPhoto)
                             .centerCrop()
                             .into(ivProductPhoto)
                     }

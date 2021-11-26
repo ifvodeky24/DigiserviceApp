@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.domain.auth.isTechnician
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_util.bindLifecycle
-import com.example.core_util.dismissKeyboard
-import com.example.core_util.hideProgress
-import com.example.core_util.showProgress
+import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentLoginBinding

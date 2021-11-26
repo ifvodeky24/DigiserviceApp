@@ -100,8 +100,7 @@ class ChooseFragment : Fragment() {
                 R.color.colorCobaltBlue
             )
         }
-        else
-        {
+        else {
             binding.btnSubmit.isEnabled = isEnable
             binding.btnSubmit.backgroundTintList = ContextCompat.getColorStateList(
                 requireContext(),

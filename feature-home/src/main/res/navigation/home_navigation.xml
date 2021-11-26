@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_serviceFragment_to_serviceDetailFragment"
             app:destination="@id/serviceDetailFragment" />
+        <action
+            android:id="@+id/action_serviceFragment_to_serviceHandphoneTechnicianFragment"
+            app:destination="@id/serviceHandphoneTechnicianFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeFragment"
@@ -38,7 +41,7 @@
         android:id="@+id/editAccountFragment"
         android:name="com.example.feature_home.account.EditAccountFragment"
         android:label="EditAccountFragment"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_edit_account_technician" />
     <fragment
         android:id="@+id/serviceDetailFragment"
         android:name="com.example.feature_home.service.ServiceDetailFragment"
@@ -59,5 +62,14 @@
         android:name="com.example.feature_home.store.AddProductFragment"
         android:label="fragment_add_product"
         tools:layout="@layout/fragment_add_product" />
+    <fragment
+        android:id="@+id/serviceHandphoneTechnicianFragment"
+        android:name="com.example.feature_home.service.ServiceHandphoneTechnicianFragment"
+        android:label="fragment_service_handphone_technician"
+        tools:layout="@layout/fragment_service_handphone_technician" >
+        <argument
+            android:name="serviceHandphoneDetail"
+            app:argType="com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll" />
+    </fragment>
 
 </navigation>
