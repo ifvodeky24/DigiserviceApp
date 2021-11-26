@@ -11,6 +11,6 @@ val Application.homeModule
     get() = module {
         viewModel { HomeViewModel(get()) }
         viewModel { AccountViewModel(get()) }
-        viewModel { ProductViewModel(get()) }
+        viewModel { ProductViewModel(get(), get()) }
         viewModel { ServiceViewModel(get()) }
     }

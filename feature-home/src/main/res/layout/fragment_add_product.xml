@@ -42,20 +42,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <com.example.core_util.DigiTextView
-                android:id="@+id/buttonAddPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Tambah Foto"
-                android:textAllCaps="true"
-                android:textSize="@dimen/text_small"
-                app:digi_font_style="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <HorizontalScrollView
@@ -92,20 +78,6 @@
 
         </HorizontalScrollView>
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:layout_marginHorizontal="8dp">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/iv_product_photo"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                android:adjustViewBounds="true"-->
-<!--                android:src="@drawable/bg_image" />-->
-<!--        </androidx.cardview.widget.CardView>-->
-
         <com.example.core_util.DigiTextView
             android:layout_marginTop="@dimen/medium"
             android:layout_marginHorizontal="16dp"
@@ -116,6 +88,7 @@
             android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_product_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,15 +105,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.example.core_util.DigiTextView
-            android:layout_marginTop="@dimen/medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="@dimen/medium"
+            android:text="Harga Produk"
             android:textColor="@color/colorTextSecondary"
             android:textSize="@dimen/text_small"
-            android:text="Harga Produk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_product_price"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,6 +133,25 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.example.core_util.DigiTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="@dimen/medium"
+            android:text="Jenis Handphone"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_type_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_skills" />
+
+        <com.example.core_util.DigiTextView
             android:layout_marginTop="@dimen/medium"
             android:layout_marginHorizontal="16dp"
             android:textColor="@color/colorTextSecondary"
@@ -167,6 +161,7 @@
             android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_product_description"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"

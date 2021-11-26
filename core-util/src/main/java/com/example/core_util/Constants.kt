@@ -28,4 +28,10 @@ object Constants {
 
     const val RESULT_OK = -1
 
+    const val maxHeight = 1024f
+    const val maxWidth = 1024f
+
+    const val CHECHNICIAN = "teknisi"
+    const val CUSTOMER = "pelanggan"
+
 }

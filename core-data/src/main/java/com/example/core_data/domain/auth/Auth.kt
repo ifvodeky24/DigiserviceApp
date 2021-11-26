@@ -8,5 +8,20 @@ data class Auth(
     val aksesId: Int = 0,
     val level: String = "",
     val teknisiId: Int = 0,
+    val pelangganId: Int = 0,
+    val hp: String = "",
+    val alamat: String = "",
+    val foto: String = "",
+    val lat: String = "",
+    val lng: String = "",
     val isLogin: Boolean = false,
 )
+
+val Auth.isTechnician
+    get() = level == ROLE_TECHNICIAN
+
+val Auth.isConsument
+    get() = level == ROLE_CONSUMENT
+
+private const val ROLE_TECHNICIAN = "teknisi"
+private const val ROLE_CONSUMENT = "pelanggan"
