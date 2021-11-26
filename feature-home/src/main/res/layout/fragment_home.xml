@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minWidth="0dp"
+                android:visibility="gone"
                 android:text="Selanjutnya"
                 android:textColor="@color/colorBattleshipGrey" />
 
@@ -99,6 +100,7 @@
                 android:gravity="center"
                 android:minWidth="0dp"
                 android:text="Selanjutnya"
+                android:visibility="gone"
                 android:textColor="@color/colorBattleshipGrey" />
 
         </LinearLayout>
@@ -144,6 +146,7 @@
                 android:gravity="center"
                 android:minWidth="0dp"
                 android:text="Selanjutnya"
+                android:visibility="gone"
                 android:textColor="@color/colorBattleshipGrey" />
 
         </LinearLayout>

@@ -9,7 +9,8 @@ enum class ActivityClassPath(private val className: String) {
     Profile("$BASE_PATH.feature_profile.HomeActivity"),
     History("$BASE_PATH.feature_history.HomeActivity"),
     Service("$BASE_PATH.feature_service.HomeActivity"),
-    Map("$BASE_PATH.feature_auth.register.MapsActivity");
+    Map("$BASE_PATH.feature_auth.register.MapsActivity"),
+    Product("$BASE_PATH.feature_product.ProductActivity");
 
     fun getIntent(context: Context) = Intent(context, Class.forName(className))
 }
