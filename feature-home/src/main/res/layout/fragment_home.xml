@@ -22,7 +22,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:contentInsetStartWithNavigation="0dp"
-                app:menu="@menu/menu_home"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/Toolbar.Light"
                 app:title="Digiservice" />

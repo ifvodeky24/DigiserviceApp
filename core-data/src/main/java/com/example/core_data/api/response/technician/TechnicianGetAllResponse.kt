@@ -31,7 +31,7 @@ internal data class TechnicianGetAllDataResponse(
     @Json(name = "created_at")
     val createdAt: String = "",
     @Json(name = "updated_at")
-    val updatedA: String = "",
+    val updatedAt: String = "",
     @Json(name = "teknisi_total_score")
     val teknisiTotalScore: Double = 0.0,
     @Json(name = "teknisi_total_responden")
@@ -60,7 +60,7 @@ internal fun TechnicianGetAllDataResponse.toDomain() = TechnicianGetAll(
     teknisiLng = teknisiLng,
     teknisiHp = teknisiHp,
     createdAt = createdAt,
-    updatedA = updatedA,
+    updatedAt = updatedAt,
     teknisiTotalScore = teknisiTotalScore,
     teknisiTotalResponden = teknisiTotalResponden,
     teknisiDeskripsi = teknisiDeskripsi,

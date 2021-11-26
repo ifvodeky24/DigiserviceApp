@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
@@ -41,7 +42,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
 
         homeViewModel.technicianGetAll()
         homeViewModel.findNearbyTechnician("1", "1")
@@ -134,6 +135,28 @@ class HomeFragment : Fragment(), ModuleNavigator {
 //                            .placeholder(R.drawable.loading_spinner)
                             .into(ivTeknisi);
                     }
+
+                    onClick {
+                        val itemGetAll = TechnicianGetAll(
+                            teknisiId = item.teknisiId,
+                            email = item.email,
+                            teknisiNama = item.teknisiNama,
+                            teknisiNamaToko = item.teknisiNamaToko,
+                            teknisiAlamat = item.teknisiAlamat,
+                            teknisiLat = item.teknisiLat,
+                            teknisiLng = item.teknisiLng,
+                            teknisiHp = item.teknisiHp,
+                            createdAt = item.createdAt,
+                            updatedAt = item.updatedAt,
+                            teknisiTotalScore = item.teknisiTotalScore,
+                            teknisiTotalResponden = item.teknisiTotalResponden,
+                            teknisiDeskripsi = item.teknisiDeskripsi,
+                            teknisiFoto = item.teknisiFoto,
+                            teknisiSertifikat = item.teknisiSertifikat
+                        )
+                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(itemGetAll)
+                        findNavController().navigate(directionTechnicianGetAll)
+                    }
                 }
             }
         }
@@ -173,6 +196,11 @@ class HomeFragment : Fragment(), ModuleNavigator {
                             .centerCrop()
 //                            .placeholder(R.drawable.loading_spinner)
                             .into(ivTeknisi);
+                    }
+
+                    onClick {
+                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(item)
+                        findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
             }
