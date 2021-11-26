@@ -54,11 +54,23 @@ internal interface AuthService {
     @POST(UpdateTeknisi)
     suspend fun updateTeknisi(@Path("id") id: Int, @Body request: RequestUpdateTeknisi) : CommonResponse
 
+    @FormUrlEncoded
+    @POST(UpdatePelanggan)
+    suspend fun updatePelanggan(
+        @Path("id") id: Int,
+        @Field("pelanggan_id") pelangganId: Int,
+        @Field("pelanggan_email") pelangganEmail: String,
+        @Field("pelanggan_nama") pelangganNama: String,
+        @Field("pelanggan_alamat") pelangganAlamat: String,
+        @Field("pelanggan_hp") pelangganHp: String
+    ): CommonResponse
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
         const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
+        const val UpdatePelanggan = "pelanggan-update/{id}"
         const val SaveChoose = "insert-teknisi-jenis-hp-keahlian"
         const val SkilsBy = "keahlian-teknisi-by/{teknisi_id}"
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"

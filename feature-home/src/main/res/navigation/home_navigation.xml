@@ -41,7 +41,7 @@
         android:id="@+id/editAccountFragment"
         android:name="com.example.feature_home.account.EditAccountFragment"
         android:label="EditAccountFragment"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_edit_account_technician" />
     <fragment
         android:id="@+id/serviceDetailFragment"
         android:name="com.example.feature_home.service.ServiceDetailFragment"

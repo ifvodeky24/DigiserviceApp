@@ -21,6 +21,7 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.datasource.emptyDataSource
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_resource.showApiFailedDialog
@@ -48,6 +49,15 @@ class AddProductFragment : Fragment(), View.OnClickListener {
     private val textBtnAdd by lazy {
         "TAMBAH PRODUK"
     }
+    private val textHintEmptyName by lazy {
+        "Nama produk harus diisi"
+    }
+    private val textHintEmptyPrice by lazy {
+        "Harga harus diisi"
+    }
+    private val textHintEmptyDescription by lazy {
+        "Deskripsi harus diisi"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +71,41 @@ class AddProductFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         obserTypeHandphone()
-
         binding.firstImageView.setOnClickListener(this)
         binding.btnAddProduct.setOnClickListener(this)
+        setInput()
+    }
+
+    private fun setInput() {
+        with(binding){
+            form {
+                useRealTimeValidation(disableSubmit = true)
+                inputLayout(R.id.layout_product_name){
+                    isNotEmpty().description(textHintEmptyName)
+                }
+                inputLayout(R.id.layout_product_price){
+                    isNotEmpty().description(textHintEmptyPrice)
+                }
+                inputLayout(R.id.layout_product_description){
+                    isNotEmpty().description(textHintEmptyDescription)
+                }
+                submitWith(R.id.btn_add_product) { addProduct() }
+            }
+            btnAddProduct.bindLifecycle(viewLifecycleOwner)
+        }
+    }
+
+    private fun addProduct() {
+        getImagePathList()
+        if(productViewModel.firstImagePath == ""){
+            Toast.makeText(requireContext(), "Foto produk harus di isi", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            imageUriList.forEachIndexed { index, _ ->
+                uploadData(index)
+            }
+        }
 
     }
 
@@ -169,12 +209,6 @@ class AddProductFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.firstImageView -> showBottomSheet()
-            R.id.btn_add_product -> {
-                getImagePathList()
-                imageUriList.forEachIndexed { index, _ ->
-                    uploadData(index)
-                }
-            }
         }
     }
 

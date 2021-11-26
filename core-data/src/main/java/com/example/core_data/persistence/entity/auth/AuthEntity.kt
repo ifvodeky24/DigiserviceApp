@@ -16,10 +16,12 @@ internal data class AuthEntity(
     val teknisiId: Int = 0,
     val pelangganId: Int = 0,
     val hp: String = "",
+    val namaToko: String = "",
     val alamat: String = "",
     val foto: String = "",
     val lat: String = "",
     val lng: String = "",
+    val deskripsi: String = "",
     val isLogin: Boolean = false
 )
 
@@ -33,11 +35,13 @@ internal fun AuthEntity.toDomain() =
         level = level,
         teknisiId = teknisiId,
         pelangganId = pelangganId,
+        namaToko = namaToko,
         hp = hp,
         alamat = alamat,
         foto = foto,
         lat = lat,
         lng = lng,
+        deskripsi = deskripsi,
         isLogin = isLogin
     )
 
@@ -51,10 +55,12 @@ internal fun Auth.toEntity() =
         level = level,
         teknisiId = teknisiId,
         pelangganId = pelangganId,
+        namaToko = namaToko,
         hp = hp,
         alamat = alamat,
         foto = foto,
         lat = lat,
         lng = lng,
+        deskripsi = deskripsi,
         isLogin = isLogin
     )
