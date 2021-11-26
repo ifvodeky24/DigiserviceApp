@@ -426,6 +426,9 @@
                         tools:layout_editor_absoluteY="72dp" />
 
                     <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/btn_by_kurir"
+                        app:selectionRequired="true"
+                        app:checkedButton="@+id/kurir_no"
                         android:layout_marginVertical="@dimen/medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -433,6 +436,7 @@
                         app:singleSelection="true">
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/kurir_yes"
                             android:layout_width="0dp"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_height="wrap_content"
@@ -441,6 +445,7 @@
                             app:strokeWidth="@dimen/tiny"/>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/kurir_no"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

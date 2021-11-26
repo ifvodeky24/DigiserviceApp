@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/order_technician"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.example.core_util.DigiTextView
+        android:layout_marginTop="@dimen/medium"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/text_small"
+        android:text="Jenis Hp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue">
+
+        <com.example.core_util.DigiEditText
+            style="@style/EditText.Primary"
+            android:id="@+id/edt_input_jenis_hp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.example.core_util.DigiTextView
+        android:layout_marginTop="@dimen/medium"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/text_small"
+        android:text="Kerusakan Hp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue">
+
+        <com.example.core_util.DigiEditText
+            style="@style/EditText.Primary"
+            android:id="@+id/edt_input_kerusakan_hp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.example.core_util.DigiButton
+        android:id="@+id/btn_create_order"
+        style="@style/ThemeOverlay.DigiServices.Button.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="@dimen/small_fit"
+        android:text="Buat Pesanan"/>
+</LinearLayout>
