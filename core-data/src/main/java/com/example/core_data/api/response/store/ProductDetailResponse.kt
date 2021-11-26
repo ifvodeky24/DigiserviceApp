@@ -34,7 +34,11 @@ data class ProductDetailDataResponse(
     @Json(name="jenis_nama")
     val jenisNama: String = "",
     @Json(name="jenis_thumbnail")
-    val jenisThumbnail: String = ""
+    val jenisThumbnail: String = "",
+    @Json(name="name")
+    val name: String = "",
+    @Json(name="foto_produk")
+    val fotoProduk: String = ""
 )
 
 fun ProductDetailDataResponse.toDomain() = ProductDetail(
@@ -48,5 +52,7 @@ fun ProductDetailDataResponse.toDomain() = ProductDetail(
     jualDeskripsi = jualDeskripsi,
     jualJenisHp = jualJenisHp,
     jenisNama = jenisNama,
-    jenisThumbnail = jenisThumbnail
+    jenisThumbnail = jenisThumbnail,
+    name = name,
+    fotoProduk = fotoProduk
 )

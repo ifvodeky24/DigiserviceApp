@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.domain.store.ProductDetail
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_product.databinding.FragmentDetailProductBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,6 +34,8 @@ class DetailProductFragment : Fragment() {
 
         productViewModel.productDetail(jualId.toInt())
 
+        binding.backImageView.setOnClickListener { activity?.finish() }
+
         observeProductDetail()
     }
 
@@ -43,12 +46,24 @@ class DetailProductFragment : Fragment() {
                 }
                 is ApiEvent.OnSuccess -> productDetail.getData().let {
                     Timber.d(" productDetail dfdf ${productDetail.getData()}")
+                    onDataProductDetailLoaded(productDetail.getData()!!)
                 }
                 is ApiEvent.OnFailed -> {
                     Timber.d(" productDetail booom ${productDetail.getException()}")
                 }
             }
         })
+    }
+
+    private fun onDataProductDetailLoaded(data: ProductDetail) {
+        with(binding){
+            tvProductStatus.text = data.jualStatus
+            tvName.text = data.jualJudul
+            tvDate.text = data.jualTglPenjualan
+            tvPrice.text = "Rp. ${data.jualHarga}"
+            tvTypeName.text = data.jenisNama
+            tvDescription.text = data.jualDeskripsi
+        }
     }
 
     override fun onDestroyView() {

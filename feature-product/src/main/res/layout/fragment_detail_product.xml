@@ -25,7 +25,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_store"
+                    android:id="@+id/iv_product"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
@@ -115,27 +115,46 @@
                             tools:text="Item name" />
 
                         <com.example.core_util.DigiTextView
-                            android:id="@+id/tv_no_hp"
+                            android:id="@+id/tv_type_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextPrimary"
                             android:textSize="@dimen/text_small"
                             app:layout_constraintStart_toStartOf="@+id/tv_name"
                             app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                            tools:text="Email" />
+                            tools:text="Jenis Nama" />
 
                         <com.example.core_util.DigiTextView
-                            android:id="@+id/tv_email"
+                            android:id="@+id/tv_price"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/small_fit"
                             android:textColor="@color/colorTextPrimary"
-                            android:textSize="@dimen/text_small"
-                            app:layout_constraintStart_toStartOf="@+id/tv_no_hp"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_no_hp"
-                            tools:text="Nomor Handphone" />
+                            android:textSize="@dimen/text_large_fit"
+                            app:layout_constraintStart_toStartOf="@+id/tv_type_name"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_type_name"
+                            tools:text="Harga" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:layout_margin="@dimen/medium"
+                    app:cardCornerRadius="@dimen/medium"
+                    app:layout_constraintEnd_toEndOf="@+id/itemDetailFirstCardView"
+                    app:layout_constraintTop_toTopOf="@+id/itemDetailFirstCardView">
+                    <TextView
+                        android:id="@+id/tv_product_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorCobaltBlue"
+                        android:textColor="@color/colorWhite"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="4dp"
+                        android:text="Progress" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,29 +181,29 @@
                         app:layout_constraintStart_toStartOf="@+id/chatButton"
                         app:layout_constraintTop_toBottomOf="@+id/chatButton" />
 
-                    <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_rating_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/small"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_small"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/ratingBarInformation"
-                        app:layout_constraintStart_toEndOf="@+id/ratingBarInformation"
-                        app:layout_constraintTop_toTopOf="@+id/ratingBarInformation"
-                        tools:text="4.8" />
 
                     <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_store_name"
+                        android:id="@+id/tv_date_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/medium"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_normal"
                         app:digi_font_style="medium"
-                        app:layout_constraintStart_toEndOf="@+id/userImageView"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:text="Tanggal Penjualan" />
+
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/medium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_normal"
+                        app:digi_font_style="medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_date_title"
                         tools:text="Nama" />
 
                     <View
@@ -192,12 +211,12 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginEnd="@dimen/medium"
+                        android:layout_marginTop="@dimen/medium"
                         android:background="@drawable/rounded_menu_grey_shape"
                         android:text="Login"
                         android:textColor="@color/colorWhite"
-                        app:layout_constraintBottom_toBottomOf="@+id/userImageView"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/userImageView" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/imageView5"
@@ -210,29 +229,6 @@
                         app:layout_constraintTop_toTopOf="@+id/chatButton"
                         app:tint="#BDBDBD" />
 
-                    <ImageView
-                        android:id="@+id/userImageView"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:contentDescription="@string/image"
-                        android:src="@drawable/shape_circle_placeholder"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/ratingBarInformation"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_store_name" />
-
-                    <RatingBar
-                        android:id="@+id/ratingBarInformation"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:numStars="5"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/userImageView"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_store_name" />
-
                     <View
                         android:id="@+id/view65"
                         android:layout_width="0dp"
@@ -241,220 +237,44 @@
                         android:background="@color/dividerLine"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ratingBarInformation"
                         tools:ignore="MissingConstraints" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
-                    android:id="@+id/DescriptionProductConstraintLayout"
+                    android:id="@+id/container_service_hp_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/shape_round"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
+                    android:paddingVertical="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meetTheSellerConstraintLayout">
 
                     <com.example.core_util.DigiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Deskripsi Toko"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_medium"
-                        app:digi_font_style="medium"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_store_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium"
-                        android:text="@{item.description}"
+                        android:layout_marginStart="16dp"
+                        android:text="Deskripsi"
                         android:textColor="@color/colorTextSecondary"
-                        android:textSize="@dimen/text_normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="-" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="72dp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/jenisHpConstraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/DescriptionProductConstraintLayout">
+                        android:textSize="16sp"
+                        app:digi_font_style="medium" />
 
                     <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jenis Handphone"
+                        tools:text="Deskripsi"
                         android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_medium"
+                        android:textSize="16sp"
                         app:digi_font_style="medium"
-
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_jenis_hp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="72dp" />
-
-
+                        android:layout_marginTop="8dp"
+                        android:layout_marginHorizontal="16dp"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/jenisKerusakanHpConstraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/jenisHpConstraintLayout">
-
-                    <com.example.core_util.DigiTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Jenis Kerusakan"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_medium"
-                        app:digi_font_style="medium"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_jenis_kerusakan_hp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="72dp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/AddressConstraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/jenisKerusakanHpConstraintLayout">
-
-                    <com.example.core_util.DigiTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Alamat Usaha"
-                        android:textColor="@color/colorTextPrimary"
-                        android:textSize="@dimen/text_medium"
-                        app:digi_font_style="medium"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_store_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium"
-                        android:textColor="@color/colorTextSecondary"
-                        android:textSize="@dimen/text_normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="-" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="72dp" />
-
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/btn_by_kurir"
-                        app:selectionRequired="true"
-                        app:checkedButton="@+id/kurir_no"
-                        android:layout_marginVertical="@dimen/medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:singleSelection="true">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/kurir_yes"
-                            android:layout_width="0dp"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="PAKAI KURIR"
-                            app:strokeWidth="@dimen/tiny"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/kurir_no"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_weight="1"
-                            android:text="TIDAK"
-                            app:strokeWidth="@dimen/tiny"/>
-
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

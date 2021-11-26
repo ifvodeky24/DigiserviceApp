@@ -11,5 +11,7 @@ data class ProductDetail(
     val jualDeskripsi: String = "",
     val jualJenisHp: Int = 0,
     val jenisNama: String = "",
-    val jenisThumbnail: String = ""
+    val jenisThumbnail: String = "",
+    val name: String = "",
+    val fotoProduk: String = ""
 )

@@ -11,5 +11,4 @@ class ItemProductViewHolder(view: View) : ViewHolder(view) {
     val ivProductPhoto: ImageView = view.findViewById(R.id.iv_product_photo)
     val tvProductName: TextView = view.findViewById(R.id.tv_product_name)
     val tvProductDesciption: TextView = view.findViewById(R.id.tv_product_description)
-    val ibMore: ImageButton = view.findViewById(R.id.ib_more)
 }

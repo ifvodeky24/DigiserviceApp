@@ -61,15 +61,6 @@
 
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/ib_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_more_vert"
-                    app:tint="@color/colorBattleshipGrey"
-                    android:contentDescription="More" />
-
             </LinearLayout>
 
         </LinearLayout>
