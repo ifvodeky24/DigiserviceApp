@@ -1,10 +1,7 @@
 package com.example.core_data.domain.store
 
-import com.squareup.moshi.Json
-
-data class ProductGetAll(
+data class ProductDetail(
     val jualId: Int = 0,
-    val pathPhoto: String = "",
     val jualStatus: String = "",
     val jualTujuan: String = "",
     val jualUserId: Int = 0,
@@ -16,5 +13,3 @@ data class ProductGetAll(
     val jenisNama: String = "",
     val jenisThumbnail: String = ""
 )
-
-typealias ListProductGetAll = List<ProductGetAll>

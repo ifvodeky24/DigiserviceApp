@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ListProductGetAll
+import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.repository.StoreRepository
 import com.example.core_util.Constants
 import kotlinx.coroutines.flow.collect
@@ -35,11 +36,22 @@ class ProductViewModel(
     private val _productGetAllResponse = MutableLiveData<ApiEvent<ListProductGetAll?>>()
     val productGetAllResponse: LiveData<ApiEvent<ListProductGetAll?>> = _productGetAllResponse
 
+    private val _productDetailResponse = MutableLiveData<ApiEvent<ProductDetail?>>()
+    val productDetailResponse: LiveData<ApiEvent<ProductDetail?>> = _productDetailResponse
+
     fun productGetAll() {
         viewModelScope.launch {
             storeRepository.productGetAll()
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _productGetAllResponse.value = it }
+        }
+    }
+
+    fun productDetail(id: Int) {
+        viewModelScope.launch {
+            storeRepository.productDetail(id)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _productDetailResponse.value = it }
         }
     }
 }

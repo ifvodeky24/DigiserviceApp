@@ -35,6 +35,7 @@ dependencies {
     implementation project(':feature-profile')
     implementation project(':feature-service')
     implementation project(':feature-history')
+    implementation project(':feature-product')
 
     implementation deps.koin
 

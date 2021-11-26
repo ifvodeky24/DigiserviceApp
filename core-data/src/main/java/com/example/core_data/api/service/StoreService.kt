@@ -1,5 +1,6 @@
 package com.example.core_data.api.service
 
+import com.example.core_data.api.response.store.ProductDetailResponse
 import com.example.core_data.api.response.store.ProductGetAllResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,7 +12,7 @@ interface StoreService {
     @GET(GetProductDetail)
     suspend fun getProductDetail(
         @Path(JualId) jualId: Int
-    )
+    ) : ProductDetailResponse
 
     companion object {
         private const val JualId = "jual_id"
