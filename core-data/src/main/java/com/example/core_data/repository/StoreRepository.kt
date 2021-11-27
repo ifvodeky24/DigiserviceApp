@@ -84,6 +84,26 @@ class StoreRepository internal constructor(
         }
     }
 
+    fun productDetail(id : Int): Flow<ApiEvent<ProductDetail>> = flow {
+        runCatching {
+            val apiId = StoreService.GetProductDetail
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.getProductDetail(id)
+            }
+
+            val apiEvent: ApiEvent<ProductDetail> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result) {
+                    toDomain().run {
+                        ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ProductDetail>())
+        }
+    }
 
     fun uploadProduk(
         filePath: String,

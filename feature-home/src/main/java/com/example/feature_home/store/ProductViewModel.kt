@@ -70,7 +70,16 @@ class ProductViewModel(
         }
     }
 
-    fun setUploadItemImage(filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
+    fun productDetail(id: Int) {
+        viewModelScope.launch {
+            storeRepository.productDetail(id)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _productDetailResponse.value = it }
+        }
+    }
+
+
+        fun setUploadItemImage(filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
         viewModelScope.launch {
             storeRepository.uploadProduk(filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)
                 .onStart { emit(ApiEvent.OnProgress()) }
