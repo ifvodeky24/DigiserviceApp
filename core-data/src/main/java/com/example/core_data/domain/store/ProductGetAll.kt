@@ -1,7 +1,9 @@
 package com.example.core_data.domain.store
 
-import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ProductGetAll(
     val jualId: Int = 0,
     val pathPhoto: String = "",
@@ -12,7 +14,8 @@ data class ProductGetAll(
     val jualHarga: Int = 0,
     val jualJudul: String = "",
     val jualDeskripsi: String = "",
-    val jualJenisHp: Int = 0
-)
+    val jualJenisHp: Int = 0,
+    val jenisNama: String = ""
+) : Parcelable
 
 typealias ListProductGetAll = List<ProductGetAll>

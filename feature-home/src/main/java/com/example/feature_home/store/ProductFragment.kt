@@ -1,10 +1,8 @@
 package com.example.feature_home.store
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
@@ -12,14 +10,12 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
-import com.example.core_util.Constants
-import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentProductBinding
 import com.example.feature_home.viewHolder.ItemProductViewHolder
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -49,7 +45,8 @@ class ProductFragment : Fragment() {
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.action_add_product) {
-                findNavController().navigate(R.id.addProductFragment)
+                val updateDirections = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)
+                findNavController().navigate(updateDirections)
             }
             true
         }
@@ -79,9 +76,14 @@ class ProductFragment : Fragment() {
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(Constants.APP_IMAGES_URL+item.pathPhoto)
+                            .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
                             .centerCrop()
                             .into(ivProductPhoto)
+
+                        layoutCard.setOnClickListener {
+                            val directionTechnicianGetAll = ProductFragmentDirections.actionProductFragmentToDetailProdukFragment(item)
+                            findNavController().navigate(directionTechnicianGetAll)
+                        }
                     }
                 }
             }

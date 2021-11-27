@@ -14,22 +14,29 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import coil.load
 import com.afollestad.recyclical.ViewHolder
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.datasource.emptyDataSource
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.afollestad.vvalidator.form
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
+import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.*
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentAddProductBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class AddProductFragment : Fragment(), View.OnClickListener {
 
@@ -45,6 +52,8 @@ class AddProductFragment : Fragment(), View.OnClickListener {
     private val accountViewModel: AccountViewModel by viewModel()
 
     private var dataSource = emptyDataSource()
+
+    private val args: AddProductFragmentArgs by navArgs()
 
     private val textBtnAdd by lazy {
         "TAMBAH PRODUK"
@@ -73,8 +82,25 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         obserTypeHandphone()
         binding.firstImageView.setOnClickListener(this)
-        binding.btnAddProduct.setOnClickListener(this)
+        args.produk?.let {
+            setDisplay(it)
+        }
         setInput()
+    }
+
+    private fun setDisplay(product: ProductGetAll) {
+        productViewModel.isUpdate = true
+        with(binding){
+            product.apply {
+                Glide.with(this@AddProductFragment)
+                    .load(APP_PRODUCT_IMAGES_URL +pathPhoto)
+                    .into(firstImageView)
+                edtInputProductName.text = jualJudul.toEditable()
+                edtInputProductPrice.text = jualHarga.toEditable()
+                edtInputProductDescription.text = jualDeskripsi.toEditable()
+                btnAddProduct.text = "Update Produk"
+            }
+        }
     }
 
     private fun setInput() {
@@ -98,12 +124,34 @@ class AddProductFragment : Fragment(), View.OnClickListener {
 
     private fun addProduct() {
         getImagePathList()
-        if(productViewModel.firstImagePath == ""){
-            Toast.makeText(requireContext(), "Foto produk harus di isi", Toast.LENGTH_SHORT).show()
+        if (productViewModel.isUpdate){
+            if(productViewModel.firstImagePath == ""){
+                accountViewModel.authUser.observe(viewLifecycleOwner){ auth ->
+                    auth?.let {
+                        productViewModel.setUpdateItem(
+                            idJual = args?.produk?.jualId ?: 0,
+                            judul = binding.edtInputProductName.text.toString(),
+                            deskripsi = binding.edtInputProductDescription.text.toString(),
+                            harga = binding.edtInputProductPrice.text.toString().toInt(),
+                            userId = it.id.toString().toInt(),
+                            jenisHpId = productViewModel.typeFilter,)
+                    }
+                }
+            }
+            else{
+                imageUriList.forEachIndexed { index, _ ->
+                    uploadData(index)
+                }
+            }
         }
         else{
-            imageUriList.forEachIndexed { index, _ ->
-                uploadData(index)
+            if(productViewModel.firstImagePath == ""){
+                Toast.makeText(requireContext(), "Foto produk harus di isi", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                imageUriList.forEachIndexed { index, _ ->
+                    uploadData(index)
+                }
             }
         }
 
@@ -174,14 +222,32 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                 withItem<JenisHp, ItemTypeHpViewHolder>(R.layout.layout_items_radio_button){
                     onBind(::ItemTypeHpViewHolder){ _, item ->
                         titleRadioButton.text = item.jenisNama
-                        if (productViewModel.filter == ""){
-                            titleRadioButton.isChecked = item.jenisId == 1
-                            productViewModel.typeFilter = 1
-                            productViewModel.filter = "xiamoi"
+                        args?.produk?.let {
+                            if (item.jenisId == it.jualJenisHp){
+                                if (productViewModel.filter == ""){
+                                    titleRadioButton.isChecked = item.jenisId == it.jualJenisHp
+                                    productViewModel.typeFilter = it.jualJenisHp
+                                    productViewModel.filter = it.jenisNama
+                                }
+                                else{
+                                    titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
+                                }
+                            }
+                            else{
+                                titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
+                            }
                         }
-                        else{
-                            titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
+                        ?: run {
+                            if (productViewModel.filter == "") {
+                                titleRadioButton.isChecked = item.jenisId == 1
+                                productViewModel.typeFilter = 1
+                                productViewModel.filter = "xiamoi"
+                            }
+                            else {
+                                titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
+                            }
                         }
+
                         titleRadioButton.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked){
                                 productViewModel.filter = item.jenisNama
@@ -191,6 +257,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                             }
                             else titleRadioButton.isChecked = false
                         }
+
                     }
                 }
             }
@@ -284,17 +351,34 @@ class AddProductFragment : Fragment(), View.OnClickListener {
 
     private fun uploadData(imageCount: Int) {
         if (isFirstImageSelected) {
-            accountViewModel.authUser.observe(viewLifecycleOwner){
-                productViewModel.setUploadItemImage(
-                    filePath = imagePathList[imageCount],
-                    uri = imageUriList[imageCount],
-                    judul = binding.edtInputProductName.text.toString(),
-                    deskripsi = binding.edtInputProductDescription.text.toString(),
-                    harga = binding.edtInputProductPrice.text.toString(),
-                    userId = it?.id.toString(),
-                    jenisHpId = productViewModel.typeFilter.toString(),
-                    contentResolver = requireActivity().contentResolver
-                )
+            accountViewModel.authUser.observe(viewLifecycleOwner){ auth ->
+                auth?.let {
+                    if (productViewModel.isUpdate){
+                        productViewModel.setUpdateProdukImage(
+                            id = args?.produk?.jualId ?: 0,
+                            filePath = imagePathList[imageCount],
+                            uri = imageUriList[imageCount],
+                            judul = binding.edtInputProductName.text.toString(),
+                            deskripsi = binding.edtInputProductDescription.text.toString(),
+                            harga = binding.edtInputProductPrice.text.toString(),
+                            userId = it.id.toString(),
+                            jenisHpId = productViewModel.typeFilter.toString(),
+                            contentResolver = requireActivity().contentResolver
+                        )
+                    }
+                    else{
+                        productViewModel.setUploadItemImage(
+                            filePath = imagePathList[imageCount],
+                            uri = imageUriList[imageCount],
+                            judul = binding.edtInputProductName.text.toString(),
+                            deskripsi = binding.edtInputProductDescription.text.toString(),
+                            harga = binding.edtInputProductPrice.text.toString(),
+                            userId = it.id.toString(),
+                            jenisHpId = productViewModel.typeFilter.toString(),
+                            contentResolver = requireActivity().contentResolver
+                        )
+                    }
+                }
             }
             isFirstImageSelected = false
         }
@@ -304,6 +388,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         super.onDestroy()
         _binding = null
     }
+
 }
 
 class ItemTypeHpViewHolder(view: View) : ViewHolder(view) {

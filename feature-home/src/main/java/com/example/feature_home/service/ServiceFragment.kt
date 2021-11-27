@@ -106,7 +106,8 @@ class ServiceFragment : Fragment() {
                         }
                     }
                 }
-            } else if (auth?.level == "teknisi") {
+            }
+            else if (auth?.level == "teknisi") {
                 serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.id)
 
                 serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->

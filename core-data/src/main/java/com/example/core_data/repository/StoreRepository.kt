@@ -56,6 +56,82 @@ class StoreRepository internal constructor(
         }
     }
 
+    fun updateImageProduk(
+        id: Int,
+        filePath: String,
+        uri: Uri,
+        judul: String,
+        deskripsi: String,
+        harga: String,
+        userId: String,
+        jenisHpId: String,
+        contentResolver: ContentResolver
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        //Init File
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(uri, "r", null)
+
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+
+        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imagesDir, filePath)
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        // add another part within the multipart request
+        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val judulRB: RequestBody = judul.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val deskripsiRB: RequestBody = deskripsi.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val hargaRB: RequestBody = harga.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val userIdRB: RequestBody = userId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val jenisHpIdRB: RequestBody = jenisHpId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        val finalBody = body
+
+        runCatching {
+            val apiId = StoreService.UpdateProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                finalBody?.let {
+                    storeService.updateImageProduk(
+                        id = idRB,
+                        jualJudul = judulRB,
+                        jualDeskripsi = deskripsiRB,
+                        jualHarga = hargaRB,
+                        jualUserId = userIdRB,
+                        jualJenisHp = jenisHpIdRB,
+                        foto = MultipartBody.Part.createFormData(
+                            "foto",
+                            file.name,
+                            body
+                        ),
+                    )
+                }
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
     fun uploadProduk(
         filePath: String,
         uri: Uri,
@@ -107,6 +183,49 @@ class StoreRepository internal constructor(
                         ),
                     )
                 }
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun updateProduk(
+        id: Int,
+        judul: String,
+        deskripsi: String,
+        harga: Int,
+        userId: Int,
+        jenisHpId: Int,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        runCatching {
+            val apiId = StoreService.UploadProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                    storeService.updateProduk(
+                        id = id,
+                        jualJudul = judul,
+                        jualDeskripsi = deskripsi,
+                        jualHarga = harga,
+                        jualUserId = userId,
+                        jualJenisHp = jenisHpId,
+                    )
             }
 
             val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
@@ -351,6 +470,40 @@ class StoreRepository internal constructor(
             inSampleSize++
         }
         return inSampleSize
+    }
+
+
+    fun deleteProduk(
+        id: Int
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        runCatching {
+            val apiId = StoreService.DeleteProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.deleteProduct(
+                    id = id
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
     }
 
 }

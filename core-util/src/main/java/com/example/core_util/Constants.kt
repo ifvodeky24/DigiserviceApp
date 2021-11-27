@@ -34,6 +34,4 @@ object Constants {
     const val CHECHNICIAN = "teknisi"
     const val CUSTOMER = "pelanggan"
 
-    const val APP_IMAGES_URL = "http://192.168.1.3/digi-service/public/foto-produk/"
-
 }

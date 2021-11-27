@@ -27,11 +27,41 @@ interface StoreService {
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
+    @Multipart
+    @POST(UpdateProduct)
+    suspend fun updateImageProduk(
+        @Part("id") id: RequestBody,
+        @Part("jual_judul") jualJudul: RequestBody,
+        @Part("jual_deskripsi") jualDeskripsi: RequestBody,
+        @Part("jual_harga") jualHarga: RequestBody,
+        @Part("jual_user_id") jualUserId: RequestBody,
+        @Part("jual_jenis_hp") jualJenisHp: RequestBody,
+        @Part foto: MultipartBody.Part,
+    ) : CommonResponse
+
+    @FormUrlEncoded
+    @POST(UpdateProduct)
+    suspend fun updateProduk(
+        @Field("id") id: Int,
+        @Field("jual_judul") jualJudul: String,
+        @Field("jual_deskripsi") jualDeskripsi: String,
+        @Field("jual_harga") jualHarga: Int,
+        @Field("jual_user_id") jualUserId: Int,
+        @Field("jual_jenis_hp") jualJenisHp: Int,
+    ) : CommonResponse
+
+    @GET(DeleteProduct)
+    suspend fun deleteProduct(
+        @Path("id") id: Int
+    ) : CommonResponse
+
     companion object {
         private const val JualId = "jual_id"
 
         const val GetProductAll = "produk-all"
         const val UploadProduct = "produk-insert"
+        const val UpdateProduct = "produk-update"
         const val GetProductDetail = "produk-detail/{$JualId}"
+        const val DeleteProduct = "produk-delete/{id}"
     }
 }

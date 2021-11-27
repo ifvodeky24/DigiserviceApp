@@ -20,6 +20,8 @@ private var imagePath = ""
 
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
+fun Int.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this.toString())
+
 fun ImageView.loadImage(uri: Uri?){
     if (this != null && uri != null){
         this.load(uri)

@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/colorCobaltBlue</item>
     </style>
 
+    <style name="ThemeOverlay.DigiServices.Button.Red" parent="">
+        <item name="colorPrimary">@color/colorRed</item>
+    </style>
+
     <style name="Widget.DigiService.Button.Secondary" parent="Widget.MaterialComponents.Button">
         <item name="digi_font_family">GoogleSans</item>
         <item name="digi_font_style">bold</item>

@@ -31,11 +31,16 @@ class ProductViewModel(
     var filter = ""
     var typeFilter = 0
 
+    internal var isUpdate = false
+
     private val _productGetAllResponse = MutableLiveData<ApiEvent<ListProductGetAll?>>()
     val productGetAllResponse: LiveData<ApiEvent<ListProductGetAll?>> = _productGetAllResponse
 
     private val _uploadItemProdukResponse = MutableLiveData<ApiEvent<CommonResponse?>>()
     val uploadItemProdukResponse: LiveData<ApiEvent<CommonResponse?>> = _uploadItemProdukResponse
+
+    private val _deleteProductResponse = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val deleteProductResponse: LiveData<ApiEvent<CommonResponse?>> = _deleteProductResponse
 
     private val _liveJenisHp = MutableLiveData<ApiEvent<ListJenisHp?>>()
     val liveJenisHp: LiveData<ApiEvent<ListJenisHp?>> = _liveJenisHp
@@ -63,6 +68,30 @@ class ProductViewModel(
             storeRepository.uploadProduk(filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _uploadItemProdukResponse.value = it }
+        }
+    }
+
+    fun setUpdateProdukImage(id: Int, filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
+        viewModelScope.launch {
+            storeRepository.updateImageProduk(id, filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _uploadItemProdukResponse.value = it }
+        }
+    }
+
+    fun setUpdateItem(idJual: Int, judul: String, deskripsi: String, harga: Int, userId: Int, jenisHpId: Int){
+        viewModelScope.launch {
+            storeRepository.updateProduk(idJual, judul, deskripsi, harga, userId, jenisHpId)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _uploadItemProdukResponse.value = it }
+        }
+    }
+
+    internal fun deleteProduct(id: Int){
+        viewModelScope.launch {
+            storeRepository.deleteProduk(id)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _deleteProductResponse.value = it }
         }
     }
 }
