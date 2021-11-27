@@ -3,6 +3,7 @@ package com.example.core_navigation
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
@@ -30,6 +31,39 @@ interface ModuleNavigator {
         finnishCurrent: Boolean = false
     ) where T : AppCompatActivity, T : ModuleNavigator {
         startActivity(ActivityClassPath.Home, finnishCurrent)
+    }
+
+    interface ProductNav : ModuleNavigator {
+
+        companion object {
+            const val JUAL_ID = "jualId"
+        }
+
+        @MainThread
+        fun <T> T.jualIdParam(): Lazy<String> where T : AppCompatActivity, T : ProductNav =
+            lazy(LazyThreadSafetyMode.NONE) {
+                intent.getStringExtra(JUAL_ID).orEmpty()
+            }
+    }
+
+    fun <T> T.navigateToProductActivity(
+        jualId: String,
+        finnishCurrent: Boolean = false
+    ) where T : Fragment, T : ModuleNavigator {
+        ActivityClassPath.Product.getIntent(requireContext())
+            .apply {
+                putExtra(ProductNav.JUAL_ID, jualId)
+            }.let { startActivity(it, finnishCurrent) }
+    }
+
+    fun <T> T.navigateToProductActivity(
+        jualId: String,
+        finnishCurrent: Boolean = false
+    ) where T : AppCompatActivity, T : ModuleNavigator {
+        ActivityClassPath.Product.getIntent(this)
+            .apply {
+                putExtra(ProductNav.JUAL_ID, jualId)
+            }.let { startActivity(it, finnishCurrent) }
     }
 }
 

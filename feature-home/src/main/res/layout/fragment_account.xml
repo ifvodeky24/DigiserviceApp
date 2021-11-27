@@ -62,6 +62,7 @@
                     android:id="@+id/labelPhone"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_small"
+                    android:layout_marginTop="@dimen/small"
                     app:layout_constraintTop_toBottomOf="@id/labelStoreName"
                     app:layout_constraintLeft_toLeftOf="@id/labelStoreName"
                     app:layout_constraintRight_toRightOf="@id/labelStoreName"
@@ -193,6 +194,7 @@
                     android:layout_height="wrap_content" />
 
                 <com.example.core_util.DigiTextView
+                    android:id="@+id/tv_skills_type"
                     android:layout_marginTop="@dimen/medium"
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="@dimen/text_small"
@@ -206,6 +208,7 @@
                     android:layout_height="wrap_content"/>
 
                 <com.example.core_util.DigiTextView
+                    android:id="@+id/tv_hp_type"
                     android:layout_marginTop="@dimen/medium"
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="@dimen/text_small"

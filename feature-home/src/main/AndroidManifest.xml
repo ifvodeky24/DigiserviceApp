@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-            android:requestLegacyExternalStorage="true"
-            tools:targetApi="q">
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q">
         <activity
             android:name=".HomeActivity"
             android:exported="false" />

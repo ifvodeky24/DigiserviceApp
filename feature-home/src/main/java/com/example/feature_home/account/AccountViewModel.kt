@@ -148,4 +148,22 @@ class AccountViewModel(
                 }
         }
     }
+
+    fun updateCustomer(pelangganId: Int, userId: Int, pelangganNama: String, pelangganEmail: String, pelangganAlamat: String, pelangganHp: String){
+        viewModelScope.launch {
+            authRepository.updatePelanggan(
+                pelangganId = pelangganId,
+                userId = userId,
+                pelangganNama = pelangganNama,
+                pelangganEmail = pelangganEmail,
+                pelangganAlamat = pelangganAlamat,
+                pelangganHp = pelangganHp
+            )
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect {
+                    isUpdate.value = it is ApiEvent.OnSuccess<*>
+                    saveForm.value = it
+                }
+        }
+    }
 }

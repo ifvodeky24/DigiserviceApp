@@ -10,10 +10,12 @@ data class Auth(
     val teknisiId: Int = 0,
     val pelangganId: Int = 0,
     val hp: String = "",
+    val namaToko: String = "",
     val alamat: String = "",
     val foto: String = "",
     val lat: String = "",
     val lng: String = "",
+    val deskripsi: String = "",
     val isLogin: Boolean = false,
 )
 

@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.feature_home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/serviceFragment"
         android:name="com.example.feature_home.service.ServiceFragment"
@@ -41,7 +45,7 @@
         android:id="@+id/editAccountFragment"
         android:name="com.example.feature_home.account.EditAccountFragment"
         android:label="EditAccountFragment"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_edit_account_technician" />
     <fragment
         android:id="@+id/serviceDetailFragment"
         android:name="com.example.feature_home.service.ServiceDetailFragment"

@@ -130,11 +130,9 @@ class RegisterFragment : Fragment() {
                 }
                 submitWith(R.id.btn_next) { registerService() }
             }
-        }
-
-        binding.btnNext.bindLifecycle(viewLifecycleOwner)
-        binding.mapViewButton.setOnClickListener {
-
+                btnNext.bindLifecycle(viewLifecycleOwner)
+                mapViewButton.setOnClickListener {
+            }
         }
     }
 

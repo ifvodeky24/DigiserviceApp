@@ -12,11 +12,14 @@ import android.util.Log
 import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.ApiResult
+import com.example.core_data.api.response.store.ProductDetailDataResponse
+import com.example.core_data.api.response.store.ProductDetailResponse
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.store.toDomain
 import com.example.core_data.api.service.StoreService
 import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.store.ListProductGetAll
+import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.UploadRequestBody
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

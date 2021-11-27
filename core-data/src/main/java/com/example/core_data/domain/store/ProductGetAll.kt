@@ -12,7 +12,9 @@ data class ProductGetAll(
     val jualHarga: Int = 0,
     val jualJudul: String = "",
     val jualDeskripsi: String = "",
-    val jualJenisHp: Int = 0
+    val jualJenisHp: Int = 0,
+    val jenisNama: String = "",
+    val jenisThumbnail: String = ""
 )
 
 typealias ListProductGetAll = List<ProductGetAll>

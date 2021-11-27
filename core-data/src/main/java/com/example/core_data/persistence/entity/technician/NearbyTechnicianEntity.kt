@@ -15,7 +15,7 @@ internal data class NearbyTechnicianEntity(
     val teknisiAlamat: String,
     val teknisiLat: String,
     val teknisiLng: String,
-    val teknisiHp: String? = "",
+    val teknisiHp: String = "",
     val createdAt: String,
     val updatedAt: String,
     val teknisiTotalScore: Double,

@@ -8,4 +8,21 @@
     <string name="produk">Produk</string>
     <string name="history_service">History Service</string>
     <string name="history_produk">History Product</string>
+    <string name="ganti">Ganti</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
+    <string name="nomor_handphone">Nomor Handphone</string>
+    <string name="nama_toko">Nama Toko</string>
+    <string name="alamat_toko">Alamat Toko</string>
+    <string name="deskripsi_toko">Deskripsi Toko</string>
+    <string name="skils_jenis_kerusakan_hp">Skils/Jenis Kerusakan HP</string>
+    <string name="jenis_hp">Jenis HP</string>
+    <string name="update">UPDATE</string>
+    <string name="foto_produk">Foto Produk</string>
+    <string name="harga_produk">Harga Produk</string>
+    <string name="jenis_handphone">Jenis Handphone</string>
+    <string name="deskripsi_produk">Deskripsi Produk</string>
+    <string name="tambah_produk">Tambah Produk</string>
+    <string name="edit_account">Edit Akun</string>
+    <string name="success_updated">Berhasil diupdate!</string>
 </resources>

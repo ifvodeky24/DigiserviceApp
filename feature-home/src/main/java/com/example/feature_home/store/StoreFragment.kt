@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.example.core_util.Constants
+import com.example.core_data.domain.auth.isTechnician
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentStoreBinding
@@ -33,22 +33,13 @@ class StoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
-            if (auth?.level == Constants.CHECHNICIAN) {
-                accountViewModel.setCurrentTechinicial(auth.email)
-
-                accountViewModel.technicial.observe(viewLifecycleOwner, { tech ->
-                    if (tech?.teknisiFoto?.isNotEmpty() == true) binding.imageProfilePicture.load(
-                        tech.teknisiFoto
-                    ) {
-                        crossfade(true)
-                        transformations(CircleCropTransformation())
-                    }
-                    binding.labelStoreName.text = tech?.teknisiNamaToko
-                    binding.labelPhone.text = tech?.teknisiHp
-                })
-            }
-            else{
-
+            auth?.let {
+                if (auth.foto.isNotEmpty()) binding.imageProfilePicture.load(auth.foto) {
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                }
+                binding.labelStoreName.text = if (auth.isTechnician) auth.namaToko else auth.name
+                binding.labelPhone.text = auth.hp
             }
         })
 
