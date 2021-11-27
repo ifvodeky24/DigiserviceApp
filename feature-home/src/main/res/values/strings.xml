@@ -6,6 +6,8 @@
     <string name="text_profile_picture">Image Profile</string>
     <string name="text_change_photo">Ganti</string>
     <string name="produk">Produk</string>
+    <string name="history_service">History Service</string>
+    <string name="history_produk">History Product</string>
     <string name="ganti">Ganti</string>
     <string name="nama">Nama</string>
     <string name="email">Email</string>

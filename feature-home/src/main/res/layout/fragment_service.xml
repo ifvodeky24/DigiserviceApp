@@ -5,7 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="end">
+    tools:openDrawer="end"
+    android:background="@color/colorWhite">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/parent_view"
@@ -38,7 +39,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="@dimen/medium"
             android:background="@color/grey_3"
             android:clipToPadding="true"
@@ -113,7 +114,6 @@
                     android:layout_marginHorizontal="@dimen/medium"
                     android:paddingVertical="@dimen/small_fit"
                     android:text="FILTER"/>
-
 
             </LinearLayout>
 

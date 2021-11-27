@@ -1,29 +1,28 @@
-package com.example.feature_home.store
+package com.example.feature_home.history.teknisi
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
-import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.databinding.FragmentProductBinding
+import com.example.feature_home.databinding.FragmentHistoryProductTeknisiBinding
+import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class ProductFragment : Fragment() {
+class HistoryProductTeknisiFragment : Fragment() {
 
-    private var _binding: FragmentProductBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentHistoryProductTeknisiBinding? = null
+    private val binding: FragmentHistoryProductTeknisiBinding get() = _binding!!
 
     private val productViewModel: ProductViewModel by viewModel()
     private val accountViewModel: AccountViewModel by viewModel()
@@ -31,10 +30,8 @@ class ProductFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentProductBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+    ): View? {
+        _binding = FragmentHistoryProductTeknisiBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,14 +41,6 @@ class ProductFragment : Fragment() {
         observeUser()
 
         observeProductByUserId()
-
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.action_add_product) {
-                val updateDirections = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)
-                findNavController().navigate(updateDirections)
-            }
-            true
-        }
     }
 
     private fun observeUser() {
@@ -79,26 +68,21 @@ class ProductFragment : Fragment() {
 
     private fun onDataProductAllLoaded(data: List<ProductGetAll>) {
         if (data.isNotEmpty()) {
-            binding.rvProduct.setup {
+            binding.rvHistoryProductTeknisi.setup {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_product) {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
-                            .centerCrop()
+                            .load(item.pathPhoto)
                             .into(ivProductPhoto)
-
-                        layoutCard.setOnClickListener {
-                            val directionTechnicianGetAll = ProductFragmentDirections.actionProductFragmentToDetailProdukFragment(item)
-                            findNavController().navigate(directionTechnicianGetAll)
-                        }
                     }
                 }
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

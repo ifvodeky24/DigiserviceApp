@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small"
+            android:backgroundTint="@color/colorCobaltBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_service_hp_customer_name">
 
@@ -43,7 +44,6 @@
                 android:id="@+id/tv_service_hp_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorCobaltBlue"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp"
                 android:textColor="@color/colorWhite"

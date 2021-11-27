@@ -14,12 +14,13 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
-import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
+import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
@@ -89,10 +90,6 @@ class ServiceFragment : Fragment() {
                     }
                 })
 
-                accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
-
-                })
-
                 serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
                     when(event){
                         is ApiEvent.OnProgress -> {
@@ -106,9 +103,8 @@ class ServiceFragment : Fragment() {
                         }
                     }
                 }
-            }
-            else if (auth?.level == "teknisi") {
-                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.id)
+            } else if (auth?.level == "teknisi") {
+                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.teknisiId)
 
                 serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
                     when(event) {
@@ -149,20 +145,30 @@ class ServiceFragment : Fragment() {
         }
     }
 
-    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneTechnicianGetAll>) {
+    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneByTechnicianGetAll>) {
         if (data.isNotEmpty()) {
             binding.recyclerView.setup {
                 withLayoutManager(LinearLayoutManager(context))
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
+                withItem<ServiceHandphoneByTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
                     onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
-                        tvServiceHpName.text = item.pelangganNama
+                        val customerName = item.pelangganNama.run {
+                            if (length >= 18) {
+                                "${this.slice(0..16)}..."
+                            } else {
+                                this
+                            }
+                        }
+                        tvServiceHpCustomerName.text = customerName
+                        tvServiceHpStatus.text = item.statusService
+                        tvServiceHpDate.text = item.createdAt
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan
+
                         Glide.with(this@ServiceFragment)
                             .load(item.pelangganFoto)
                             .transform(CircleCrop())
-                            .into(ivServiceCustomerPhoto)
+                            .into(ivServiceHpUserPhoto)
 
                         layoutCard.setOnClickListener {
                             val toServiceHandphoneDetail = ServiceFragmentDirections.actionServiceFragmentToServiceHandphoneTechnicianFragment(item)
@@ -190,44 +196,44 @@ class ServiceFragment : Fragment() {
         drawer = binding.drawerLayout
     }
 
-    private fun setupRecyclerSkils(listSkils: ResultSkils){
-        serviceViewModel jenisKerusakan listSkils.skils
-        serviceViewModel jenisHp listSkils.jenisHp
-        binding.rvJenisHp.setup {
-            withLayoutManager(LinearLayoutManager(requireContext()))
-            withDataSource(dataSourceTypedOf(listSkils.skils))
-            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
-                onBind(::ItemViewHolder){ index, item ->
-                    titleCheckBox.text = item.namaKerusakan
-                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                        serviceViewModel.putEditDataValue(
-                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
-                            itemId =item.id,
-                            indexId = index,
-                            value = if (isChecked) "1" else "0"
-                        )
-                    }
-                }
-            }
-        }
-        binding.rvJenisKerusakanHp.setup {
-            withLayoutManager(LinearLayoutManager(requireContext()))
-            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
-            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
-                onBind(::ItemViewHolder){ index, item ->
-                    titleCheckBox.text = item.jenisNama
-                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                        serviceViewModel.putEditDataValue(
-                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
-                            itemId =item.id,
-                            indexId = index,
-                            value = if (isChecked) "1" else "0"
-                        )
-                    }
-                }
-            }
-        }
-    }
+//    private fun setupRecyclerSkils(listSkils: ResultSkils){
+//        serviceViewModel jenisKerusakan listSkils.skils
+//        serviceViewModel jenisHp listSkils.jenisHp
+//        binding.rvJenisHp.setup {
+//            withLayoutManager(LinearLayoutManager(requireContext()))
+//            withDataSource(dataSourceTypedOf(listSkils.skils))
+//            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
+//                onBind(::ItemViewHolder){ index, item ->
+//                    titleCheckBox.text = item.namaKerusakan
+//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+//                        serviceViewModel.putEditDataValue(
+//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
+//                            itemId =item.id,
+//                            indexId = index,
+//                            value = if (isChecked) "1" else "0"
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        binding.rvJenisKerusakanHp.setup {
+//            withLayoutManager(LinearLayoutManager(requireContext()))
+//            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
+//            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
+//                onBind(::ItemViewHolder){ index, item ->
+//                    titleCheckBox.text = item.jenisNama
+//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+//                        serviceViewModel.putEditDataValue(
+//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
+//                            itemId =item.id,
+//                            indexId = index,
+//                            value = if (isChecked) "1" else "0"
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

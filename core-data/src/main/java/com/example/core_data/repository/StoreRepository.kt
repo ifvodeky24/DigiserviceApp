@@ -135,6 +135,31 @@ class StoreRepository internal constructor(
         }
     }
 
+    fun productByUserId(userId: Int): Flow<ApiEvent<ListProductGetAll>> = flow {
+        runCatching {
+            val apiId = StoreService.GetProductByUserId
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.getProductByUserId(userId)
+            }
+
+            val apiEvent: ApiEvent<ListProductGetAll> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result) {
+                    toDomain().run {
+                        if (isEmpty()) {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        } else {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListProductGetAll>())
+        }
+    }
+
     fun productDetail(id : Int): Flow<ApiEvent<ProductDetail>> = flow {
         runCatching {
             val apiId = StoreService.GetProductDetail

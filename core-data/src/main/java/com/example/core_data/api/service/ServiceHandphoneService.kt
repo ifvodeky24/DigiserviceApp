@@ -1,9 +1,8 @@
 package com.example.core_data.api.service
 
-import com.example.core_data.api.request.RequestAddServiceHandphone
-import com.example.core_data.api.request.RequestUpdateServiceHandphone
 import com.example.core_data.api.response.CommonResponse
-import com.example.core_data.api.response.servicehp.ServiceHandphoneTechnicianGetAllResponse
+import com.example.core_data.api.response.servicehp.ServiceHandphoneByCustomerGetAllResponse
+import com.example.core_data.api.response.servicehp.ServiceHandphoneByTechnicianGetAllResponse
 import com.example.core_data.api.response.servicehp.ServiceHandphoneTechnicianGetResponse
 import retrofit2.http.*
 
@@ -27,20 +26,31 @@ interface ServiceHandphoneService {
     ) : CommonResponse
 
     @GET(ServiceHandphoneGetByTechnician)
-    suspend fun getServiceHeadphoneByTechnician(
+    suspend fun getServiceHandphoneByTechnician(
         @Path(value = "technician_id") technicianId: Int
-    ) : ServiceHandphoneTechnicianGetAllResponse
+    ) : ServiceHandphoneByTechnicianGetAllResponse
+
+    @GET(ServiceHandphoneHistoryGetByTechnician)
+    suspend fun getServiceHandphoneHistoryByTechnician(
+        @Path(value = "technician_id") technicianId: Int
+    ) : ServiceHandphoneByTechnicianGetAllResponse
+
+    @GET(ServiceHandphoneGetByCustomer)
+    suspend fun getServiceHandphoneByCustomer(
+        @Path(value = "customer_id") technicianId: Int
+    ) : ServiceHandphoneByCustomerGetAllResponse
 
     @GET(ServiceHandphoneGetById)
-    suspend fun getServiceHeadphoneById(
+    suspend fun getServiceHandphoneById(
         @Path(value = "service_handphone_id") technicianId: Int
     ) : ServiceHandphoneTechnicianGetResponse
 
     companion object {
 
-        const val ServiceHandphone = "service-handphone"
         const val ServiceHandphoneInsert = "service-handphone-insert"
         const val ServiceHandphoneGetByTechnician = "service-handphone-by-teknisi/{technician_id}"
+        const val ServiceHandphoneHistoryGetByTechnician = "service-handphone-history-by-teknisi/{technician_id}"
+        const val ServiceHandphoneGetByCustomer = "service-handphone-history-by-pelanggan/{customer_id}"
         const val ServiceHandphoneGetById = "service-handphone-by-id/{service_handphone_id}"
         const val ServiceHandphoneUpdate = "service-handphone-update/{service_handphone_id}"
     }

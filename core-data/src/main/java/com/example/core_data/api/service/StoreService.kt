@@ -12,6 +12,9 @@ interface StoreService {
     @GET(GetProductAll)
     suspend fun getProductAll(): ProductGetAllResponse
 
+    @GET(GetProductByUserId)
+    suspend fun getProductByUserId(@Path("jual_user_id") userId: Int): ProductGetAllResponse
+
     @GET(GetProductDetail)
     suspend fun getProductDetail(
         @Path(JualId) jualId: Int
@@ -60,6 +63,7 @@ interface StoreService {
         private const val JualId = "jual_id"
 
         const val GetProductAll = "produk-all"
+        const val GetProductByUserId = "produk-by-user-id/{jual_user_id}"
         const val UploadProduct = "produk-insert"
         const val UpdateProduct = "produk-update"
         const val GetProductDetail = "produk-detail/{$JualId}"

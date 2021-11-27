@@ -33,7 +33,7 @@
         tools:layout="@layout/fragment_store" />
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.feature_home.HistoryFragment"
+        android:name="com.example.feature_home.history.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
     <fragment
@@ -89,7 +89,7 @@
         tools:layout="@layout/fragment_service_handphone_technician" >
         <argument
             android:name="serviceHandphoneDetail"
-            app:argType="com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll" />
+            app:argType="com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll" />
     </fragment>
     <fragment
         android:id="@+id/detailProdukFragment"

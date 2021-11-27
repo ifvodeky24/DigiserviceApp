@@ -17,5 +17,5 @@
     <string name="dialog_api_failed_network_content">Koneksi terganggu. Silahkan coba kembali beberapa saat lagi.</string>
     <string name="dialog_api_failed_server_title">Gangguan Server</string>
     <string name="dialog_api_failed_server_content">Server sedang dalam gangguan. Silahkan coba kembali beberapa saat lagi.</string>
-
+    <string name="product_price">Rp %s</string>
 </resources>

@@ -1,25 +1,25 @@
 package com.example.core_data.api.response.servicehp
 
-import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
+import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ServiceHandphoneTechnicianGetAllResponse(
-	val result: ListServiceHandphoneTechnicianGetAllDataResponse,
+data class ServiceHandphoneByTechnicianGetAllResponse(
+	val result: ListServiceHandphoneByTechnicianGetAllDataResponse,
 	val code: Int,
 	val message: String
 )
 
 @JsonClass(generateAdapter = true)
 data class ServiceHandphoneTechnicianGetResponse(
-	val result: ServiceHandphoneTechnicianGetAllDataResponse,
+	val result: ServiceHandphoneByTechnicianGetAllDataResponse,
 	val code: Int,
 	val message: String
 )
 
 @JsonClass(generateAdapter = true)
-data class ServiceHandphoneTechnicianGetAllDataResponse(
+data class ServiceHandphoneByTechnicianGetAllDataResponse(
 	@Json(name="pelanggan_id")
 	val pelangganId: Int = 0,
 	@Json(name="service_handphone_id")
@@ -56,14 +56,14 @@ data class ServiceHandphoneTechnicianGetAllDataResponse(
 	val email: String = ""
 )
 
-typealias ListServiceHandphoneTechnicianGetAllDataResponse = List<ServiceHandphoneTechnicianGetAllDataResponse>
+typealias ListServiceHandphoneByTechnicianGetAllDataResponse = List<ServiceHandphoneByTechnicianGetAllDataResponse>
 
-fun ListServiceHandphoneTechnicianGetAllDataResponse.toDomain() = map {
+fun ListServiceHandphoneByTechnicianGetAllDataResponse.toDomain() = map {
 	it.toDomain()
 }
 
-fun ServiceHandphoneTechnicianGetAllDataResponse.toDomain() =
-	ServiceHandphoneTechnicianGetAll(
+fun ServiceHandphoneByTechnicianGetAllDataResponse.toDomain() =
+	ServiceHandphoneByTechnicianGetAll(
 		pelangganId = pelangganId,
 		serviceHandphoneId = serviceHandphoneId,
 		jenisKerusakan = jenisKerusakan,
