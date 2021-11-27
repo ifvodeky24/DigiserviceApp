@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductDetail
 import com.example.feature_home.store.ProductViewModel
@@ -63,6 +65,10 @@ class DetailProductFragment : Fragment() {
             tvPrice.text = "Rp. ${data.jualHarga}"
             tvTypeName.text = data.jenisNama
             tvDescription.text = data.jualDeskripsi
+            Glide.with(requireActivity())
+                .load(APP_PRODUCT_IMAGES_URL +data.fotoProduk)
+                .fitCenter()
+                .into(ivProduct)
         }
     }
 

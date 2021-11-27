@@ -9,6 +9,7 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_data.domain.technician.NearbyTechnician
@@ -88,7 +89,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(item.jenisThumbnail)
+                            .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
                             .centerCrop()
                             .into(ivProductPhoto)
                     }
