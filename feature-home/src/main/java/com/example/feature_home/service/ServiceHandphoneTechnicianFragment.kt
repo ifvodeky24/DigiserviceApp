@@ -1,7 +1,6 @@
 package com.example.feature_home.service
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.request.RequestUpdateServiceHandphone
-import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
+import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentServiceHandphoneTechnicianBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,7 +21,7 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
 
     private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
 
-    private lateinit var serviceHandphoneTechnician: ServiceHandphoneTechnicianGetAll
+    private lateinit var serviceHandphoneByTechnician: ServiceHandphoneByTechnicianGetAll
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +35,14 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
 
-        serviceHandphoneTechnician = ServiceHandphoneTechnicianFragmentArgs
+        serviceHandphoneByTechnician = ServiceHandphoneTechnicianFragmentArgs
             .fromBundle(arguments as Bundle).serviceHandphoneDetail
 
-        serviceHandphoneViewModel.getServiceHandphoneById(serviceHandphoneTechnician.serviceHandphoneId)
+        serviceHandphoneViewModel.getServiceHandphoneById(serviceHandphoneByTechnician.serviceHandphoneId)
 
         observer()
 
-        val isEnabled = serviceHandphoneTechnician.statusService == "proses"
+        val isEnabled = serviceHandphoneByTechnician.statusService == "proses"
         setupButton(isEnabled)
 
         binding.backImageView.setOnClickListener {
@@ -62,7 +60,7 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
                     setupButton(false)
                 }
                 is ApiEvent.OnSuccess -> {
-                    serviceHandphoneViewModel.getServiceHandphoneById(serviceHandphoneTechnician.serviceHandphoneId)
+                    serviceHandphoneViewModel.getServiceHandphoneById(serviceHandphoneByTechnician.serviceHandphoneId)
                     Toast.makeText(context, "Verifikasi service berhasil!", Toast.LENGTH_SHORT).show()
                 }
                 is ApiEvent.OnFailed -> {
@@ -74,7 +72,7 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
     }
 
     private fun observer() {
-        serviceHandphoneViewModel.serviceHandphoneById.observe(viewLifecycleOwner) { event ->
+        serviceHandphoneViewModel.serviceHandphoneByById.observe(viewLifecycleOwner) { event ->
             when(event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
@@ -93,18 +91,18 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setupDisplay(serviceHandphoneTechnician: ServiceHandphoneTechnicianGetAll) {
-        Timber.d(serviceHandphoneTechnician.toString())
+    private fun setupDisplay(serviceHandphoneByTechnician: ServiceHandphoneByTechnicianGetAll) {
+        Timber.d(serviceHandphoneByTechnician.toString())
         binding.apply {
-            tvCustomerName.text = serviceHandphoneTechnician.pelangganNama
-            tvCustomerEmail.text = serviceHandphoneTechnician.email
-            tvCustomerNoHp.text = serviceHandphoneTechnician.pelangganHp
-            tvCustomerHpName.text = serviceHandphoneTechnician.jenisHp
-            tvCustomerHpDamageName.text = serviceHandphoneTechnician.jenisKerusakan
-            tvServiceHpCreated.text = serviceHandphoneTechnician.createdAt
-            tvServiceHpStatus.text = serviceHandphoneTechnician.statusService
+            tvCustomerName.text = serviceHandphoneByTechnician.pelangganNama
+            tvCustomerEmail.text = serviceHandphoneByTechnician.email
+            tvCustomerNoHp.text = serviceHandphoneByTechnician.pelangganHp
+            tvCustomerHpName.text = serviceHandphoneByTechnician.jenisHp
+            tvCustomerHpDamageName.text = serviceHandphoneByTechnician.jenisKerusakan
+            tvServiceHpCreated.text = serviceHandphoneByTechnician.createdAt
+            tvServiceHpStatus.text = serviceHandphoneByTechnician.statusService
 
-            val isKurir = when (serviceHandphoneTechnician.byKurir) {
+            val isKurir = when (serviceHandphoneByTechnician.byKurir) {
                 1 -> R.id.kurir_yes
                 else -> R.id.kurir_no
             }
@@ -112,7 +110,7 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
             byKurir.check(isKurir)
 
             Glide.with(this@ServiceHandphoneTechnicianFragment)
-                .load(serviceHandphoneTechnician.pelangganFoto)
+                .load(serviceHandphoneByTechnician.pelangganFoto)
                 .into(ivCustomerPhoto)
         }
     }
@@ -120,10 +118,10 @@ class ServiceHandphoneTechnicianFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_accept -> {
-                serviceHandphoneViewModel.updateServiceHandphone(serviceHandphoneTechnician.serviceHandphoneId, "diterima")
+                serviceHandphoneViewModel.updateServiceHandphone(serviceHandphoneByTechnician.serviceHandphoneId, "diterima")
             }
             R.id.btn_reject -> {
-                serviceHandphoneViewModel.updateServiceHandphone(serviceHandphoneTechnician.serviceHandphoneId, "ditolak")
+                serviceHandphoneViewModel.updateServiceHandphone(serviceHandphoneByTechnician.serviceHandphoneId, "ditolak")
             }
         }
     }

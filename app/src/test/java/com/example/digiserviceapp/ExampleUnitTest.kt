@@ -12,6 +12,8 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        val range = "nama nama nama nama nama"
+        println(range.slice(0..16) + "...")
         assertEquals(4, 2 + 2)
     }
 }

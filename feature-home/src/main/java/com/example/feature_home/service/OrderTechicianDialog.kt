@@ -86,7 +86,7 @@ class OrderTechicianDialog : DialogFragment() {
     private fun observeCurrentUser() {
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
             if (auth != null) {
-                serviceHandphoneRequest.pelangganId = auth.id
+                serviceHandphoneRequest.pelangganId = auth.pelangganId
             }
         })
     }

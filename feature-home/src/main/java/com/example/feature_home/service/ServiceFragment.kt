@@ -19,7 +19,7 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
-import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
+import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.HomeViewModel
 import com.example.feature_home.R
@@ -148,12 +148,12 @@ class ServiceFragment : Fragment() {
         }
     }
 
-    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneTechnicianGetAll>) {
+    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneByTechnicianGetAll>) {
         if (data.isNotEmpty()) {
             binding.recyclerView.setup {
                 withLayoutManager(LinearLayoutManager(context))
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
+                withItem<ServiceHandphoneByTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
                     onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
                         tvServiceHpName.text = item.pelangganNama
                         tvServiceHpType.text = item.jenisHp

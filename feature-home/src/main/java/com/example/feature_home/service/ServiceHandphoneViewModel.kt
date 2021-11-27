@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
-import com.example.core_data.domain.servicehp.ListServiceHandphoneTechnicianGetAll
-import com.example.core_data.domain.servicehp.ServiceHandphoneTechnicianGetAll
+import com.example.core_data.domain.servicehp.ListServiceHandphoneByCustomerGetAll
+import com.example.core_data.domain.servicehp.ListServiceHandphoneByTechnicianGetAll
+import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.core_data.repository.ServiceHandphoneRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -17,11 +18,14 @@ class ServiceHandphoneViewModel(
     private val serviceHandphoneRepository: ServiceHandphoneRepository
 ) : ViewModel() {
 
-    private val _serviceHandphoneByTechnician = MutableLiveData<ApiEvent<ListServiceHandphoneTechnicianGetAll?>>()
-    val serviceHandphoneByTechnician: LiveData<ApiEvent<ListServiceHandphoneTechnicianGetAll?>> = _serviceHandphoneByTechnician
+    private val _serviceHandphoneByTechnician = MutableLiveData<ApiEvent<ListServiceHandphoneByTechnicianGetAll?>>()
+    val serviceHandphoneByTechnician: LiveData<ApiEvent<ListServiceHandphoneByTechnicianGetAll?>> = _serviceHandphoneByTechnician
 
-    private val _serviceHandphoneById = MutableLiveData<ApiEvent<ServiceHandphoneTechnicianGetAll?>>()
-    val serviceHandphoneById: LiveData<ApiEvent<ServiceHandphoneTechnicianGetAll?>> = _serviceHandphoneById
+    private val _serviceHandphoneByCustomer = MutableLiveData<ApiEvent<ListServiceHandphoneByCustomerGetAll?>>()
+    val serviceHandphoneByCustomer: LiveData<ApiEvent<ListServiceHandphoneByCustomerGetAll?>> = _serviceHandphoneByCustomer
+
+    private val _serviceHandphoneById = MutableLiveData<ApiEvent<ServiceHandphoneByTechnicianGetAll?>>()
+    val serviceHandphoneByById: LiveData<ApiEvent<ServiceHandphoneByTechnicianGetAll?>> = _serviceHandphoneById
 
     private val _isUpdateServiceHandphone = MutableLiveData<ApiEvent<CommonResponse?>>()
     val isUpdateServiceHandphone: LiveData<ApiEvent<CommonResponse?>> = _isUpdateServiceHandphone
@@ -31,6 +35,14 @@ class ServiceHandphoneViewModel(
             serviceHandphoneRepository.getServiceHeadphoneByTechnician(technicianId)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _serviceHandphoneByTechnician.value = it }
+        }
+    }
+
+    fun getServiceHandphoneByCustomerId(customerId: Int) {
+        viewModelScope.launch {
+            serviceHandphoneRepository.getServiceHeadphoneByCustomer(customerId)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _serviceHandphoneByCustomer.value = it }
         }
     }
 
