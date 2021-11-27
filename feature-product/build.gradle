@@ -1,19 +1,14 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'androidx.navigation.safeargs'
 }
-
 apply(from: "../shared_dependencies_feature.gradle")
 
 dependencies {
+    implementation project(':feature-home')
 
-    implementation project(":core-resource")
-
-    implementation deps.coil
-    implementation deps.validator
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

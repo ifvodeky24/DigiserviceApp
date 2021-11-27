@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+<androidx.cardview.widget.CardView
+    android:layout_width="190dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/medium"
-    android:layout_weight="1"
-    android:clickable="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:focusable="true">
+    app:cardUseCompatPadding="true"
+    android:clickable="true"
+    android:focusable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:id="@+id/layoutCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_teknisi"
+            android:id="@+id/iv_product_photo"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@color/colorBattleshipGrey"
@@ -38,19 +38,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_teknisi_name"
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/tv_product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:digi_font_style="medium"
+                    android:textSize="16sp"
                     android:maxLines="1"
                     android:singleLine="true"
                     tools:text="Suspendisse ornare"
-                    android:textColor="@color/colorBattleshipGrey" />
+                    android:textColor="@color/colorTextPrimary" />
 
                 <TextView
-                    android:id="@+id/tv_description"
+                    android:id="@+id/tv_product_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="50"
                     tools:text="Adipiscing" />
 
             </LinearLayout>
@@ -58,6 +61,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>

@@ -112,4 +112,11 @@
         <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
+    <style name="Widget.CoreTheme.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.CoreTheme.Button.Secondary</item>
+    </style>
+
+    <style name="ThemeOverlay.CoreTheme.Button.Secondary" parent="">
+        <item name="colorPrimary">@color/colorRed</item>
+    </style>
 </resources>

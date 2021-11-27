@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/itemOwnerConstraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundPrimary"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/backImageView"
+                    android:layout_width="@dimen/large"
+                    android:layout_height="@dimen/large"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:contentDescription="@string/image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/countPhotoConstraint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="180dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/rounded_corner_grey_shape"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageViewShare0"
+                        android:layout_width="20dp"
+                        android:layout_height="17dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:contentDescription="@string/image"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_gallery_white_24"
+                        app:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:id="@+id/photoCountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_small"
+
+                        app:layout_constraintBottom_toBottomOf="@+id/imageViewShare0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageViewShare0"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewShare0"
+                        tools:text="3 photos" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/itemDetailFirstCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="220dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingVertical="@dimen/medium">
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:paddingBottom="@dimen/small_fit"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_big"
+                            app:digi_font_style="medium"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Item name" />
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_type_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_small"
+                            app:layout_constraintStart_toStartOf="@+id/tv_name"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                            tools:text="Jenis Nama" />
+
+                        <com.example.core_util.DigiTextView
+                            android:id="@+id/tv_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/small_fit"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_large_fit"
+                            app:layout_constraintStart_toStartOf="@+id/tv_type_name"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_type_name"
+                            tools:text="Harga" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:layout_margin="@dimen/medium"
+                    app:cardCornerRadius="@dimen/medium"
+                    app:layout_constraintEnd_toEndOf="@+id/itemDetailFirstCardView"
+                    app:layout_constraintTop_toTopOf="@+id/itemDetailFirstCardView">
+                    <TextView
+                        android:id="@+id/tv_product_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorCobaltBlue"
+                        android:textColor="@color/colorWhite"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="4dp"
+                        android:text="Progress" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/meetTheSellerConstraintLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginEnd="16dp"
+                    android:paddingBottom="@dimen/small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/itemDetailFirstCardView">
+
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Diskusi"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_very_small"
+                        app:layout_constraintEnd_toEndOf="@+id/chatButton"
+                        app:layout_constraintStart_toStartOf="@+id/chatButton"
+                        app:layout_constraintTop_toBottomOf="@+id/chatButton" />
+
+
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_date_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/medium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_normal"
+                        app:digi_font_style="medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Tanggal Penjualan" />
+
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/medium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_normal"
+                        app:digi_font_style="medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_date_title"
+                        tools:text="Nama" />
+
+                    <View
+                        android:id="@+id/chatButton"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginEnd="@dimen/medium"
+                        android:layout_marginTop="@dimen/medium"
+                        android:background="@drawable/rounded_menu_grey_shape"
+                        android:text="Login"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_chat"
+                        app:layout_constraintBottom_toTopOf="@+id/textView8"
+                        app:layout_constraintEnd_toEndOf="@+id/chatButton"
+                        app:layout_constraintStart_toStartOf="@+id/chatButton"
+                        app:layout_constraintTop_toTopOf="@+id/chatButton"
+                        app:tint="#BDBDBD" />
+
+                    <View
+                        android:id="@+id/view65"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/medium"
+                        android:background="@color/dividerLine"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_service_hp_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/shape_round"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/meetTheSellerConstraintLayout">
+
+                    <com.example.core_util.DigiTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Deskripsi"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="16sp"
+                        app:digi_font_style="medium" />
+
+                    <com.example.core_util.DigiTextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Deskripsi"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="16sp"
+                        app:digi_font_style="medium"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginHorizontal="16dp"/>
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemOwnerConstraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerLine"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="72dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
+            <com.example.core_util.DigiButton
+                android:id="@+id/btn_order"
+                style="@style/ThemeOverlay.DigiServices.Button.Secondary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/small_fit"
+                android:layout_marginVertical="@dimen/large"
+                android:layout_marginHorizontal="@dimen/medium"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="BELI"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,7 +14,7 @@ data class TechnicianGetAll(
     val teknisiLng: String = "",
     val teknisiHp: String = "",
     val createdAt: String = "",
-    val updatedA: String = "",
+    val updatedAt: String = "",
     val teknisiTotalScore: Double = 0.0,
     val teknisiTotalResponden: Double = 0.0,
     val teknisiDeskripsi: String = "",

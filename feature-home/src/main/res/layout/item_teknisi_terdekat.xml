@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="160dp"
+    android:layout_width="140dp"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/medium"
+    android:layout_weight="1"
+    android:clickable="true"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:focusable="true">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium"
-        android:layout_weight="1"
-        android:clickable="true"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="2dp"
-        android:focusable="true">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/iv_teknisi"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:contentDescription="Teknisi"
+            android:background="@color/colorBattleshipGrey"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_teknisi_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:maxLines="1"
+            android:padding="@dimen/medium"
+            android:singleLine="true"
+            tools:text="Curabitur tempus"
+            android:textColor="@color/colorBattleshipGrey" />
 
-            <ImageView
-                android:id="@+id/iv_teknisi"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:contentDescription="Teknisi"
-                android:background="@color/colorBattleshipGrey"
-                android:scaleType="centerCrop" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_teknisi_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:padding="@dimen/medium"
-                android:singleLine="true"
-                tools:text="Curabitur tempus"
-                android:textColor="@color/colorBattleshipGrey" />
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

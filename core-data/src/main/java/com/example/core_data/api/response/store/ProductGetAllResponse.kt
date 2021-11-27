@@ -35,6 +35,8 @@ data class ProductGetAllDataResponse(
 	val jualJenisHp: Int = 0,
 	@Json(name="jenis_nama")
 	val jenisNama: String = "",
+	@Json(name="jenis_thumbnail")
+	val jenisThumbnail: String = ""
 )
 
 typealias ListProductGetAllDataResponse = List<ProductGetAllDataResponse>
@@ -54,5 +56,6 @@ fun ProductGetAllDataResponse.toDomain() = ProductGetAll(
 	jualJudul = jualJudul,
 	jualDeskripsi = jualDeskripsi,
 	jualJenisHp = jualJenisHp,
-	jenisNama = jenisNama
+	jenisNama = jenisNama,
+	jenisThumbnail = jenisThumbnail
 )

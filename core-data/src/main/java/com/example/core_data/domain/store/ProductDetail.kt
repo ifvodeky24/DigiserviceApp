@@ -1,12 +1,7 @@
 package com.example.core_data.domain.store
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data class ProductGetAll(
+data class ProductDetail(
     val jualId: Int = 0,
-    val pathPhoto: String = "",
     val jualStatus: String = "",
     val jualTujuan: String = "",
     val jualUserId: Int = 0,
@@ -16,7 +11,7 @@ data class ProductGetAll(
     val jualDeskripsi: String = "",
     val jualJenisHp: Int = 0,
     val jenisNama: String = "",
-    val jenisThumbnail: String = ""
-) : Parcelable
-
-typealias ListProductGetAll = List<ProductGetAll>
+    val jenisThumbnail: String = "",
+    val name: String = "",
+    val fotoProduk: String = ""
+)

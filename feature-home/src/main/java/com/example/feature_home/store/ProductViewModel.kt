@@ -10,6 +10,7 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.ListJenisHp
 import com.example.core_data.domain.store.ListProductGetAll
+import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.repository.AuthRepository
 import com.example.core_data.repository.StoreRepository
 import com.example.core_util.Constants
@@ -55,11 +56,22 @@ class ProductViewModel(
         }
     }
 
+    private val _productDetailResponse = MutableLiveData<ApiEvent<ProductDetail?>>()
+    val productDetailResponse: LiveData<ApiEvent<ProductDetail?>> = _productDetailResponse
+
     fun productGetAll() {
         viewModelScope.launch {
             storeRepository.productGetAll()
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _productGetAllResponse.value = it }
+        }
+    }
+
+    fun productDetail(id: Int) {
+        viewModelScope.launch {
+            storeRepository.productDetail(id)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _productDetailResponse.value = it }
         }
     }
 

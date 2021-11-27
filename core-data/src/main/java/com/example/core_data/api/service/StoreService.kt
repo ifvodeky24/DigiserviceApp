@@ -1,6 +1,7 @@
 package com.example.core_data.api.service
 
 import com.example.core_data.api.response.CommonResponse
+import com.example.core_data.api.response.store.ProductDetailResponse
 import com.example.core_data.api.response.store.ProductGetAllResponse
 import com.example.core_data.api.service.StoreService.Companion.UploadProduct
 import okhttp3.MultipartBody
@@ -14,7 +15,7 @@ interface StoreService {
     @GET(GetProductDetail)
     suspend fun getProductDetail(
         @Path(JualId) jualId: Int
-    )
+    ) : ProductDetailResponse
 
     @Multipart
     @POST(UploadProduct)
