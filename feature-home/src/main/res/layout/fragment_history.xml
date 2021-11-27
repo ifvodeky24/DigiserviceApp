@@ -20,7 +20,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/Toolbar.Light"
-            app:title="Service" />
+            app:title="Riwayat kamu" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

@@ -1,29 +1,28 @@
 package com.example.feature_home.history.pelanggan
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.servicehp.ServiceHandphoneByCustomerGetAll
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.databinding.FragmentHistoryPelangganBinding
+import com.example.feature_home.databinding.FragmentHistoryServicePelangganBinding
 import com.example.feature_home.service.ServiceHandphoneViewModel
 import com.example.feature_home.viewHolder.ItemHistoryServiceHandphoneCustomer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HistoryPelangganFragment : Fragment() {
+class HistoryServicePelangganFragment : Fragment() {
 
-    private var _binding: FragmentHistoryPelangganBinding? = null
-    private val binding: FragmentHistoryPelangganBinding get() = _binding!!
+    private var _binding: FragmentHistoryServicePelangganBinding? = null
+    private val binding: FragmentHistoryServicePelangganBinding get() = _binding!!
 
     private val accountViewModel: AccountViewModel by viewModel()
     private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
@@ -32,7 +31,7 @@ class HistoryPelangganFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryPelangganBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryServicePelangganBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -66,7 +65,7 @@ class HistoryPelangganFragment : Fragment() {
 
     private fun onDataHistoryServiceLoaded(data: List<ServiceHandphoneByCustomerGetAll>?) {
         if (data != null) {
-            binding.rvHistoryPelanggan.setup {
+            binding.rvHistoryServicePelanggan.setup {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<ServiceHandphoneByCustomerGetAll, ItemHistoryServiceHandphoneCustomer>(R.layout.item_history_service_handphone_customer) {
                     onBind(::ItemHistoryServiceHandphoneCustomer) { _, item ->
@@ -84,7 +83,7 @@ class HistoryPelangganFragment : Fragment() {
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan
 
-                        Glide.with(this@HistoryPelangganFragment)
+                        Glide.with(this@HistoryServicePelangganFragment)
                             .load(item.teknisiFoto)
                             .transform(CircleCrop())
                             .into(ivServiceHpUserPhoto)

@@ -1,30 +1,28 @@
 package com.example.feature_home.history.teknisi
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.databinding.FragmentHistoryTeknisiBinding
+import com.example.feature_home.databinding.FragmentHistoryServiceTeknisiBinding
 import com.example.feature_home.service.ServiceHandphoneViewModel
-import com.example.feature_home.viewHolder.ItemHistoryServiceHandphoneCustomer
 import com.example.feature_home.viewHolder.ItemHistoryServiceHandphoneTechnician
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HistoryTeknisiFragment : Fragment() {
+class HistoryServiceTeknisiFragment : Fragment() {
 
-    private var _binding: FragmentHistoryTeknisiBinding? = null
-    private val binding: FragmentHistoryTeknisiBinding get() = _binding!!
+    private var _binding: FragmentHistoryServiceTeknisiBinding? = null
+    private val binding: FragmentHistoryServiceTeknisiBinding get() = _binding!!
 
     private val accountViewModel: AccountViewModel by viewModel()
     private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
@@ -33,7 +31,7 @@ class HistoryTeknisiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryTeknisiBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryServiceTeknisiBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,7 +41,7 @@ class HistoryTeknisiFragment : Fragment() {
         observerUser()
 
         serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
-            when(event) {
+            when (event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
                     onDataHistoryServiceLoaded(event.getData())
@@ -68,9 +66,11 @@ class HistoryTeknisiFragment : Fragment() {
 
     private fun onDataHistoryServiceLoaded(data: List<ServiceHandphoneByTechnicianGetAll>?) {
         if (data != null) {
-            binding.rvHistoryTeknisi.setup {
+            binding.rvHistoryServiceTeknisi.setup {
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneByTechnicianGetAll, ItemHistoryServiceHandphoneTechnician>(R.layout.item_history_service_handphone_technician) {
+                withItem<ServiceHandphoneByTechnicianGetAll, ItemHistoryServiceHandphoneTechnician>(
+                    R.layout.item_history_service_handphone_technician
+                ) {
                     onBind(::ItemHistoryServiceHandphoneTechnician) { _, item ->
                         val customerName = item.pelangganNama.run {
                             if (length >= 18) {
@@ -85,7 +85,7 @@ class HistoryTeknisiFragment : Fragment() {
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan
 
-                        Glide.with(this@HistoryTeknisiFragment)
+                        Glide.with(this@HistoryServiceTeknisiFragment)
                             .load(item.pelangganFoto)
                             .transform(CircleCrop())
                             .into(ivServiceHpUserPhoto)

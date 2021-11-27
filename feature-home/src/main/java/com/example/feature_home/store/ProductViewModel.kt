@@ -58,6 +58,14 @@ class ProductViewModel(
         }
     }
 
+    fun productGetById(userId: Int) {
+        viewModelScope.launch {
+            storeRepository.productByUserId(userId)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _productGetAllResponse.value = it }
+        }
+    }
+
     fun setUploadItemImage(filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
         viewModelScope.launch {
             storeRepository.uploadProduk(filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)

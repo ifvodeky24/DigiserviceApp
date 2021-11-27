@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".history.teknisi.HistoryTeknisiFragment">
+    tools:context=".history.teknisi.HistoryServiceTeknisiFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history_teknisi"
+        android:id="@+id/rv_history_service_teknisi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_history_service_handphone_technician"/>

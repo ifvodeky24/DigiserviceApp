@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".history.pelanggan.HistoryPelangganFragment">
+    tools:context=".history.pelanggan.HistoryProductPelangganFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history_pelanggan"
+        android:id="@+id/rv_history_product_pelanggan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_history_service_handphone_customer"/>
