@@ -14,6 +14,7 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
@@ -151,13 +152,23 @@ class ServiceFragment : Fragment() {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<ServiceHandphoneByTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
                     onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
-                        tvServiceHpName.text = item.pelangganNama
+                        val customerName = item.pelangganNama.run {
+                            if (length >= 18) {
+                                "${this.slice(0..16)}..."
+                            } else {
+                                this
+                            }
+                        }
+                        tvServiceHpCustomerName.text = customerName
+                        tvServiceHpStatus.text = item.statusService
+                        tvServiceHpDate.text = item.createdAt
                         tvServiceHpType.text = item.jenisHp
                         tvServiceHpDamageType.text = item.jenisKerusakan
+
                         Glide.with(this@ServiceFragment)
                             .load(item.pelangganFoto)
                             .transform(CircleCrop())
-                            .into(ivServiceCustomerPhoto)
+                            .into(ivServiceHpUserPhoto)
 
                         layoutCard.setOnClickListener {
                             val toServiceHandphoneDetail = ServiceFragmentDirections.actionServiceFragmentToServiceHandphoneTechnicianFragment(item)

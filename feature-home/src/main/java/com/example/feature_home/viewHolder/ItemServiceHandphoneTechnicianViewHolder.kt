@@ -8,9 +8,12 @@ import com.afollestad.recyclical.ViewHolder
 import com.example.feature_home.R
 
 class ItemServiceHandphoneTechnicianViewHolder(val view: View) : ViewHolder(view) {
-    val tvServiceHpName: TextView = view.findViewById(R.id.tv_service_hp_customer_name)
+    val tvServiceHpCustomerName: TextView = view.findViewById(R.id.tv_service_hp_customer_name)
+    val tvServiceHpStatus: TextView = view.findViewById(R.id.tv_service_hp_status)
+    val tvServiceHpDate: TextView = view.findViewById(R.id.tv_service_hp_date)
     val tvServiceHpType: TextView = view.findViewById(R.id.tv_service_hp_type)
     val tvServiceHpDamageType: TextView = view.findViewById(R.id.tv_service_hp_damage_type)
-    val ivServiceCustomerPhoto: ImageView = view.findViewById(R.id.iv_service_costumer_photo)
+    val ivServiceHpUserPhoto: ImageView = view.findViewById(R.id.iv_service_hp_user_photo)
+
     val layoutCard: CardView = view.findViewById(R.id.card_service_technician)
 }
