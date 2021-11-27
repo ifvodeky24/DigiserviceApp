@@ -9,6 +9,6 @@
         android:id="@+id/rv_history_pelanggan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_history_service_handphone"/>
+        tools:listitem="@layout/item_history_service_handphone_customer"/>
 
 </FrameLayout>

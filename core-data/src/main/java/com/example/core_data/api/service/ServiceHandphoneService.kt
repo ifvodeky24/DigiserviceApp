@@ -26,17 +26,22 @@ interface ServiceHandphoneService {
     ) : CommonResponse
 
     @GET(ServiceHandphoneGetByTechnician)
-    suspend fun getServiceHeadphoneByTechnician(
+    suspend fun getServiceHandphoneByTechnician(
+        @Path(value = "technician_id") technicianId: Int
+    ) : ServiceHandphoneByTechnicianGetAllResponse
+
+    @GET(ServiceHandphoneHistoryGetByTechnician)
+    suspend fun getServiceHandphoneHistoryByTechnician(
         @Path(value = "technician_id") technicianId: Int
     ) : ServiceHandphoneByTechnicianGetAllResponse
 
     @GET(ServiceHandphoneGetByCustomer)
-    suspend fun getServiceHeadphoneByCustomer(
+    suspend fun getServiceHandphoneByCustomer(
         @Path(value = "customer_id") technicianId: Int
     ) : ServiceHandphoneByCustomerGetAllResponse
 
     @GET(ServiceHandphoneGetById)
-    suspend fun getServiceHeadphoneById(
+    suspend fun getServiceHandphoneById(
         @Path(value = "service_handphone_id") technicianId: Int
     ) : ServiceHandphoneTechnicianGetResponse
 
@@ -44,7 +49,8 @@ interface ServiceHandphoneService {
 
         const val ServiceHandphoneInsert = "service-handphone-insert"
         const val ServiceHandphoneGetByTechnician = "service-handphone-by-teknisi/{technician_id}"
-        const val ServiceHandphoneGetByCustomer = "service-handphone-by-pelanggan/{customer_id}"
+        const val ServiceHandphoneHistoryGetByTechnician = "service-handphone-history-by-teknisi/{technician_id}"
+        const val ServiceHandphoneGetByCustomer = "service-handphone-history-by-pelanggan/{customer_id}"
         const val ServiceHandphoneGetById = "service-handphone-by-id/{service_handphone_id}"
         const val ServiceHandphoneUpdate = "service-handphone-update/{service_handphone_id}"
     }

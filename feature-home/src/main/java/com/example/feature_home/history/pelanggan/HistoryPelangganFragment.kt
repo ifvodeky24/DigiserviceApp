@@ -16,7 +16,7 @@ import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentHistoryPelangganBinding
 import com.example.feature_home.service.ServiceHandphoneViewModel
-import com.example.feature_home.viewHolder.ItemHistoryServiceHandphone
+import com.example.feature_home.viewHolder.ItemHistoryServiceHandphoneCustomer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryPelangganFragment : Fragment() {
@@ -67,8 +67,8 @@ class HistoryPelangganFragment : Fragment() {
         if (data != null) {
             binding.rvHistoryPelanggan.setup {
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneByCustomerGetAll, ItemHistoryServiceHandphone>(R.layout.item_history_service_handphone) {
-                    onBind(::ItemHistoryServiceHandphone) { _, item ->
+                withItem<ServiceHandphoneByCustomerGetAll, ItemHistoryServiceHandphoneCustomer>(R.layout.item_history_service_handphone_customer) {
+                    onBind(::ItemHistoryServiceHandphoneCustomer) { _, item ->
                         val storeName = item.teknisiNamaToko.run {
                             if (length >= 18) {
                                 "${this.slice(0..16)}..."
@@ -96,9 +96,5 @@ class HistoryPelangganFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val KEY_PELANGGAN_ID = "pelanggan_id"
     }
 }

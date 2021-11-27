@@ -18,7 +18,7 @@
         android:padding="8dp">
 
         <com.example.core_util.DigiTextView
-            android:id="@+id/tv_service_hp_store_name"
+            android:id="@+id/tv_service_hp_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:maxLength="50"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_service_hp_store_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_service_hp_customer_name"
             tools:text="Ryans" />
 
         <androidx.cardview.widget.CardView

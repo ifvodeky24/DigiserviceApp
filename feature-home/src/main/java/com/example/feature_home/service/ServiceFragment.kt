@@ -89,10 +89,6 @@ class ServiceFragment : Fragment() {
                     }
                 })
 
-                accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
-
-                })
-
                 serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
                     when(event){
                         is ApiEvent.OnProgress -> {
@@ -107,7 +103,7 @@ class ServiceFragment : Fragment() {
                     }
                 }
             } else if (auth?.level == "teknisi") {
-                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.id)
+                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.teknisiId)
 
                 serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
                     when(event) {
@@ -189,44 +185,44 @@ class ServiceFragment : Fragment() {
         drawer = binding.drawerLayout
     }
 
-    private fun setupRecyclerSkils(listSkils: ResultSkils){
-        serviceViewModel jenisKerusakan listSkils.skils
-        serviceViewModel jenisHp listSkils.jenisHp
-        binding.rvJenisHp.setup {
-            withLayoutManager(LinearLayoutManager(requireContext()))
-            withDataSource(dataSourceTypedOf(listSkils.skils))
-            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
-                onBind(::ItemViewHolder){ index, item ->
-                    titleCheckBox.text = item.namaKerusakan
-                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                        serviceViewModel.putEditDataValue(
-                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
-                            itemId =item.id,
-                            indexId = index,
-                            value = if (isChecked) "1" else "0"
-                        )
-                    }
-                }
-            }
-        }
-        binding.rvJenisKerusakanHp.setup {
-            withLayoutManager(LinearLayoutManager(requireContext()))
-            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
-            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
-                onBind(::ItemViewHolder){ index, item ->
-                    titleCheckBox.text = item.jenisNama
-                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                        serviceViewModel.putEditDataValue(
-                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
-                            itemId =item.id,
-                            indexId = index,
-                            value = if (isChecked) "1" else "0"
-                        )
-                    }
-                }
-            }
-        }
-    }
+//    private fun setupRecyclerSkils(listSkils: ResultSkils){
+//        serviceViewModel jenisKerusakan listSkils.skils
+//        serviceViewModel jenisHp listSkils.jenisHp
+//        binding.rvJenisHp.setup {
+//            withLayoutManager(LinearLayoutManager(requireContext()))
+//            withDataSource(dataSourceTypedOf(listSkils.skils))
+//            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
+//                onBind(::ItemViewHolder){ index, item ->
+//                    titleCheckBox.text = item.namaKerusakan
+//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+//                        serviceViewModel.putEditDataValue(
+//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
+//                            itemId =item.id,
+//                            indexId = index,
+//                            value = if (isChecked) "1" else "0"
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        binding.rvJenisKerusakanHp.setup {
+//            withLayoutManager(LinearLayoutManager(requireContext()))
+//            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
+//            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
+//                onBind(::ItemViewHolder){ index, item ->
+//                    titleCheckBox.text = item.jenisNama
+//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+//                        serviceViewModel.putEditDataValue(
+//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
+//                            itemId =item.id,
+//                            indexId = index,
+//                            value = if (isChecked) "1" else "0"
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

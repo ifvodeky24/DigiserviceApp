@@ -6,9 +6,8 @@ import android.widget.TextView
 import com.afollestad.recyclical.ViewHolder
 import com.example.feature_home.R
 
-class ItemHistoryServiceHandphone(view: View) : ViewHolder(view) {
-    val tvServiceHpStoreName: TextView = view.findViewById(R.id.tv_service_hp_store_name)
-    val tvServiceHpTechnianName: TextView = view.findViewById(R.id.tv_service_hp_technician_name)
+class ItemHistoryServiceHandphoneTechnician(view: View) : ViewHolder(view) {
+    val tvServiceHpCustomerName: TextView = view.findViewById(R.id.tv_service_hp_customer_name)
     val tvServiceHpStatus: TextView = view.findViewById(R.id.tv_service_hp_status)
     val tvServiceHpDate: TextView = view.findViewById(R.id.tv_service_hp_date)
     val tvServiceHpType: TextView = view.findViewById(R.id.tv_service_hp_type)

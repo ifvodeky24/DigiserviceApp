@@ -85,12 +85,12 @@ class ServiceHandphoneRepository internal constructor(
         }
     }
 
-    fun getServiceHeadphoneByTechnician(technicianId: Int): Flow<ApiEvent<ListServiceHandphoneByTechnicianGetAll?>> = flow {
+    fun getServiceHandphoneByTechnician(technicianId: Int): Flow<ApiEvent<ListServiceHandphoneByTechnicianGetAll?>> = flow {
         runCatching {
             val apiId = ServiceHandphoneService.ServiceHandphoneGetByTechnician
 
             val apiResult = apiExecutor.callApi(apiId) {
-                serviceHandphoneService.getServiceHeadphoneByTechnician(technicianId)
+                serviceHandphoneService.getServiceHandphoneByTechnician(technicianId)
             }
 
             val apiEvent: ApiEvent<ListServiceHandphoneByTechnicianGetAll?> = when(apiResult) {
@@ -112,12 +112,40 @@ class ServiceHandphoneRepository internal constructor(
         }
     }
 
-    fun getServiceHeadphoneByCustomer(pelangganId: Int): Flow<ApiEvent<ListServiceHandphoneByCustomerGetAll?>> = flow {
+    fun getServiceHandphoneHistoryByTechnician(technicianId: Int): Flow<ApiEvent<ListServiceHandphoneByTechnicianGetAll?>> = flow {
+        runCatching {
+            val apiId = ServiceHandphoneService.ServiceHandphoneHistoryGetByTechnician
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                serviceHandphoneService.getServiceHandphoneHistoryByTechnician(technicianId)
+            }
+
+            val apiEvent: ApiEvent<ListServiceHandphoneByTechnicianGetAll?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result) {
+                    toDomain().run {
+                        if (isEmpty()) {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        } else {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListServiceHandphoneByTechnicianGetAll>())
+        }
+    }
+
+
+    fun getServiceHandphoneByCustomer(pelangganId: Int): Flow<ApiEvent<ListServiceHandphoneByCustomerGetAll?>> = flow {
         runCatching {
             val apiId = ServiceHandphoneService.ServiceHandphoneGetByTechnician
 
             val apiResult = apiExecutor.callApi(apiId) {
-                serviceHandphoneService.getServiceHeadphoneByCustomer(pelangganId)
+                serviceHandphoneService.getServiceHandphoneByCustomer(pelangganId)
             }
 
             val apiEvent: ApiEvent<ListServiceHandphoneByCustomerGetAll?> = when(apiResult) {
@@ -140,12 +168,12 @@ class ServiceHandphoneRepository internal constructor(
     }
 
 
-    fun getServiceHeadphoneById(serviceHandphoneId: Int): Flow<ApiEvent<ServiceHandphoneByTechnicianGetAll?>> = flow {
+    fun getServiceHandphoneById(serviceHandphoneId: Int): Flow<ApiEvent<ServiceHandphoneByTechnicianGetAll?>> = flow {
         runCatching {
             val apiId = ServiceHandphoneService.ServiceHandphoneGetById
 
             val apiResult = apiExecutor.callApi(apiId) {
-                serviceHandphoneService.getServiceHeadphoneById(serviceHandphoneId)
+                serviceHandphoneService.getServiceHandphoneById(serviceHandphoneId)
             }
 
             val apiEvent: ApiEvent<ServiceHandphoneByTechnicianGetAll?> = when(apiResult) {

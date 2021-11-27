@@ -58,6 +58,10 @@ class ServiceDetailFragment : Fragment() {
             val byKurir = if (binding.kurirYes.isChecked) 1 else 0
             OrderTechicianDialog.newInstance(args.technician, byKurir).show(childFragmentManager, OrderTechicianDialog.TAG)
         }
+
+        binding.backImageView.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun setupObserver() {

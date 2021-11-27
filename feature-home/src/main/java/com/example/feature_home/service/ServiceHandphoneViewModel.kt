@@ -32,7 +32,15 @@ class ServiceHandphoneViewModel(
 
     fun getServiceHandphoneByTechnicianId(technicianId: Int) {
         viewModelScope.launch {
-            serviceHandphoneRepository.getServiceHeadphoneByTechnician(technicianId)
+            serviceHandphoneRepository.getServiceHandphoneByTechnician(technicianId)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _serviceHandphoneByTechnician.value = it }
+        }
+    }
+
+    fun getServiceHandphoneHistoryByTechnicianId(technicianId: Int) {
+        viewModelScope.launch {
+            serviceHandphoneRepository.getServiceHandphoneHistoryByTechnician(technicianId)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _serviceHandphoneByTechnician.value = it }
         }
@@ -40,7 +48,7 @@ class ServiceHandphoneViewModel(
 
     fun getServiceHandphoneByCustomerId(customerId: Int) {
         viewModelScope.launch {
-            serviceHandphoneRepository.getServiceHeadphoneByCustomer(customerId)
+            serviceHandphoneRepository.getServiceHandphoneByCustomer(customerId)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _serviceHandphoneByCustomer.value = it }
         }
@@ -48,7 +56,7 @@ class ServiceHandphoneViewModel(
 
     fun getServiceHandphoneById(serviceHandphoneId: Int) {
         viewModelScope.launch {
-            serviceHandphoneRepository.getServiceHeadphoneById(serviceHandphoneId)
+            serviceHandphoneRepository.getServiceHandphoneById(serviceHandphoneId)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _serviceHandphoneById.value = it }
         }
