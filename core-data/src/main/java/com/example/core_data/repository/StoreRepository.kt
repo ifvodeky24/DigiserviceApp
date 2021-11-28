@@ -21,6 +21,7 @@ import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.store.ListProductGetAll
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.UploadRequestBody
+import com.example.core_data.api.service.ServiceHandphoneService
 import com.example.core_data.domain.store.ListProductBuyHistoryGetAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -428,4 +429,31 @@ class StoreRepository internal constructor(
         }
     }
 
+    fun updateStatusBeliProduct(beliId: Int, beliStatus: String): Flow<ApiEvent<CommonResponse?>> = flow {
+        runCatching {
+            val apiId = StoreService.UpdateStatusProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.updateStatusBeliProduct(beliId, beliStatus)
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
 }
