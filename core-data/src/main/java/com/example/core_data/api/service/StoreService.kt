@@ -1,6 +1,7 @@
 package com.example.core_data.api.service
 
 import com.example.core_data.api.response.CommonResponse
+import com.example.core_data.api.response.store.ProductBuyHistoryGetAllResponse
 import com.example.core_data.api.response.store.ProductDetailResponse
 import com.example.core_data.api.response.store.ProductGetAllResponse
 import com.example.core_data.api.service.StoreService.Companion.UploadProduct
@@ -13,7 +14,9 @@ interface StoreService {
     suspend fun getProductAll(): ProductGetAllResponse
 
     @GET(GetProductByUserId)
-    suspend fun getProductByUserId(@Path("jual_user_id") userId: Int): ProductGetAllResponse
+    suspend fun getProductByUserId(
+        @Path("jual_user_id") userId: Int
+    ): ProductGetAllResponse
 
     @GET(GetProductDetail)
     suspend fun getProductDetail(
@@ -30,6 +33,11 @@ interface StoreService {
         @Part("jual_jenis_hp") jualJenisHp: RequestBody,
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
+
+    @GET(GetBuyProductHistoryByUserId)
+    suspend fun getBuyProductHistoryByUserId(
+        @Path("beli_pembeli") userId: Int
+    ): ProductBuyHistoryGetAllResponse
 
     @Multipart
     @POST(UpdateProduct)
@@ -72,6 +80,7 @@ interface StoreService {
 
         const val GetProductAll = "produk-all"
         const val GetProductByUserId = "produk-by-user-id/{jual_user_id}"
+        const val GetBuyProductHistoryByUserId = "history-beli-produk-by-user-id/{beli_pembeli}"
         const val UploadProduct = "produk-insert"
         const val UpdateProduct = "produk-update"
         const val GetProductDetail = "produk-detail/{$JualId}"

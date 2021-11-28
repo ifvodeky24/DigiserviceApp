@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.ListJenisHp
+import com.example.core_data.domain.store.ListProductBuyHistoryGetAll
 import com.example.core_data.domain.store.ListProductGetAll
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.repository.AuthRepository
@@ -48,6 +49,9 @@ class ProductViewModel(
 
     private val _liveJenisHp = MutableLiveData<ApiEvent<ListJenisHp?>>()
     val liveJenisHp: LiveData<ApiEvent<ListJenisHp?>> = _liveJenisHp
+
+    private val _historyBuyProduct = MutableLiveData<ApiEvent<ListProductBuyHistoryGetAll?>>()
+    val historyBuyProduct: LiveData<ApiEvent<ListProductBuyHistoryGetAll?>> = _historyBuyProduct
 
     fun jenisHp() {
         viewModelScope.launch {
@@ -124,6 +128,14 @@ class ProductViewModel(
             storeRepository.buyProduct(beliJualId, beliJasaKurir, beliPembeli)
                 .onStart { emit(ApiEvent.OnProgress())}
                 .collect { _buyProductResponse.value = it }
+        }
+    }
+
+    fun historyBuyProductGetById(userId: Int) {
+        viewModelScope.launch {
+            storeRepository.buyProductHistoryByUserId(userId)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _historyBuyProduct.value = it }
         }
     }
 }

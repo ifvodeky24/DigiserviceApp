@@ -21,6 +21,7 @@ import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.store.ListProductGetAll
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_data.UploadRequestBody
+import com.example.core_data.domain.store.ListProductBuyHistoryGetAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -587,6 +588,31 @@ class StoreRepository internal constructor(
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun buyProductHistoryByUserId(userId: Int): Flow<ApiEvent<ListProductBuyHistoryGetAll>> = flow {
+        runCatching {
+            val apiId = StoreService.GetBuyProductHistoryByUserId
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.getBuyProductHistoryByUserId(userId)
+            }
+
+            val apiEvent: ApiEvent<ListProductBuyHistoryGetAll> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result) {
+                    toDomain().run {
+                        if (isEmpty()) {
+                            ApiEvent.OnSuccess.fromServer(emptyList())
+                        } else {
+                            ApiEvent.OnSuccess.fromServer(this)
+                        }
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ListProductBuyHistoryGetAll>())
         }
     }
 
