@@ -503,7 +503,6 @@ class StoreRepository internal constructor(
         return byteBuffer.toByteArray()
     }
 
-
     fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
         val height = options.outHeight
         val width = options.outWidth
@@ -521,7 +520,6 @@ class StoreRepository internal constructor(
         return inSampleSize
     }
 
-
     fun deleteProduk(
         id: Int
     ) : Flow<ApiEvent<CommonResponse?>> = flow {
@@ -532,6 +530,43 @@ class StoreRepository internal constructor(
             val apiResult = apiExecutor.callApi(apiId) {
                 storeService.deleteProduct(
                     id = id
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun buyProduct(
+        beliJualId: Int,
+        beliJasaKurir: String,
+        beliPembeli: Int,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        runCatching {
+            val apiId = StoreService.UploadProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.buyProduct(
+                    beliJualId = beliJualId,
+                    beliJasaKurir = beliJasaKurir,
+                    beliPembeli = beliPembeli,
                 )
             }
 

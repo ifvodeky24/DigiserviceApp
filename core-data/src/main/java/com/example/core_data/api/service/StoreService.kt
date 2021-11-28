@@ -59,6 +59,14 @@ interface StoreService {
         @Path("id") id: Int
     ) : CommonResponse
 
+    @FormUrlEncoded
+    @POST(BuyProduct)
+    suspend fun buyProduct(
+        @Field("beli_jual_id") beliJualId: Int,
+        @Field("beli_jasa_kurir") beliJasaKurir: String,
+        @Field("beli_pembeli") beliPembeli: Int
+    ) : CommonResponse
+
     companion object {
         private const val JualId = "jual_id"
 
@@ -68,5 +76,6 @@ interface StoreService {
         const val UpdateProduct = "produk-update"
         const val GetProductDetail = "produk-detail/{$JualId}"
         const val DeleteProduct = "produk-delete/{id}"
+        const val BuyProduct = "buy-product"
     }
 }

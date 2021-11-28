@@ -7,7 +7,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundPrimary">
 
         <ScrollView
             android:id="@+id/nestedScrollView"
@@ -21,7 +22,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackgroundPrimary"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -229,16 +229,6 @@
                         app:layout_constraintTop_toTopOf="@+id/chatButton"
                         app:tint="#BDBDBD" />
 
-                    <View
-                        android:id="@+id/view65"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/medium"
-                        android:background="@color/dividerLine"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
@@ -275,6 +265,61 @@
                         android:layout_marginHorizontal="16dp"/>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/container_product_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/shape_round"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/container_service_hp_name">
+
+                    <com.example.core_util.DigiTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Mau pakai kurir?"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="16sp"
+                        app:digi_font_style="medium" />
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/btn_by_kurir"
+                        app:selectionRequired="true"
+                        app:checkedButton="@+id/kurir_no"
+                        android:layout_marginVertical="@dimen/medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:singleSelection="true"
+                        android:layout_marginHorizontal="@dimen/medium">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/kurir_yes"
+                            android:layout_width="0dp"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="PAKAI KURIR"
+                            app:strokeWidth="@dimen/tiny"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/kurir_no"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_weight="1"
+                            android:text="TIDAK"
+                            app:strokeWidth="@dimen/tiny"/>
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                </LinearLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -285,6 +330,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 

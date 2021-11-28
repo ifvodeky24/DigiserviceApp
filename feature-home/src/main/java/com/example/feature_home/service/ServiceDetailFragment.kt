@@ -5,13 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isEmpty
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
@@ -21,7 +18,6 @@ import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.account.SkillsItemViewHolder
 import com.example.feature_home.databinding.FragmentServiceDetailBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,14 +26,14 @@ class ServiceDetailFragment : Fragment() {
     private var _binding: FragmentServiceDetailBinding? = null
     private val binding get() = _binding!!
 
-    val args: ServiceDetailFragmentArgs by navArgs()
+    private val args: ServiceDetailFragmentArgs by navArgs()
 
     private val accountViewModel: AccountViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentServiceDetailBinding.inflate(inflater, container, false)
         return binding.root

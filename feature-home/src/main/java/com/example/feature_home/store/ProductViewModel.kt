@@ -43,6 +43,9 @@ class ProductViewModel(
     private val _deleteProductResponse = MutableLiveData<ApiEvent<CommonResponse?>>()
     val deleteProductResponse: LiveData<ApiEvent<CommonResponse?>> = _deleteProductResponse
 
+    private val _buyProductResponse = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val buyProductResponse: LiveData<ApiEvent<CommonResponse?>> = _buyProductResponse
+
     private val _liveJenisHp = MutableLiveData<ApiEvent<ListJenisHp?>>()
     val liveJenisHp: LiveData<ApiEvent<ListJenisHp?>> = _liveJenisHp
 
@@ -113,6 +116,14 @@ class ProductViewModel(
             storeRepository.deleteProduk(id)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _deleteProductResponse.value = it }
+        }
+    }
+
+    fun buyProduct(beliJualId: Int, beliJasaKurir: String, beliPembeli:Int){
+        viewModelScope.launch {
+            storeRepository.buyProduct(beliJualId, beliJasaKurir, beliPembeli)
+                .onStart { emit(ApiEvent.OnProgress())}
+                .collect { _buyProductResponse.value = it }
         }
     }
 }
