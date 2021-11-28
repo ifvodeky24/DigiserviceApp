@@ -40,7 +40,6 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/medium"
             android:background="@color/grey_3"
             android:clipToPadding="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

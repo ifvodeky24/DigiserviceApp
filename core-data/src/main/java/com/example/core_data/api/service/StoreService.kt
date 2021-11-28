@@ -4,6 +4,7 @@ import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.store.ProductBuyHistoryGetAllResponse
 import com.example.core_data.api.response.store.ProductDetailResponse
 import com.example.core_data.api.response.store.ProductGetAllResponse
+import com.example.core_data.api.service.StoreService.Companion.UpdateStatusProduct
 import com.example.core_data.api.service.StoreService.Companion.UploadProduct
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -75,6 +76,13 @@ interface StoreService {
         @Field("beli_pembeli") beliPembeli: Int
     ) : CommonResponse
 
+    @FormUrlEncoded
+    @POST(UpdateStatusProduct)
+    suspend fun updateStatusBeliProduct(
+        @Path("beli_id") beliId: Int,
+        @Field("beli_status") beliStatus: String
+    ) : CommonResponse
+
     companion object {
         private const val JualId = "jual_id"
 
@@ -84,6 +92,7 @@ interface StoreService {
         const val UploadProduct = "produk-insert"
         const val UpdateProduct = "produk-update"
         const val GetProductDetail = "produk-detail/{$JualId}"
+        const val UpdateStatusProduct = "update-status-beli-product/{beli_id}"
         const val DeleteProduct = "produk-delete/{id}"
         const val BuyProduct = "buy-product"
     }

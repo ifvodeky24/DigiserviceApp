@@ -1,33 +1,31 @@
-package com.example.feature_home.history.teknisi
+package com.example.feature_home.history.pelanggan
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
-import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductBuyHistoryGetAll
-import com.example.core_data.domain.store.ProductGetAll
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.databinding.FragmentHistoryBuyProductTeknisiBinding
+import com.example.feature_home.databinding.FragmentHistoryServicePelangganBinding
+import com.example.feature_home.history.teknisi.HistoryBuyProductTeknisiFragment
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemHistoryBuyProduct
-import com.example.feature_home.viewHolder.ItemProductViewHolder
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class HistoryBuyProductTeknisiFragment : Fragment() {
+class HistoryProductPelangganFragment : Fragment() {
 
-    private var _binding: FragmentHistoryBuyProductTeknisiBinding? = null
-    private val binding: FragmentHistoryBuyProductTeknisiBinding get() = _binding!!
+    private var _binding: FragmentHistoryServicePelangganBinding? = null
+    private val binding: FragmentHistoryServicePelangganBinding get() = _binding!!
 
     private val productViewModel: ProductViewModel by viewModel()
     private val accountViewModel: AccountViewModel by viewModel()
@@ -36,7 +34,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryBuyProductTeknisiBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryServicePelangganBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -73,7 +71,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
 
     private fun onDataProductAllLoaded(data: List<ProductBuyHistoryGetAll>) {
         if (data.isNotEmpty()) {
-            binding.rvHistoryProductTeknisi.setup {
+            binding.rvHistoryServicePelanggan.setup {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<ProductBuyHistoryGetAll, ItemHistoryBuyProduct>(R.layout.item_history_buy_produk) {
                     onBind(::ItemHistoryBuyProduct) { _, item ->
@@ -96,12 +94,12 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
 
                         tvProductName.text = item.jualJudul
                         tvSellerName.text = sellerName
-                        tvProductPrice.text = getString(R.string.product_price, item.jualHarga.toString())
+                        tvProductPrice.text = item.jualHarga.toString()
                         tvProductBuyDate.text = productBuyDate
                         tvProductBuyStatus.text = item.beliStatus
 
                         Glide.with(requireActivity())
-                            .load(APP_PRODUCT_IMAGES_URL+item.fotoProduk)
+                            .load(item.pathPhoto)
                             .into(ivProductPhoto)
 
                         if (item.beliStatus != "booking") {
@@ -114,14 +112,14 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
 
                         btnProductCancel.setOnClickListener {
                             showAlertDialog("Apakah kamu yang ingin membatalkan traksaksi ini?", "Batal", "Ya") {
-                                updateStatusBeliProduk(item.beliId, StatusBeliProduk.Cancel())
+                                updateStatusBeliProduk(item.beliId, HistoryBuyProductTeknisiFragment.Companion.StatusBeliProduk.Cancel())
                             }
 
                         }
 
                         btnProductFinish.setOnClickListener {
                             showAlertDialog("Apakah kamu yang ingin menyelesaikan traksaksi ini?", "Batal", "Ya") {
-                                updateStatusBeliProduk(item.beliId, StatusBeliProduk.Finish())
+                                updateStatusBeliProduk(item.beliId, HistoryBuyProductTeknisiFragment.Companion.StatusBeliProduk.Finish())
                             }
                         }
                     }
@@ -130,7 +128,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
         }
     }
 
-    private fun updateStatusBeliProduk(beliId: Int, status: StatusBeliProduk) {
+    private fun updateStatusBeliProduk(beliId: Int, status: HistoryBuyProductTeknisiFragment.Companion.StatusBeliProduk) {
         productViewModel.updateStatusBeliProduct(beliId, status.status)
 
         productViewModel.updateStatusBeliProduct.observe(viewLifecycleOwner) { event ->
@@ -138,7 +136,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
                     observeUser()
-                    val snackbarMessage = if (status.status == StatusBeliProduk.Cancel().status) {
+                    val snackbarMessage = if (status.status == HistoryBuyProductTeknisiFragment.Companion.StatusBeliProduk.Cancel().status) {
                         "Pemesanan berhasil dibatalkan!"
                     } else {
                         "Produk telah diterima, terima kasih telah berbelanja disini!"
@@ -151,6 +149,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
             }
         }
     }
+
 
     private fun showAlertDialog(
         title: String,
@@ -171,6 +170,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
         return alertDialog.show()
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -182,4 +182,5 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
             class Finish : StatusBeliProduk("selesai")
         }
     }
+
 }

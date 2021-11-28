@@ -53,6 +53,9 @@ class ProductViewModel(
     private val _historyBuyProduct = MutableLiveData<ApiEvent<ListProductBuyHistoryGetAll?>>()
     val historyBuyProduct: LiveData<ApiEvent<ListProductBuyHistoryGetAll?>> = _historyBuyProduct
 
+    private val _updateStatusBeliProduct = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val updateStatusBeliProduct:LiveData<ApiEvent<CommonResponse?>> = _updateStatusBeliProduct
+
     fun jenisHp() {
         viewModelScope.launch {
             authRepository.getJenisHpAll()
@@ -136,6 +139,14 @@ class ProductViewModel(
             storeRepository.buyProductHistoryByUserId(userId)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _historyBuyProduct.value = it }
+        }
+    }
+
+    fun updateStatusBeliProduct(beliId: Int, beliStatus: String) {
+        viewModelScope.launch {
+            storeRepository.updateStatusBeliProduct(beliId, beliStatus)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _updateStatusBeliProduct.value = it }
         }
     }
 }
