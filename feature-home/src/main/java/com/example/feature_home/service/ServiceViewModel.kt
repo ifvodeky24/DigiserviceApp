@@ -35,6 +35,8 @@ class ServiceViewModel(
     private var listJenisHp: ListJenisHp? = null
     private var listJenisKerusakan: ListSkils? = null
 
+    var isConsument = false
+
     infix fun jenisKerusakan(jenisKerusakanList: ListSkils){
         listJenisKerusakan = jenisKerusakanList
     }

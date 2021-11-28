@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
-import androidx.core.view.setPadding
-import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,12 +14,13 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
+import com.example.core_data.domain.auth.isConsument
+import com.example.core_data.domain.auth.isTechnician
 import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_home.HomeViewModel
@@ -39,17 +38,19 @@ class ServiceFragment : Fragment() {
 
     private var _binding: FragmentServiceBinding? = null
     private val binding get() = _binding!!
-    lateinit var drawer: DrawerLayout
+    private lateinit var drawer: DrawerLayout
 
     private val accountViewModel: AccountViewModel by viewModel()
     private val homeViewModel: HomeViewModel by viewModel()
     private val serviceViewModel: ServiceViewModel by viewModel()
     private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
 
+    private var userLevel: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentServiceBinding.inflate(inflater, container, false)
         return binding.root
@@ -58,7 +59,6 @@ class ServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
-        initToolbar()
         initComponent()
         setInput()
     }
@@ -75,62 +75,66 @@ class ServiceFragment : Fragment() {
     private fun observer() {
 
         accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
-
-            if (auth?.level == "pelanggan") {
-
-                accountViewModel.getJenisKerusakanHpAll()
-                accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
-                    when(event) {
-                        is ApiEvent.OnSuccess -> event.getData()?.let {
-                            setupRecyclerSkils(it)
-                        }
-                        is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
-                            // hideProgress(true)
-                        }
-                    }
-                })
-
-                homeViewModel.technicianGetAll()
-                homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
-                    when (technicianGetAll) {
-                        is ApiEvent.OnProgress -> {}
-                        is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
-                            onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
-                        }
-                        is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
-                            Timber.d("Error.${technicianGetAll.getException()}")
+            auth?.let {
+                serviceViewModel.isConsument = auth.isConsument
+                if (auth.isConsument) {
+                    binding.toolbar.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.filter -> {
+                                drawer.openDrawer(GravityCompat.END)
+                                true
+                            }
+                            else -> false
                         }
                     }
-                })
-
-                serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
-                    when(event){
-                        is ApiEvent.OnProgress -> {
-
+                    accountViewModel.getJenisKerusakanHpAll()
+                    accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
+                        when(event) {
+                            is ApiEvent.OnSuccess -> event.getData()?.let {
+                                setupRecyclerSkils(it)
+                            }
+                            is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) { }
                         }
-                        is ApiEvent.OnSuccess -> event.getData()?.let { listTechnicianAll ->
-                            onDataTechnicianGetAllLoaded(listTechnicianAll)
+                    })
+
+                    homeViewModel.technicianGetAll()
+                    homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
+                        when (technicianGetAll) {
+                            is ApiEvent.OnProgress -> {}
+                            is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
+                                onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
+                            }
+                            is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
+                                Timber.d("Error.${technicianGetAll.getException()}")
+                            }
                         }
-                        is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
-                            // hideProgress(true)
+                    })
+
+                    serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
+                        when(event){
+                            is ApiEvent.OnProgress -> { }
+                            is ApiEvent.OnSuccess -> event.getData()?.let { listTechnicianAll ->
+                                onDataTechnicianGetAllLoaded(listTechnicianAll)
+                            }
+                            is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) { }
+                        }
+                    }
+
+                }
+                else if (auth.isTechnician) {
+                    serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.teknisiId)
+                    serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
+                        when(event) {
+                            is ApiEvent.OnProgress -> {}
+                            is ApiEvent.OnSuccess -> event.getData()?.let {
+                                onDataServiceHandphoneGetAllLoaded(it)
+                            }
+                            is ApiEvent.OnFailed -> {}
                         }
                     }
                 }
-
             }
-            else if (auth?.level == "teknisi") {
-                serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.teknisiId)
 
-                serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
-                    when(event) {
-                        is ApiEvent.OnProgress -> {}
-                        is ApiEvent.OnSuccess -> event.getData()?.let {
-                            onDataServiceHandphoneGetAllLoaded(it)
-                        }
-                        is ApiEvent.OnFailed -> {}
-                    }
-                }
-            }
         }
 
         serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
@@ -153,7 +157,7 @@ class ServiceFragment : Fragment() {
             binding.recyclerView.setup{
                 withLayoutManager(GridLayoutManager(requireContext(),2))
                 withDataSource(dataSourceTypedOf(data))
-                withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_terpopuler){
+                withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_service){
                     onBind(::ItemPopulerViewHolder){ index, item ->
                         tvTeknisiName.text = item.teknisiNama
                         tvRating.text = String.format("%.1f", (item.teknisiTotalScore/item.teknisiTotalResponden)).toDouble().toString()
@@ -171,54 +175,6 @@ class ServiceFragment : Fragment() {
             }
             binding.recyclerView.setPadding(0, 0, 16, 0)
         }
-    }
-
-    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneByTechnicianGetAll>) {
-        if (data.isNotEmpty()) {
-            binding.recyclerView.setup {
-                withLayoutManager(LinearLayoutManager(context))
-                withDataSource(dataSourceTypedOf(data))
-                withItem<ServiceHandphoneByTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
-                    onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
-                        val customerName = item.pelangganNama.run {
-                            if (length >= 18) {
-                                "${this.slice(0..16)}..."
-                            } else {
-                                this
-                            }
-                        }
-                        tvServiceHpCustomerName.text = customerName
-                        tvServiceHpStatus.text = item.statusService
-                        tvServiceHpDate.text = item.createdAt
-                        tvServiceHpType.text = item.jenisHp
-                        tvServiceHpDamageType.text = item.jenisKerusakan
-
-                        Glide.with(this@ServiceFragment)
-                            .load(item.pelangganFoto)
-                            .transform(CircleCrop())
-                            .into(ivServiceHpUserPhoto)
-
-                        layoutCard.setOnClickListener {
-                            val toServiceHandphoneDetail = ServiceFragmentDirections.actionServiceFragmentToServiceHandphoneTechnicianFragment(item)
-                            findNavController().navigate(toServiceHandphoneDetail)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initToolbar() {
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.filter -> {
-                    drawer.openDrawer(GravityCompat.END)
-                    true
-                }
-                else -> false
-            }
-        }
-    }
 
     private fun initComponent() {
         drawer = binding.drawerLayout
@@ -263,9 +219,46 @@ class ServiceFragment : Fragment() {
         }
     }
 
+    private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneByTechnicianGetAll>) {
+        if (data.isNotEmpty()) {
+            binding.recyclerView.setup {
+                withLayoutManager(LinearLayoutManager(context))
+                withDataSource(dataSourceTypedOf(data))
+                withItem<ServiceHandphoneByTechnicianGetAll, ItemServiceHandphoneTechnicianViewHolder>(R.layout.item_service_technician) {
+                    onBind(::ItemServiceHandphoneTechnicianViewHolder) { _, item ->
+                        val customerName = item.pelangganNama.run {
+                            if (length >= 18) {
+                                "${this.slice(0..16)}..."
+                            } else {
+                                this
+                            }
+                        }
+                        tvServiceHpCustomerName.text = customerName
+                        tvServiceHpStatus.text = item.statusService
+                        tvServiceHpDate.text = item.createdAt
+                        tvServiceHpType.text = item.jenisHp
+                        tvServiceHpDamageType.text = item.jenisKerusakan
+
+                        Glide.with(this@ServiceFragment)
+                            .load(item.pelangganFoto)
+                            .transform(CircleCrop())
+                            .into(ivServiceHpUserPhoto)
+
+                        layoutCard.setOnClickListener {
+                            val toServiceHandphoneDetail = ServiceFragmentDirections.actionServiceFragmentToServiceHandphoneTechnicianFragment(item)
+                            findNavController().navigate(toServiceHandphoneDetail)
+                        }
+                    }
+                }
+            }
+        }
+        binding.recyclerView.setPadding(0, 0, 16, 0)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
 }
+

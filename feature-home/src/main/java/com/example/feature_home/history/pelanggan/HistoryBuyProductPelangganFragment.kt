@@ -99,7 +99,7 @@ class HistoryProductPelangganFragment : Fragment() {
                         tvProductBuyStatus.text = item.beliStatus
 
                         Glide.with(requireActivity())
-                            .load(item.pathPhoto)
+                            .load(item.fotoProduk)
                             .into(ivProductPhoto)
 
                         if (item.beliStatus != "booking") {
