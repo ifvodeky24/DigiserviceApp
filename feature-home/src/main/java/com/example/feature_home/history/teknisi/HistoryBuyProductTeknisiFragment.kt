@@ -9,6 +9,7 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductBuyHistoryGetAll
 import com.example.core_data.domain.store.ProductGetAll
@@ -98,7 +99,7 @@ class HistoryBuyProductTeknisiFragment : Fragment() {
                         tvProductBuyStatus.text = item.beliStatus
 
                         Glide.with(requireActivity())
-                            .load(item.pathPhoto)
+                            .load(APP_PRODUCT_IMAGES_URL+item.fotoProduk)
                             .into(ivProductPhoto)
 
                         btnGiveReview.setOnClickListener {

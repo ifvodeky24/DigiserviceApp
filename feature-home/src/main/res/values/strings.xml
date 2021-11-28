@@ -24,5 +24,6 @@
     <string name="deskripsi_produk">Deskripsi Produk</string>
     <string name="tambah_produk">Tambah Produk</string>
     <string name="edit_account">Edit Akun</string>
+    <string name="account">Akun</string>
     <string name="success_updated">Berhasil diupdate!</string>
 </resources>

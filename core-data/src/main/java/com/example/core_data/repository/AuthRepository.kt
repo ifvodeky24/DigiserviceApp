@@ -165,34 +165,6 @@ class AuthRepository internal constructor(
         }
     }
 
-//    fun getCurrentJenisHp(teknisiId: Int) :Flow<ApiEvent<ListJenisHp>> = flow {
-//        runCatching {
-//            val apiId = AuthService.JenisHpBy
-//            val apiResult = apiExecutor.callApi(apiId) {
-//                authService.getCurrenJenisHp(teknisiId)
-//            }
-//
-//            val apiEvent: ApiEvent<ListJenisHp> = when(apiResult){
-//                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
-//                is ApiResult.OnSuccess -> with(apiResult.response.result){
-//                    toDomain().run {
-//                        if (isEmpty())
-//                        {
-//                            ApiEvent.OnSuccess.fromServer(emptyList())
-//                        }
-//                        else
-//                        {
-//                            ApiEvent.OnSuccess.fromServer(this)
-//                        }
-//                    }
-//                }
-//            }
-//            emit(apiEvent)
-//        }.onFailure {
-//            emit(it.toFailedEvent<ListJenisHp>())
-//        }
-//    }
-
     fun getJenisKerusakanAll() :Flow<ApiEvent<ListJenisKerusakan>> = flow {
         runCatching {
             val apiId = AuthService.GetJenisKerusakanAll
@@ -332,6 +304,28 @@ class AuthRepository internal constructor(
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+
+    fun getJenisKerusakanHpAll() :Flow<ApiEvent<ResultSkils>> = flow {
+        runCatching {
+            val apiId = AuthService.JenisKerusakanHp
+            val apiResult = apiExecutor.callApi(apiId) {
+                authService.getJenisKerusakanHpAll()
+            }
+
+            val apiEvent: ApiEvent<ResultSkils> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response.result){
+                    toDomain().run {
+                        ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+        }.onFailure {
+            emit(it.toFailedEvent<ResultSkils>())
         }
     }
 

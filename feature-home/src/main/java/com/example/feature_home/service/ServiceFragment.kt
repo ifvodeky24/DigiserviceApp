@@ -55,7 +55,6 @@ class ServiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observer()
         initToolbar()
         initComponent()
@@ -72,15 +71,27 @@ class ServiceFragment : Fragment() {
     }
 
     private fun observer() {
+
         accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
+
             if (auth?.level == "pelanggan") {
 
-                homeViewModel.technicianGetAll()
+                accountViewModel.getJenisKerusakanHpAll()
+                accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
+                    when(event) {
+                        is ApiEvent.OnSuccess -> event.getData()?.let {
+                            setupRecyclerSkils(it)
+                        }
+                        is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                            // hideProgress(true)
+                        }
+                    }
+                })
 
+                homeViewModel.technicianGetAll()
                 homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
                     when (technicianGetAll) {
-                        is ApiEvent.OnProgress -> {
-                        }
+                        is ApiEvent.OnProgress -> {}
                         is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
                             onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
                         }
@@ -95,15 +106,17 @@ class ServiceFragment : Fragment() {
                         is ApiEvent.OnProgress -> {
 
                         }
-                        is ApiEvent.OnSuccess -> event.getData()?.let {
-                            onDataTechnicianGetAllLoaded(it, true)
+                        is ApiEvent.OnSuccess -> event.getData()?.let { listTechnicianAll ->
+                            onDataTechnicianGetAllLoaded(listTechnicianAll)
                         }
                         is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
                             // hideProgress(true)
                         }
                     }
                 }
-            } else if (auth?.level == "teknisi") {
+
+            }
+            else if (auth?.level == "teknisi") {
                 serviceHandphoneViewModel.getServiceHandphoneByTechnicianId(technicianId = auth.teknisiId)
 
                 serviceHandphoneViewModel.serviceHandphoneByTechnician.observe(viewLifecycleOwner) { event ->
@@ -117,10 +130,24 @@ class ServiceFragment : Fragment() {
                 }
             }
         }
+
+        serviceViewModel.filterTechnicianGetAllResponse.observe(viewLifecycleOwner){ event ->
+            when(event){
+                is ApiEvent.OnProgress -> {
+
+                }
+                is ApiEvent.OnSuccess -> event.getData()?.let {
+                    onDataTechnicianGetAllLoaded(it)
+                }
+                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
+                    // hideProgress(true)
+                }
+            }
+        }
+
     }
 
-    private fun onDataTechnicianGetAllLoaded(data: List<TechnicianGetAll>, isFilter: Boolean = false) {
-        if (data.isNotEmpty()) {
+    private fun onDataTechnicianGetAllLoaded(data: List<TechnicianGetAll>) {
             binding.recyclerView.setup{
                 withLayoutManager(GridLayoutManager(requireContext(),2))
                 withDataSource(dataSourceTypedOf(data))
@@ -138,11 +165,8 @@ class ServiceFragment : Fragment() {
                             findNavController().navigate(directionTechnicianGetAll)
                         }
                     }
-
                 }
-
             }
-        }
     }
 
     private fun onDataServiceHandphoneGetAllLoaded(data: List<ServiceHandphoneByTechnicianGetAll>) {
@@ -196,44 +220,44 @@ class ServiceFragment : Fragment() {
         drawer = binding.drawerLayout
     }
 
-//    private fun setupRecyclerSkils(listSkils: ResultSkils){
-//        serviceViewModel jenisKerusakan listSkils.skils
-//        serviceViewModel jenisHp listSkils.jenisHp
-//        binding.rvJenisHp.setup {
-//            withLayoutManager(LinearLayoutManager(requireContext()))
-//            withDataSource(dataSourceTypedOf(listSkils.skils))
-//            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
-//                onBind(::ItemViewHolder){ index, item ->
-//                    titleCheckBox.text = item.namaKerusakan
-//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-//                        serviceViewModel.putEditDataValue(
-//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
-//                            itemId =item.id,
-//                            indexId = index,
-//                            value = if (isChecked) "1" else "0"
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//        binding.rvJenisKerusakanHp.setup {
-//            withLayoutManager(LinearLayoutManager(requireContext()))
-//            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
-//            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
-//                onBind(::ItemViewHolder){ index, item ->
-//                    titleCheckBox.text = item.jenisNama
-//                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-//                        serviceViewModel.putEditDataValue(
-//                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
-//                            itemId =item.id,
-//                            indexId = index,
-//                            value = if (isChecked) "1" else "0"
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun setupRecyclerSkils(listSkils: ResultSkils){
+        serviceViewModel jenisKerusakan listSkils.skils
+        serviceViewModel jenisHp listSkils.jenisHp
+        binding.rvJenisHp.setup {
+            withLayoutManager(LinearLayoutManager(requireContext()))
+            withDataSource(dataSourceTypedOf(listSkils.skils))
+            withItem<Skils, ItemViewHolder>(R.layout.layout_items){
+                onBind(::ItemViewHolder){ index, item ->
+                    titleCheckBox.text = item.namaKerusakan
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        serviceViewModel.putEditDataValue(
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN,
+                            itemId =item.idJenisKerusakan,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
+                }
+            }
+        }
+        binding.rvJenisKerusakanHp.setup {
+            withLayoutManager(LinearLayoutManager(requireContext()))
+            withDataSource(dataSourceTypedOf(listSkils.jenisHp))
+            withItem<JenisHp, ItemViewHolder>(R.layout.layout_items){
+                onBind(::ItemViewHolder){ index, item ->
+                    titleCheckBox.text = item.jenisNama
+                    titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        serviceViewModel.putEditDataValue(
+                            inputType = TypeInput.ITEM_INPUT_TYPE_JENIS_HP,
+                            itemId =item.jenisId,
+                            indexId = index,
+                            value = if (isChecked) "1" else "0"
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

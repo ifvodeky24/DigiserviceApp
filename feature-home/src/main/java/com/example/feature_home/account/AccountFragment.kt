@@ -53,6 +53,8 @@ class AccountFragment : Fragment(), ModuleNavigator{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupDisplay()
+
         binding.buttonEdit.setOnClickListener {
             findNavController().navigate(R.id.editAccountFragment)
         }
@@ -114,6 +116,12 @@ class AccountFragment : Fragment(), ModuleNavigator{
             }
         })
 
+    }
+
+    private fun setupDisplay() {
+        with(binding.accountToolbar.toolbar){
+            title = getString(R.string.account)
+        }
     }
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {

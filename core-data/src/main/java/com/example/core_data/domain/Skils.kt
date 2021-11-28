@@ -4,6 +4,7 @@ data class Skils(
     val id: Int = 0,
     val teknisiKerusakanJenisHpId: Int,
     val jenisKerusakanHpId: Int,
+    val idJenisKerusakan: Int,
     val teknisiNama: String = "",
     val namaKerusakan: String = "",
     var value: String = "",

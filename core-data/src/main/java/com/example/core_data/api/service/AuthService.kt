@@ -65,6 +65,9 @@ internal interface AuthService {
         @Field("pelanggan_hp") pelangganHp: String
     ): CommonResponse
 
+    @GET(JenisKerusakanHp)
+    suspend fun getJenisKerusakanHpAll(): SkilsResponse
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
@@ -75,5 +78,6 @@ internal interface AuthService {
         const val SkilsBy = "keahlian-teknisi-by/{teknisi_id}"
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"
         const val UpdateTeknisi = "teknisi-update/{id}"
+        const val JenisKerusakanHp = "get-jenis-kerusakan-hp"
     }
 }

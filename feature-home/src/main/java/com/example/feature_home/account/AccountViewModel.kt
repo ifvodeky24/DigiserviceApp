@@ -166,4 +166,13 @@ class AccountViewModel(
                 }
         }
     }
+
+    fun getJenisKerusakanHpAll(){
+        viewModelScope.launch {
+            authRepository.getJenisKerusakanHpAll()
+                .collect {
+                    _liveSkils.value = it
+                }
+        }
+    }
 }

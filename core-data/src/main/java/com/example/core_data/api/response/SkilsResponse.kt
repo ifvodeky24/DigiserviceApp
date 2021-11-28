@@ -29,15 +29,17 @@ internal fun ResultSkilsResponse.toDomain() = ResultSkils(
 @JsonClass(generateAdapter = true)
 internal data class DataSkilsResponse(
     @Json(name = "id")
-    val id: Int,
+    val id: Int = 0,
     @Json(name = "teknisi_kerusakan_jenis_hp_id")
-    val teknisiKerusakanJenisHpId: Int,
+    val teknisiKerusakanJenisHpId: Int = 0,
+    @Json(name = "id_jenis_kerusakan")
+    val idJenisKerusakan: Int = 0,
     @Json(name = "jenis_kerusakan_hp_id")
-    val jenisKerusakanHpId: Int,
+    val jenisKerusakanHpId: Int = 0,
     @Json(name = "teknisi_nama")
-    val teknisiNama: String,
+    val teknisiNama: String = "",
     @Json(name = "nama_kerusakan")
-    val namKerusakan: String
+    val namKerusakan: String = ""
 )
 
 internal typealias ListSkilsResponse = List<DataSkilsResponse>
@@ -49,6 +51,7 @@ internal fun ListSkilsResponse.toDomain() = map {
 internal fun DataSkilsResponse.toDomain() = Skils(
     id = id,
     teknisiKerusakanJenisHpId = teknisiKerusakanJenisHpId,
+    idJenisKerusakan = idJenisKerusakan,
     jenisKerusakanHpId = jenisKerusakanHpId,
     teknisiNama = teknisiNama,
     namaKerusakan = namKerusakan,

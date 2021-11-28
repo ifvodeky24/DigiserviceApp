@@ -45,6 +45,11 @@ class ProductFragment : Fragment() {
 
         observeProductByUserId()
 
+        with(binding.toolbar){
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener { requireActivity().onBackPressed() }
+        }
+
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.action_add_product) {
                 val updateDirections = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)

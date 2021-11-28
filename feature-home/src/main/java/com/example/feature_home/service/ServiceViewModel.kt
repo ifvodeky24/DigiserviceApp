@@ -54,7 +54,7 @@ class ServiceViewModel(
     fun getFinalJenisKerusakanHpRequest() : List<Int> {
         val listJenisKerusakanHp = mutableListOf<Int>()
         optionJenisKerusakanForPost.values.filter{ it.value.isNotEmpty() }.forEach {
-            listJenisKerusakanHp.add(it.jenisKerusakanHpId)
+            listJenisKerusakanHp.add(it.idJenisKerusakan)
         }
         return listJenisKerusakanHp
     }
@@ -70,7 +70,7 @@ class ServiceViewModel(
         //putFormDataValue(inputType, indexId, value)
         when (inputType){
             TypeInput.ITEM_INPUT_TYPE_JENIS_HP -> {
-                val jenisHpChange = listJenisHp?.firstOrNull { it.id == itemId }
+                val jenisHpChange = listJenisHp?.firstOrNull { it.jenisId == itemId }
                 jenisHpChange?.let {
                     jenisHpChange.value = if (default){
                         "1"
@@ -83,7 +83,7 @@ class ServiceViewModel(
                 }
             }
             TypeInput.ITEM_INPUT_TYPE_JENIS_KERUSAKAN -> {
-                val jenisKerusakanChange = listJenisKerusakan?.firstOrNull { it.id == itemId }
+                val jenisKerusakanChange = listJenisKerusakan?.firstOrNull { it.idJenisKerusakan == itemId }
                 jenisKerusakanChange?.let {
                     jenisKerusakanChange.value = if (default){
                         "1"
