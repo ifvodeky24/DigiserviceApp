@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".history.teknisi.HistoryProductTeknisiFragment">
+    tools:context=".history.teknisi.HistoryBuyProductTeknisiFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history_product_teknisi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_history_produk_technician"/>
+        tools:listitem="@layout/item_history_buy_produk"/>
 
 </FrameLayout>

@@ -1,28 +1,30 @@
 package com.example.feature_home.history.teknisi
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.domain.store.ProductBuyHistoryGetAll
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
-import com.example.feature_home.databinding.FragmentHistoryProductTeknisiBinding
+import com.example.feature_home.databinding.FragmentHistoryBuyProductTeknisiBinding
 import com.example.feature_home.store.ProductViewModel
+import com.example.feature_home.viewHolder.ItemHistoryBuyProduct
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class HistoryProductTeknisiFragment : Fragment() {
+class HistoryBuyProductTeknisiFragment : Fragment() {
 
-    private var _binding: FragmentHistoryProductTeknisiBinding? = null
-    private val binding: FragmentHistoryProductTeknisiBinding get() = _binding!!
+    private var _binding: FragmentHistoryBuyProductTeknisiBinding? = null
+    private val binding: FragmentHistoryBuyProductTeknisiBinding get() = _binding!!
 
     private val productViewModel: ProductViewModel by viewModel()
     private val accountViewModel: AccountViewModel by viewModel()
@@ -31,7 +33,7 @@ class HistoryProductTeknisiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryProductTeknisiBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryBuyProductTeknisiBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,13 +48,13 @@ class HistoryProductTeknisiFragment : Fragment() {
     private fun observeUser() {
         accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
             if (auth != null) {
-                productViewModel.productGetById(auth.id)
+                productViewModel.historyBuyProductGetById(auth.id)
             }
         }
     }
 
     private fun observeProductByUserId() {
-        productViewModel.productGetAllResponse.observe(viewLifecycleOwner) { productAll ->
+        productViewModel.historyBuyProduct.observe(viewLifecycleOwner) { productAll ->
             when (productAll) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> productAll.getData().let {
@@ -66,17 +68,42 @@ class HistoryProductTeknisiFragment : Fragment() {
         }
     }
 
-    private fun onDataProductAllLoaded(data: List<ProductGetAll>) {
+    private fun onDataProductAllLoaded(data: List<ProductBuyHistoryGetAll>) {
         if (data.isNotEmpty()) {
             binding.rvHistoryProductTeknisi.setup {
                 withDataSource(dataSourceTypedOf(data))
-                withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_product) {
-                    onBind(::ItemProductViewHolder) { _, item ->
+                withItem<ProductBuyHistoryGetAll, ItemHistoryBuyProduct>(R.layout.item_history_buy_produk) {
+                    onBind(::ItemHistoryBuyProduct) { _, item ->
+
+                        val sellerName = item.teknisiNama.run {
+                            if (isEmpty()) {
+                                item.pelangganNama
+                            } else {
+                                this
+                            }
+                        }
+
+                        val productBuyDate = item.beliTglBooking.run {
+                            if (item.beliStatus == "booking") {
+                                this
+                            } else {
+                                item.beliTglBeli
+                            }
+                        }
+
                         tvProductName.text = item.jualJudul
-                        tvProductDesciption.text = item.jualDeskripsi
+                        tvSellerName.text = sellerName
+                        tvProductPrice.text = item.jualHarga.toString()
+                        tvProductBuyDate.text = productBuyDate
+                        tvProductBuyStatus.text = item.beliStatus
+
                         Glide.with(requireActivity())
                             .load(item.pathPhoto)
                             .into(ivProductPhoto)
+
+                        btnGiveReview.setOnClickListener {
+
+                        }
                     }
                 }
             }

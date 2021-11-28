@@ -11,7 +11,7 @@ class TeknisiHistorySectionsPagerAdapter(fragmentManager: FragmentManager, lifec
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> HistoryServiceTeknisiFragment()
-            else -> HistoryProductTeknisiFragment()
+            else -> HistoryBuyProductTeknisiFragment()
         }
     }
 }
