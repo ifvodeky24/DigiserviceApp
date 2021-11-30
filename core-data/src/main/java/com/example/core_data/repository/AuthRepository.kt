@@ -73,6 +73,7 @@ class AuthRepository internal constructor(
     fun registerService(
         email: String,
         teknisiNama: String,
+        teknisiNoHp: String,
         password: String,
         teknisiNamaToko: String,
         teknisiAlamat: String,
@@ -86,6 +87,7 @@ class AuthRepository internal constructor(
             val apiResult =apiExecutor.callApi(apiId) {
                 authService.registerService(
                     teknisiNama = teknisiNama,
+                    teknisiNoHp = teknisiNoHp,
                     password = password,
                     email = email,
                     teknisiNamaToko = teknisiNamaToko,

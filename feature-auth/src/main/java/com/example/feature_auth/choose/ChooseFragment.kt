@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -16,11 +17,13 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.JenisKerusakan
 import com.example.core_data.domain.ListJenisKerusakan
+import com.example.core_navigation.ModuleNavigator
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentChooseBinding
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ChooseFragment : Fragment() {
+class ChooseFragment : Fragment(), ModuleNavigator {
 
     private var _binding: FragmentChooseBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +42,7 @@ class ChooseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
+        observeWhenDataSaved()
         setInput()
     }
 
@@ -148,6 +152,21 @@ class ChooseFragment : Fragment() {
             }
         }
     }
+
+    private fun observeWhenDataSaved() {
+        chooseViewModel.chooseServiceResponse.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is ApiEvent.OnProgress -> {}
+                is ApiEvent.OnSuccess -> {
+                    navigateToHomeActivity(finnishCurrent = true)
+                }
+                is ApiEvent.OnFailed -> {
+                    Snackbar.make(requireContext(), requireView(), "Gagal menyimpan keahlian, mohon coba lagi!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

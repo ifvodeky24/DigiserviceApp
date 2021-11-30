@@ -29,6 +29,7 @@ internal interface AuthService {
     @POST(RegiterService)
     suspend fun registerService(
         @Field("teknisi_nama") teknisiNama: String,
+        @Field("teknisi_hp") teknisiNoHp: String,
         @Field("password") password: String,
         @Field("email") email: String,
         @Field("teknisi_nama_toko") teknisiNamaToko: String,

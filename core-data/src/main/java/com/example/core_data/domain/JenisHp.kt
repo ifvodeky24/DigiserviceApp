@@ -14,6 +14,7 @@ data class JenisHp(
 
 typealias ListJenisHp = List<JenisHp>
 
-fun ListJenisHp.toRequest() = this.map { it.toRequest() }
+fun ListJenisHp.toRequest() = this.map {
+    it.toRequest() }
 
 fun JenisHp.toRequest() = JenisHpRequest(id = this.id, jenisHpId = this.jenisId)

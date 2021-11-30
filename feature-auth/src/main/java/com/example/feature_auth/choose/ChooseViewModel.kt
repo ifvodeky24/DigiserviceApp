@@ -2,13 +2,13 @@ package com.example.feature_auth.choose
 
 import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.request.JenisHpRequest
 import com.example.core_data.api.request.RequestChoose
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.*
 import com.example.core_data.repository.AuthRepository
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ChooseViewModel(
@@ -33,6 +33,19 @@ class ChooseViewModel(
     private val _isFormCompleted = MutableLiveData(false)
     internal val isFormCompleted = _isFormCompleted
 
+    private val teknisiId = MutableLiveData<Int>()
+
+    init {
+        viewModelScope.launch {
+            authRepository.getCurrentUserAsFlow()
+                .map { it.getData() }
+                .collect {
+                    if (it != null) {
+                        teknisiId.value = it.teknisiId
+                    }
+                }
+        }
+    }
 
     fun jenisHp() {
         viewModelScope.launch {
@@ -72,7 +85,7 @@ class ChooseViewModel(
         val jenisHp = optionJenisHpForPost.values.toList()
         val jenisKerusakan = optionJenisKerusakanForPost.values.toList()
         return RequestChoose(
-            teknisiId = 1,
+            teknisiId = teknisiId.value as Int,
             deskripsi = "$deskripsi",
             jenisHp = jenisHp.toRequest(),
             jenisKerusakan = jenisKerusakan.toRequest()

@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
@@ -42,6 +44,9 @@ class RegisterFragment : Fragment() {
     }
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
+    }
+    private val textHintEmptyNoHp by lazy {
+        "Nomer handphone harus diisi"
     }
     private val textHintEmptyPwd by lazy {
         "Password harus diisi"
@@ -69,7 +74,7 @@ class RegisterFragment : Fragment() {
 
     private val REQUEST_LOCATION_PERMISSION = 1
 
-    private val authViewModel: AuthViewModel by viewModel()
+    private val authViewModel: AuthViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,6 +92,7 @@ class RegisterFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
         //binding.mapView.getMapAsync(this)
+        observeWhenSuccessLogin()
     }
 
     private fun observeLogin() {
@@ -96,7 +102,10 @@ class RegisterFragment : Fragment() {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     hideProgress(true)
-                    findNavController().navigate(R.id.chooseFragment)
+                    authViewModel.email = binding.edtInputEmail.text.toString()
+                    authViewModel.password = binding.edtInputPwd.text.toString()
+
+                    authViewModel.login(binding.edtInputEmail.text.toString(), binding.edtInputPwd.text.toString())
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
                 {
@@ -116,6 +125,10 @@ class RegisterFragment : Fragment() {
                 inputLayout(R.id.edt_layout_email){
                     isNotEmpty().description(textHintEmptyEmail)
                 }
+                inputLayout(R.id.edt_layout_no_hp){
+                    isNotEmpty().description(textHintEmptyNoHp)
+                }
+
                 inputLayout(R.id.edt_layout_pwd){
                     isNotEmpty().description(textHintEmptyPwd)
                 }
@@ -130,8 +143,22 @@ class RegisterFragment : Fragment() {
                 }
                 submitWith(R.id.btn_next) { registerService() }
             }
-                btnNext.bindLifecycle(viewLifecycleOwner)
+            btnNext.bindLifecycle(viewLifecycleOwner)
                 mapViewButton.setOnClickListener {
+            }
+        }
+    }
+
+    private fun observeWhenSuccessLogin() {
+        authViewModel.loginRequest.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {}
+                is ApiEvent.OnSuccess -> {
+                    findNavController().navigate(R.id.chooseFragment)
+                }
+                is ApiEvent.OnFailed -> {
+                    Snackbar.make(requireContext(), requireView(), "Gagal menuju halaman Choose, mohon masuk ke halaman login", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -140,14 +167,15 @@ class RegisterFragment : Fragment() {
         dismissKeyboard()
         with(binding) {
             authViewModel.registerService(
-                edtInputEmail.text.toString(),
-                edtInputName.text.toString(),
-                edtInputPwd.text.toString(),
-                edtInputStoreName.text.toString(),
-                edtInputStoreAddress.text.toString(),
-                0f,
-                0f,
-                edtInputStoreDescription.text.toString(),
+                email = edtInputEmail.text.toString(),
+                teknisiNama = edtInputName.text.toString(),
+                teknisiNoHp = edtInputNoHp.text.toString(),
+                password = edtInputPwd.text.toString(),
+                teknisiNamaToko = edtInputStoreName.text.toString(),
+                teknisiAlamat = edtInputStoreAddress.text.toString(),
+                teknisiLat = 0f,
+                teknisiLng = 0f,
+                teknisiDeskripsi = edtInputStoreDescription.text.toString(),
             )
         }
     }

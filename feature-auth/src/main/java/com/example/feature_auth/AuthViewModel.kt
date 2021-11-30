@@ -40,6 +40,7 @@ class AuthViewModel(
     fun registerService(
         email: String,
         teknisiNama: String,
+        teknisiNoHp: String,
         password: String,
         teknisiNamaToko: String,
         teknisiAlamat: String,
@@ -51,6 +52,7 @@ class AuthViewModel(
             authRepository.registerService(
                 email = email,
                 teknisiNama = teknisiNama,
+                teknisiNoHp = teknisiNoHp,
                 password = password,
                 teknisiNamaToko = teknisiNamaToko,
                 teknisiAlamat = teknisiAlamat,

@@ -95,9 +95,55 @@
                 android:id="@+id/edt_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/input_secondary" />
+                android:background="@drawable/input_secondary"
+                android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_no_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nomor Handphone"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_layout_email" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            android:textColor="@color/colorRed"
+            android:layout_marginHorizontal="@dimen/small"
+            app:layout_constraintStart_toEndOf="@+id/tv_no_hp"
+            app:layout_constraintTop_toTopOf="@+id/tv_no_hp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_layout_no_hp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/empty"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small"
+            android:paddingVertical="@dimen/very_small"
+            android:textColorHint="@color/colorGreyishBrown"
+            app:boxStrokeColor="@color/colorCobaltBlue"
+            app:layout_constraintTop_toBottomOf="@+id/tv_no_hp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_input_no_hp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_secondary"
+                android:inputType="phone"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_pwd"
@@ -108,7 +154,7 @@
             android:textSize="@dimen/text_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_layout_email"/>
+            app:layout_constraintTop_toBottomOf="@+id/edt_layout_no_hp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
