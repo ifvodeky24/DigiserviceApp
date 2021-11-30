@@ -17,12 +17,13 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.JenisKerusakan
 import com.example.core_data.domain.ListJenisKerusakan
+import com.example.core_navigation.ModuleNavigator
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentChooseBinding
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ChooseFragment : Fragment() {
+class ChooseFragment : Fragment(), ModuleNavigator {
 
     private var _binding: FragmentChooseBinding? = null
     private val binding get() = _binding!!
@@ -157,7 +158,7 @@ class ChooseFragment : Fragment() {
             when (event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    Snackbar.make(requireContext(), requireView(), "Berhasil menyimpan keahlian, kamu akan memasukin halaman utama!", Snackbar.LENGTH_SHORT).show()
+                    navigateToHomeActivity(finnishCurrent = true)
                 }
                 is ApiEvent.OnFailed -> {
                     Snackbar.make(requireContext(), requireView(), "Gagal menyimpan keahlian, mohon coba lagi!", Snackbar.LENGTH_SHORT).show()
