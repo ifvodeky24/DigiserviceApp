@@ -43,6 +43,9 @@ class RegisterFragment : Fragment() {
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
     }
+    private val textHintEmptyNoHp by lazy {
+        "Nomer handphone harus diisi"
+    }
     private val textHintEmptyPwd by lazy {
         "Password harus diisi"
     }
@@ -116,6 +119,10 @@ class RegisterFragment : Fragment() {
                 inputLayout(R.id.edt_layout_email){
                     isNotEmpty().description(textHintEmptyEmail)
                 }
+                inputLayout(R.id.edt_layout_no_hp){
+                    isNotEmpty().description(textHintEmptyNoHp)
+                }
+
                 inputLayout(R.id.edt_layout_pwd){
                     isNotEmpty().description(textHintEmptyPwd)
                 }
@@ -140,14 +147,15 @@ class RegisterFragment : Fragment() {
         dismissKeyboard()
         with(binding) {
             authViewModel.registerService(
-                edtInputEmail.text.toString(),
-                edtInputName.text.toString(),
-                edtInputPwd.text.toString(),
-                edtInputStoreName.text.toString(),
-                edtInputStoreAddress.text.toString(),
-                0f,
-                0f,
-                edtInputStoreDescription.text.toString(),
+                email = edtInputEmail.text.toString(),
+                teknisiNama = edtInputName.text.toString(),
+                teknisiNoHp = edtInputNoHp.text.toString(),
+                password = edtInputPwd.text.toString(),
+                teknisiNamaToko = edtInputStoreName.text.toString(),
+                teknisiAlamat = edtInputStoreAddress.text.toString(),
+                teknisiLat = 0f,
+                teknisiLng = 0f,
+                teknisiDeskripsi = edtInputStoreDescription.text.toString(),
             )
         }
     }
