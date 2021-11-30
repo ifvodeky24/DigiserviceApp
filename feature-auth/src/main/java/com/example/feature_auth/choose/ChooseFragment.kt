@@ -157,8 +157,7 @@ class ChooseFragment : Fragment() {
             when (event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    Snackbar.make(requireContext(), requireView(), "Berhasil menyimpan keahlian, mohon login untuk memasukin halaman utama!", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.loginFragment)
+                    Snackbar.make(requireContext(), requireView(), "Berhasil menyimpan keahlian, kamu akan memasukin halaman utama!", Snackbar.LENGTH_SHORT).show()
                 }
                 is ApiEvent.OnFailed -> {
                     Snackbar.make(requireContext(), requireView(), "Gagal menyimpan keahlian, mohon coba lagi!", Snackbar.LENGTH_SHORT).show()

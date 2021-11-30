@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
@@ -72,7 +74,7 @@ class RegisterFragment : Fragment() {
 
     private val REQUEST_LOCATION_PERMISSION = 1
 
-    private val authViewModel: AuthViewModel by viewModel()
+    private val authViewModel: AuthViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +92,7 @@ class RegisterFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
         //binding.mapView.getMapAsync(this)
+        observeWhenSuccessLogin()
     }
 
     private fun observeLogin() {
@@ -99,7 +102,10 @@ class RegisterFragment : Fragment() {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     hideProgress(true)
-                    findNavController().navigate(R.id.chooseFragment)
+                    authViewModel.email = binding.edtInputEmail.text.toString()
+                    authViewModel.password = binding.edtInputPwd.text.toString()
+
+                    authViewModel.login(binding.edtInputEmail.text.toString(), binding.edtInputPwd.text.toString())
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
                 {
@@ -137,8 +143,22 @@ class RegisterFragment : Fragment() {
                 }
                 submitWith(R.id.btn_next) { registerService() }
             }
-                btnNext.bindLifecycle(viewLifecycleOwner)
+            btnNext.bindLifecycle(viewLifecycleOwner)
                 mapViewButton.setOnClickListener {
+            }
+        }
+    }
+
+    private fun observeWhenSuccessLogin() {
+        authViewModel.loginRequest.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {}
+                is ApiEvent.OnSuccess -> {
+                    findNavController().navigate(R.id.chooseFragment)
+                }
+                is ApiEvent.OnFailed -> {
+                    Snackbar.make(requireContext(), requireView(), "Gagal menuju halaman Choose, mohon masuk ke halaman login", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
