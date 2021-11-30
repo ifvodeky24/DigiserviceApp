@@ -2,6 +2,7 @@ package com.example.feature_home
 
 import android.app.Application
 import com.example.feature_home.account.AccountViewModel
+import com.example.feature_home.history.HistoryViewModel
 import com.example.feature_home.service.OrderTechnicianViewModel
 import com.example.feature_home.service.ServiceHandphoneViewModel
 import com.example.feature_home.store.ProductViewModel
@@ -17,4 +18,5 @@ val Application.homeModule
         viewModel { ServiceViewModel(get()) }
         viewModel { OrderTechnicianViewModel(get()) }
         viewModel { ServiceHandphoneViewModel(get()) }
+        viewModel { HistoryViewModel() }
     }

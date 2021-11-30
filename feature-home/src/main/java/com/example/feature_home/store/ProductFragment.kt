@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
+import com.example.core_resource.showApiFailedDialog
+import com.example.core_resource.showProgressDialog
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentProductBinding
@@ -73,10 +75,10 @@ class ProductFragment : Fragment() {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> productAll.getData().let {
                     onDataProductAllLoaded(productAll.getData()!!)
-                    Timber.d(" uiuiuiui ${productAll.getData()}")
                 }
                 is ApiEvent.OnFailed -> {
-                    Timber.d(" booom ${productAll.getException()}")
+                    val exception = productAll.getException()
+                    showApiFailedDialog(exception)
                 }
             }
         }

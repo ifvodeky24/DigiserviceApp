@@ -19,6 +19,12 @@ data class ProductBuyHistoryGetAll(
     val teknisiNama: String = "",
     val pelangganNama: String = "",
     val beliStatus: String = "",
+    val isReviewed: Int = 0,
+    val rating: Float = 0f,
+    val isiReview: String = ""
 )
 
 typealias ListProductBuyHistoryGetAll = List<ProductBuyHistoryGetAll>
+
+val ProductBuyHistoryGetAll.isReviewedProduct
+    get() = isReviewed == 1

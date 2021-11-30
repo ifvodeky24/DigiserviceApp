@@ -52,6 +52,12 @@ data class ProductBuyHistoryGetAllDataResponse(
 	val pelangganNama: String = "",
 	@Json(name="beli_status")
 	val beliStatus: String = "",
+	@Json(name="is_reviewed")
+	val isReviewed: Int = 0,
+	@Json(name="rating")
+	val rating: Float = 0f,
+	@Json(name="isi_review")
+	val isiReview: String = "",
 )
 
 typealias ListProductBuyHistoryGetAllDataResponse = List<ProductBuyHistoryGetAllDataResponse>
@@ -79,5 +85,8 @@ fun ProductBuyHistoryGetAllDataResponse.toDomain() =
 		beliTglBooking = beliTglBooking,
 		teknisiNama = teknisiNama,
 		pelangganNama = pelangganNama,
-		beliStatus = beliStatus
+		beliStatus = beliStatus,
+		isReviewed = isReviewed,
+		rating = rating,
+		isiReview = isiReview,
 	)

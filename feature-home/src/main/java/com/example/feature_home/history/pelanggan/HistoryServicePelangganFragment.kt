@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.servicehp.ServiceHandphoneByCustomerGetAll
+import com.example.core_resource.showApiFailedDialog
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentHistoryServicePelangganBinding
@@ -46,7 +47,10 @@ class HistoryServicePelangganFragment : Fragment() {
                 is ApiEvent.OnSuccess -> {
                     onDataHistoryServiceLoaded(event.getData())
                 }
-                is ApiEvent.OnFailed -> {}
+                is ApiEvent.OnFailed -> {
+                    val exception = event.getException()
+                    showApiFailedDialog(exception)
+                }
             }
         }
     }

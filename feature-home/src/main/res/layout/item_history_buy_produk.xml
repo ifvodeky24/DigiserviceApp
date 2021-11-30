@@ -106,11 +106,14 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_review"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_give_review"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:textColor="@color/colorCobaltBlue"
+                app:strokeColor="@color/colorCobaltBlue"
                 android:text="Beri Ulasan" />
 
         </LinearLayout>
@@ -145,6 +148,44 @@
                 android:text="Selesai" />
 
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_rating"
+            android:background="@drawable/bg_outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium"
+            android:padding="@dimen/medium">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:digi_font_style="medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Rating" />
+
+            <RatingBar
+                android:id="@+id/rating"
+                style="@style/Yellow.AppCompatRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:theme="@style/Yellow.AppCompatRatingBar"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
