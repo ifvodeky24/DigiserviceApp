@@ -65,7 +65,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.example.core_util.DigiEditText
+                    style="@style/EditText.Primary"
                     android:id="@+id/edt_input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +109,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.example.core_util.DigiEditText
+                    style="@style/EditText.Primary"
                     android:id="@+id/edt_input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +154,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.example.core_util.DigiEditText
+                    style="@style/EditText.Primary"
                     android:id="@+id/edt_input_no_hp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,7 +201,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:passwordToggleEnabled="true">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.example.core_util.DigiEditText
+                    style="@style/EditText.Primary"
                     android:id="@+id/edt_input_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -223,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/smaller"
                 android:layout_marginTop="@dimen/medium"
-                android:text="Wajib disini, Mohon pilih pin untuk menjangkau alamat Anda dengan akurat"
+                android:text="Maps"
                 android:textColor="@color/colorOrangeYellow"
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold"
@@ -287,10 +291,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.example.core_util.DigiEditText
+                    style="@style/EditText.Primary"
                     android:id="@+id/edt_input_store_address"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/very_large_plus"
+                    android:layout_gravity="top"
                     android:background="@drawable/input_secondary" />
 
             </com.google.android.material.textfield.TextInputLayout>

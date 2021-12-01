@@ -17,6 +17,10 @@ class AuthViewModel(
         emit(authRepository.getAuth())
     }
 
+    var lat = ""
+    var lng = ""
+    var address = ""
+
     var email = ""
     var password = ""
 

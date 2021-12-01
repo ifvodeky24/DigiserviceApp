@@ -88,14 +88,6 @@ private fun Fragment.startActivity(activityClassPath: ActivityClassPath, finnish
 interface Auth :ModuleNavigator {
 
 }
-
-//fun Fragment.navigateToGallery(flag: String){
-//    val intent = Intent(Intent.ACTION_PICK).apply {
-//        type = "image/*"
-//    }
-//    resultPhoto.launch(intent)
-//}
-
 data class MapParameter(
     val lat: Double,
     val lng: Double,

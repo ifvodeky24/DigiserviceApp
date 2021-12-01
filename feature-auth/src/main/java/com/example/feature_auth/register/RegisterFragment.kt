@@ -1,42 +1,57 @@
 package com.example.feature_auth.register
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
-import com.example.core_util.bindLifecycle
-import com.example.core_util.dismissKeyboard
-import com.example.core_util.hideProgress
-import com.example.core_util.showProgress
+import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterBinding
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
 
+    private val mapsZoom: Float by lazy {
+        12.0f
+    }
+
     private val callback = OnMapReadyCallback { googleMap ->
-        val sydney = LatLng(-0.989818, 113.915863)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val lat = authViewModel.lat
+        val lng = authViewModel.lng
+        val location = if (lat.isNotEmpty() && lng.isNotEmpty()){
+            LatLng(lat.toDouble(), lng.toDouble())
+        }
+        else{
+            LatLng(-0.989818, 113.915863)
+        }
+        googleMap.addMarker(MarkerOptions().position(location).title(binding.edtInputStoreAddress.text.toString()))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, mapsZoom))
     }
 
     private val textBtnNext by lazy {
@@ -54,9 +69,6 @@ class RegisterFragment : Fragment() {
     private val textHintEmptyName by lazy {
         "Nama harus diisi"
     }
-    private val textHintEmptyPassword by lazy {
-        "Password harus diisi"
-    }
     private val textHintEmptyStoreName by lazy {
         "Nama toko harus diisi"
     }
@@ -70,34 +82,83 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var map: GoogleMap
-
-    private val REQUEST_LOCATION_PERMISSION = 1
-
     private val authViewModel: AuthViewModel by sharedViewModel()
+
+    private val PERMISSION_ID = 42
+
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        getLastLocation()
+
+        initToolbar()
+        setupInput()
+        observeLogin()
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+        observeWhenSuccessLogin()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()){
+            if (isLocationEnabled()){
+                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()){ task ->
+                    val location: Location? = task.result
+                    val locationAddress = LocationAddress()
+                    location?.let { location ->
+                        authViewModel.lat = "${location.latitude}"
+                        authViewModel.lng = "${location.longitude}"
+                        locationAddress.getAddressFromLocation(location.latitude, location.longitude, requireActivity().applicationContext, GeoCodeHandler())
+                    } ?: run {
+                        requestNewLocationData()
+                    }
+                }
+            }
+            else{
+                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
+                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                    startActivity(this)
+                }
+            }
+        }
+        else{
+            requestPermissions()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 0
+            fastestInterval = 0
+            numUpdates = 1
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        mFusedLocationClient?.requestLocationUpdates(
+            mLocationRequest, mLocationCallback, Looper.myLooper()
+        )
+    }
+
+    private fun initToolbar() {
         with(binding.registerToolbar.toolbar){
             title = "Register Service"
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
-        setupInput()
-        observeLogin()
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-        //binding.mapView.getMapAsync(this)
-        observeWhenSuccessLogin()
     }
 
     private fun observeLogin() {
@@ -133,7 +194,6 @@ class RegisterFragment : Fragment() {
                 inputLayout(R.id.edt_layout_no_hp){
                     isNotEmpty().description(textHintEmptyNoHp)
                 }
-
                 inputLayout(R.id.edt_layout_pwd){
                     isNotEmpty().description(textHintEmptyPwd)
                 }
@@ -178,8 +238,8 @@ class RegisterFragment : Fragment() {
                 password = edtInputPwd.text.toString(),
                 teknisiNamaToko = edtInputStoreName.text.toString(),
                 teknisiAlamat = edtInputStoreAddress.text.toString(),
-                teknisiLat = 0f,
-                teknisiLng = 0f,
+                teknisiLat = authViewModel.lat.toFloat(),
+                teknisiLng = authViewModel.lng.toFloat(),
                 teknisiDeskripsi = edtInputStoreDescription.text.toString(),
             )
         }
@@ -190,7 +250,6 @@ class RegisterFragment : Fragment() {
         _binding = null
 
     }
-
 
     private fun showProgress() = with(binding) {
         listOf(
@@ -218,83 +277,60 @@ class RegisterFragment : Fragment() {
         }
     }
 
-//    override fun onMapReady(map: GoogleMap) {
-//        val lat = -0.989818
-//        val lng = 113.915863
-//        val zoomLevel = 15f
-//        val overlaySize = 100f
-//
-//        val defaultLatLng = LatLng(lat, lng)
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, zoomLevel))
-//        map.addMarker(MarkerOptions().position(defaultLatLng))
-//
-//        val googleOverlay = GroundOverlayOptions()
-//            .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_map))
-//            .position(defaultLatLng, overlaySize)
-//        map.addGroundOverlay(googleOverlay)
-//
-//        //enableMyLocation()
-//
-//        if (isPermissionGranted()){
-//
-//        }
-//        else{
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//        }
-//
-//    }
-
-//    private fun enableMyLocation() {
-//        return ContextCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        //map.isMyLocationEnabled = true
-
-//        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-//            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-//            PackageManager.PERMISSION_GRANTED) {
-//                map.isMyLocationEnabled = true
-//        }
-//        else{
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//        }
-//    }
-
-    private fun isPermissionGranted() : Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun checkPermissions(): Boolean{
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
     }
 
-//    private fun isPermissionGranted(): Boolean {
-//        return ( ActivityCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_COARSE_LOCATION
-//        ) != PackageManager.PERMISSION_GRANTED)
-//    }
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMISSION_ID
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray) {
-        // Check if location permissions are granted and if so enable the
-        // location data layer.
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-                //enableMyLocation()
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                getLastLocation()
             }
         }
     }
 
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+           locationResult.lastLocation.apply {
+               authViewModel.lat = "$latitude"
+               authViewModel.lat = "$latitude"
+           }
+        }
+    }
+
+    internal inner class GeoCodeHandler : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(message: Message) {
+            val locationAddress: String = when (message.what) {
+                1 -> {
+                    val bundle = message.data
+                    bundle.getString("address") ?: "Empty Address"
+                }
+                else -> null.toString()
+            }
+            authViewModel.address = locationAddress
+            binding.edtInputStoreAddress.text = authViewModel.address.toEditable()
+        }
+    }
 }
