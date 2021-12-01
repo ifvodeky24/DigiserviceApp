@@ -118,6 +118,50 @@ class AuthRepository internal constructor(
         }
     }
 
+    fun registerPelanggan(
+        email: String,
+        teknisiNama: String,
+        teknisiNoHp: String,
+        password: String,
+        teknisiAlamat: String,
+        teknisiLat: Float,
+        teknisiLng: Float,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+        runCatching {
+            val apiId = AuthService.RegiterService
+
+            val apiResult =apiExecutor.callApi(apiId) {
+                authService.registerPelanggan(
+                    teknisiNama = teknisiNama,
+                    teknisiNoHp = teknisiNoHp,
+                    password = password,
+                    email = email,
+                    teknisiAlamat = teknisiAlamat,
+                    teknisiLat = teknisiLat,
+                    teknisiLng = teknisiLng,
+                )
+            }
+
+            val apiEvent:ApiEvent<CommonResponse?> = when(apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
     fun getJenisHpAll() :Flow<ApiEvent<ListJenisHp>> = flow {
         runCatching {
             val apiId = AuthService.GetJenisHpAll

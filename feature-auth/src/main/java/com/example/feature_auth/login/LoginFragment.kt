@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.api.ApiException
+import com.example.core_data.api.response.ErrorResponse
+import com.example.core_data.domain.auth.isTechnician
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
@@ -54,8 +57,11 @@ class LoginFragment : Fragment(), ModuleNavigator {
 
         setupInput()
         with(binding) {
-            tvDaftar.setOnClickListener {
+            tvTeknisi.setOnClickListener {
                 findNavController().navigate(R.id.registerFragment)
+            }
+            tvPelanggan.setOnClickListener {
+                findNavController().navigate(R.id.registerPelangganFragment)
             }
         }
 
@@ -72,27 +78,8 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)
-                    Timber.d("gagal ${login.getException()}")
                     Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT)
                         .show()
-
-                    when (val exception = login.getException()) {
-//                        is ApiException.FailedResponse<*> -> when (val errorResponse =
-//                            exception.error) {
-//                            is ErrorResponse -> when {
-//                                errorResponse contains ApiException.SERVER_ERROR -> {
-//                                    showErrorFail(getString(R.string.oops_server_error))
-//                                }
-//                                else -> showErrorMessage()
-//                            }
-//                            else -> showErrorMessage()
-//                        }
-//                        is ApiException.Timeout -> showErrorFail(getString(R.string.request_timeout))
-//                        is ApiException.Network -> showErrorFail(getString(R.string.oops_network))
-//                        is ApiException.Offline -> showErrorFail(getString(R.string.oops_network))
-//                        is ApiException.Unknown -> showErrorFail(getString(R.string.unknown_error))
-//                        else -> showErrorMessage()
-                    }
                 }
             }
         })
@@ -119,22 +106,18 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 submitWith(R.id.btn_login) {
                     dismissKeyboard()
-                    val email = binding.edtEmail.text.toString()
-                    val password = binding.edtPassword.text.toString()
-//                    val email = "ryan@gmail.com"
-//                    val password = "admins"
+                    val email = edtEmail.text.toString()
+                    val password = edtPassword.text.toString()
 
                     viewModel.email = email
                     viewModel.password = password
 
-                    Timber.d("cekkkk $email dan ${password} dan ")
-
                     viewModel.login(email, password)
                 }
             }
+            btnLogin.bindLifecycle(viewLifecycleOwner)
         }
 
-        binding.btnLogin.bindLifecycle(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {

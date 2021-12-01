@@ -72,6 +72,33 @@ class AuthViewModel(
         }
     }
 
+    fun registerPelanggan(
+        email: String,
+        teknisiNama: String,
+        teknisiNoHp: String,
+        password: String,
+        teknisiAlamat: String,
+        teknisiLat: Float,
+        teknisiLng: Float,
+    ) {
+        viewModelScope.launch {
+            authRepository.registerPelanggan(
+                email = email,
+                teknisiNama = teknisiNama,
+                teknisiNoHp = teknisiNoHp,
+                password = password,
+                teknisiAlamat = teknisiAlamat,
+                teknisiLat = teknisiLat,
+                teknisiLng = teknisiLng,
+            )
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect {
+                    _registerServiceSuccess.value = it is ApiEvent.OnSuccess<*>
+                    _registerServiceResponse.value = it
+                }
+        }
+    }
+
     fun setCurrentSkill(teknisiId: Int){
         viewModelScope.launch {
             authRepository.getCurrentSkilAll(teknisiId)

@@ -87,8 +87,8 @@
     <style name="BaseTheme.BottomSheet.ShapeAppearanceOverlay" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
-        <item name="cornerSizeTopLeft">@dimen/large</item>
-        <item name="cornerSizeTopRight">@dimen/large</item>
+        <item name="cornerSizeTopLeft">@dimen/radius</item>
+        <item name="cornerSizeTopRight">@dimen/radius</item>
         <item name="cornerSizeBottomLeft">@dimen/empty</item>
         <item name="cornerSizeBottomRight">@dimen/empty</item>
     </style>
@@ -118,5 +118,10 @@
 
     <style name="ThemeOverlay.CoreTheme.Button.Secondary" parent="">
         <item name="colorPrimary">@color/colorRed</item>
+    </style>
+
+    <style name="Yellow.AppCompatRatingBar" parent="Base.Widget.AppCompat.RatingBar.Indicator">
+        <item name="colorControlNormal">@color/grey_60</item>
+        <item name="colorControlActivated">@color/colorOrangeYellow</item>
     </style>
 </resources>

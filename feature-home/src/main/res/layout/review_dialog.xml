@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/order_technician"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/v_bs"
+        android:layout_width="@dimen/very_large_fit"
+        android:layout_height="@dimen/smaller"
+        android:alpha=".5"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/medium"
+        android:background="@drawable/background_radius_16_black" />
+
+    <RatingBar
+        android:id="@+id/rating"
+        android:theme="@style/Yellow.AppCompatRatingBar"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/large"
+        android:layout_gravity="center"
+        style="@style/Yellow.AppCompatRatingBar"
+        android:isIndicator="false"
+        android:stepSize="0.5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5" />
+
+    <com.example.core_util.DigiTextView
+        android:layout_marginTop="@dimen/medium"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/text_small"
+        android:text="ISI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="@dimen/very_small"
+        android:textColorHint="@color/colorGreyishBrown"
+        app:boxStrokeColor="@color/colorCobaltBlue">
+
+        <com.example.core_util.DigiEditText
+            style="@style/EditText.Primary"
+            android:gravity="top"
+            android:id="@+id/edt_desc_review"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.example.core_util.DigiButton
+        android:id="@+id/btn_dialog_review"
+        app:strokeColor="@color/colorCobaltBlue"
+        app:strokeWidth="@dimen/tiny"
+        android:textStyle="bold"
+        android:textColor="@color/colorCobaltBlue"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium"
+        android:layout_marginBottom="@dimen/medium"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="@dimen/small_fit"
+        android:text="REVIEW"/>
+</LinearLayout>

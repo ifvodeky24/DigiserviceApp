@@ -644,4 +644,42 @@ class StoreRepository internal constructor(
             emit(it.toFailedEvent<CommonResponse>())
         }
     }
+
+    fun reviewProduct(
+        beliId: Int,
+        rating: Float,
+        desc: String,
+    ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        runCatching {
+            val apiId = StoreService.ReviewProduct
+
+            val apiResult = apiExecutor.callApi(apiId) {
+                storeService.reviewProduct(
+                    beliId = beliId,
+                    rating = rating,
+                    desc = desc
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when (apiResult) {
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response) {
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+            }
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.load.model.FileLoader
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.ListJenisHp
@@ -35,6 +36,8 @@ class ProductViewModel(
 
     internal var isUpdate = false
 
+    internal var userId: Int = 0
+
     private val _productGetAllResponse = MutableLiveData<ApiEvent<ListProductGetAll?>>()
     val productGetAllResponse: LiveData<ApiEvent<ListProductGetAll?>> = _productGetAllResponse
 
@@ -54,7 +57,10 @@ class ProductViewModel(
     val historyBuyProduct: LiveData<ApiEvent<ListProductBuyHistoryGetAll?>> = _historyBuyProduct
 
     private val _updateStatusBeliProduct = MutableLiveData<ApiEvent<CommonResponse?>>()
-    val updateStatusBeliProduct:LiveData<ApiEvent<CommonResponse?>> = _updateStatusBeliProduct
+    val updateStatusBeliProduct: LiveData<ApiEvent<CommonResponse?>> = _updateStatusBeliProduct
+
+    private val _reviewProductResponse = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val reviewProductResponse: LiveData<ApiEvent<CommonResponse?>> = _reviewProductResponse
 
     fun jenisHp() {
         viewModelScope.launch {
@@ -147,6 +153,14 @@ class ProductViewModel(
             storeRepository.updateStatusBeliProduct(beliId, beliStatus)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _updateStatusBeliProduct.value = it }
+        }
+    }
+
+    fun reviewProduct(beliId: Int, rating: Float, ratingDesc: String){
+        viewModelScope.launch {
+            storeRepository.reviewProduct(beliId = beliId, rating = rating, desc = ratingDesc)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _reviewProductResponse.value = it }
         }
     }
 }

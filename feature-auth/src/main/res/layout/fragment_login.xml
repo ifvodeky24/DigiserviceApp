@@ -87,19 +87,61 @@
         app:layout_constraintTop_toBottomOf="@id/til_password"
         tools:ignore="TooManyViews" />
 
-    <TextView
+    <com.example.core_util.DigiTextView
         android:id="@+id/tv_daftar"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/antic"
-        android:gravity="center"
-        android:text="Belum memiliki akun?Daftar Sekarang"
+        android:layout_marginTop="@dimen/large"
+        android:text="Belum punya akun? Daftar sekarang"
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+    <com.example.core_util.DigiButton
+        android:id="@+id/tv_pelanggan"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pelanggan"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_medium"
+        app:digi_font_style="bold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/tv_daftar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.example.core_util.DigiTextView
+        android:id="@+id/tv_atau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/antic"
+        android:text="Atau"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/medium"
+        app:layout_constraintTop_toBottomOf="@id/tv_pelanggan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.example.core_util.DigiButton
+        android:id="@+id/tv_teknisi"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teknisi"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_medium"
+        app:digi_font_style="bold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/tv_atau"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

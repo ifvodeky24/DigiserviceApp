@@ -207,49 +207,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama Toko"
-                android:layout_marginTop="@dimen/medium"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_layout_pwd"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold"
-                android:textColor="@color/colorRed"
-                app:layout_constraintTop_toTopOf="@+id/tv_store_name"
-                android:layout_marginHorizontal="@dimen/small"
-                app:layout_constraintStart_toEndOf="@+id/tv_store_name"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edt_layout_store_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="@dimen/empty"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
-                android:paddingVertical="@dimen/very_small"
-                android:textColorHint="@color/colorGreyishBrown"
-                app:boxStrokeColor="@color/colorCobaltBlue"
-                app:layout_constraintTop_toBottomOf="@+id/tv_store_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_store_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_secondary" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appCompatImageView"
                 android:layout_width="wrap_content"
@@ -273,7 +230,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edt_layout_pwd" />
 
             <fragment
                 android:id="@+id/map_view"
@@ -299,7 +256,7 @@
                 android:id="@+id/tv_store_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alamat Toko"
+                android:text="Alamat"
                 android:layout_marginTop="@dimen/medium"
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold"
@@ -338,63 +295,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_store_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deskripsi Toko"
-                android:layout_marginTop="@dimen/medium"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_address"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold"
-                android:textColor="@color/colorRed"
-                app:layout_constraintTop_toTopOf="@+id/tv_store_description"
-                android:layout_marginHorizontal="@dimen/small"
-                app:layout_constraintStart_toEndOf="@+id/tv_store_description"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edt_layout_store_description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="@dimen/empty"
-                android:layout_height="@dimen/very_large_fit"
-                android:layout_marginTop="@dimen/small"
-                android:paddingVertical="@dimen/very_small"
-                android:textColorHint="@color/colorGreyishBrown"
-                app:boxStrokeColor="@color/colorCobaltBlue"
-                app:layout_constraintTop_toBottomOf="@+id/tv_store_description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_store_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/very_large_plus"
-                    android:background="@drawable/input_secondary" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_daftar"
                 style="@style/ThemeOverlay.DigiServices.Button.Secondary"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:layout_marginTop="@dimen/medium"
                 android:paddingVertical="@dimen/small_fit"
-                android:text="LANJUT DAFTAR"
+                android:text="DAFTAR"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_description"
+                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_address"
                 tools:ignore="TooManyViews" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,16 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductBuyHistoryGetAll
+import com.example.core_data.domain.store.isReviewedProduct
+import com.example.core_resource.showApiFailedDialog
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentHistoryServicePelangganBinding
+import com.example.feature_home.history.ReviewDialogFragment
+import com.example.feature_home.history.showDialogReview
 import com.example.feature_home.history.teknisi.HistoryBuyProductTeknisiFragment
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemHistoryBuyProduct
@@ -49,6 +57,7 @@ class HistoryProductPelangganFragment : Fragment() {
     private fun observeUser() {
         accountViewModel.authUser.observe(viewLifecycleOwner) { auth ->
             if (auth != null) {
+                productViewModel.userId = auth.id
                 productViewModel.historyBuyProductGetById(auth.id)
             }
         }
@@ -63,7 +72,8 @@ class HistoryProductPelangganFragment : Fragment() {
                     Timber.d(" uiuiuiui ${productAll.getData()}")
                 }
                 is ApiEvent.OnFailed -> {
-                    Timber.d(" booom ${productAll.getException()}")
+                    val exception = productAll.getException()
+                    showApiFailedDialog(exception)
                 }
             }
         }
@@ -92,6 +102,44 @@ class HistoryProductPelangganFragment : Fragment() {
                             }
                         }
 
+                        if (item.isReviewedProduct) {
+                            btnGiveReview.isEnabled = false
+                            btnGiveReview.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorLightBlueGrey )
+                            ratingBar.rating = item.rating
+                            layoutRating.setOnClickListener {
+                                showDialogReview(item.beliId, isEdit = true, rating = item.rating, desc = item.isiReview)
+                            }
+                        }
+
+                        layoutRating.isVisible = item.isReviewedProduct
+
+                        btnGiveReview.setOnClickListener {
+                            showDialogReview(item.beliId)
+                        }
+
+                        childFragmentManager.setFragmentResultListener(
+                            ReviewDialogFragment.KEY_RESULT_SUBMIT,
+                            this@HistoryProductPelangganFragment
+                        ){ _, bundle ->
+                            val result = bundle.getString(ReviewDialogFragment.KEY_BUNDLE_SUBMIT)
+                            if (result == ReviewDialogFragment.TRUE){
+                                productViewModel.reviewProductResponse.observe(viewLifecycleOwner){ event ->
+                                    when(event){
+                                        is ApiEvent.OnSuccess -> {
+                                            event.getData()?.apply {
+                                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                                productViewModel.historyBuyProductGetById(productViewModel.userId)
+                                            }
+                                        }
+                                        is ApiEvent.OnFailed -> {
+                                            val exception = event.getException()
+                                            showApiFailedDialog(exception)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         tvProductName.text = item.jualJudul
                         tvSellerName.text = sellerName
                         tvProductPrice.text = item.jualHarga.toString()
@@ -99,7 +147,7 @@ class HistoryProductPelangganFragment : Fragment() {
                         tvProductBuyStatus.text = item.beliStatus
 
                         Glide.with(requireActivity())
-                            .load(item.fotoProduk)
+                            .load(APP_PRODUCT_IMAGES_URL+item.fotoProduk)
                             .into(ivProductPhoto)
 
                         if (item.beliStatus != "booking") {
@@ -107,7 +155,7 @@ class HistoryProductPelangganFragment : Fragment() {
                         }
 
                         btnGiveReview.setOnClickListener {
-
+                            showDialogReview(beliId = item.beliId)
                         }
 
                         btnProductCancel.setOnClickListener {

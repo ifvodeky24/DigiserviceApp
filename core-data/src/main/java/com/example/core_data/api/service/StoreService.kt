@@ -83,6 +83,14 @@ interface StoreService {
         @Field("beli_status") beliStatus: String
     ) : CommonResponse
 
+    @FormUrlEncoded
+    @POST(ReviewProduct)
+    suspend fun reviewProduct(
+        @Field("beli_id") beliId: Int,
+        @Field("nilai") rating: Float,
+        @Field("isi") desc: String
+    ) : CommonResponse
+
     companion object {
         private const val JualId = "jual_id"
 
@@ -95,5 +103,6 @@ interface StoreService {
         const val UpdateStatusProduct = "update-status-beli-product/{beli_id}"
         const val DeleteProduct = "produk-delete/{id}"
         const val BuyProduct = "buy-product"
+        const val ReviewProduct = "review"
     }
 }
