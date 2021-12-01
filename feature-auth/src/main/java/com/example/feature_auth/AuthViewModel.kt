@@ -3,6 +3,7 @@ package com.example.feature_auth
 import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
+import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.repository.AuthRepository
 import kotlinx.coroutines.flow.onStart
@@ -32,6 +33,9 @@ class AuthViewModel(
 
     private val _registerServiceSuccess = MutableLiveData<Boolean>()
     val registerServiceSuccess: LiveData<Boolean> = _registerServiceSuccess
+
+    private val _liveSkills = MutableLiveData<ApiEvent<ResultSkils?>>()
+    val liveSkills: LiveData<ApiEvent<ResultSkils?>> = _liveSkills
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
@@ -95,6 +99,15 @@ class AuthViewModel(
                 .collect {
                     _registerServiceSuccess.value = it is ApiEvent.OnSuccess<*>
                     _registerServiceResponse.value = it
+                }
+        }
+    }
+
+    fun setCurrentSkill(teknisiId: Int){
+        viewModelScope.launch {
+            authRepository.getCurrentSkilAll(teknisiId)
+                .collect {
+                    _liveSkills.value = it
                 }
         }
     }

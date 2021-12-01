@@ -22,6 +22,11 @@ import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import com.example.core_util.*
+import com.example.core_navigation.ModuleNavigator
+import com.example.core_util.bindLifecycle
+import com.example.core_util.dismissKeyboard
+import com.example.core_util.hideProgress
+import com.example.core_util.showProgress
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterPelangganBinding
@@ -34,7 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class RegisterPelangganFragment : Fragment() {
+class RegisterPelangganFragment : Fragment(), ModuleNavigator {
 
     private val mapsZoom: Float by lazy {
         12.0f
@@ -164,9 +169,11 @@ class RegisterPelangganFragment : Fragment() {
             when(event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    findNavController().navigate(R.id.chooseFragment)
+                    hideProgress(true)
+                    navigateToHomeActivity(true)
                 }
                 is ApiEvent.OnFailed -> {
+                    hideProgress(true)
                     Snackbar.make(requireContext(), requireView(), "Gagal menuju halaman Choose, mohon masuk ke halaman login", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -197,7 +204,7 @@ class RegisterPelangganFragment : Fragment() {
 
     private fun showProgress() = with(binding) {
         listOf(
-            btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+            btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutNoHp, edtLayoutPwd,
             edtLayoutStoreAddress,
         ).forEach { it.isEnabled = false }
 

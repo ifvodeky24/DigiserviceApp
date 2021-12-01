@@ -1,24 +1,24 @@
 package com.example.feature_auth.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
-import com.example.core_data.api.ApiException
-import com.example.core_data.api.response.ErrorResponse
-import com.example.core_data.domain.auth.isTechnician
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_util.*
+import com.example.core_util.bindLifecycle
+import com.example.core_util.dismissKeyboard
+import com.example.core_util.hideProgress
+import com.example.core_util.showProgress
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentLoginBinding
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -78,8 +78,13 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)
-                    Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT)
+                    Timber.d(login.getException().toString())
+                    Snackbar.make(
+                        requireContext(), requireView(),
+                        login.getException().toString(), Snackbar.LENGTH_SHORT
+                    )
                         .show()
+
                 }
             }
         })
@@ -93,8 +98,6 @@ class LoginFragment : Fragment(), ModuleNavigator {
             }
         )
     }
-
-
 
     private fun setupInput() {
         with(binding) {
@@ -152,5 +155,4 @@ class LoginFragment : Fragment(), ModuleNavigator {
             }
         }
     }
-
 }

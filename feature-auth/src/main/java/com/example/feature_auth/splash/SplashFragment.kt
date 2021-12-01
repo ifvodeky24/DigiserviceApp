@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
+import com.example.core_data.api.ApiEvent
 import com.example.core_navigation.ModuleNavigator
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
@@ -51,7 +52,13 @@ class SplashFragment : Fragment(), ModuleNavigator {
         viewModel.auth.observe(viewLifecycleOwner, { data ->
             if (data != null) {
                 if (data.isLogin){
-                    navigateToHomeActivity(true)
+                    data.let {
+                        if (it.level == "teknisi") {
+                            observeCurrentSkill(it.teknisiId)
+                        } else {
+                            navigateToHomeActivity(true)
+                        }
+                    }
                 }
             } else {
                 findNavController().navigate(R.id.loginFragment)
@@ -59,4 +66,24 @@ class SplashFragment : Fragment(), ModuleNavigator {
         })
     }
 
+    private fun observeCurrentSkill(teknisiId: Int) {
+        viewModel.setCurrentSkill(teknisiId)
+
+        viewModel.liveSkills.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {}
+                is ApiEvent.OnSuccess -> {
+                    val result = event.getData()
+                    if (result != null) {
+                        if (result.jenisHp.isNullOrEmpty() && result.skils.isNullOrEmpty()) {
+                            findNavController().navigate(R.id.chooseFragment)
+                        } else {
+                            navigateToHomeActivity(finnishCurrent = true)
+                        }
+                    }
+                }
+                is ApiEvent.OnFailed -> {}
+            }
+        }
+    }
 }
