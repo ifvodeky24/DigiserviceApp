@@ -1,6 +1,5 @@
 package com.example.core_data.api.service
 
-import androidx.room.Update
 import com.example.core_data.api.request.RequestChoose
 import com.example.core_data.api.request.RequestUpdateTeknisi
 import com.example.core_data.api.response.CommonResponse
@@ -39,6 +38,18 @@ internal interface AuthService {
         @Field("teknisi_deskripsi") teknisiDeskripsi: String,
     ): CommonResponse
 
+    @FormUrlEncoded
+    @POST(RegiterPelanggan)
+    suspend fun registerPelanggan(
+        @Field("teknisi_nama") teknisiNama: String,
+        @Field("teknisi_hp") teknisiNoHp: String,
+        @Field("password") password: String,
+        @Field("email") email: String,
+        @Field("teknisi_alamat") teknisiAlamat: String,
+        @Field("teknisi_lat") teknisiLat: Float,
+        @Field("teknisi_lng") teknisiLng: Float,
+    ): CommonResponse
+
     @GET(SkilsBy)
     suspend fun getCurrenSkils(
         @Path("teknisi_id") teknisiId: Int
@@ -74,6 +85,7 @@ internal interface AuthService {
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
         const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
+        const val RegiterPelanggan = "teknisi-pelanggan"
         const val UpdatePelanggan = "pelanggan-update/{id}"
         const val SaveChoose = "insert-teknisi-jenis-hp-keahlian"
         const val SkilsBy = "keahlian-teknisi-by/{teknisi_id}"

@@ -88,7 +88,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding.registerToolbar.toolbar){
-            title = "Register"
+            title = "Register Service"
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }

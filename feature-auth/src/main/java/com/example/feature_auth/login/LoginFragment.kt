@@ -61,7 +61,7 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 findNavController().navigate(R.id.registerFragment)
             }
             tvPelanggan.setOnClickListener {
-                findNavController().navigate(R.id.registerFragment)
+                findNavController().navigate(R.id.registerPelangganFragment)
             }
         }
 
@@ -78,27 +78,8 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)
-                    Timber.d("gagal ${login.getException()}")
                     Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT)
                         .show()
-
-                    when (val exception = login.getException()) {
-//                        is ApiException.FailedResponse<*> -> when (val errorResponse =
-//                            exception.error) {
-//                            is ErrorResponse -> when {
-//                                errorResponse contains ApiException.SERVER_ERROR -> {
-//                                    showErrorFail(getString(R.string.oops_server_error))
-//                                }
-//                                else -> showErrorMessage()
-//                            }
-//                            else -> showErrorMessage()
-//                        }
-//                        is ApiException.Timeout -> showErrorFail(getString(R.string.request_timeout))
-//                        is ApiException.Network -> showErrorFail(getString(R.string.oops_network))
-//                        is ApiException.Offline -> showErrorFail(getString(R.string.oops_network))
-//                        is ApiException.Unknown -> showErrorFail(getString(R.string.unknown_error))
-//                        else -> showErrorMessage()
-                    }
                 }
             }
         })

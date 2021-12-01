@@ -19,6 +19,7 @@ import com.example.core_util.showProgress
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterBinding
+import com.example.feature_auth.databinding.FragmentRegisterPelangganBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -67,7 +68,7 @@ class RegisterPelangganFragment : Fragment() {
         "Deskripsi harus diisi"
     }
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding: FragmentRegisterPelangganBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var map: GoogleMap
@@ -81,14 +82,14 @@ class RegisterPelangganFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding = FragmentRegisterPelangganBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding.registerToolbar.toolbar){
-            title = "Register"
+            title = "Register Pelanggan"
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
@@ -96,7 +97,6 @@ class RegisterPelangganFragment : Fragment() {
         observeLogin()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        //binding.mapView.getMapAsync(this)
         observeWhenSuccessLogin()
     }
 
@@ -137,18 +137,12 @@ class RegisterPelangganFragment : Fragment() {
                 inputLayout(R.id.edt_layout_pwd){
                     isNotEmpty().description(textHintEmptyPwd)
                 }
-                inputLayout(R.id.edt_layout_store_name){
-                    isNotEmpty().description(textHintEmptyStoreName)
-                }
                 inputLayout(R.id.edt_layout_store_address){
                     isNotEmpty().description(textHintEmptyStoreAddress)
                 }
-                inputLayout(R.id.edt_layout_store_description){
-                    isNotEmpty().description(textHintEmptyStoreDescription)
-                }
-                submitWith(R.id.btn_next) { registerService() }
+                submitWith(R.id.btn_daftar) { registerService() }
             }
-            btnNext.bindLifecycle(viewLifecycleOwner)
+            btnDaftar.bindLifecycle(viewLifecycleOwner)
                 mapViewButton.setOnClickListener {
             }
         }
@@ -171,16 +165,14 @@ class RegisterPelangganFragment : Fragment() {
     private fun registerService() {
         dismissKeyboard()
         with(binding) {
-            authViewModel.registerService(
+            authViewModel.registerPelanggan(
                 email = edtInputEmail.text.toString(),
                 teknisiNama = edtInputName.text.toString(),
                 teknisiNoHp = edtInputNoHp.text.toString(),
                 password = edtInputPwd.text.toString(),
-                teknisiNamaToko = edtInputStoreName.text.toString(),
                 teknisiAlamat = edtInputStoreAddress.text.toString(),
                 teknisiLat = 0f,
                 teknisiLng = 0f,
-                teknisiDeskripsi = edtInputStoreDescription.text.toString(),
             )
         }
     }
@@ -194,95 +186,35 @@ class RegisterPelangganFragment : Fragment() {
 
     private fun showProgress() = with(binding) {
         listOf(
-            btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
-            edtLayoutStoreAddress, edtLayoutStoreDescription,
+            btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+            edtLayoutStoreAddress,
         ).forEach { it.isEnabled = false }
 
-        btnNext.showProgress()
+        btnDaftar.showProgress()
     }
 
     private fun hideProgress(isEnable: Boolean) = with(binding) {
-        btnNext.postDelayed(
+        btnDaftar.postDelayed(
             {
                 listOf(
-                    btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
-                    edtLayoutStoreAddress, edtLayoutStoreDescription,
+                    btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+                    edtLayoutStoreAddress,
                 ).forEach { it.isEnabled = true }
             }, 1000L
         )
 
-        btnNext.hideProgress(textBtnNext) {
+        btnDaftar.hideProgress(textBtnNext) {
             isEnable && with(binding) {
                 "${edtInputName.text}".isNotBlank() && "${edtInputEmail.text}".isNotBlank()
             }
         }
     }
 
-//    override fun onMapReady(map: GoogleMap) {
-//        val lat = -0.989818
-//        val lng = 113.915863
-//        val zoomLevel = 15f
-//        val overlaySize = 100f
-//
-//        val defaultLatLng = LatLng(lat, lng)
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, zoomLevel))
-//        map.addMarker(MarkerOptions().position(defaultLatLng))
-//
-//        val googleOverlay = GroundOverlayOptions()
-//            .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_map))
-//            .position(defaultLatLng, overlaySize)
-//        map.addGroundOverlay(googleOverlay)
-//
-//        //enableMyLocation()
-//
-//        if (isPermissionGranted()){
-//
-//        }
-//        else{
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//        }
-//
-//    }
-
-//    private fun enableMyLocation() {
-//        return ContextCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        //map.isMyLocationEnabled = true
-
-//        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-//            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-//            PackageManager.PERMISSION_GRANTED) {
-//                map.isMyLocationEnabled = true
-//        }
-//        else{
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//        }
-//    }
-
     private fun isPermissionGranted() : Boolean {
         return ContextCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
-
-//    private fun isPermissionGranted(): Boolean {
-//        return ( ActivityCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_COARSE_LOCATION
-//        ) != PackageManager.PERMISSION_GRANTED)
-//    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
