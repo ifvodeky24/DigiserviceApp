@@ -26,7 +26,7 @@ internal data class LoginDataResponse(
     val pelangganId: Int = 0,
     @Json(name = "nama_toko")
     val namaToko: String = "",
-    val hp: String = "",
+    val hp: String? = "",
     val alamat: String = "",
     val foto: String = "",
     val lat: String = "",
@@ -43,7 +43,7 @@ internal fun LoginDataResponse.toDomain() = Auth(
     level = level,
     teknisiId = teknisiId,
     pelangganId = pelangganId,
-    hp = hp,
+    hp = hp ?: "",
     namaToko = namaToko,
     alamat = alamat,
     foto = foto,
