@@ -27,7 +27,7 @@ internal data class NearbyTechnicianDataResponse(
     @Json(name = "teknisi_lng")
     val teknisiLng: String = "",
     @Json(name = "teknisi_hp")
-    val teknisiHp: String = "",
+    val teknisiHp: String? = "",
     @Json(name = "created_at")
     val createdAt: String = "",
     @Json(name = "updated_at")
@@ -60,7 +60,7 @@ internal fun NearbyTechnicianDataResponse.toDomain() = NearbyTechnician(
     teknisiAlamat = teknisiAlamat,
     teknisiLat = teknisiLat,
     teknisiLng = teknisiLng,
-    teknisiHp = teknisiHp,
+    teknisiHp = teknisiHp ?: "",
     createdAt = createdAt,
     updatedAt = updatedAt,
     teknisiTotalScore = teknisiTotalScore,
