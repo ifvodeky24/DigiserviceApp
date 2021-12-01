@@ -22,7 +22,7 @@ class ServiceViewModel(
 
     private val optionJenisHpForPost =HashMap<Int, JenisHp>()
 
-    private val optionJenisKerusakanForPost =HashMap<Int, Skils>()
+    private val optionJenisKerusakanForPost = HashMap<Int, Skils>()
 
     fun filterTechnicianGetAll(jenisHp: List<Int>, jenisKerusakan: List<Int>) {
         viewModelScope.launch {
@@ -55,7 +55,7 @@ class ServiceViewModel(
 
     fun getFinalJenisKerusakanHpRequest() : List<Int> {
         val listJenisKerusakanHp = mutableListOf<Int>()
-        optionJenisKerusakanForPost.values.filter{ it.value.isNotEmpty() }.forEach {
+        optionJenisKerusakanForPost.values.filter{ it.value == "1" }.forEach {
             listJenisKerusakanHp.add(it.idJenisKerusakan)
         }
         return listJenisKerusakanHp

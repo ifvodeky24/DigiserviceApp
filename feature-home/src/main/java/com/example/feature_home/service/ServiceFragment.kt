@@ -45,8 +45,6 @@ class ServiceFragment : Fragment() {
     private val serviceViewModel: ServiceViewModel by viewModel()
     private val serviceHandphoneViewModel: ServiceHandphoneViewModel by viewModel()
 
-    private var userLevel: String = ""
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

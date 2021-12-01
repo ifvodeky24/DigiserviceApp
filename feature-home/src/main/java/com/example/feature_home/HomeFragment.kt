@@ -10,6 +10,7 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_data.domain.technician.NearbyTechnician
@@ -42,8 +43,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        setHasOptionsMenu(true)
 
         homeViewModel.technicianGetAll()
         homeViewModel.findNearbyTechnician("1", "1")
@@ -111,11 +110,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     }
                     is ApiEvent.OnSuccess -> findNearbyTechnician.getData()?.let {
                         onDataFindNearbyTechnicianLoaded(findNearbyTechnician.getData()!!)
-                        Timber.d(" uiuiuiui ${findNearbyTechnician.getData()}")
                     }
-                    is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) {
-                        Timber.d(" booom ${findNearbyTechnician.getException()}")
-                    }
+                    is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) { }
                 }
             })
     }
@@ -131,7 +127,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         tvTeknisiName.text = item.teknisiNama
                         Glide
                             .with(requireActivity())
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .centerCrop()
 //                            .placeholder(R.drawable.loading_spinner)
                             .into(ivTeknisi);
