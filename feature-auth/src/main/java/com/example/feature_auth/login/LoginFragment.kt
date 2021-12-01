@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
+import com.example.core_data.api.ApiException
+import com.example.core_data.api.response.ErrorResponse
 import com.example.core_data.domain.auth.isTechnician
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.*
@@ -55,7 +57,10 @@ class LoginFragment : Fragment(), ModuleNavigator {
 
         setupInput()
         with(binding) {
-            tvDaftar.setOnClickListener {
+            tvTeknisi.setOnClickListener {
+                findNavController().navigate(R.id.registerFragment)
+            }
+            tvPelanggan.setOnClickListener {
                 findNavController().navigate(R.id.registerFragment)
             }
         }
@@ -122,22 +127,18 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 submitWith(R.id.btn_login) {
                     dismissKeyboard()
-                    val email = binding.edtEmail.text.toString()
-                    val password = binding.edtPassword.text.toString()
-//                    val email = "ryan@gmail.com"
-//                    val password = "admins"
+                    val email = edtEmail.text.toString()
+                    val password = edtPassword.text.toString()
 
                     viewModel.email = email
                     viewModel.password = password
 
-                    Timber.d("cekkkk $email dan ${password} dan ")
-
                     viewModel.login(email, password)
                 }
             }
+            btnLogin.bindLifecycle(viewLifecycleOwner)
         }
 
-        binding.btnLogin.bindLifecycle(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {

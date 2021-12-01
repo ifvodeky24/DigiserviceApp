@@ -31,7 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : Fragment() {
+class RegisterPelangganFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
         val sydney = LatLng(-0.989818, 113.915863)
