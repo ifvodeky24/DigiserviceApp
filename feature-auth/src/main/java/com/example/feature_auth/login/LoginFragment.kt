@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentLoginBinding
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -78,8 +80,14 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)
-                    Toast.makeText(requireActivity(), "${login.getException()}", Toast.LENGTH_SHORT)
+
+//                    Snackbar.make(requireContext(), requireView(),
+//                        "User tidak ditemukan, mohon mendaftar terlebih dahulu!", Snackbar.LENGTH_SHORT).show()
+                    Timber.d(login.getException().toString())
+                    Snackbar.make(requireContext(), requireView(),
+                        login.getException().toString(), Snackbar.LENGTH_SHORT)
                         .show()
+
                 }
             }
         })

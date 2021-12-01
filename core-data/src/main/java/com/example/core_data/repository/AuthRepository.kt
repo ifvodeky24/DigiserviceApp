@@ -1,6 +1,5 @@
 package com.example.core_data.repository
 
-import android.net.Uri
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.*
 import com.example.core_data.api.ApiExecutor
@@ -132,13 +131,13 @@ class AuthRepository internal constructor(
 
             val apiResult =apiExecutor.callApi(apiId) {
                 authService.registerPelanggan(
-                    teknisiNama = teknisiNama,
-                    teknisiNoHp = teknisiNoHp,
+                    pelangganNama = teknisiNama,
+                    pelangganNoHp = teknisiNoHp,
                     password = password,
                     email = email,
-                    teknisiAlamat = teknisiAlamat,
-                    teknisiLat = teknisiLat,
-                    teknisiLng = teknisiLng,
+                    pelangganAlamat = teknisiAlamat,
+                    pelangganLat = teknisiLat,
+                    pelangganLng = teknisiLng,
                 )
             }
 

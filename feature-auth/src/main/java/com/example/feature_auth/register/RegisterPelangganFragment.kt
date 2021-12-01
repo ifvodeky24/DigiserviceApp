@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
+import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.bindLifecycle
 import com.example.core_util.dismissKeyboard
 import com.example.core_util.hideProgress
@@ -32,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterPelangganFragment : Fragment() {
+class RegisterPelangganFragment : Fragment(), ModuleNavigator {
 
     private val callback = OnMapReadyCallback { googleMap ->
         val sydney = LatLng(-0.989818, 113.915863)
@@ -106,7 +107,6 @@ class RegisterPelangganFragment : Fragment() {
             {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
-                    hideProgress(true)
                     authViewModel.email = binding.edtInputEmail.text.toString()
                     authViewModel.password = binding.edtInputPwd.text.toString()
 
@@ -153,9 +153,11 @@ class RegisterPelangganFragment : Fragment() {
             when(event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    findNavController().navigate(R.id.chooseFragment)
+                    hideProgress(true)
+                    navigateToHomeActivity(true)
                 }
                 is ApiEvent.OnFailed -> {
+                    hideProgress(true)
                     Snackbar.make(requireContext(), requireView(), "Gagal menuju halaman Choose, mohon masuk ke halaman login", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -186,7 +188,7 @@ class RegisterPelangganFragment : Fragment() {
 
     private fun showProgress() = with(binding) {
         listOf(
-            btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+            btnDaftar, edtLayoutEmail, edtLayoutName, edtLayoutNoHp, edtLayoutPwd,
             edtLayoutStoreAddress,
         ).forEach { it.isEnabled = false }
 

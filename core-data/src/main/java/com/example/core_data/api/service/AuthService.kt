@@ -41,13 +41,13 @@ internal interface AuthService {
     @FormUrlEncoded
     @POST(RegiterPelanggan)
     suspend fun registerPelanggan(
-        @Field("teknisi_nama") teknisiNama: String,
-        @Field("teknisi_hp") teknisiNoHp: String,
+        @Field("pelanggan_nama") pelangganNama: String,
+        @Field("pelanggan_hp") pelangganNoHp: String,
         @Field("password") password: String,
         @Field("email") email: String,
-        @Field("teknisi_alamat") teknisiAlamat: String,
-        @Field("teknisi_lat") teknisiLat: Float,
-        @Field("teknisi_lng") teknisiLng: Float,
+        @Field("pelanggan_alamat") pelangganAlamat: String,
+        @Field("pelanggan_lat") pelangganLat: Float,
+        @Field("pelanggan_lng") pelangganLng: Float,
     ): CommonResponse
 
     @GET(SkilsBy)
@@ -85,7 +85,7 @@ internal interface AuthService {
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
         const val GetJenisHpAll = "jenis-hp-all"
         const val RegiterService = "teknisi-insert"
-        const val RegiterPelanggan = "teknisi-pelanggan"
+        const val RegiterPelanggan = "pelanggan-insert"
         const val UpdatePelanggan = "pelanggan-update/{id}"
         const val SaveChoose = "insert-teknisi-jenis-hp-keahlian"
         const val SkilsBy = "keahlian-teknisi-by/{teknisi_id}"
