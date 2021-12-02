@@ -1,6 +1,7 @@
 package com.example.feature_home.store
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -108,9 +109,9 @@ class ProductViewModel(
         }
     }
 
-    fun setUpdateProdukImage(id: Int, filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
+    fun setUpdateProdukImage(id: Int, filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver, context: Context){
         viewModelScope.launch {
-            storeRepository.updateImageProduk(id, filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)
+            storeRepository.updateImageProduk(id, filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _uploadItemProdukResponse.value = it }
         }

@@ -1,5 +1,7 @@
 package com.example.feature_home.account
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -175,4 +177,13 @@ class AccountViewModel(
                 }
         }
     }
+
+//    fun updatePhotoUser(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver){
+//        viewModelScope.launch {
+//            authRepository.updateImageProduk(id, filePath, uri, contentResolver)
+//                .onStart { emit(ApiEvent.OnProgress()) }
+//                .collect { _uploadItemProdukResponse.value = it }
+//        }
+//    }
+
 }

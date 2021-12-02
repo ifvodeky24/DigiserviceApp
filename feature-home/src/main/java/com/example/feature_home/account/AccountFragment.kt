@@ -1,5 +1,6 @@
 package com.example.feature_home.account
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,15 +25,23 @@ import com.example.core_data.domain.Skils
 import com.example.core_data.domain.auth.isTechnician
 import com.example.core_data.removeAll
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_util.Constants
+import com.example.core_util.PreferenceManager
 import com.example.feature_home.R
 import com.example.feature_home.account.LogoutDialogFragment.Companion.TRUE
 import com.example.feature_home.databinding.FragmentAccountBinding
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
+import java.lang.Exception
 import java.net.CookieHandler
+import java.util.HashMap
 
 class AccountFragment : Fragment(), ModuleNavigator{
 
@@ -42,6 +51,8 @@ class AccountFragment : Fragment(), ModuleNavigator{
     private val accountViewModel: AccountViewModel by viewModel()
 
     private val cookieHandler: CookieHandler by inject()
+
+    private lateinit var preferenceManager : PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +65,8 @@ class AccountFragment : Fragment(), ModuleNavigator{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        preferenceManager = PreferenceManager(requireActivity())
 
         setupDisplay()
 
@@ -73,11 +86,24 @@ class AccountFragment : Fragment(), ModuleNavigator{
             val result = bundle.getString(LogoutDialogFragment.KEY_BUNDLE_SUBMIT)
             if (result == TRUE) {
                 if (result == "true") {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        cookieHandler.removeAll()
-                        getKoin().clearAppData()
-                        navigateToAuthActivity(finnishCurrent = true)
-                    }
+                    val database = FirebaseFirestore.getInstance()
+                    val documentReference =
+                        database.collection(Constants.KEY_COLLECTION_USERS).document(
+                            preferenceManager.getString(Constants.KEY_SENDER_ID).toString()
+                        )
+                    val updates = HashMap<String, Any>()
+                    updates[Constants.KEY_FCM_TOKEN] = FieldValue.delete()
+                    documentReference.update(updates)
+                        .addOnSuccessListener { unused: Void? ->
+                            preferenceManager.clear()
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                cookieHandler.removeAll()
+                                getKoin().clearAppData()
+                                navigateToAuthActivity(finnishCurrent = true)
+                            }
+                        }
+                        .addOnFailureListener { e: Exception? -> Timber.d("gagal logout") }
+
                 }
             }
         }

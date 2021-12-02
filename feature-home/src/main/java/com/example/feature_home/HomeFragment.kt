@@ -1,9 +1,21 @@
 package com.example.feature_home
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.os.Looper
+import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -16,11 +28,17 @@ import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_resource.showApiFailedDialog
+import com.example.core_util.Constants
+import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
+import com.google.android.gms.location.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -31,6 +49,12 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private val productViewModel: ProductViewModel by viewModel()
+
+    private lateinit var preferenceManager: PreferenceManager
+
+    private val permissionId = 42
+
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +68,12 @@ class HomeFragment : Fragment(), ModuleNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preferenceManager = PreferenceManager(requireActivity())
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        getLastLocation()
+
         homeViewModel.technicianGetAll()
-        homeViewModel.findNearbyTechnician("1", "1")
         productViewModel.productGetAll()
 
         observeProductGetAll()
@@ -55,11 +83,95 @@ class HomeFragment : Fragment(), ModuleNavigator {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> {
-                    Toast.makeText(requireActivity(), "search", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
             }
+        }
+    }
+
+
+    private fun checkPermissions(): Boolean{
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            permissionId
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        if (requestCode == permissionId) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                getLastLocation()
+            }
+        }
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation.apply {
+                homeViewModel.lat = "$latitude"
+                homeViewModel.lat = "$latitude"
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 0
+            fastestInterval = 0
+            numUpdates = 1
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback, Looper.myLooper()
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()){
+            if (isLocationEnabled()){
+                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()){ task ->
+                    val location: Location? = task.result
+                    location?.let {
+                        homeViewModel.lat = "${it.latitude}"
+                        homeViewModel.lng = "${it.longitude}"
+                        homeViewModel.findNearbyTechnician(homeViewModel.lat, homeViewModel.lng)
+                    } ?: run {
+                        requestNewLocationData()
+                    }
+                }
+            }
+            else{
+                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
+                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                    startActivity(this)
+                }
+            }
+        }
+        else{
+            requestPermissions()
         }
     }
 
@@ -80,15 +192,20 @@ class HomeFragment : Fragment(), ModuleNavigator {
     }
 
     private fun onDataProductAllLoaded(data: List<ProductGetAll>) {
-        if (data.isNotEmpty()) {
+        val userId = preferenceManager.getString(Constants.ID)
+        val filter = data.filter { it.jualUserId.toString() != userId }
+        Timber.d("uuups $filter")
+        Timber.d("uuups1 $userId")
+        Timber.d("uuupsw ${data.map { it.jualUserId }}")
+        if (filter.isNotEmpty()) {
             binding.rvTerbaru.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_produk_terbaru) {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
+                            .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                             .centerCrop()
                             .into(ivProductPhoto)
                     }
@@ -99,6 +216,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
                 }
             }
         }
+
+        getToken()
     }
 
     private fun observeNearbyTechnician() {
@@ -111,15 +230,15 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     is ApiEvent.OnSuccess -> findNearbyTechnician.getData()?.let {
                         onDataFindNearbyTechnicianLoaded(findNearbyTechnician.getData()!!)
                     }
-                    is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) { }
+                    is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) {
+                        showApiFailedDialog(findNearbyTechnician.getException())
+                    }
                 }
             })
     }
 
     private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
-        Timber.d(" uiuiuiui 1 $data")
         if (data.isNotEmpty()) {
-            Timber.d(" uiuiuiui 2 $data")
             binding.rvTerdekat.setup {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat) {
@@ -127,10 +246,9 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         tvTeknisiName.text = item.teknisiNama
                         Glide
                             .with(requireActivity())
-                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
                             .centerCrop()
-//                            .placeholder(R.drawable.loading_spinner)
-                            .into(ivTeknisi);
+                            .into(ivTeknisi)
                     }
 
                     onClick {
@@ -151,7 +269,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
                             teknisiFoto = item.teknisiFoto,
                             teknisiSertifikat = item.teknisiSertifikat
                         )
-                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(itemGetAll)
+                        val directionTechnicianGetAll =
+                            HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
+                                itemGetAll
+                            )
                         findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
@@ -191,12 +312,12 @@ class HomeFragment : Fragment(), ModuleNavigator {
                             .with(requireActivity())
                             .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .centerCrop()
-//                            .placeholder(R.drawable.loading_spinner)
-                            .into(ivTeknisi);
+                            .into(ivTeknisi)
                     }
 
                     onClick {
-                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(item)
+                        val directionTechnicianGetAll =
+                            HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(item)
                         findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
@@ -214,6 +335,24 @@ class HomeFragment : Fragment(), ModuleNavigator {
 //        Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
 //        return super.onOptionsItemSelected(item)
 //    }
+
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String? ->
+            updateToken(
+                token!!
+            )
+        }
+    }
+
+    private fun updateToken(token: String) {
+        val database = FirebaseFirestore.getInstance()
+        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
+            preferenceManager.getString(Constants.KEY_SENDER_ID)!!
+        )
+        documentReference.update(Constants.KEY_FCM_TOKEN, token)
+            .addOnSuccessListener { unused: Void? ->Timber.d("Token updated successfuly") }
+            .addOnFailureListener { e: Exception? -> Timber.d("Unable update token") }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

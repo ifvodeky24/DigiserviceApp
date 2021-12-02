@@ -7,6 +7,8 @@ import com.example.core_data.api.response.JenisHpResponse
 import com.example.core_data.api.response.JenisKerusakanResponse
 import com.example.core_data.api.response.SkilsResponse
 import com.example.core_data.api.response.auth.LoginResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 internal interface AuthService {
@@ -80,6 +82,13 @@ internal interface AuthService {
     @GET(JenisKerusakanHp)
     suspend fun getJenisKerusakanHpAll(): SkilsResponse
 
+    @Multipart
+    @POST(UpdatePhotoProfile)
+    suspend fun updatePhotoProfile(
+        @Part("id") id: RequestBody,
+        @Part foto: MultipartBody.Part,
+    ) : CommonResponse
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"
@@ -92,5 +101,6 @@ internal interface AuthService {
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"
         const val UpdateTeknisi = "teknisi-update/{id}"
         const val JenisKerusakanHp = "get-jenis-kerusakan-hp"
+        const val UpdatePhotoProfile = "photo-profile-update/{id}"
     }
 }

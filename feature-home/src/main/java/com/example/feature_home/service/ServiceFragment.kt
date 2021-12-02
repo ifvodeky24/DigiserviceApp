@@ -158,7 +158,7 @@ class ServiceFragment : Fragment() {
                 withLayoutManager(GridLayoutManager(requireContext(),2))
                 withDataSource(dataSourceTypedOf(data))
                 withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_service){
-                    onBind(::ItemPopulerViewHolder){ index, item ->
+                    onBind(::ItemPopulerViewHolder){ _, item ->
                         tvTeknisiName.text = item.teknisiNama
                         tvRating.text = String.format("%.1f", (item.teknisiTotalScore/item.teknisiTotalResponden)).toDouble().toString()
                         Glide
