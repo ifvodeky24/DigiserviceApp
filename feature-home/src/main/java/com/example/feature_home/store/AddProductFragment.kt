@@ -14,11 +14,9 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.load
 import com.afollestad.recyclical.ViewHolder
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.datasource.emptyDataSource
@@ -129,7 +127,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                 accountViewModel.authUser.observe(viewLifecycleOwner){ auth ->
                     auth?.let {
                         productViewModel.setUpdateItem(
-                            idJual = args?.produk?.jualId ?: 0,
+                            idJual = args.produk?.jualId ?: 0,
                             judul = binding.edtInputProductName.text.toString(),
                             deskripsi = binding.edtInputProductDescription.text.toString(),
                             harga = binding.edtInputProductPrice.text.toString().toInt(),
@@ -163,7 +161,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         productViewModel.liveJenisHp.observe(viewLifecycleOwner, { event ->
             when(event)
             {
-                //is ApiEvent.OnProgress -> showProgress()
+                is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     setupRecycler(it)
                 }
@@ -222,7 +220,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                 withItem<JenisHp, ItemTypeHpViewHolder>(R.layout.layout_items_radio_button){
                     onBind(::ItemTypeHpViewHolder){ _, item ->
                         titleRadioButton.text = item.jenisNama
-                        args?.produk?.let {
+                        args.produk?.let {
                             if (item.jenisId == it.jualJenisHp){
                                 if (productViewModel.filter == ""){
                                     titleRadioButton.isChecked = item.jenisId == it.jualJenisHp
@@ -355,7 +353,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                 auth?.let {
                     if (productViewModel.isUpdate){
                         productViewModel.setUpdateProdukImage(
-                            id = args?.produk?.jualId ?: 0,
+                            id = args.produk?.jualId ?: 0,
                             filePath = imagePathList[imageCount],
                             uri = imageUriList[imageCount],
                             judul = binding.edtInputProductName.text.toString(),
@@ -363,7 +361,8 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                             harga = binding.edtInputProductPrice.text.toString(),
                             userId = it.id.toString(),
                             jenisHpId = productViewModel.typeFilter.toString(),
-                            contentResolver = requireActivity().contentResolver
+                            contentResolver = requireActivity().contentResolver,
+                            context = requireActivity().applicationContext
                         )
                     }
                     else{

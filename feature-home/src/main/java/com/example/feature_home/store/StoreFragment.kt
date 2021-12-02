@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.domain.auth.isTechnician
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
@@ -34,7 +36,12 @@ class StoreFragment : Fragment() {
 
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
             auth?.let {
-                if (auth.foto.isNotEmpty()) binding.imageProfilePicture.load(auth.foto) {
+                val imageUrl = auth.level.let {
+                    if (it == "teknisi")  APP_TEKNISI_IMAGES_URL
+                    else APP_PELANGGAN_IMAGES_URL
+                } + auth.foto
+
+                if (auth.foto.isNotEmpty()) binding.imageProfilePicture.load(imageUrl) {
                     crossfade(true)
                     transformations(CircleCropTransformation())
                 }

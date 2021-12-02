@@ -10,6 +10,7 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.servicehp.ServiceHandphoneByCustomerGetAll
 import com.example.core_resource.showApiFailedDialog
@@ -88,7 +89,7 @@ class HistoryServicePelangganFragment : Fragment() {
                         tvServiceHpDamageType.text = item.jenisKerusakan
 
                         Glide.with(this@HistoryServicePelangganFragment)
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .transform(CircleCrop())
                             .into(ivServiceHpUserPhoto)
                     }

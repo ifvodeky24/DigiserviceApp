@@ -14,6 +14,8 @@ import coil.transform.CircleCropTransformation
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.clearAppData
 import com.example.core_data.domain.JenisHp
@@ -26,7 +28,6 @@ import com.example.feature_home.R
 import com.example.feature_home.account.LogoutDialogFragment.Companion.TRUE
 import com.example.feature_home.databinding.FragmentAccountBinding
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -83,7 +84,13 @@ class AccountFragment : Fragment(), ModuleNavigator{
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
             auth?.let {
                 with(binding){
-                    if (auth.foto.isNotEmpty()) imageProfilePicture.load(auth.foto) {
+
+                    val imageUrl = auth.level.let {
+                        if (it == "teknisi")  APP_TEKNISI_IMAGES_URL
+                        else APP_PELANGGAN_IMAGES_URL
+                    } + auth.foto
+
+                    if (auth.foto.isNotEmpty()) imageProfilePicture.load(imageUrl) {
                         crossfade(true)
                         transformations(CircleCropTransformation())
                     }

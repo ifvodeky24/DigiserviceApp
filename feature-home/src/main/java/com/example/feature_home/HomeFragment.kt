@@ -1,11 +1,23 @@
 package com.example.feature_home
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.os.Looper
+import android.provider.Settings
+import android.view.*
+import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -18,6 +30,7 @@ import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
@@ -25,6 +38,7 @@ import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,6 +57,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     private lateinit var preferenceManager: PreferenceManager
 
+    private val permissionId = 42
+
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,8 +75,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
         preferenceManager = PreferenceManager(requireActivity())
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        getLastLocation()
+
         homeViewModel.technicianGetAll()
-        homeViewModel.findNearbyTechnician("1", "1")
         productViewModel.productGetAll()
 
         observeProductGetAll()
@@ -68,11 +88,95 @@ class HomeFragment : Fragment(), ModuleNavigator {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> {
-                    Toast.makeText(requireActivity(), "search", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
             }
+        }
+    }
+
+
+    private fun checkPermissions(): Boolean{
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            permissionId
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        if (requestCode == permissionId) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                getLastLocation()
+            }
+        }
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation.apply {
+                homeViewModel.lat = "$latitude"
+                homeViewModel.lat = "$latitude"
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 0
+            fastestInterval = 0
+            numUpdates = 1
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback, Looper.myLooper()
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()){
+            if (isLocationEnabled()){
+                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()){ task ->
+                    val location: Location? = task.result
+                    location?.let {
+                        homeViewModel.lat = "${it.latitude}"
+                        homeViewModel.lng = "${it.longitude}"
+                        homeViewModel.findNearbyTechnician(homeViewModel.lat, homeViewModel.lng)
+                    } ?: run {
+                        requestNewLocationData()
+                    }
+                }
+            }
+            else{
+                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
+                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                    startActivity(this)
+                }
+            }
+        }
+        else{
+            requestPermissions()
         }
     }
 
@@ -132,15 +236,14 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         onDataFindNearbyTechnicianLoaded(findNearbyTechnician.getData()!!)
                     }
                     is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) {
+                        showApiFailedDialog(findNearbyTechnician.getException())
                     }
                 }
             })
     }
 
     private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
-        Timber.d(" uiuiuiui 1 $data")
         if (data.isNotEmpty()) {
-            Timber.d(" uiuiuiui 2 $data")
             binding.rvTerdekat.setup {
                 withDataSource(dataSourceTypedOf(data))
                 withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat) {
@@ -149,9 +252,9 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         Glide
                             .with(requireActivity())
                             .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
+                            .load(item.teknisiFoto)
                             .centerCrop()
-//                            .placeholder(R.drawable.loading_spinner)
-                            .into(ivTeknisi);
+                            .into(ivTeknisi)
                     }
 
                     onClick {
@@ -213,10 +316,9 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         ).toDouble().toString()
                         Glide
                             .with(requireActivity())
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .centerCrop()
-//                            .placeholder(R.drawable.loading_spinner)
-                            .into(ivTeknisi);
+                            .into(ivTeknisi)
                     }
 
                     onClick {
