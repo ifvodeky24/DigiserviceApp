@@ -1,6 +1,5 @@
 package com.example.feature_auth.splash
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -28,7 +27,6 @@ class SplashFragment : Fragment(), ModuleNavigator {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,35 +38,31 @@ class SplashFragment : Fragment(), ModuleNavigator {
 
         Handler(Looper.getMainLooper()).postDelayed({
             observeAuth()
-        }, 3000)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        }, 2000)
     }
 
     private fun observeAuth() {
-        viewModel.auth.observe(viewLifecycleOwner, { data ->
+        viewModel.auth.observe(viewLifecycleOwner){ data ->
             if (data != null) {
                 if (data.isLogin){
                     data.let {
                         if (it.level == "teknisi") {
                             observeCurrentSkill(it.teknisiId)
-                        } else {
+                        }
+                        else {
                             navigateToHomeActivity(true)
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 findNavController().navigate(R.id.loginFragment)
             }
-        })
+        }
     }
 
     private fun observeCurrentSkill(teknisiId: Int) {
         viewModel.setCurrentSkill(teknisiId)
-
         viewModel.liveSkills.observe(viewLifecycleOwner) { event ->
             when(event) {
                 is ApiEvent.OnProgress -> {}
@@ -86,4 +80,10 @@ class SplashFragment : Fragment(), ModuleNavigator {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
