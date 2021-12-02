@@ -1,11 +1,19 @@
 package com.example.feature_home.account
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +32,7 @@ import com.example.core_data.domain.Skils
 import com.example.core_resource.hideProgressDialog
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_resource.showProgressDialog
-import com.example.core_util.bindLifecycle
-import com.example.core_util.dismissKeyboard
-import com.example.core_util.toEditable
+import com.example.core_util.*
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentEditAccountTechnicianBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -78,6 +84,21 @@ class EditAccountTechnicianFragment : Fragment() {
 
     private fun setInput() {
         with(binding){
+
+            btnChangePhoto.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery()
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery()
+                    }
+                    else{
+                        requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
             form {
                 useRealTimeValidation(disableSubmit = true)
                 inputLayout(R.id.edt_layout_name){
@@ -101,6 +122,42 @@ class EditAccountTechnicianFragment : Fragment() {
                 submitWith(R.id.btn_update) { updateEdit() }
             }
             btnUpdate.bindLifecycle(viewLifecycleOwner)
+        }
+    }
+
+    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery()
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun navigateToGallery() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+        }
+        resultPick.launch(intent)
+    }
+
+    private val resultPick = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        val imageUri: Uri? = result.data?.data
+        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
+        binding.imageProfile.load(imageUri){
+            crossfade(true)
+            transformations(CircleCropTransformation())
+        }
+        if(imageUri != null && result.data != null){
+            val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            //accountViewModel.updatePhoto(userId, imagePath, imageUri, requireActivity().contentResolver)
         }
     }
 

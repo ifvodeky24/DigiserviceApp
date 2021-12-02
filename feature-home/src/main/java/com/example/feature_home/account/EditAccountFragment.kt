@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.core_data.domain.auth.isTechnician
-import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentEditAccountBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,11 +37,10 @@ class EditAccountFragment : Fragment() {
         }
 
     private fun setupDisplay() {
-        with(binding.toolbar.toolbar){
-            title = getString(R.string.edit_account)
-            setNavigationIcon(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
-        }
-
+//        with(binding.accountToolbar.toolbar){
+//            title = getString(R.string.edit_account)
+//            setNavigationIcon(R.drawable.ic_arrow_back)
+//            setNavigationOnClickListener { requireActivity().onBackPressed() }
+//        }
     }
 }
