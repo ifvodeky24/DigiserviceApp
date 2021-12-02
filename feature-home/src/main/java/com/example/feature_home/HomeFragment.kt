@@ -289,7 +289,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         ).toDouble().toString()
                         Glide
                             .with(requireActivity())
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .centerCrop()
                             .into(ivTeknisi)
                     }
