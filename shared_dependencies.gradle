@@ -31,4 +31,16 @@ dependencies {
     androidTestImplementation deps.test_ext_junit_ktx
 
     implementation deps.timber
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //  Scalable Size unit (support for different screen sizes)
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'com.google.firebase:firebase-firestore:24.0.0'
+
 }

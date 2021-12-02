@@ -16,12 +16,19 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
+import com.example.core_navigation.ModuleNavigator
+import com.example.core_util.Constants
+import com.example.core_util.PreferenceManager
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentServiceDetailBinding
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
-class ServiceDetailFragment : Fragment() {
+class ServiceDetailFragment : Fragment(), ModuleNavigator{
 
     private var _binding: FragmentServiceDetailBinding? = null
     private val binding get() = _binding!!
@@ -29,6 +36,8 @@ class ServiceDetailFragment : Fragment() {
     private val args: ServiceDetailFragmentArgs by navArgs()
 
     private val accountViewModel: AccountViewModel by viewModel()
+
+    private lateinit var preferenceManager : PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +52,8 @@ class ServiceDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+        preferenceManager = PreferenceManager(requireActivity())
 
         setHasOptionsMenu(true)
 
@@ -91,6 +102,27 @@ class ServiceDetailFragment : Fragment() {
             binding.tvStoreDesc.text = this?.teknisiDeskripsi
             accountViewModel.setCurrentSkill(this?.teknisiId ?: 0)
 
+            val database = FirebaseFirestore.getInstance()
+            database.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo("id", this?.teknisiId)
+                .get()
+                .addOnCompleteListener { task: Task<QuerySnapshot?> ->
+                    if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                        val documentSnapshot = task.result!!.documents[0]
+                        preferenceManager.putString(Constants.KEY_RECEIVER_ID, documentSnapshot.id)
+                        preferenceManager.putString(Constants.KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
+                        preferenceManager.putString(Constants.KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
+                        binding.chatButton.isEnabled = true
+                    } else {
+                        Timber.d("gagal")
+                        binding.chatButton.isEnabled = false
+                    }
+                }
+
+
+            binding.chatButton.setOnClickListener {
+                navigateToChatActivity()
+            }
         }
     }
 

@@ -2,20 +2,28 @@ package com.example.feature_product
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_resource.showApiFailedDialog
+import com.example.core_util.Constants
+import com.example.core_util.Constants.KEY_RECEIVER_ID
+import com.example.core_util.Constants.KEY_RECEIVER_NAME
+import com.example.core_util.Constants.KEY_RECEIVER_PHOTO
+import com.example.core_util.PreferenceManager
 import com.example.core_util.hideProgress
 import com.example.core_util.showProgress
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_product.databinding.FragmentDetailProductBinding
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -31,6 +39,8 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
     private var byKurir: String = ""
 
+    private lateinit var preferenceManager : PreferenceManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +52,8 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        preferenceManager = PreferenceManager(requireActivity())
 
         setupDisplay()
 
@@ -136,6 +148,28 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                 .load(APP_PRODUCT_IMAGES_URL+data.fotoProduk)
                 .fitCenter()
                 .into(ivProduct)
+        }
+
+        val database = FirebaseFirestore.getInstance()
+        database.collection(Constants.KEY_COLLECTION_USERS)
+            .whereEqualTo("id", data.jualUserId)
+            .get()
+            .addOnCompleteListener { task: Task<QuerySnapshot?> ->
+                if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                    val documentSnapshot = task.result!!.documents[0]
+                    preferenceManager.putString(KEY_RECEIVER_ID, documentSnapshot.id)
+                    preferenceManager.putString(KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
+                    preferenceManager.putString(KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
+                    binding.chatButton.isEnabled = true
+                } else {
+                    Timber.d("gagal")
+                    binding.chatButton.isEnabled = false
+                }
+            }
+
+
+        binding.chatButton.setOnClickListener {
+            navigateToChatActivity()
         }
     }
 
