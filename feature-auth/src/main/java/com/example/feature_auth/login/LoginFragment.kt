@@ -11,14 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_util.bindLifecycle
-import com.example.core_util.dismissKeyboard
-import com.example.core_util.hideProgress
-import com.example.core_util.showProgress
+import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentLoginBinding
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -41,6 +42,8 @@ class LoginFragment : Fragment(), ModuleNavigator {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var preferenceManager: PreferenceManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +55,8 @@ class LoginFragment : Fragment(), ModuleNavigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        preferenceManager = PreferenceManager(requireActivity())
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
@@ -73,8 +78,46 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 }
                 is ApiEvent.OnSuccess -> {
                     hideProgress(true)
-                    Timber.d("sukses ${login.getData()}")
-                    navigateToHomeActivity(finnishCurrent = true)
+
+                    val database = FirebaseFirestore.getInstance()
+                    database.collection(Constants.KEY_COLLECTION_USERS)
+                        .whereEqualTo("id", login.getData()!!.id)
+                        .whereEqualTo(
+                            "email",
+                            login.getData()?.email
+                        )
+                        .get()
+                        .addOnCompleteListener { task: Task<QuerySnapshot?> ->
+                            if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                                val documentSnapshot = task.result!!.documents[0]
+                                preferenceManager.putString(
+                                    Constants.KEY_SENDER_ID,
+                                    documentSnapshot.id
+                                )
+                                preferenceManager.putString(
+                                    Constants.ID,
+                                    login.getData()!!.id.toString()
+                                )
+                                Timber.d("ada loh datanya ${documentSnapshot.id}")
+
+                                Timber.d("sukses ${login.getData()}")
+                                navigateToHomeActivity(finnishCurrent = true)
+                            } else {
+                                val database = FirebaseFirestore.getInstance()
+                                val user = login.getData()!!
+                                database.collection(Constants.KEY_COLLECTION_USERS)
+                                    .add(user)
+                                    .addOnSuccessListener { documentReference: DocumentReference ->
+                                        Timber.d("belum ada loh datanya ${documentReference.id}")
+
+                                        Timber.d("sukses ${login.getData()}")
+                                        navigateToHomeActivity(finnishCurrent = true)
+                                    }
+                                    .addOnFailureListener { exception: Exception ->
+                                        Timber.d("gagal dan belum ada loh datanya $exception")
+                                    }
+                            }
+                        }
                 }
                 is ApiEvent.OnFailed -> {
                     hideProgress(true)

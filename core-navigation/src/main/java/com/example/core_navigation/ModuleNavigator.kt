@@ -65,6 +65,18 @@ interface ModuleNavigator {
                 putExtra(ProductNav.JUAL_ID, jualId)
             }.let { startActivity(it, finnishCurrent) }
     }
+
+    fun <T> T.navigateToChatActivity(
+        finnishCurrent: Boolean = false
+    ) where T : Fragment, T : ModuleNavigator {
+        startActivity(ActivityClassPath.Chat, finnishCurrent)
+    }
+
+    fun <T> T.navigateToChatActivity(
+        finnishCurrent: Boolean = false
+    ) where T : AppCompatActivity, T : ModuleNavigator {
+        startActivity(ActivityClassPath.Chat, finnishCurrent)
+    }
 }
 
 private fun AppCompatActivity.startActivity(intent: Intent, finnishCurrent: Boolean) {

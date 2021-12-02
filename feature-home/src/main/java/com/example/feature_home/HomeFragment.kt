@@ -10,10 +10,12 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -27,12 +29,16 @@ import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_resource.showApiFailedDialog
+import com.example.core_util.Constants
+import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import com.google.android.gms.location.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -43,6 +49,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private val productViewModel: ProductViewModel by viewModel()
+
+    private lateinit var preferenceManager: PreferenceManager
 
     private val permissionId = 42
 
@@ -59,6 +67,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        preferenceManager = PreferenceManager(requireActivity())
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         getLastLocation()
@@ -182,15 +192,20 @@ class HomeFragment : Fragment(), ModuleNavigator {
     }
 
     private fun onDataProductAllLoaded(data: List<ProductGetAll>) {
-        if (data.isNotEmpty()) {
+        val userId = preferenceManager.getString(Constants.ID)
+        val filter = data.filter { it.jualUserId.toString() != userId }
+        Timber.d("uuups $filter")
+        Timber.d("uuups1 $userId")
+        Timber.d("uuupsw ${data.map { it.jualUserId }}")
+        if (filter.isNotEmpty()) {
             binding.rvTerbaru.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_produk_terbaru) {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
                         Glide.with(requireActivity())
-                            .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
+                            .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                             .centerCrop()
                             .into(ivProductPhoto)
                     }
@@ -201,6 +216,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
                 }
             }
         }
+
+        getToken()
     }
 
     private fun observeNearbyTechnician() {
@@ -229,7 +246,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         tvTeknisiName.text = item.teknisiNama
                         Glide
                             .with(requireActivity())
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
                             .centerCrop()
                             .into(ivTeknisi)
                     }
@@ -252,7 +269,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
                             teknisiFoto = item.teknisiFoto,
                             teknisiSertifikat = item.teknisiSertifikat
                         )
-                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(itemGetAll)
+                        val directionTechnicianGetAll =
+                            HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
+                                itemGetAll
+                            )
                         findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
@@ -298,12 +318,42 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     }
 
                     onClick {
-                        val directionTechnicianGetAll = HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(item)
+                        val directionTechnicianGetAll =
+                            HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(item)
                         findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
             }
         }
+    }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.menu_home, menu);
+//
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+//        return super.onOptionsItemSelected(item)
+//    }
+
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String? ->
+            updateToken(
+                token!!
+            )
+        }
+    }
+
+    private fun updateToken(token: String) {
+        val database = FirebaseFirestore.getInstance()
+        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
+            preferenceManager.getString(Constants.KEY_SENDER_ID)!!
+        )
+        documentReference.update(Constants.KEY_FCM_TOKEN, token)
+            .addOnSuccessListener { unused: Void? ->Timber.d("Token updated successfuly") }
+            .addOnFailureListener { e: Exception? -> Timber.d("Unable update token") }
     }
 
     override fun onDestroyView() {

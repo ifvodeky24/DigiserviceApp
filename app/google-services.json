@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "740575636452",
+    "project_id": "digiserviceapp-9096e",
+    "storage_bucket": "digiserviceapp-9096e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740575636452:android:d49b68c49c15ab66a575f1",
+        "android_client_info": {
+          "package_name": "com.example.digiserviceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740575636452-ldni8gk1mj7gl6krn570qf32gjcgrfei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWh81GLgXsF5HyfG6tz3SxSFQPKeRYq68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740575636452-ldni8gk1mj7gl6krn570qf32gjcgrfei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
