@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class RegisterPelangganFragment : Fragment(), ModuleNavigator {
 
@@ -183,15 +184,17 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
     private fun registerService() {
         dismissKeyboard()
         with(binding) {
-            authViewModel.registerPelanggan(
-                email = edtInputEmail.text.toString(),
-                teknisiNama = edtInputName.text.toString(),
-                teknisiNoHp = edtInputNoHp.text.toString(),
-                password = edtInputPwd.text.toString(),
-                teknisiAlamat = edtInputStoreAddress.text.toString(),
-                teknisiLat = authViewModel.lat.toFloat(),
-                teknisiLng = authViewModel.lng.toFloat(),
-            )
+            if (authViewModel.lat.isNotEmpty() && authViewModel.lng.isNotEmpty()) {
+                authViewModel.registerPelanggan(
+                    email = edtInputEmail.text.toString(),
+                    teknisiNama = edtInputName.text.toString(),
+                    teknisiNoHp = edtInputNoHp.text.toString(),
+                    password = edtInputPwd.text.toString(),
+                    teknisiAlamat = edtInputStoreAddress.text.toString(),
+                    teknisiLat = authViewModel.lat.toFloat(),
+                    teknisiLng = authViewModel.lng.toFloat(),
+                )
+            }
         }
     }
 

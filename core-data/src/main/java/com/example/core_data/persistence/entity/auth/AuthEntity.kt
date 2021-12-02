@@ -11,7 +11,7 @@ internal data class AuthEntity(
     val name: String = "",
     val email: String = "",
     val password: String = "",
-    val aksesId: Int = 0,
+    val aksesId: Int? = 0,
     val level: String = "",
     val teknisiId: Int = 0,
     val pelangganId: Int = 0,

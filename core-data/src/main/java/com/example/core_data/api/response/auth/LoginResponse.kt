@@ -18,7 +18,7 @@ internal data class LoginDataResponse(
     val email: String = "",
     val password: String = "",
     @Json(name = "akses_id")
-    val aksesId: Int = 0,
+    val aksesId: Int? = 0,
     val level: String = "",
     @Json(name = "teknisi_id")
     val teknisiId: Int = 0,
