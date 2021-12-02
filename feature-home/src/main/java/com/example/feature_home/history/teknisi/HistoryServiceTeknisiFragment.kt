@@ -10,6 +10,7 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.servicehp.ServiceHandphoneByTechnicianGetAll
 import com.example.feature_home.R
@@ -79,6 +80,7 @@ class HistoryServiceTeknisiFragment : Fragment() {
                                 this
                             }
                         }
+
                         tvServiceHpCustomerName.text = customerName
                         tvServiceHpStatus.text = item.statusService
                         tvServiceHpDate.text = item.createdAt
@@ -86,7 +88,7 @@ class HistoryServiceTeknisiFragment : Fragment() {
                         tvServiceHpDamageType.text = item.jenisKerusakan
 
                         Glide.with(this@HistoryServiceTeknisiFragment)
-                            .load(item.pelangganFoto)
+                            .load(APP_PELANGGAN_IMAGES_URL+item.pelangganFoto)
                             .transform(CircleCrop())
                             .into(ivServiceHpUserPhoto)
                     }

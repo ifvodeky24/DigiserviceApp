@@ -12,6 +12,7 @@ import coil.load
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -78,7 +79,7 @@ class ServiceDetailFragment : Fragment() {
     private fun setupDisplay() {
         with(args.technician){
             if (this?.teknisiFoto?.isNotEmpty() == true) binding.ivStore.load(
-                teknisiFoto
+                APP_TEKNISI_IMAGES_URL+teknisiFoto
             ){
                 crossfade(true)
             }

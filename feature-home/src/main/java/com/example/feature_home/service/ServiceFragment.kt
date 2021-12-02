@@ -15,6 +15,8 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -161,7 +163,7 @@ class ServiceFragment : Fragment() {
                         tvRating.text = String.format("%.1f", (item.teknisiTotalScore/item.teknisiTotalResponden)).toDouble().toString()
                         Glide
                             .with(requireActivity())
-                            .load(item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
                             .centerCrop()
                             .into(ivTeknisi)
                         layoutCard.setOnClickListener {
@@ -238,7 +240,7 @@ class ServiceFragment : Fragment() {
                         tvServiceHpDamageType.text = item.jenisKerusakan
 
                         Glide.with(this@ServiceFragment)
-                            .load(item.pelangganFoto)
+                            .load(APP_PELANGGAN_IMAGES_URL+item.pelangganFoto)
                             .transform(CircleCrop())
                             .into(ivServiceHpUserPhoto)
 
