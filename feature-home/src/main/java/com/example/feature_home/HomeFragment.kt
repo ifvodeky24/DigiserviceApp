@@ -327,17 +327,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.menu_home, menu);
-//
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
-//        return super.onOptionsItemSelected(item)
-//    }
-
     private fun getToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String? ->
             updateToken(
