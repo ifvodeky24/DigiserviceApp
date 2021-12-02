@@ -20,6 +20,7 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_data.domain.technician.NearbyTechnician

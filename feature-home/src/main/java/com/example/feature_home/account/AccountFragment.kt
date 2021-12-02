@@ -28,7 +28,6 @@ import com.example.feature_home.R
 import com.example.feature_home.account.LogoutDialogFragment.Companion.TRUE
 import com.example.feature_home.databinding.FragmentAccountBinding
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
