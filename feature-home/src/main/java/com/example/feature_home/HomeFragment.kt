@@ -8,16 +8,14 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.os.Looper
-import android.provider.Settings
-import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
@@ -39,13 +37,10 @@ import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.lang.Exception
 
 class HomeFragment : Fragment(), ModuleNavigator {
 
@@ -252,7 +247,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         Glide
                             .with(requireActivity())
                             .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
-                            .load(item.teknisiFoto)
                             .centerCrop()
                             .into(ivTeknisi)
                     }

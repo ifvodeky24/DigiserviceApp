@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
@@ -150,26 +151,24 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                 .into(ivProduct)
         }
 
-        val database = FirebaseFirestore.getInstance()
-        database.collection(Constants.KEY_COLLECTION_USERS)
-            .whereEqualTo("id", data.jualUserId)
-            .get()
-            .addOnCompleteListener { task: Task<QuerySnapshot?> ->
-                if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
-                    val documentSnapshot = task.result!!.documents[0]
-                    preferenceManager.putString(KEY_RECEIVER_ID, documentSnapshot.id)
-                    preferenceManager.putString(KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
-                    preferenceManager.putString(KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
-                    binding.chatButton.isEnabled = true
-                } else {
-                    Timber.d("gagal")
-                    binding.chatButton.isEnabled = false
-                }
-            }
-
-
         binding.chatButton.setOnClickListener {
-            navigateToChatActivity()
+            val database = FirebaseFirestore.getInstance()
+            database.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo("id", data.jualUserId)
+                .get()
+                .addOnCompleteListener { task: Task<QuerySnapshot?> ->
+                    if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                        val documentSnapshot = task.result!!.documents[0]
+                        preferenceManager.putString(KEY_RECEIVER_ID, documentSnapshot.id)
+                        preferenceManager.putString(KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
+                        preferenceManager.putString(KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
+
+                        navigateToChatActivity()
+                    } else {
+                        Timber.d("gagal")
+                        Toast.makeText(requireContext(), "Pengguna ini tidak dapat melakukan chat", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
     }
 
