@@ -204,7 +204,7 @@
                         android:id="@+id/imageView5"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_chat"
+                        android:src="@drawable/ic_round_chat_blue"
                         app:layout_constraintBottom_toTopOf="@+id/textView8"
                         app:layout_constraintEnd_toEndOf="@+id/chatButton"
                         app:layout_constraintStart_toStartOf="@+id/chatButton"

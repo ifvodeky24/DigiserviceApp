@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 apply(from: "../shared_dependencies.gradle")
 
@@ -36,6 +37,7 @@ dependencies {
     implementation project(':feature-service')
     implementation project(':feature-history')
     implementation project(':feature-product')
+    implementation project(':feature-chat')
 
     implementation deps.koin
 

@@ -31,5 +31,4 @@ dependencies {
     implementation deps.lifecycle
 
     implementation deps.fragment
-
 }
