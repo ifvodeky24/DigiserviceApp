@@ -83,9 +83,9 @@ internal interface AuthService {
     suspend fun getJenisKerusakanHpAll(): SkilsResponse
 
     @Multipart
-    @POST(UpdatePhotoProfile)
-    suspend fun updatePhotoProfile(
-        @Part("id") id: RequestBody,
+    @POST(UpdatePhotoTeknisi)
+    suspend fun updatePhotoTeknisi(
+        @Path("teknisi_id") id: Int,
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
@@ -101,6 +101,7 @@ internal interface AuthService {
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"
         const val UpdateTeknisi = "teknisi-update/{id}"
         const val JenisKerusakanHp = "get-jenis-kerusakan-hp"
-        const val UpdatePhotoProfile = "photo-profile-update/{id}"
+        const val UpdatePhotoTeknisi = "update-teknisi-foto/{teknisi_id}"
+        const val UpdatePhotoPelanggan = "update-pelanggan-foto/{pelanggan_id}"
     }
 }

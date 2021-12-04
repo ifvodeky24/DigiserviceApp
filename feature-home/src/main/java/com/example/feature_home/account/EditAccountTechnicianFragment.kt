@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
@@ -23,6 +25,8 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.afollestad.vvalidator.form
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.request.TeknisiRequest
 import com.example.core_data.api.request.UserRequest
@@ -35,8 +39,12 @@ import com.example.core_resource.showProgressDialog
 import com.example.core_util.*
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentEditAccountTechnicianBinding
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class EditAccountTechnicianFragment : Fragment() {
 
@@ -47,6 +55,7 @@ class EditAccountTechnicianFragment : Fragment() {
 
     private var teknisiId: Int? = null
     private var userId: Int? = null
+    private var authName: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -76,12 +85,15 @@ class EditAccountTechnicianFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
         setInput()
+        observePhotoTeknisi()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun setInput() {
         with(binding){
 
@@ -125,6 +137,7 @@ class EditAccountTechnicianFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
         if (permission){
             navigateToGallery()
@@ -140,6 +153,7 @@ class EditAccountTechnicianFragment : Fragment() {
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun navigateToGallery() {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
@@ -148,6 +162,7 @@ class EditAccountTechnicianFragment : Fragment() {
         resultPick.launch(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private val resultPick = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         val imageUri: Uri? = result.data?.data
         val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
@@ -157,15 +172,28 @@ class EditAccountTechnicianFragment : Fragment() {
         }
         if(imageUri != null && result.data != null){
             val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
-            //accountViewModel.updatePhoto(userId, imagePath, imageUri, requireActivity().contentResolver)
+            accountViewModel.updatePhotoUser(teknisiId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
+            updatePhotoAuthLocally(imageUri, imagePath)
         }
+    }
+
+    private fun updatePhotoAuthLocally(imageUri: Uri, filePath: String) {
+        val parcelFileDescriptor = context?.contentResolver?.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val newFoto = "${authName}_${file.name}"
+        accountViewModel.updateAuthPhotoLocally(userId as Int, newFoto)
     }
 
     private fun updateEdit() {
         dismissKeyboard()
 
-        val  userRequest = UserRequest(userId ?: 0, nama = "${binding.edtInputName.text}", email = "${binding.edtInputEmail.text}", noHp = "${binding.edtInputHp.text}")
-        val  teknisiRequest = TeknisiRequest(teknisiId ?: 0, namaToko = "${binding.edtInputStoreName.text}", teknisiAlamat = "${binding.edtInputStoreAddress.text}", deskripsi = "${binding.edtInputStoreDesc.text}")
+        val userRequest = UserRequest(userId ?: 0, nama = "${binding.edtInputName.text}", email = "${binding.edtInputEmail.text}", noHp = "${binding.edtInputHp.text}")
+        val teknisiRequest = TeknisiRequest(teknisiId ?: 0, namaToko = "${binding.edtInputStoreName.text}", teknisiAlamat = "${binding.edtInputStoreAddress.text}", deskripsi = "${binding.edtInputStoreDesc.text}")
         val jenisHpRequest = accountViewModel.getFinalJenisHpRequest()
         val jenisKerusakanHpRequest = accountViewModel.getFinalJenisKerusakanHpRequest()
 
@@ -195,11 +223,21 @@ class EditAccountTechnicianFragment : Fragment() {
             binding.edtInputEmail.isEnabled = false
             with(binding){
                 auth?.let {
+
                     userId = auth.id
                     teknisiId = auth.teknisiId
-                    if (auth.foto.isNotEmpty()) imageProfile.load(auth.foto){
-                        crossfade(true)
-                        transformations(CircleCropTransformation())
+                    authName = auth.name
+
+                    if (auth.foto.isNotEmpty()) {
+                        val imageUrl = when(auth.level) {
+                            "teknisi" -> APP_TEKNISI_IMAGES_URL + auth.foto
+                            else -> APP_PELANGGAN_IMAGES_URL + auth.foto
+                        }
+
+                        imageProfile.load(imageUrl) {
+                            crossfade(true)
+                            transformations(CircleCropTransformation())
+                        }
                     }
                     edtInputName.text = auth.name.toEditable()
                     edtInputEmail.text = auth.email.toEditable()
@@ -229,6 +267,24 @@ class EditAccountTechnicianFragment : Fragment() {
             }
         })
 
+    }
+
+    private fun observePhotoTeknisi() {
+        accountViewModel.photoTeknisiUpdate.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {
+                    binding.btnChangePhoto.isEnabled = false
+                }
+                is ApiEvent.OnSuccess -> {
+                    binding.btnChangePhoto.isEnabled = true
+                    Snackbar.make(requireContext(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+                is ApiEvent.OnFailed -> {
+                    binding.btnChangePhoto.isEnabled = true
+                    Snackbar.make(requireContext(), requireView(), "Foto gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {

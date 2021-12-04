@@ -1,7 +1,10 @@
 package com.example.feature_home.account
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,11 +16,11 @@ import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_data.repository.AuthRepository
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
 
 class AccountViewModel(
     private val authRepository: AuthRepository
@@ -39,6 +42,9 @@ class AccountViewModel(
 
     private val _liveSkils = MutableLiveData<ApiEvent<ResultSkils?>>()
     val liveSkils: LiveData<ApiEvent<ResultSkils?>> = _liveSkils
+
+    private val isPhotoTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val photoTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoTeknisiUpdate
 
     private val optionJenisHpForPost =HashMap<Int, JenisHp>()
 
@@ -178,12 +184,16 @@ class AccountViewModel(
         }
     }
 
-//    fun updatePhotoUser(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver){
-//        viewModelScope.launch {
-//            authRepository.updateImageProduk(id, filePath, uri, contentResolver)
-//                .onStart { emit(ApiEvent.OnProgress()) }
-//                .collect { _uploadItemProdukResponse.value = it }
-//        }
-//    }
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoUser(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updatPhotoTeknisi(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isPhotoTeknisiUpdate.value = it }
+        }
+    }
 
+    fun updateAuthPhotoLocally(authId: Int, foto: String) = viewModelScope.launch {
+        authRepository.updateAuthPhotoLocally(authId, foto)
+    }
 }

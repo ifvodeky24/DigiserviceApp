@@ -19,6 +19,9 @@ internal abstract class AuthDao {
     @Query("DELETE FROM AuthEntity")
     abstract suspend fun deleteAll(): Int
 
+    @Query("UPDATE AuthEntity set foto=:foto WHERE id=:id")
+    abstract suspend fun updateFoto(id: Int, foto: String)
+
     @Transaction
     open suspend fun replace(entity: AuthEntity) {
         deleteAll()

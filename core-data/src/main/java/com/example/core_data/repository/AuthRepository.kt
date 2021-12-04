@@ -1,14 +1,11 @@
 package com.example.core_data.repository
 
 import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import androidx.annotation.RequiresApi
-import androidx.core.content.contentValuesOf
 import com.example.core_data.UploadRequestBody
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.*
@@ -35,12 +32,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.http.Url
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.net.URL
-import java.text.SimpleDateFormat
 
 class AuthRepository internal constructor(
     private val apiExecutor: ApiExecutor,
@@ -57,7 +51,6 @@ class AuthRepository internal constructor(
     fun getCurrentTechnicianAsFlow(email: String) = techDao.getCurrentTechnicianAsFlow(email).map {
         ApiEvent.OnSuccess.fromCache(it.toDomain())
     }
-
 
     suspend fun getAuth() = dao.selectAuth()
         ?.toDomain()
@@ -395,7 +388,7 @@ class AuthRepository internal constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    fun updateImageUser(
+    fun updatPhotoTeknisi(
         id: Int,
         filePath: String,
         imageUri: Uri,
@@ -409,16 +402,16 @@ class AuthRepository internal constructor(
         val outStream = FileOutputStream(file)
         inputStream.copyTo(outStream)
 
-        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val body = UploadRequestBody(file, "image")
 
         runCatching {
-            val apiId = AuthService.UpdatePhotoProfile
+            val apiId = AuthService.UpdatePhotoTeknisi
             val apiResult = apiExecutor.callApi(apiId){
-                authService.updatePhotoProfile(
-                    id = idRB,
+                authService.updatePhotoTeknisi(
+                    id = id,
                     foto = MultipartBody.Part.createFormData(
-                        "foto",
+                        "teknisi_foto",
                         file.name,
                         body
                     )
@@ -448,4 +441,7 @@ class AuthRepository internal constructor(
         }
     }
 
+    suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
+        dao.updateFoto(authId, foto)
+    }
 }
