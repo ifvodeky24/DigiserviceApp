@@ -89,6 +89,14 @@ internal interface AuthService {
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
+    @Multipart
+    @POST(UpdatePhotoPelanggan)
+    suspend fun updatePhotoPelanggan(
+        @Path("pelanggan_id") id: Int,
+        @Part foto: MultipartBody.Part,
+    ) : CommonResponse
+
+
     companion object {
         const val Login = "login"
         const val GetJenisKerusakanAll = "jenis-kerusakan-all"

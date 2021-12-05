@@ -441,6 +441,61 @@ class AuthRepository internal constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatPhotoPelanggan(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoPelanggan
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoPelanggan(
+                    id = id,
+                    foto = MultipartBody.Part.createFormData(
+                        "pelanggan_foto",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
+
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+
     suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
         dao.updateFoto(authId, foto)
     }

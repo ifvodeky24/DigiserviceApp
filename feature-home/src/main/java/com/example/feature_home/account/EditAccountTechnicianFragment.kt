@@ -172,7 +172,7 @@ class EditAccountTechnicianFragment : Fragment() {
         }
         if(imageUri != null && result.data != null){
             val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
-            accountViewModel.updatePhotoUser(teknisiId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
+            accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
             updatePhotoAuthLocally(imageUri, imagePath)
         }
     }
@@ -229,12 +229,7 @@ class EditAccountTechnicianFragment : Fragment() {
                     authName = auth.name
 
                     if (auth.foto.isNotEmpty()) {
-                        val imageUrl = when(auth.level) {
-                            "teknisi" -> APP_TEKNISI_IMAGES_URL + auth.foto
-                            else -> APP_PELANGGAN_IMAGES_URL + auth.foto
-                        }
-
-                        imageProfile.load(imageUrl) {
+                        imageProfile.load(APP_TEKNISI_IMAGES_URL + auth.foto) {
                             crossfade(true)
                             transformations(CircleCropTransformation())
                         }
