@@ -173,19 +173,12 @@ class EditAccountTechnicianFragment : Fragment() {
         if(imageUri != null && result.data != null){
             val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
             accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
-            updatePhotoAuthLocally(imageUri, imagePath)
+            updatePhotoAuthLocally(imagePath)
         }
     }
 
-    private fun updatePhotoAuthLocally(imageUri: Uri, filePath: String) {
-        val parcelFileDescriptor = context?.contentResolver?.openFileDescriptor(imageUri, "r", null)
-        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
-        val imageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
-        val file = File(imageDir, filePath)
-        val outStream = FileOutputStream(file)
-        inputStream.copyTo(outStream)
-
-        val newFoto = "${authName}_${file.name}"
+    private fun updatePhotoAuthLocally(filePath: String) {
+        val newFoto = "${authName}_$filePath"
         accountViewModel.updateAuthPhotoLocally(userId as Int, newFoto)
     }
 

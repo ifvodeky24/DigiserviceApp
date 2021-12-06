@@ -210,18 +210,18 @@ class EditAccountCustomerFragment : Fragment() {
     }
 
     private fun observePhotoPelanggan() {
-        accountViewModel.photoTeknisiUpdate.observe(viewLifecycleOwner) { event ->
+        accountViewModel.photoPelangganUpdate.observe(viewLifecycleOwner) { event ->
             when(event) {
                 is ApiEvent.OnProgress -> {
                     binding.btnChangePhoto.isEnabled = false
                 }
                 is ApiEvent.OnSuccess -> {
-                    Snackbar.make(requireContext(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
                     binding.btnChangePhoto.isEnabled = true
+                    Snackbar.make(requireActivity(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
                 is ApiEvent.OnFailed -> {
-                    Snackbar.make(requireContext(), requireView(), "Foto gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                     binding.btnChangePhoto.isEnabled = true
+                    Snackbar.make(requireActivity(), requireView(), "Foto gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
