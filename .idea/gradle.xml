@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/core-resource" />
             <option value="$PROJECT_DIR$/core-util" />
             <option value="$PROJECT_DIR$/feature-auth" />
+            <option value="$PROJECT_DIR$/feature-chat" />
             <option value="$PROJECT_DIR$/feature-history" />
             <option value="$PROJECT_DIR$/feature-home" />
             <option value="$PROJECT_DIR$/feature-product" />

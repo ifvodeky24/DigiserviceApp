@@ -305,9 +305,11 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     onBind(::ItemPopulerViewHolder) { _, item ->
                         tvTeknisiName.text = item.teknisiNama
                         tvRating.text = String.format(
-                            "%.1f",
-                            (item.teknisiTotalScore / item.teknisiTotalResponden)
-                        ).toDouble().toString()
+                            "%.1f",(item.teknisiTotalScore/item.teknisiTotalResponden)
+                        )
+
+                        ratingBar.rating = (item.teknisiTotalScore/item.teknisiTotalResponden).toFloat()
+
                         Glide
                             .with(requireActivity())
                             .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
@@ -324,17 +326,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
             }
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.menu_home, menu);
-//
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
-//        return super.onOptionsItemSelected(item)
-//    }
 
     private fun getToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String? ->

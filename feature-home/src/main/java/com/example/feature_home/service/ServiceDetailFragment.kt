@@ -95,7 +95,7 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator{
             ){
                 crossfade(true)
             }
-            binding.tvRatingCount.text = String.format("%.1f", (this?.teknisiTotalScore?.div(teknisiTotalResponden))).toDouble().toString()
+            binding.tvRatingCount.text = String.format("%.1f", (this?.teknisiTotalScore?.div(teknisiTotalResponden)))
             binding.tvStoreName.text = this?.teknisiNamaToko ?: ""
             binding.tvName.text = this?.teknisiNama ?: ""
             binding.tvNoHp.text = this?.teknisiHp ?: ""
