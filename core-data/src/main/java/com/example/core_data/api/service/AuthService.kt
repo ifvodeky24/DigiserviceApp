@@ -85,14 +85,14 @@ internal interface AuthService {
     @Multipart
     @POST(UpdatePhotoTeknisi)
     suspend fun updatePhotoTeknisi(
-        @Part("teknisi_id") teknisiId: RequestBody,
+        @Path("teknisi_id") teknisiId: Int,
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
     @Multipart
     @POST(UpdatePhotoPelanggan)
     suspend fun updatePhotoPelanggan(
-        @Path("pelanggan_id") id: Int,
+        @Path("pelanggan_id") pelangganId: Int,
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
@@ -109,7 +109,7 @@ internal interface AuthService {
         const val JenisHpBy = "jenis-hp-by/{teknisi_id}"
         const val UpdateTeknisi = "teknisi-update/{id}"
         const val JenisKerusakanHp = "get-jenis-kerusakan-hp"
-        const val UpdatePhotoTeknisi = "update-teknisi-foto"
+        const val UpdatePhotoTeknisi = "update-teknisi-foto/{teknisi_id}"
         const val UpdatePhotoPelanggan = "update-pelanggan-foto/{pelanggan_id}"
     }
 }

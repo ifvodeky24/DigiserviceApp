@@ -403,14 +403,14 @@ class AuthRepository internal constructor(
         val outStream = FileOutputStream(file)
         inputStream.copyTo(outStream)
 
-        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val body = UploadRequestBody(file, "image")
 
         runCatching {
             val apiId = AuthService.UpdatePhotoTeknisi
             val apiResult = apiExecutor.callApi(apiId){
                 authService.updatePhotoTeknisi(
-                    teknisiId = idRB,
+                    teknisiId = id,
                     foto = MultipartBody.Part.createFormData(
                         "teknisi_foto",
                         file.name,
@@ -464,7 +464,7 @@ class AuthRepository internal constructor(
             val apiId = AuthService.UpdatePhotoPelanggan
             val apiResult = apiExecutor.callApi(apiId){
                 authService.updatePhotoPelanggan(
-                    id = id,
+                    pelangganId = id,
                     foto = MultipartBody.Part.createFormData(
                         "pelanggan_foto",
                         file.name,
