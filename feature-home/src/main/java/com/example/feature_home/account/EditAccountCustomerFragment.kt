@@ -44,6 +44,7 @@ class EditAccountCustomerFragment : Fragment() {
     private var pelangganId: Int? = null
     private var userId: Int? = null
     private var authName: String? = null
+    private var imagePath: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -198,9 +199,8 @@ class EditAccountCustomerFragment : Fragment() {
             transformations(CircleCropTransformation())
         }
         if(imageUri != null && result.data != null){
-            val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
-            accountViewModel.updatePhotoPelanggan(pelangganId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
-            updatePhotoAuthLocally(imagePath)
+            imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updatePhotoPelanggan(pelangganId!!, imagePath!!, imageUri, requireActivity().contentResolver, requireContext())
         }
     }
 
@@ -218,6 +218,7 @@ class EditAccountCustomerFragment : Fragment() {
                 is ApiEvent.OnSuccess -> {
                     binding.btnChangePhoto.isEnabled = true
                     Snackbar.make(requireActivity(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updatePhotoAuthLocally(imagePath!!)
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnChangePhoto.isEnabled = true
