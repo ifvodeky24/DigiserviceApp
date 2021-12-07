@@ -161,7 +161,9 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         productViewModel.liveJenisHp.observe(viewLifecycleOwner, { event ->
             when(event)
             {
-                is ApiEvent.OnProgress -> showProgress()
+                is ApiEvent.OnProgress -> {
+
+                }
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     setupRecycler(it)
                 }
@@ -374,7 +376,8 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                             harga = binding.edtInputProductPrice.text.toString(),
                             userId = it.id.toString(),
                             jenisHpId = productViewModel.typeFilter.toString(),
-                            contentResolver = requireActivity().contentResolver
+                            contentResolver = requireActivity().contentResolver,
+                            context = requireContext()
                         )
                     }
                 }

@@ -193,7 +193,8 @@ class StoreRepository internal constructor(
         harga: String,
         userId: String,
         jenisHpId: String,
-        contentResolver: ContentResolver
+        contentResolver: ContentResolver,
+        context: Context
     ) : Flow<ApiEvent<CommonResponse?>> = flow {
 
         //Init File
@@ -201,7 +202,7 @@ class StoreRepository internal constructor(
 
         val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
 
-        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
 
         val file = File(imagesDir, filePath)
         val outputStream = FileOutputStream(file)

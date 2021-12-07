@@ -56,6 +56,7 @@ class EditAccountTechnicianFragment : Fragment() {
     private var teknisiId: Int? = null
     private var userId: Int? = null
     private var authName: String? = null
+    private var imagePath: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -170,10 +171,10 @@ class EditAccountTechnicianFragment : Fragment() {
             crossfade(true)
             transformations(CircleCropTransformation())
         }
+
         if(imageUri != null && result.data != null){
-            val imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
-            accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath, imageUri, requireActivity().contentResolver, requireContext())
-            updatePhotoAuthLocally(imagePath)
+            imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath!!, imageUri, requireActivity().contentResolver, requireContext())
         }
     }
 
@@ -266,6 +267,7 @@ class EditAccountTechnicianFragment : Fragment() {
                 is ApiEvent.OnSuccess -> {
                     binding.btnChangePhoto.isEnabled = true
                     Snackbar.make(requireContext(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updatePhotoAuthLocally(imagePath!!)
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnChangePhoto.isEnabled = true

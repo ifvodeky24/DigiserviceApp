@@ -16,7 +16,6 @@ import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_data.repository.AuthRepository
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -199,7 +198,7 @@ class AccountViewModel(
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoPelanggan(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
         viewModelScope.launch {
-            authRepository.updatPhotoPelanggan(id, filePath, uri, contentResolver, context)
+            authRepository.updatePhotoPelanggan(id, filePath, uri, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { isPhotoPelangganUpdate.value = it }
         }

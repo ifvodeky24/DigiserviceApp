@@ -101,9 +101,9 @@ class ProductViewModel(
     }
 
 
-        fun setUploadItemImage(filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver){
+        fun setUploadItemImage(filePath: String, uri: Uri, judul: String, deskripsi: String, harga: String, userId: String, jenisHpId: String, contentResolver: ContentResolver, context: Context){
         viewModelScope.launch {
-            storeRepository.uploadProduk(filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver)
+            storeRepository.uploadProduk(filePath, uri, judul, deskripsi, harga, userId, jenisHpId, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { _uploadItemProdukResponse.value = it }
         }

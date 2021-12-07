@@ -398,18 +398,19 @@ class AuthRepository internal constructor(
         val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
         val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
         val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
         val file = File(imageDir, filePath)
         val outStream = FileOutputStream(file)
         inputStream.copyTo(outStream)
 
-//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val body = UploadRequestBody(file, "image")
 
         runCatching {
             val apiId = AuthService.UpdatePhotoTeknisi
             val apiResult = apiExecutor.callApi(apiId){
                 authService.updatePhotoTeknisi(
-                    id = id,
+                    teknisiId = idRB,
                     foto = MultipartBody.Part.createFormData(
                         "teknisi_foto",
                         file.name,
@@ -442,7 +443,7 @@ class AuthRepository internal constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    fun updatPhotoPelanggan(
+    fun updatePhotoPelanggan(
         id: Int,
         filePath: String,
         imageUri: Uri,
