@@ -103,7 +103,6 @@ class LoginFragment : Fragment(), ModuleNavigator {
                                 Timber.d("sukses ${login.getData()}")
                                 navigateToHomeActivity(finnishCurrent = true)
                             } else {
-                                val database = FirebaseFirestore.getInstance()
                                 val user = login.getData()!!
                                 database.collection(Constants.KEY_COLLECTION_USERS)
                                     .add(user)

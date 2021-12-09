@@ -330,19 +330,20 @@ class HomeFragment : Fragment(), ModuleNavigator {
     private fun getToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String? ->
             updateToken(
-                token!!
+                token.toString()
             )
         }
     }
 
     private fun updateToken(token: String) {
         val database = FirebaseFirestore.getInstance()
-        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-            preferenceManager.getString(Constants.KEY_SENDER_ID)!!
-        )
+        val documentPath = preferenceManager.getString(Constants.KEY_SENDER_ID)
+//        if (documentPath != null) {
+//        }
+        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(documentPath.toString())
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnSuccessListener { unused: Void? ->Timber.d("Token updated successfuly") }
-            .addOnFailureListener { e: Exception? -> Timber.d("Unable update token") }
+            .addOnFailureListener { e: Exception? -> Timber.d("Unable update token : ${e?.message}") }
     }
 
     override fun onDestroyView() {

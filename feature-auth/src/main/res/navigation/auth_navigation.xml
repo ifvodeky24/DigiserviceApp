@@ -45,5 +45,12 @@
     <fragment
         android:id="@+id/registerPelangganFragment"
         android:name="com.example.feature_auth.register.RegisterPelangganFragment"
-        android:label="RegisterPelangganFragment" />
+        android:label="RegisterPelangganFragment" >
+        <action
+            android:id="@+id/action_registerPelangganFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

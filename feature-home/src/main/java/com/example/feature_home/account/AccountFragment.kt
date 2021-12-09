@@ -102,7 +102,7 @@ class AccountFragment : Fragment(), ModuleNavigator{
                                 navigateToAuthActivity(finnishCurrent = true)
                             }
                         }
-                        .addOnFailureListener { e: Exception? -> Timber.d("gagal logout") }
+                        .addOnFailureListener { e: Exception? -> Timber.d("gagal logout : ${e?.message}") }
 
                 }
             }

@@ -36,7 +36,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -89,6 +93,7 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
     private val REQUEST_LOCATION_PERMISSION = 1
 
     private val authViewModel: AuthViewModel by sharedViewModel()
+    private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,6 +107,7 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preferenceManager = PreferenceManager(requireActivity())
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         getLastLocation()
@@ -115,7 +121,6 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
         observeLogin()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        observeWhenSuccessLogin()
     }
 
     private fun observeLogin() {
@@ -125,14 +130,14 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     hideProgress(true)
-                    authViewModel.email = binding.edtInputEmail.text.toString()
-                    authViewModel.password = binding.edtInputPwd.text.toString()
-
-                    authViewModel.login(binding.edtInputEmail.text.toString(), binding.edtInputPwd.text.toString())
+                    Snackbar.make(requireActivity(), requireView(), "Pendaftaran berhasil, silahkan login untuk masuk ke menu selanjutnya!", Snackbar.LENGTH_SHORT).show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        findNavController().navigate(R.id.action_registerPelangganFragment_to_loginFragment)
+                    }, 1000)
                 }
-                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
-                {
+                is ApiEvent.OnFailed -> {
                     hideProgress(true)
+                    Snackbar.make(requireActivity(), requireView(), "Pendaftaran gagal, silahkan mencoba lagi!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -162,22 +167,6 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
                 submitWith(R.id.btn_daftar) { registerService() }
             }
             btnDaftar.bindLifecycle(viewLifecycleOwner)
-        }
-    }
-
-    private fun observeWhenSuccessLogin() {
-        authViewModel.loginRequest.observe(viewLifecycleOwner) { event ->
-            when(event) {
-                is ApiEvent.OnProgress -> {}
-                is ApiEvent.OnSuccess -> {
-                    hideProgress(true)
-                    navigateToHomeActivity(true)
-                }
-                is ApiEvent.OnFailed -> {
-                    hideProgress(true)
-                    Snackbar.make(requireContext(), requireView(), "Gagal menuju halaman Choose, mohon masuk ke halaman login", Snackbar.LENGTH_SHORT).show()
-                }
-            }
         }
     }
 
