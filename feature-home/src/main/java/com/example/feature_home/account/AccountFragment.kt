@@ -1,6 +1,5 @@
 package com.example.feature_home.account
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,8 +29,6 @@ import com.example.core_util.PreferenceManager
 import com.example.feature_home.R
 import com.example.feature_home.account.LogoutDialogFragment.Companion.TRUE
 import com.example.feature_home.databinding.FragmentAccountBinding
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -57,7 +54,7 @@ class AccountFragment : Fragment(), ModuleNavigator{
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         return binding.root
@@ -85,26 +82,23 @@ class AccountFragment : Fragment(), ModuleNavigator{
         ) { _, bundle ->
             val result = bundle.getString(LogoutDialogFragment.KEY_BUNDLE_SUBMIT)
             if (result == TRUE) {
-                if (result == "true") {
-                    val database = FirebaseFirestore.getInstance()
-                    val documentReference =
-                        database.collection(Constants.KEY_COLLECTION_USERS).document(
-                            preferenceManager.getString(Constants.KEY_SENDER_ID).toString()
-                        )
-                    val updates = HashMap<String, Any>()
-                    updates[Constants.KEY_FCM_TOKEN] = FieldValue.delete()
-                    documentReference.update(updates)
-                        .addOnSuccessListener { unused: Void? ->
-                            preferenceManager.clear()
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                cookieHandler.removeAll()
-                                getKoin().clearAppData()
-                                navigateToAuthActivity(finnishCurrent = true)
-                            }
+                val database = FirebaseFirestore.getInstance()
+                val documentReference =
+                    database.collection(Constants.KEY_COLLECTION_USERS).document(
+                        preferenceManager.getString(Constants.KEY_SENDER_ID).toString()
+                    )
+                val updates = HashMap<String, Any>()
+                updates[Constants.KEY_FCM_TOKEN] = FieldValue.delete()
+                documentReference.update(updates)
+                    .addOnSuccessListener { unused: Void? ->
+                        preferenceManager.clear()
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            cookieHandler.removeAll()
+                            getKoin().clearAppData()
+                            navigateToAuthActivity(finnishCurrent = true)
                         }
-                        .addOnFailureListener { e: Exception? -> Timber.d("gagal logout : ${e?.message}") }
-
-                }
+                    }
+                    .addOnFailureListener { e: Exception? -> Timber.d("gagal logout : ${e?.message}") }
             }
         }
 
