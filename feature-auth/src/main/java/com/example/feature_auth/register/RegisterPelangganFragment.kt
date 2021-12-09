@@ -12,21 +12,17 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
-import com.example.core_util.*
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_util.bindLifecycle
-import com.example.core_util.dismissKeyboard
-import com.example.core_util.hideProgress
-import com.example.core_util.showProgress
+import com.example.core_util.*
 import com.example.feature_auth.AuthViewModel
 import com.example.feature_auth.R
 import com.example.feature_auth.databinding.FragmentRegisterPelangganBinding
@@ -36,13 +32,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 
 class RegisterPelangganFragment : Fragment(), ModuleNavigator {
 
@@ -132,7 +123,7 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
                     hideProgress(true)
                     Snackbar.make(requireActivity(), requireView(), "Pendaftaran berhasil, silahkan login untuk masuk ke menu selanjutnya!", Snackbar.LENGTH_SHORT).show()
                     Handler(Looper.getMainLooper()).postDelayed({
-                        findNavController().navigate(R.id.action_registerPelangganFragment_to_loginFragment)
+                        findNavController().navigateUp()
                     }, 1000)
                 }
                 is ApiEvent.OnFailed -> {

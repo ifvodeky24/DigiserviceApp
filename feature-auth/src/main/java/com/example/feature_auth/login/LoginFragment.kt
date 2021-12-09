@@ -94,10 +94,13 @@ class LoginFragment : Fragment(), ModuleNavigator {
                                     Constants.KEY_SENDER_ID,
                                     documentSnapshot.id
                                 )
-                                preferenceManager.putString(
-                                    Constants.ID,
-                                    login.getData()!!.id.toString()
-                                )
+                                login.getData()?.let {
+                                    preferenceManager.putString(
+                                        Constants.ID,
+                                        it.id.toString()
+                                    )
+                                }
+
                                 Timber.d("ada loh datanya ${documentSnapshot.id}")
 
                                 Timber.d("sukses ${login.getData()}")
@@ -110,10 +113,21 @@ class LoginFragment : Fragment(), ModuleNavigator {
                                         Timber.d("belum ada loh datanya ${documentReference.id}")
 
                                         Timber.d("sukses ${login.getData()}")
+
+                                        preferenceManager.putString(
+                                            Constants.KEY_SENDER_ID,
+                                            documentReference.id
+                                        )
+                                        login.getData()?.let {
+                                            preferenceManager.putString(
+                                                Constants.ID,
+                                                it.id.toString()
+                                            )
+                                        }
                                         navigateToHomeActivity(finnishCurrent = true)
                                     }
                                     .addOnFailureListener { exception: Exception ->
-                                        Timber.d("gagal dan belum ada loh datanya $exception")
+                                        Timber.d("gagal dan belum ada loh datanya ${exception.stackTrace}")
                                     }
                             }
                         }
