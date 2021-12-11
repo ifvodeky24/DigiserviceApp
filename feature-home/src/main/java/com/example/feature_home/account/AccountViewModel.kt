@@ -48,6 +48,9 @@ class AccountViewModel(
     private val isPhotoPelangganUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val photoPelangganUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoPelangganUpdate
 
+    private val isSertifikatTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val sertifikatTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isSertifikatTeknisiUpdate
+
     private val optionJenisHpForPost =HashMap<Int, JenisHp>()
 
     private val optionJenisKerusakanForPost =HashMap<Int, Skils>()
@@ -204,7 +207,20 @@ class AccountViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updateSertifikatTeknisi(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updateSertifikatTeknisi(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isSertifikatTeknisiUpdate.value = it }
+        }
+    }
+
     fun updateAuthPhotoLocally(authId: Int, foto: String) = viewModelScope.launch {
         authRepository.updateAuthPhotoLocally(authId, foto)
+    }
+
+    fun updateAuthSertifikatLocally(authId: Int, sertifikat: String) = viewModelScope.launch {
+        authRepository.updateAuthSertifikatLocally(authId, sertifikat)
     }
 }

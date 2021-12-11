@@ -21,6 +21,7 @@ import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
 import com.example.core_data.persistence.dao.TechnicianDao
+import com.example.core_data.persistence.entity.auth.AuthEntity
 import com.example.core_data.persistence.entity.auth.toDomain
 import com.example.core_data.persistence.entity.auth.toEntity
 import com.example.core_data.persistence.entity.technician.toDomain
@@ -28,10 +29,7 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -496,8 +494,66 @@ class AuthRepository internal constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updateSertifikatTeknisi(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdateSertifikatTeknisi
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updateSertifikatTeknisi(
+                    teknisiId = id,
+                    foto = MultipartBody.Part.createFormData(
+                        "teknisi_sertifikat",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
+
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
 
     suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
         dao.updateFoto(authId, foto)
+    }
+
+    suspend fun updateAuthSertifikatLocally(authId: Int, sertifikat: String) {
+        dao.updateSertifikat(authId, sertifikat)
     }
 }

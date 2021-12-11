@@ -13,6 +13,7 @@ data class Auth(
     val namaToko: String = "",
     val alamat: String = "",
     val foto: String = "",
+    val teknisiSertifikat: String = "",
     val lat: String = "",
     val lng: String = "",
     val deskripsi: String = "",

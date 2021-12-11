@@ -96,6 +96,12 @@ internal interface AuthService {
         @Part foto: MultipartBody.Part,
     ) : CommonResponse
 
+    @Multipart
+    @POST(UpdateSertifikatTeknisi)
+    suspend fun updateSertifikatTeknisi(
+        @Path("teknisi_id") teknisiId: Int,
+        @Part foto: MultipartBody.Part,
+    ) : CommonResponse
 
     companion object {
         const val Login = "login"
@@ -111,5 +117,6 @@ internal interface AuthService {
         const val JenisKerusakanHp = "get-jenis-kerusakan-hp"
         const val UpdatePhotoTeknisi = "update-teknisi-foto/{teknisi_id}"
         const val UpdatePhotoPelanggan = "update-pelanggan-foto/{pelanggan_id}"
+        const val UpdateSertifikatTeknisi = "update-teknisi-sertifikat/{teknisi_id}"
     }
 }

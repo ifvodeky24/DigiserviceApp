@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,7 +24,7 @@ import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.afollestad.vvalidator.form
-import com.example.core_data.APP_PELANGGAN_IMAGES_URL
+import com.example.core_data.APP_SERTIFIKAT_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.request.TeknisiRequest
@@ -33,6 +32,7 @@ import com.example.core_data.api.request.UserRequest
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
 import com.example.core_data.domain.Skils
+import com.example.core_data.domain.auth.Auth
 import com.example.core_resource.hideProgressDialog
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_resource.showProgressDialog
@@ -42,9 +42,6 @@ import com.example.feature_home.databinding.FragmentEditAccountTechnicianBinding
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 class EditAccountTechnicianFragment : Fragment() {
 
@@ -57,6 +54,7 @@ class EditAccountTechnicianFragment : Fragment() {
     private var userId: Int? = null
     private var authName: String? = null
     private var imagePath: String? = null
+    private var sertifikatPath: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -92,6 +90,7 @@ class EditAccountTechnicianFragment : Fragment() {
         observer()
         setInput()
         observePhotoTeknisi()
+        observeSertifikatTeknisi()
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -100,14 +99,28 @@ class EditAccountTechnicianFragment : Fragment() {
 
             btnChangePhoto.setOnClickListener {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    navigateToGallery()
+                    navigateToGallery(GalleryInputType.Profile)
                 }
                 else {
                     if (isCameraPermissionGranted()){
-                        navigateToGallery()
+                        navigateToGallery(GalleryInputType.Profile)
                     }
                     else{
-                        requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        requestPermissionProfile.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            btnTeknisiSertifikat.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Sertifikat)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Sertifikat)
+                    }
+                    else{
+                        requestPermissionSertifikat.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }
                 }
             }
@@ -139,9 +152,19 @@ class EditAccountTechnicianFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+    private val requestPermissionProfile = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
         if (permission){
-            navigateToGallery()
+            navigateToGallery(GalleryInputType.Profile)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionSertifikat = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Sertifikat)
         }
         else{
             Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
@@ -155,16 +178,20 @@ class EditAccountTechnicianFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun navigateToGallery() {
+    private fun navigateToGallery(galleryType: GalleryInputType) {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
             putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
         }
-        resultPick.launch(intent)
+        if (galleryType.type == GalleryInputType.Profile.type) {
+            resultPickProfile.launch(intent)
+        } else {
+            resultPickSertifikat.launch(intent)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private val resultPick = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+    private val resultPickProfile = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         val imageUri: Uri? = result.data?.data
         val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
         binding.imageProfile.load(imageUri){
@@ -178,9 +205,28 @@ class EditAccountTechnicianFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickSertifikat = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        val imageUri: Uri? = result.data?.data
+        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
+        binding.btnTeknisiSertifikat.load(imageUri){
+            crossfade(true)
+        }
+
+        if(imageUri != null && result.data != null){
+            sertifikatPath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updateSertifikatTeknisi(teknisiId!!, sertifikatPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
     private fun updatePhotoAuthLocally(filePath: String) {
         val newFoto = "${authName}_$filePath"
         accountViewModel.updateAuthPhotoLocally(userId as Int, newFoto)
+    }
+
+    private fun updateSertifikatAuthLocally(filePath: String) {
+        val newFoto = "${authName}_$filePath"
+        accountViewModel.updateAuthSertifikatLocally(userId as Int, newFoto)
     }
 
     private fun updateEdit() {
@@ -228,6 +274,12 @@ class EditAccountTechnicianFragment : Fragment() {
                             transformations(CircleCropTransformation())
                         }
                     }
+                    if (auth.teknisiSertifikat.isNotEmpty()) {
+                        btnTeknisiSertifikat.load(APP_SERTIFIKAT_IMAGES_URL + auth.teknisiSertifikat) {
+                            crossfade(true)
+                        }
+                    }
+
                     edtInputName.text = auth.name.toEditable()
                     edtInputEmail.text = auth.email.toEditable()
                     edtInputHp.text = auth.hp.toEditable()
@@ -266,16 +318,36 @@ class EditAccountTechnicianFragment : Fragment() {
                 }
                 is ApiEvent.OnSuccess -> {
                     binding.btnChangePhoto.isEnabled = true
-                    Snackbar.make(requireContext(), requireView(), "Foto berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
-                    updatePhotoAuthLocally(imagePath!!)
+                    Snackbar.make(requireContext(), requireView(), "Foto profile berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updatePhotoAuthLocally(imagePath.toString())
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnChangePhoto.isEnabled = true
-                    Snackbar.make(requireContext(), requireView(), "Foto gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(requireContext(), requireView(), "Foto profile gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
     }
+
+    private fun observeSertifikatTeknisi() {
+        accountViewModel.sertifikatTeknisiUpdate.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {
+                    binding.btnTeknisiSertifikat.isEnabled = false
+                }
+                is ApiEvent.OnSuccess -> {
+                    binding.btnTeknisiSertifikat.isEnabled = true
+                    Snackbar.make(requireContext(), requireView(), "Sertifikat berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updateSertifikatAuthLocally(sertifikatPath.toString())
+                }
+                is ApiEvent.OnFailed -> {
+                    binding.btnTeknisiSertifikat.isEnabled = true
+                    Snackbar.make(requireContext(), requireView(), "Sertifikat gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {
         accountViewModel jenisKerusakan listSkils.skils
@@ -335,6 +407,11 @@ class EditAccountTechnicianFragment : Fragment() {
 internal enum class TypeInput(val inputType: String){
     ITEM_INPUT_TYPE_JENIS_HP("JENIS_HP"),
     ITEM_INPUT_TYPE_JENIS_KERUSAKAN("JENIS_KERUSAKAN"),
+}
+
+internal enum class GalleryInputType(val type: String) {
+    Profile("PROFILE"),
+    Sertifikat("SERTIFIKAT")
 }
 
 fun Fragment.replaceFragmentEditAccountTechnician(resId: Int){
