@@ -194,9 +194,11 @@ class EditAccountTechnicianFragment : Fragment() {
     private val resultPickProfile = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         val imageUri: Uri? = result.data?.data
         val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
-        binding.imageProfile.load(imageUri){
-            crossfade(true)
-            transformations(CircleCropTransformation())
+        if (imageUri != null) {
+            binding.imageProfile.load(imageUri){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
         }
 
         if(imageUri != null && result.data != null){
@@ -209,8 +211,10 @@ class EditAccountTechnicianFragment : Fragment() {
     private val resultPickSertifikat = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         val imageUri: Uri? = result.data?.data
         val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
-        binding.btnTeknisiSertifikat.load(imageUri){
-            crossfade(true)
+        if (imageUri != null) {
+            binding.btnTeknisiSertifikat.load(imageUri){
+                crossfade(true)
+            }
         }
 
         if(imageUri != null && result.data != null){
@@ -315,14 +319,17 @@ class EditAccountTechnicianFragment : Fragment() {
             when(event) {
                 is ApiEvent.OnProgress -> {
                     binding.btnChangePhoto.isEnabled = false
+                    showProgressDialog()
                 }
                 is ApiEvent.OnSuccess -> {
                     binding.btnChangePhoto.isEnabled = true
+                    hideProgressDialog()
                     Snackbar.make(requireContext(), requireView(), "Foto profile berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
                     updatePhotoAuthLocally(imagePath.toString())
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnChangePhoto.isEnabled = true
+                    hideProgressDialog()
                     Snackbar.make(requireContext(), requireView(), "Foto profile gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -334,14 +341,17 @@ class EditAccountTechnicianFragment : Fragment() {
             when(event) {
                 is ApiEvent.OnProgress -> {
                     binding.btnTeknisiSertifikat.isEnabled = false
+                    showProgressDialog()
                 }
                 is ApiEvent.OnSuccess -> {
                     binding.btnTeknisiSertifikat.isEnabled = true
+                    hideProgressDialog()
                     Snackbar.make(requireContext(), requireView(), "Sertifikat berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
                     updateSertifikatAuthLocally(sertifikatPath.toString())
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnTeknisiSertifikat.isEnabled = true
+                    hideProgressDialog()
                     Snackbar.make(requireContext(), requireView(), "Sertifikat gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
             }
