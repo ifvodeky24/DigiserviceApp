@@ -1,20 +1,20 @@
 package com.example.feature_chat
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_chat.databinding.FragmentChatBinding
 import com.example.feature_chat.models.ChatMessage
-import com.google.firebase.firestore.DocumentChange
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,17 +22,20 @@ import java.util.*
 class ChatFragment : Fragment() {
 
     private var _binding: FragmentChatBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     private var receiverId = ""
     private var senderId = ""
     private var receiverPhoto = ""
     private var receiverName = ""
+    private var conversionId: String? = null
 
-    private lateinit var preferenceManager : PreferenceManager
+    private lateinit var preferenceManager: PreferenceManager
     private lateinit var chatMessages: ArrayList<ChatMessage>
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var database: FirebaseFirestore
+
+    private val status by lazy { (activity as ChatActivity).status }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class ChatFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentChatBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,32 +61,71 @@ class ChatFragment : Fragment() {
             chatMessages,
             senderId
         )
-        binding.chatRecyclerView.adapter = chatAdapter
+        binding?.chatRecyclerView?.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
 
         Timber.d("cek receiverId $receiverId")
         Timber.d("cek senderId $senderId")
         Timber.d("cek receiverPhoto $receiverPhoto")
 
-        binding.textName.text = receiverName
+        binding?.textName?.text = receiverName
 
         setListeners()
         listenMessages()
+
+        if (status == "2") {
+            binding?.imageBack?.setOnClickListener {
+                activity?.finish()
+                _binding = null
+            }
+
+            requireActivity().onBackPressedDispatcher.addCallback(
+                requireActivity(),
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        activity?.finish()
+                        _binding = null
+                    }
+                }
+            )
+        }
     }
 
     private fun setListeners() {
-        binding.imageBack.setOnClickListener { view -> findNavController().navigateUp() }
-        binding.layoutSend.setOnClickListener { view -> sendMessage() }
+        binding?.imageBack?.setOnClickListener { view -> findNavController().navigateUp() }
+        binding?.layoutSend?.setOnClickListener { view -> sendMessage() }
     }
 
     private fun sendMessage() {
         val message = HashMap<String, Any?>()
         message[Constants.KEY_SENDER_ID] = senderId
         message[Constants.KEY_RECEIVER_ID] = receiverId
-        message[Constants.KEY_MESSAGE] = binding.inputMessage.text.toString()
+        message[Constants.KEY_MESSAGE] = binding?.inputMessage?.text.toString()
         message[Constants.KEY_TIMESTAMP] = Date()
+
+        if (conversionId != null) {
+            updateConversion(binding?.inputMessage?.text.toString())
+        } else {
+            val conversion = HashMap<String, Any>()
+            conversion.put(Constants.KEY_SENDER_ID, senderId)
+            conversion.put(
+                Constants.KEY_SENDER_NAME,
+                preferenceManager.getString(Constants.KEY_NAME).toString()
+            )
+            conversion.put(
+                Constants.KEY_SENDER_IMAGE,
+                preferenceManager.getString(Constants.KEY_IMAGE).toString()
+            )
+            conversion.put(Constants.KEY_RECEIVER_ID, receiverId)
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverName)
+            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverPhoto)
+            conversion.put(Constants.KEY_LAST_MESSAGE, binding?.inputMessage?.text.toString())
+            conversion.put(Constants.KEY_TIMESTAMP, Date())
+            conversion.put(Constants.KEY_TIMESTAMP, Date())
+            addConversion(conversion)
+        }
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
-        binding.inputMessage.text = null
+        binding?.inputMessage?.text = null
     }
 
     private fun listenMessages() {
@@ -133,16 +175,70 @@ class ChatFragment : Fragment() {
                     chatAdapter.notifyDataSetChanged()
                 } else {
                     chatAdapter.notifyItemRangeInserted(chatMessages.size, chatMessages.size)
-                    binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size - 1)
+                    binding?.chatRecyclerView?.smoothScrollToPosition(chatMessages.size - 1)
                 }
-                binding.chatRecyclerView.visibility = View.VISIBLE
+                binding?.chatRecyclerView?.visibility = View.VISIBLE
             }
-            binding.progressBar.visibility = View.GONE
+            binding?.progressBar?.visibility = View.GONE
+
+            if (conversionId == null) {
+                checkForConversion()
+            }
         }
 
     private fun getReadableDateTime(date: Date): String {
         return SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date)
     }
+
+    private fun addConversion(conversion: HashMap<String, Any>) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+            .add(conversion)
+            .addOnSuccessListener { documentReference: DocumentReference ->
+                conversionId = documentReference.id
+            }
+    }
+
+    private fun updateConversion(message: String) {
+        val documentReference = database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+            .document(conversionId.toString())
+        documentReference.update(
+            Constants.KEY_LAST_MESSAGE, message,
+            Constants.KEY_TIMESTAMP, Date()
+        )
+    }
+
+    private fun checkForConversion() {
+        if (chatMessages.size != 0) {
+            checkForConversionRemotely(
+                senderId,
+                receiverId
+            )
+            checkForConversionRemotely(
+                receiverId,
+                senderId
+            )
+        }
+    }
+
+    private fun checkForConversionRemotely(senderId: String, receiverId: String) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+            .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+            .get()
+            .addOnCompleteListener(conversionOnCompleteListener)
+    }
+
+    private val conversionOnCompleteListener =
+        OnCompleteListener { task: Task<QuerySnapshot?> ->
+            if (task.isSuccessful && task.result != null && task.result!!
+                    .documents.size > 0
+            ) {
+                val documentSnapshot = task.result!!.documents[0]
+
+                conversionId = documentSnapshot.id
+                Timber.d("buuusdsdsdsd $conversionId")
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

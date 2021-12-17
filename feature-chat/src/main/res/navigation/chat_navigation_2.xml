@@ -2,15 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chat_navigation"
-    app:startDestination="@id/chatListFragment">
-
-    <fragment
-        android:id="@+id/chatListFragment"
-        android:name="com.example.feature_chat.ChatListFragment"
-        android:label="fragment_chat_list"
-        tools:layout="@layout/fragment_chat_list" >
-    </fragment>
+    app:startDestination="@id/chatFragment"
+    android:id="@+id/chat_navigation_2">
 
     <fragment
         android:id="@+id/chatFragment"

@@ -66,16 +66,37 @@ interface ModuleNavigator {
             }.let { startActivity(it, finnishCurrent) }
     }
 
-    fun <T> T.navigateToChatActivity(
-        finnishCurrent: Boolean = false
-    ) where T : Fragment, T : ModuleNavigator {
-        startActivity(ActivityClassPath.Chat, finnishCurrent)
+    interface ChatNav : ModuleNavigator {
+
+        companion object {
+            const val STATUS = "status"
+        }
+
+        @MainThread
+        fun <T> T.statusParam(): Lazy<String> where T : AppCompatActivity, T : ChatNav =
+            lazy(LazyThreadSafetyMode.NONE) {
+                intent.getStringExtra(STATUS).orEmpty()
+            }
     }
 
     fun <T> T.navigateToChatActivity(
-        finnishCurrent: Boolean = false
+        finnishCurrent: Boolean = false,
+        status: String = "1"
+    ) where T : Fragment, T : ModuleNavigator {
+        ActivityClassPath.Chat.getIntent(requireContext())
+            .apply {
+                putExtra(ChatNav.STATUS, status)
+            }.let { startActivity(it, finnishCurrent) }
+    }
+
+    fun <T> T.navigateToChatActivity(
+        finnishCurrent: Boolean = false,
+        status: String = "1"
     ) where T : AppCompatActivity, T : ModuleNavigator {
-        startActivity(ActivityClassPath.Chat, finnishCurrent)
+        ActivityClassPath.Chat.getIntent(this)
+            .apply {
+                putExtra(ChatNav.STATUS, status)
+            }.let { startActivity(it, finnishCurrent) }
     }
 }
 

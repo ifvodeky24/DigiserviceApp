@@ -32,6 +32,7 @@ import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
+import com.example.feature_home.store.ProductFragmentDirections
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
@@ -62,6 +63,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -81,12 +83,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
         observeNearbyTechnician()
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.search -> {
-                    true
-                }
-                else -> false
+            if (menuItem.itemId == R.id.chat) {
+                navigateToChatActivity()
             }
+            true
         }
     }
 

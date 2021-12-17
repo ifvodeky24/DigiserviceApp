@@ -79,6 +79,15 @@ class LoginFragment : Fragment(), ModuleNavigator {
                 is ApiEvent.OnSuccess -> {
                     hideProgress(true)
 
+                    preferenceManager.putString(
+                        Constants.KEY_NAME,
+                        login.getData()?.name
+                    )
+                    preferenceManager.putString(
+                        Constants.KEY_IMAGE,
+                        login.getData()?.foto
+                    )
+
                     val database = FirebaseFirestore.getInstance()
                     database.collection(Constants.KEY_COLLECTION_USERS)
                         .whereEqualTo("id", login.getData()!!.id)
