@@ -163,7 +163,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                         preferenceManager.putString(KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
                         preferenceManager.putString(KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
 
-                        navigateToChatActivity()
+                        navigateToChatActivity(finnishCurrent = true, status = "2")
                     } else {
                         Timber.d("gagal")
                         Toast.makeText(requireContext(), "Pengguna ini tidak dapat melakukan chat", Toast.LENGTH_SHORT).show()
