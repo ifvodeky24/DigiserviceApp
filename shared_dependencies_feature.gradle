@@ -27,6 +27,7 @@ dependencies {
 
     implementation deps.glide
     annotationProcessor deps.glide
+    implementation deps.lottie
 
     implementation deps.lifecycle
 

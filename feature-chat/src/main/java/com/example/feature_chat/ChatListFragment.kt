@@ -1,15 +1,11 @@
 package com.example.feature_chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_chat.databinding.FragmentChatListBinding
@@ -132,6 +128,14 @@ class ChatListFragment : Fragment() , RecentChatListener{
 
                 conversationsAdapter.notifyDataSetChanged()
                 binding?.conversationRecylerView?.smoothScrollToPosition(0)
+
+                if (conversations.isEmpty()){
+                    binding?.conversationRecylerView?.visibility = View.GONE
+                    binding?.ivEmpty?.visibility = View.VISIBLE
+                } else {
+                    binding?.conversationRecylerView?.visibility = View.VISIBLE
+                    binding?.ivEmpty?.visibility = View.GONE
+                }
             }
         }
 

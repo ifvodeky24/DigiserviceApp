@@ -318,7 +318,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
                 is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
                     Timber.d(" vuvvvuu ${technicianGetAll.getData()}")
                     onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
-
                 }
                 is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
                     Timber.d(" booom ${technicianGetAll.getException()}")
