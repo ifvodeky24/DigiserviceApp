@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -24,6 +25,7 @@ import com.example.core_util.PreferenceManager
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentServiceDetailBinding
+import com.example.feature_home.store.ProductViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -38,6 +40,7 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator{
     private val args: ServiceDetailFragmentArgs by navArgs()
 
     private val accountViewModel: AccountViewModel by viewModel()
+    private val productViewModel: ProductViewModel by viewModel()
 
     private lateinit var preferenceManager : PreferenceManager
 
@@ -104,13 +107,11 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator{
             binding.tvStoreDesc.text = this?.teknisiDeskripsi
             accountViewModel.setCurrentSkill(this?.teknisiId ?: 0)
 
-
-
-
             binding.chatButton.setOnClickListener {
+                Timber.d("sdsds ${this?.teknisiId}")
                 val database = FirebaseFirestore.getInstance()
                 database.collection(Constants.KEY_COLLECTION_USERS)
-                    .whereEqualTo("id", this?.teknisiId)
+                    .whereEqualTo("teknisiId", this?.teknisiId)
                     .get()
                     .addOnCompleteListener { task: Task<QuerySnapshot?> ->
                         if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {

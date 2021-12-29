@@ -55,6 +55,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     private val permissionId = 42
 
+    private var teknisiId = 0
+    private var level = ""
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
@@ -78,6 +80,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
         homeViewModel.technicianGetAll()
         productViewModel.productGetAll()
 
+        observeAuth()
         observeProductGetAll()
         observeTechnicianGetAll()
         observeNearbyTechnician()
@@ -91,9 +94,16 @@ class HomeFragment : Fragment(), ModuleNavigator {
     }
 
 
-    private fun checkPermissions(): Boolean{
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             return true
         }
         return false
@@ -102,13 +112,17 @@ class HomeFragment : Fragment(), ModuleNavigator {
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
             requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
             permissionId
         )
     }
 
     private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
@@ -117,7 +131,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray) {
+        grantResults: IntArray
+    ) {
         if (requestCode == permissionId) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 getLastLocation()
@@ -150,9 +165,9 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
-        if (checkPermissions()){
-            if (isLocationEnabled()){
-                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()){ task ->
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
                     val location: Location? = task.result
                     location?.let {
                         homeViewModel.lat = "${it.latitude}"
@@ -162,16 +177,28 @@ class HomeFragment : Fragment(), ModuleNavigator {
                         requestNewLocationData()
                     }
                 }
-            }
-            else{
+            } else {
                 Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
                 Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
                     startActivity(this)
                 }
             }
-        }
-        else{
+        } else {
             requestPermissions()
+        }
+    }
+
+    private fun observeAuth() {
+        productViewModel.auth.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                if (data.isLogin) {
+                    Timber.d("teknisi Idd ${data.teknisiId}")
+                    data.let {
+                        level = it.level
+                        teknisiId = it.teknisiId
+                    }
+                }
+            }
         }
     }
 
@@ -238,9 +265,12 @@ class HomeFragment : Fragment(), ModuleNavigator {
     }
 
     private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
-        if (data.isNotEmpty()) {
+        Timber.d("teknisi Idd sdsd${data.map { it.teknisiId }} dan ${teknisiId}")
+        val filter =
+            if (level == "teknisi") data.filter { it.teknisiId.toString() != teknisiId.toString() } else data
+        if (filter.isNotEmpty()) {
             binding.rvTerdekat.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat) {
                     onBind(::ItemNearbyViewHolder) { _, item ->
                         tvTeknisiName.text = item.teknisiNama
@@ -298,21 +328,25 @@ class HomeFragment : Fragment(), ModuleNavigator {
     }
 
     private fun onDataTechnicianGetAllLoaded(data: List<TechnicianGetAll>) {
-        if (data.isNotEmpty()) {
+        Timber.d("level $level")
+        val filter =
+            if (level == "teknisi") data.filter { it.teknisiId.toString() != teknisiId.toString() } else data
+        if (filter.isNotEmpty()) {
             binding.rvTerpopuler.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<TechnicianGetAll, ItemPopulerViewHolder>(R.layout.item_teknisi_terpopuler) {
                     onBind(::ItemPopulerViewHolder) { _, item ->
                         tvTeknisiName.text = item.teknisiNama
                         tvRating.text = String.format(
-                            "%.1f",(item.teknisiTotalScore/item.teknisiTotalResponden)
+                            "%.1f", (item.teknisiTotalScore / item.teknisiTotalResponden)
                         )
 
-                        ratingBar.rating = (item.teknisiTotalScore/item.teknisiTotalResponden).toFloat()
+                        ratingBar.rating =
+                            (item.teknisiTotalScore / item.teknisiTotalResponden).toFloat()
 
                         Glide
                             .with(requireActivity())
-                            .load(APP_TEKNISI_IMAGES_URL+item.teknisiFoto)
+                            .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
                             .centerCrop()
                             .into(ivTeknisi)
                     }
@@ -340,9 +374,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
         val documentPath = preferenceManager.getString(Constants.KEY_SENDER_ID)
 //        if (documentPath != null) {
 //        }
-        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(documentPath.toString())
+        val documentReference =
+            database.collection(Constants.KEY_COLLECTION_USERS).document(documentPath.toString())
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-            .addOnSuccessListener { unused: Void? ->Timber.d("Token updated successfuly") }
+            .addOnSuccessListener { unused: Void? -> Timber.d("Token updated successfuly") }
             .addOnFailureListener { e: Exception? -> Timber.d("Unable update token : ${e?.message}") }
     }
 
