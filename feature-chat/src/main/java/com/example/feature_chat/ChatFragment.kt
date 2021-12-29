@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_chat.databinding.FragmentChatBinding
@@ -19,7 +20,7 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(), ModuleNavigator {
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding
@@ -75,16 +76,14 @@ class ChatFragment : Fragment() {
 
         if (status == "2") {
             binding?.imageBack?.setOnClickListener {
-                activity?.finish()
-                _binding = null
+                navigateToHomeActivity(true)
             }
 
             requireActivity().onBackPressedDispatcher.addCallback(
                 requireActivity(),
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        activity?.finish()
-                        _binding = null
+                        navigateToHomeActivity(true)
                     }
                 }
             )

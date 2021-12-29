@@ -3,14 +3,12 @@ package com.example.feature_home.store
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.bumptech.glide.load.model.FileLoader
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.domain.ListJenisHp
+import com.example.core_data.domain.auth.Auth
 import com.example.core_data.domain.store.ListProductBuyHistoryGetAll
 import com.example.core_data.domain.store.ListProductGetAll
 import com.example.core_data.domain.store.ProductDetail
@@ -25,6 +23,10 @@ class ProductViewModel(
     private val storeRepository: StoreRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    val auth = liveData<Auth?> {
+        emit(authRepository.getAuth())
+    }
 
     var firstImagePath = Constants.EMPTY_STRING
 
