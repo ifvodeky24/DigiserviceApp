@@ -2,7 +2,7 @@ ext.versions = [
 
         code                 : 1,
         name                 : "1.0",
-        schemaDatabaseVersion: 1,
+        schemaDatabaseVersion: 2,
 
         compileSdkVersion    : 31,
         minSdkVersion        : 21,
