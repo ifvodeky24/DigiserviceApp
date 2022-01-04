@@ -25,16 +25,12 @@ import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
-import com.example.core_data.domain.technician.NearbyTechnician
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
-import com.example.feature_home.store.ProductFragmentDirections
 import com.example.feature_home.store.ProductViewModel
-import com.example.feature_home.viewHolder.ItemNearbyViewHolder
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import com.google.android.gms.location.*
@@ -83,13 +79,27 @@ class HomeFragment : Fragment(), ModuleNavigator {
         observeAuth()
         observeProductGetAll()
         observeTechnicianGetAll()
-        observeNearbyTechnician()
+        /*observeNearbyTechnician()*/
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.chat) {
+//        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+//            if (menuItem.itemId == R.id.chat) {
+//                navigateToChatActivity()
+//            }
+//            true
+//        }
+        
+        with(binding){
+            cvMarketplace.setOnClickListener {
+
+            }
+
+            cvChat.setOnClickListener {
                 navigateToChatActivity()
             }
-            true
+
+            cvService.setOnClickListener {
+
+            }
         }
     }
 
@@ -206,13 +216,16 @@ class HomeFragment : Fragment(), ModuleNavigator {
         productViewModel.productGetAllResponse.observe(viewLifecycleOwner) { productAll ->
             when (productAll) {
                 is ApiEvent.OnProgress -> {
+                    binding.shimmerHome.showShimmer(true)
                 }
                 is ApiEvent.OnSuccess -> productAll.getData().let {
                     onDataProductAllLoaded(productAll.getData()!!)
                     Timber.d(" uiuiuiui ${productAll.getData()}")
+                    binding.shimmerHome.hideShimmer()
                 }
                 is ApiEvent.OnFailed -> {
                     Timber.d(" booom ${productAll.getException()}")
+                    binding.shimmerHome.hideShimmer()
                 }
             }
         }
@@ -247,7 +260,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
         getToken()
     }
 
-    private fun observeNearbyTechnician() {
+    /*private fun observeNearbyTechnician() {
         homeViewModel.findNearbyTechnicianResponse.observe(
             viewLifecycleOwner,
             { findNearbyTechnician ->
@@ -262,9 +275,9 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     }
                 }
             })
-    }
+    }*/
 
-    private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
+    /*private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
         Timber.d("teknisi Idd sdsd${data.map { it.teknisiId }} dan ${teknisiId}")
         val filter =
             if (level == "teknisi") data.filter { it.teknisiId.toString() != teknisiId.toString() } else data
@@ -308,19 +321,22 @@ class HomeFragment : Fragment(), ModuleNavigator {
                 }
             }
         }
-    }
+    }*/
 
     private fun observeTechnicianGetAll() {
         homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
             when (technicianGetAll) {
                 is ApiEvent.OnProgress -> {
+                    binding.shimmerHome.showShimmer(true)
                 }
                 is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
                     Timber.d(" vuvvvuu ${technicianGetAll.getData()}")
                     onDataTechnicianGetAllLoaded(technicianGetAll.getData()!!)
+                    binding.shimmerHome.hideShimmer()
                 }
                 is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
                     Timber.d(" booom ${technicianGetAll.getException()}")
+                    binding.shimmerHome.hideShimmer()
                 }
             }
         })
