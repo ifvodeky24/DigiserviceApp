@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="140dp"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="@dimen/_140sdp"
     android:layout_margin="@dimen/medium"
     android:layout_weight="1"
     android:clickable="true"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:focusable="true">
@@ -29,9 +29,9 @@
             android:id="@+id/tv_teknisi_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:padding="@dimen/medium"
-            android:singleLine="true"
             tools:text="Curabitur tempus"
             android:textColor="@color/colorBattleshipGrey" />
 
