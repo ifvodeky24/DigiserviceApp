@@ -60,7 +60,8 @@ class ChatFragment : Fragment(), ModuleNavigator {
         chatAdapter = ChatAdapter(
             receiverPhoto,
             chatMessages,
-            senderId
+            senderId,
+            receiverName
         )
         binding?.chatRecyclerView?.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()

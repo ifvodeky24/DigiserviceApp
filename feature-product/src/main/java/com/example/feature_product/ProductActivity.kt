@@ -10,6 +10,7 @@ import com.example.feature_product.databinding.ActivityProductBinding
 class ProductActivity : AppCompatActivity(), ModuleNavigator.ProductNav{
 
     val jualId by jualIdParam()
+    val status by statusParam()
 
     private val binding by lazy {
         ActivityProductBinding.inflate(layoutInflater)
