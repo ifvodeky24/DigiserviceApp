@@ -37,6 +37,7 @@ interface ModuleNavigator {
 
         companion object {
             const val JUAL_ID = "jualId"
+            const val STATUS = "status"
         }
 
         @MainThread
@@ -44,25 +45,35 @@ interface ModuleNavigator {
             lazy(LazyThreadSafetyMode.NONE) {
                 intent.getStringExtra(JUAL_ID).orEmpty()
             }
+
+        @MainThread
+        fun <T> T.statusParam(): Lazy<String> where T : AppCompatActivity, T : ProductNav =
+            lazy(LazyThreadSafetyMode.NONE) {
+                intent.getStringExtra(STATUS).orEmpty()
+            }
     }
 
     fun <T> T.navigateToProductActivity(
         jualId: String,
+        status: String = "1",
         finnishCurrent: Boolean = false
     ) where T : Fragment, T : ModuleNavigator {
         ActivityClassPath.Product.getIntent(requireContext())
             .apply {
                 putExtra(ProductNav.JUAL_ID, jualId)
+                putExtra(ProductNav.STATUS, status)
             }.let { startActivity(it, finnishCurrent) }
     }
 
     fun <T> T.navigateToProductActivity(
         jualId: String,
+        status: String = "1",
         finnishCurrent: Boolean = false
     ) where T : AppCompatActivity, T : ModuleNavigator {
         ActivityClassPath.Product.getIntent(this)
             .apply {
                 putExtra(ProductNav.JUAL_ID, jualId)
+                putExtra(ChatNav.STATUS, status)
             }.let { startActivity(it, finnishCurrent) }
     }
 

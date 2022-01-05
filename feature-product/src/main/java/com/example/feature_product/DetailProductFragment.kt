@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
@@ -30,6 +33,7 @@ import timber.log.Timber
 
 class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener {
     private val jualId by lazy { (activity as ProductActivity).jualId }
+    private val status by lazy { (activity as ProductActivity).status }
 
     private var _binding: FragmentDetailProductBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +44,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
     private var byKurir: String = ""
 
-    private lateinit var preferenceManager : PreferenceManager
+    private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,32 +58,50 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val jualIds = arguments?.getString(MarketplaceFragment.JUAL_ID)
+
         preferenceManager = PreferenceManager(requireActivity())
 
-        setupDisplay()
-
+        setupDisplay(jualIds)
         setupInput()
-
         observeProductDetail()
-
         observeBuyProduct()
     }
 
-    private fun setupDisplay() {
-        productViewModel.productDetail(jualId.toInt())
+    private fun setupDisplay(jualIds: String?) {
+        if (status == "2") {
+            productViewModel.productDetail(jualId.toInt())
+        } else {
+            if (jualIds != null) {
+                productViewModel.productDetail(jualIds.toInt())
+            }
+        }
     }
 
     private fun setupInput() {
-        with(binding){
-            backImageView.setOnClickListener { activity?.finish() }
+        with(binding) {
             btnOrder.setOnClickListener(this@DetailProductFragment)
         }
 
+        if (status == "2") {
+            binding.backImageView.setOnClickListener {
+                navigateToHomeActivity(true)
+            }
+
+            requireActivity().onBackPressedDispatcher.addCallback(
+                requireActivity(),
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        navigateToHomeActivity(true)
+                    }
+                }
+            )
+        }
     }
 
     private fun observeBuyProduct() {
-        productViewModel.buyProductResponse.observe(viewLifecycleOwner){ event ->
-            when(event){
+        productViewModel.buyProductResponse.observe(viewLifecycleOwner) { event ->
+            when (event) {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> {
                     hideProgress(true)
@@ -119,7 +141,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
     private fun observeProductDetail() {
         productViewModel.productDetailResponse.observe(viewLifecycleOwner, { productDetail ->
-            when(productDetail){
+            when (productDetail) {
                 is ApiEvent.OnProgress -> {
                 }
                 is ApiEvent.OnSuccess -> productDetail.getData().let {
@@ -138,7 +160,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
         beliPembeli = data.jualUserId
 
-        with(binding){
+        with(binding) {
             tvProductStatus.text = data.jualStatus
             tvName.text = data.jualJudul
             tvDate.text = data.jualTglPenjualan
@@ -146,7 +168,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
             tvTypeName.text = data.jenisNama
             tvDescription.text = data.jualDeskripsi
             Glide.with(requireActivity())
-                .load(APP_PRODUCT_IMAGES_URL+data.fotoProduk)
+                .load(APP_PRODUCT_IMAGES_URL + data.fotoProduk)
                 .fitCenter()
                 .into(ivProduct)
         }
@@ -160,13 +182,23 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                     if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
                         val documentSnapshot = task.result!!.documents[0]
                         preferenceManager.putString(KEY_RECEIVER_ID, documentSnapshot.id)
-                        preferenceManager.putString(KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
-                        preferenceManager.putString(KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
+                        preferenceManager.putString(
+                            KEY_RECEIVER_NAME,
+                            documentSnapshot.getString("name")
+                        )
+                        preferenceManager.putString(
+                            KEY_RECEIVER_PHOTO,
+                            documentSnapshot.getString("foto")
+                        )
 
                         navigateToChatActivity(finnishCurrent = true, status = "2")
                     } else {
                         Timber.d("gagal")
-                        Toast.makeText(requireContext(), "Pengguna ini tidak dapat melakukan chat", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Pengguna ini tidak dapat melakukan chat",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }
@@ -178,7 +210,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
+        when (view?.id) {
             R.id.btn_order -> {
                 buyProduct()
             }

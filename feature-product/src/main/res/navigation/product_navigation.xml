@@ -3,11 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/product_navigation"
-    app:startDestination="@id/detailProductFragment">
+    app:startDestination="@id/marketplaceFragment">
 
     <fragment
         android:id="@+id/detailProductFragment"
         android:name="com.example.feature_product.DetailProductFragment"
         android:label="fragment_detail_product"
         tools:layout="@layout/fragment_detail_product" />
+
+    <fragment
+        android:id="@+id/marketplaceFragment"
+        android:name="com.example.feature_product.MarketplaceFragment"
+        android:label="MarketplaceFragment" >
+        <action
+            android:id="@+id/action_marketplaceFragment_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+        <argument
+            android:name="jualId"
+            app:argType="string" />
+    </fragment>
 </navigation>

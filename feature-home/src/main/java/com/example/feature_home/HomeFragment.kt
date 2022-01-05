@@ -87,10 +87,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
 //            }
 //            true
 //        }
-        
-        with(binding){
-            cvMarketplace.setOnClickListener {
 
+        with(binding) {
+            cvMarketplace.setOnClickListener {
+                navigateToProductActivity("")
             }
 
             cvChat.setOnClickListener {
@@ -98,7 +98,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
             }
 
             cvService.setOnClickListener {
-
+                findNavController().navigate(R.id.serviceFragment)
             }
         }
     }
@@ -251,7 +251,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     }
 
                     onClick {
-                        navigateToProductActivity(item.jualId.toString())
+                        navigateToProductActivity(item.jualId.toString(), "2")
                     }
                 }
             }
@@ -358,6 +358,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
                         ratingBar.rating =
                             (item.teknisiTotalScore / item.teknisiTotalResponden).toFloat()
+
+                        Timber.d("sdsssssss ${item.teknisiFoto}")
 
                         Glide
                             .with(requireActivity())
