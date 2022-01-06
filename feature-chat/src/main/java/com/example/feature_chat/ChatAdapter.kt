@@ -76,7 +76,6 @@ class ChatAdapter(
             binding.textMessage.text = chatMessage.message
             binding.textDateTime.text = chatMessage.dateTime
         }
-
     }
 
     internal class ReceivedMessageViewHolder(itemContainerReceivedMessageBinding: ItemContainerReceivedMessageBinding) :
@@ -87,7 +86,6 @@ class ChatAdapter(
         fun setData(chatMessage: ChatMessage, receiverPhoto: String, receiverName: String) {
             binding.textMessage.text = chatMessage.message
             binding.textDateTime.text = chatMessage.dateTime
-
 
             val database = FirebaseFirestore.getInstance()
             database.collection(Constants.KEY_COLLECTION_USERS)

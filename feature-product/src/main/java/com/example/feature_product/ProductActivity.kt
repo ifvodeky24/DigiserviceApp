@@ -5,9 +5,10 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_util.BaseActivity
 import com.example.feature_product.databinding.ActivityProductBinding
 
-class ProductActivity : AppCompatActivity(), ModuleNavigator.ProductNav{
+class ProductActivity : BaseActivity(), ModuleNavigator.ProductNav{
 
     val jualId by jualIdParam()
     val status by statusParam()
