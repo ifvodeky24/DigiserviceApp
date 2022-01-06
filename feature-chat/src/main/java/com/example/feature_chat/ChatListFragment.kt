@@ -48,6 +48,7 @@ class ChatListFragment : Fragment() , RecentChatListener{
 
         if (status == "2"){
             findNavController().navigate(R.id.chatFragment)
+            onDestroyView()
         } else {
             conversations = ArrayList()
             conversationsAdapter = RecentConversationsAdapter(conversations, this@ChatListFragment)
