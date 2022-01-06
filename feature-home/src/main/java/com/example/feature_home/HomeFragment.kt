@@ -30,6 +30,7 @@ import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
 import com.example.feature_home.databinding.FragmentHomeBinding
+import com.example.feature_home.service.navigateToServiceCustomerFragment
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemPopulerViewHolder
 import com.example.feature_home.viewHolder.ItemProductViewHolder
@@ -71,7 +72,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
         preferenceManager = PreferenceManager(requireActivity())
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        getLastLocation()
+//        getLastLocation()
 
         homeViewModel.technicianGetAll()
         productViewModel.productGetAll()
@@ -98,105 +99,105 @@ class HomeFragment : Fragment(), ModuleNavigator {
             }
 
             cvService.setOnClickListener {
-
+                navigateToServiceActivity()
             }
         }
     }
 
 
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
+//    private fun checkPermissions(): Boolean {
+//        if (ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED &&
+//            ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    private fun requestPermissions() {
+//        ActivityCompat.requestPermissions(
+//            requireActivity(),
+//            arrayOf(
+//                Manifest.permission.ACCESS_COARSE_LOCATION,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ),
+//            permissionId
+//        )
+//    }
+//
+//    private fun isLocationEnabled(): Boolean {
+//        val locationManager: LocationManager =
+//            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+//            LocationManager.NETWORK_PROVIDER
+//        )
+//    }
 
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            permissionId
-        )
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String>,
+//        grantResults: IntArray
+//    ) {
+//        if (requestCode == permissionId) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+//                getLastLocation()
+//            }
+//        }
+//    }
 
-    private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
+//    private val mLocationCallback = object : LocationCallback() {
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            locationResult.lastLocation.apply {
+//                homeViewModel.lat = "$latitude"
+//                homeViewModel.lat = "$latitude"
+//            }
+//        }
+//    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == permissionId) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                getLastLocation()
-            }
-        }
-    }
+//    @SuppressLint("MissingPermission")
+//    private fun requestNewLocationData() {
+//        val mLocationRequest = LocationRequest().apply {
+//            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//            interval = 0
+//            fastestInterval = 0
+//            numUpdates = 1
+//        }
+//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+//        mFusedLocationClient.requestLocationUpdates(
+//            mLocationRequest, mLocationCallback, Looper.myLooper()
+//        )
+//    }
 
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            locationResult.lastLocation.apply {
-                homeViewModel.lat = "$latitude"
-                homeViewModel.lat = "$latitude"
-            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 0
-            fastestInterval = 0
-            numUpdates = 1
-        }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback, Looper.myLooper()
-        )
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
-                    val location: Location? = task.result
-                    location?.let {
-                        homeViewModel.lat = "${it.latitude}"
-                        homeViewModel.lng = "${it.longitude}"
-                        homeViewModel.findNearbyTechnician(homeViewModel.lat, homeViewModel.lng)
-                    } ?: run {
-                        requestNewLocationData()
-                    }
-                }
-            } else {
-                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
-                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-                    startActivity(this)
-                }
-            }
-        } else {
-            requestPermissions()
-        }
-    }
+//    @SuppressLint("MissingPermission")
+//    private fun getLastLocation() {
+//        if (checkPermissions()) {
+//            if (isLocationEnabled()) {
+//                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
+//                    val location: Location? = task.result
+//                    location?.let {
+//                        homeViewModel.lat = "${it.latitude}"
+//                        homeViewModel.lng = "${it.longitude}"
+//                        homeViewModel.findNearbyTechnician(homeViewModel.lat, homeViewModel.lng)
+//                    } ?: run {
+//                        requestNewLocationData()
+//                    }
+//                }
+//            } else {
+//                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_SHORT).show()
+//                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+//                    startActivity(this)
+//                }
+//            }
+//        } else {
+//            requestPermissions()
+//        }
+//    }
 
     private fun observeAuth() {
         productViewModel.auth.observe(viewLifecycleOwner) { data ->
@@ -259,69 +260,6 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
         getToken()
     }
-
-    /*private fun observeNearbyTechnician() {
-        homeViewModel.findNearbyTechnicianResponse.observe(
-            viewLifecycleOwner,
-            { findNearbyTechnician ->
-                when (findNearbyTechnician) {
-                    is ApiEvent.OnProgress -> {
-                    }
-                    is ApiEvent.OnSuccess -> findNearbyTechnician.getData()?.let {
-                        onDataFindNearbyTechnicianLoaded(findNearbyTechnician.getData()!!)
-                    }
-                    is ApiEvent.OnFailed -> if (!findNearbyTechnician.hasNotBeenConsumed) {
-                        showApiFailedDialog(findNearbyTechnician.getException())
-                    }
-                }
-            })
-    }*/
-
-    /*private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
-        Timber.d("teknisi Idd sdsd${data.map { it.teknisiId }} dan ${teknisiId}")
-        val filter =
-            if (level == "teknisi") data.filter { it.teknisiId.toString() != teknisiId.toString() } else data
-        if (filter.isNotEmpty()) {
-            binding.rvTerdekat.setup {
-                withDataSource(dataSourceTypedOf(filter))
-                withItem<NearbyTechnician, ItemNearbyViewHolder>(R.layout.item_teknisi_terdekat) {
-                    onBind(::ItemNearbyViewHolder) { _, item ->
-                        tvTeknisiName.text = item.teknisiNama
-                        Glide
-                            .with(requireActivity())
-                            .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
-                            .centerCrop()
-                            .into(ivTeknisi)
-                    }
-
-                    onClick {
-                        val itemGetAll = TechnicianGetAll(
-                            teknisiId = item.teknisiId,
-                            email = item.email,
-                            teknisiNama = item.teknisiNama,
-                            teknisiNamaToko = item.teknisiNamaToko,
-                            teknisiAlamat = item.teknisiAlamat,
-                            teknisiLat = item.teknisiLat,
-                            teknisiLng = item.teknisiLng,
-                            teknisiHp = item.teknisiHp,
-                            createdAt = item.createdAt,
-                            updatedAt = item.updatedAt,
-                            teknisiTotalScore = item.teknisiTotalScore,
-                            teknisiTotalResponden = item.teknisiTotalResponden,
-                            teknisiDeskripsi = item.teknisiDeskripsi,
-                            teknisiFoto = item.teknisiFoto,
-                            teknisiSertifikat = item.teknisiSertifikat
-                        )
-                        val directionTechnicianGetAll =
-                            HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
-                                itemGetAll
-                            )
-                        findNavController().navigate(directionTechnicianGetAll)
-                    }
-                }
-            }
-        }
-    }*/
 
     private fun observeTechnicianGetAll() {
         homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->

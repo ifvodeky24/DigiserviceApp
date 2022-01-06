@@ -33,6 +33,12 @@ interface ModuleNavigator {
         startActivity(ActivityClassPath.Home, finnishCurrent)
     }
 
+    fun <T> T.navigateToServiceActivity(
+        finnishCurrent: Boolean = false
+    ) where T : Fragment, T : ModuleNavigator {
+        startActivity(ActivityClassPath.Service, finnishCurrent)
+    }
+
     interface ProductNav : ModuleNavigator {
 
         companion object {

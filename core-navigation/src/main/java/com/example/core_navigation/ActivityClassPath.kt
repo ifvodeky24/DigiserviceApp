@@ -8,7 +8,7 @@ enum class ActivityClassPath(private val className: String) {
     Home("$BASE_PATH.feature_home.HomeActivity"),
     Profile("$BASE_PATH.feature_profile.HomeActivity"),
     History("$BASE_PATH.feature_history.HomeActivity"),
-    Service("$BASE_PATH.feature_service.HomeActivity"),
+    Service("$BASE_PATH.feature_service.ServiceActivity"),
     Map("$BASE_PATH.feature_auth.register.MapsActivity"),
     Chat("$BASE_PATH.feature_chat.ChatActivity"),
     Product("$BASE_PATH.feature_product.ProductActivity");

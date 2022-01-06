@@ -19,6 +19,7 @@ import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentServiceCustomerBinding
 import com.example.feature_home.viewHolder.ItemServiceViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class ServiceCustomerFragment : Fragment() {
 
@@ -39,6 +40,26 @@ class ServiceCustomerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeServiceGetAll()
+//        observeNearbyTechnician()
+
+    }
+
+    private fun observeServiceGetAll() {
+        homeViewModel.technicianGetAllResponse.observe(viewLifecycleOwner, { technicianGetAll ->
+            when (technicianGetAll) {
+                is ApiEvent.OnProgress -> {}
+                is ApiEvent.OnSuccess -> technicianGetAll.getData()?.let {
+                    Timber.d(" vuvvvuu ${technicianGetAll.getData()}")
+//                    onDataServiceReceive(technicianGetAll.getData()!!)
+//                    binding.shimmerHome.hideShimmer()
+                }
+                is ApiEvent.OnFailed -> if (!technicianGetAll.hasNotBeenConsumed) {
+                    Timber.d(" booom ${technicianGetAll.getException()}")
+//                    binding.shimmerHome.hideShimmer()
+                }
+            }
+        })
     }
 
     private fun observeNearbyTechnician() {
@@ -144,4 +165,12 @@ class ServiceCustomerFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
+
+fun Fragment.navigateToServiceCustomerFragment(resId: Int) {
+    val serviceCustomerFragment = ServiceCustomerFragment()
+    childFragmentManager.beginTransaction()
+        .add(resId, serviceCustomerFragment)
+        .addToBackStack(null)
+        .commit()
 }
