@@ -8,7 +8,11 @@
         android:id="@+id/serviceCustomerFragment"
         android:name="com.example.feature_service.ServiceCustomerFragment"
         android:label="fragment_service_customer"
-        tools:layout="@layout/fragment_service_customer" />
+        tools:layout="@layout/fragment_service_customer" >
+        <action
+            android:id="@+id/action_serviceCustomerFragment_to_seeAllServiceFragment"
+            app:destination="@id/seeAllServiceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/seeAllServiceFragment"
         android:name="com.example.feature_service.SeeAllServiceFragment"

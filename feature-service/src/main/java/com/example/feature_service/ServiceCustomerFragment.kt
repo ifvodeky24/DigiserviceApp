@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
@@ -63,6 +64,14 @@ class ServiceCustomerFragment : Fragment() {
         observeAuth()
         observeServiceGetAll()
         observeNearbyTechnician()
+
+        arrayOf(binding.btnServicePopuler, binding.btnServiceTerdekat)
+            .forEach { button ->
+                button.setOnClickListener {
+                    val directionServiceSeeAll = ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToSeeAllServiceFragment()
+                    findNavController().navigate(directionServiceSeeAll)
+                }
+            }
     }
 
     private fun checkPermissions(): Boolean {
@@ -211,7 +220,7 @@ class ServiceCustomerFragment : Fragment() {
             if (level == "teknisi") data.filter { it.teknisiId.toString() != teknisiId.toString() } else data
         if (filter.isNotEmpty()) {
             binding.rvService.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<TechnicianGetAll, ItemServiceViewHolder>(R.layout.item_service) {
                     onBind(::ItemServiceViewHolder) { _, item ->
                         tvServiceName.text = item.teknisiNama
@@ -248,18 +257,18 @@ class ServiceCustomerFragment : Fragment() {
 //                }
                 }
             }
-
-            binding.rvServicePopuler.setup {
-                withDataSource(dataSourceTypedOf(data))
-                withItem<TechnicianGetAll, ItemServiceTerViewHolder>(R.layout.item_service_terservice) {
-                    onBind(::ItemServiceTerViewHolder) { _, item ->
-                        tvServiceName.text = item.teknisiNama
-                        Glide
-                            .with(requireActivity())
-                            .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
-                            .centerCrop()
-                            .into(ivService)
-                    }
+        }
+        binding.rvServicePopuler.setup {
+            withDataSource(dataSourceTypedOf(data))
+            withItem<TechnicianGetAll, ItemServiceTerViewHolder>(R.layout.item_service_terservice) {
+                onBind(::ItemServiceTerViewHolder) { _, item ->
+                    tvServiceName.text = item.teknisiNama
+                    Glide
+                        .with(requireActivity())
+                        .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
+                        .centerCrop()
+                        .into(ivService)
+                }
 
 //                onClick {
 //                    val itemGetAll = TechnicianGetAll(
@@ -285,10 +294,9 @@ class ServiceCustomerFragment : Fragment() {
 //                        )
 //                    findNavController().navigate(directionTechnicianGetAll)
 //                }
-                }
             }
-
         }
+
     }
 
     private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
@@ -297,7 +305,7 @@ class ServiceCustomerFragment : Fragment() {
 
         if (filter.isNotEmpty()) {
             binding.rvServiceTerdekat.setup {
-                withDataSource(dataSourceTypedOf(data))
+                withDataSource(dataSourceTypedOf(filter))
                 withItem<NearbyTechnician, ItemServiceTerViewHolder>(R.layout.item_service_terservice) {
                     onBind(::ItemServiceTerViewHolder) { _, item ->
                         tvServiceName.text = item.teknisiNama
