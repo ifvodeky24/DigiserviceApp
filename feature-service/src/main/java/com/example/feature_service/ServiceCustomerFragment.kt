@@ -231,30 +231,28 @@ class ServiceCustomerFragment : Fragment() {
                             .into(ivService)
                     }
 
-//                onClick {
-//                    val itemGetAll = TechnicianGetAll(
-//                        teknisiId = item.teknisiId,
-//                        email = item.email,
-//                        teknisiNama = item.teknisiNama,
-//                        teknisiNamaToko = item.teknisiNamaToko,
-//                        teknisiAlamat = item.teknisiAlamat,
-//                        teknisiLat = item.teknisiLat,
-//                        teknisiLng = item.teknisiLng,
-//                        teknisiHp = item.teknisiHp,
-//                        createdAt = item.createdAt,
-//                        updatedAt = item.updatedAt,
-//                        teknisiTotalScore = item.teknisiTotalScore,
-//                        teknisiTotalResponden = item.teknisiTotalResponden,
-//                        teknisiDeskripsi = item.teknisiDeskripsi,
-//                        teknisiFoto = item.teknisiFoto,
-//                        teknisiSertifikat = item.teknisiSertifikat
-//                    )
-//                    val directionTechnicianGetAll =
-//                        HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
-//                            itemGetAll
-//                        )
-//                    findNavController().navigate(directionTechnicianGetAll)
-//                }
+                    onClick {
+                        val itemGetAll = TechnicianGetAll(
+                            teknisiId = item.teknisiId,
+                            email = item.email,
+                            teknisiNama = item.teknisiNama,
+                            teknisiNamaToko = item.teknisiNamaToko,
+                            teknisiAlamat = item.teknisiAlamat,
+                            teknisiLat = item.teknisiLat,
+                            teknisiLng = item.teknisiLng,
+                            teknisiHp = item.teknisiHp,
+                            createdAt = item.createdAt,
+                            updatedAt = item.updatedAt,
+                            teknisiTotalScore = item.teknisiTotalScore,
+                            teknisiTotalResponden = item.teknisiTotalResponden,
+                            teknisiDeskripsi = item.teknisiDeskripsi,
+                            teknisiFoto = item.teknisiFoto,
+                            teknisiSertifikat = item.teknisiSertifikat
+                        )
+                        val directionTechnicianGetAll =
+                            ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(itemGetAll)
+                        findNavController().navigate(directionTechnicianGetAll)
+                    }
                 }
             }
         }
@@ -270,33 +268,30 @@ class ServiceCustomerFragment : Fragment() {
                         .into(ivService)
                 }
 
-//                onClick {
-//                    val itemGetAll = TechnicianGetAll(
-//                        teknisiId = item.teknisiId,
-//                        email = item.email,
-//                        teknisiNama = item.teknisiNama,
-//                        teknisiNamaToko = item.teknisiNamaToko,
-//                        teknisiAlamat = item.teknisiAlamat,
-//                        teknisiLat = item.teknisiLat,
-//                        teknisiLng = item.teknisiLng,
-//                        teknisiHp = item.teknisiHp,
-//                        createdAt = item.createdAt,
-//                        updatedAt = item.updatedAt,
-//                        teknisiTotalScore = item.teknisiTotalScore,
-//                        teknisiTotalResponden = item.teknisiTotalResponden,
-//                        teknisiDeskripsi = item.teknisiDeskripsi,
-//                        teknisiFoto = item.teknisiFoto,
-//                        teknisiSertifikat = item.teknisiSertifikat
-//                    )
-//                    val directionTechnicianGetAll =
-//                        HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
-//                            itemGetAll
-//                        )
-//                    findNavController().navigate(directionTechnicianGetAll)
-//                }
+                onClick {
+                    val itemGetAll = TechnicianGetAll(
+                        teknisiId = item.teknisiId,
+                        email = item.email,
+                        teknisiNama = item.teknisiNama,
+                        teknisiNamaToko = item.teknisiNamaToko,
+                        teknisiAlamat = item.teknisiAlamat,
+                        teknisiLat = item.teknisiLat,
+                        teknisiLng = item.teknisiLng,
+                        teknisiHp = item.teknisiHp,
+                        createdAt = item.createdAt,
+                        updatedAt = item.updatedAt,
+                        teknisiTotalScore = item.teknisiTotalScore,
+                        teknisiTotalResponden = item.teknisiTotalResponden,
+                        teknisiDeskripsi = item.teknisiDeskripsi,
+                        teknisiFoto = item.teknisiFoto,
+                        teknisiSertifikat = item.teknisiSertifikat
+                    )
+                    val directionTechnicianGetAll =
+                        ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(itemGetAll)
+                    findNavController().navigate(directionTechnicianGetAll)
+                }
             }
         }
-
     }
 
     private fun onDataFindNearbyTechnicianLoaded(data: List<NearbyTechnician>) {
@@ -316,30 +311,30 @@ class ServiceCustomerFragment : Fragment() {
                             .into(ivService)
                     }
 
-//                onClick {
-//                    val itemGetAll = TechnicianGetAll(
-//                        teknisiId = item.teknisiId,
-//                        email = item.email,
-//                        teknisiNama = item.teknisiNama,
-//                        teknisiNamaToko = item.teknisiNamaToko,
-//                        teknisiAlamat = item.teknisiAlamat,
-//                        teknisiLat = item.teknisiLat,
-//                        teknisiLng = item.teknisiLng,
-//                        teknisiHp = item.teknisiHp,
-//                        createdAt = item.createdAt,
-//                        updatedAt = item.updatedAt,
-//                        teknisiTotalScore = item.teknisiTotalScore,
-//                        teknisiTotalResponden = item.teknisiTotalResponden,
-//                        teknisiDeskripsi = item.teknisiDeskripsi,
-//                        teknisiFoto = item.teknisiFoto,
-//                        teknisiSertifikat = item.teknisiSertifikat
-//                    )
-//                    val directionTechnicianGetAll =
-//                        HomeFragmentDirections.actionHomeFragmentToServiceDetailFragment(
-//                            itemGetAll
-//                        )
-//                    findNavController().navigate(directionTechnicianGetAll)
-//                }
+                    onClick {
+                        val itemGetAll = TechnicianGetAll(
+                            teknisiId = item.teknisiId,
+                            email = item.email,
+                            teknisiNama = item.teknisiNama,
+                            teknisiNamaToko = item.teknisiNamaToko,
+                            teknisiAlamat = item.teknisiAlamat,
+                            teknisiLat = item.teknisiLat,
+                            teknisiLng = item.teknisiLng,
+                            teknisiHp = item.teknisiHp,
+                            createdAt = item.createdAt,
+                            updatedAt = item.updatedAt,
+                            teknisiTotalScore = item.teknisiTotalScore,
+                            teknisiTotalResponden = item.teknisiTotalResponden,
+                            teknisiDeskripsi = item.teknisiDeskripsi,
+                            teknisiFoto = item.teknisiFoto,
+                            teknisiSertifikat = item.teknisiSertifikat
+                        )
+                        val directionTechnicianGetAll =
+                            ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(
+                                itemGetAll
+                            )
+                        findNavController().navigate(directionTechnicianGetAll)
+                    }
                 }
             }
         }

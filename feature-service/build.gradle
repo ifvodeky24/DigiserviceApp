@@ -7,5 +7,7 @@ apply(from: "../shared_dependencies_feature.gradle")
 
 dependencies {
     implementation deps.location
+    implementation deps.coil
+    implementation deps.validator
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

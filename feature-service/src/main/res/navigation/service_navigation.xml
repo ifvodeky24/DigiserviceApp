@@ -12,10 +12,26 @@
         <action
             android:id="@+id/action_serviceCustomerFragment_to_seeAllServiceFragment"
             app:destination="@id/seeAllServiceFragment" />
+        <action
+            android:id="@+id/action_serviceCustomerFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/seeAllServiceFragment"
         android:name="com.example.feature_service.SeeAllServiceFragment"
         android:label="fragment_see_all_service"
-        tools:layout="@layout/fragment_see_all_service" />
+        tools:layout="@layout/fragment_see_all_service" >
+        <action
+            android:id="@+id/action_seeAllServiceFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/serviceDetailFragment"
+        android:name="com.example.feature_service.ServiceDetailCustomerFragment"
+        android:label="fragment_service_detail"
+        tools:layout="@layout/fragment_service_detail_customer" >
+        <argument
+            android:name="technician"
+            app:argType="com.example.core_data.domain.technician.TechnicianGetAll" />
+    </fragment>
 </navigation>
