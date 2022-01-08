@@ -15,6 +15,7 @@ interface ServiceHandphoneService {
         @Field("pelanggan_id") pelangganId: Int,
         @Field("jenis_hp") jenisHp: String,
         @Field("jenis_kerusakan") jenisKerusakan: String,
+        @Field("deskripsi_kerusakan") deskripsiKerusakan: String,
         @Field("by_kurir") byKurir: Int,
     ) : CommonResponse
 

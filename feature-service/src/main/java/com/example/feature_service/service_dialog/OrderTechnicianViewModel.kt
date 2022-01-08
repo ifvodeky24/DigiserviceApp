@@ -56,6 +56,7 @@ class OrderTechnicianViewModel(
         pelangganId: Int,
         jenisHp: String,
         jenisKerusakan: String,
+        deskripsiKerusakan: String,
         byKurir: Int
     ) {
         viewModelScope.launch {
@@ -64,6 +65,7 @@ class OrderTechnicianViewModel(
                 pelangganId,
                 jenisHp,
                 jenisKerusakan,
+                deskripsiKerusakan,
                 byKurir
             )
                 .onStart {

@@ -29,22 +29,22 @@ class OrderTechnicianViewModel(
         jenisKerusakan: String,
         byKurir: Int
     ) {
-        viewModelScope.launch {
-            serviceHandphoneRepository.insertServiceHandphone(
-                teknisiId,
-                pelangganId,
-                jenisHp,
-                jenisKerusakan,
-                byKurir
-            )
-                .onStart {
-                    emit(ApiEvent.OnProgress())
-                }
-                .collect {
-                    _isSuccess.value = it is ApiEvent.OnSuccess<*>
-                    saveForm.value = it
-                }
-        }
+//        viewModelScope.launch {
+//            serviceHandphoneRepository.insertServiceHandphone(
+//                teknisiId,
+//                pelangganId,
+//                jenisHp,
+//                jenisKerusakan,
+//                byKurir
+//            )
+//                .onStart {
+//                    emit(ApiEvent.OnProgress())
+//                }
+//                .collect {
+//                    _isSuccess.value = it is ApiEvent.OnSuccess<*>
+//                    saveForm.value = it
+//                }
+//        }
     }
 
 }

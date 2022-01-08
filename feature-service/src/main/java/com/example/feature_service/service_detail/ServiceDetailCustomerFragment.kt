@@ -42,6 +42,9 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
 
     private lateinit var preferenceManager : PreferenceManager
 
+    private val listSkills = arrayListOf<String>()
+    private val listHp = arrayListOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +63,7 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
 
         binding.btnOrder.setOnClickListener {
             val byKurir = if (binding.kurirYes.isChecked) 1 else 0
-            OrderTechicianCustomerDialog.newInstance(args.technician, byKurir)
+            OrderTechicianCustomerDialog.newInstance(args.technician, byKurir, listHp, listSkills)
                 .show(childFragmentManager, OrderTechicianCustomerDialog.TAG)
         }
 
@@ -73,6 +76,17 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
         serviceDetailViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
             when(event) {
                 is ApiEvent.OnSuccess -> event.getData()?.let {
+                    val jenisHp = it.jenisHp.map { it.jenisNama }
+                    val skills = it.skils.map { it.namaKerusakan }
+                    listHp.apply {
+                        clear()
+                        addAll(jenisHp)
+                    }
+                    listSkills.apply {
+                        clear()
+                        addAll(skills)
+                    }
+
                     setupRecyclerSkils(it)
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {

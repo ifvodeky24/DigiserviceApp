@@ -22,6 +22,7 @@ class ServiceHandphoneRepository internal constructor(
         pelangganId: Int,
         jenisHp: String,
         jenisKerusakan: String,
+        deskripsiKerusakan: String,
         byKurir: Int
     ) : Flow<ApiEvent<CommonResponse?>> = flow {
         runCatching {
@@ -32,6 +33,7 @@ class ServiceHandphoneRepository internal constructor(
                     teknisiId,
                     pelangganId,
                     jenisHp,
+                    deskripsiKerusakan,
                     jenisKerusakan,
                     byKurir
                 )
