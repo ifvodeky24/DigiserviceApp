@@ -1,4 +1,4 @@
-package com.example.feature_service
+package com.example.feature_service.service_see_all
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.technician.TechnicianGetAll
+import com.example.feature_service.R
+import com.example.feature_service.ServiceViewModel
 import com.example.feature_service.databinding.FragmentSeeAllServiceBinding
 import com.example.feature_service.viewHolder.ItemServiceViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel

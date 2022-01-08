@@ -1,4 +1,4 @@
-package com.example.feature_service
+package com.example.feature_service.service_detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

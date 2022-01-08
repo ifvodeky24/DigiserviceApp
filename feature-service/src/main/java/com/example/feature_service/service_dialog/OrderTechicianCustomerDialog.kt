@@ -1,4 +1,4 @@
-package com.example.feature_service
+package com.example.feature_service.service_dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,10 @@ import androidx.fragment.app.DialogFragment
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.request.RequestAddServiceHandphone
 import com.example.core_data.domain.technician.TechnicianGetAll
+import com.example.feature_service.R
 import com.example.feature_service.databinding.OrderTechnicianCustomerDialogBinding
+import com.example.feature_service.service_detail.ServiceDetailViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class OrderTechicianCustomerDialog : DialogFragment() {
 

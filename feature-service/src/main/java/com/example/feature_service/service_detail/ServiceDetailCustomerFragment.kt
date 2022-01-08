@@ -1,4 +1,4 @@
-package com.example.feature_service
+package com.example.feature_service.service_detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_SERTIFIKAT_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -18,6 +21,8 @@ import com.example.core_data.domain.Skils
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
+import com.example.feature_service.service_dialog.OrderTechicianCustomerDialog
+import com.example.feature_service.R
 import com.example.feature_service.databinding.FragmentServiceDetailCustomerBinding
 import com.example.feature_service.viewHolder.SkillsItemSecondaryViewHolder
 import com.google.android.gms.tasks.Task
@@ -55,7 +60,8 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
 
         binding.btnOrder.setOnClickListener {
             val byKurir = if (binding.kurirYes.isChecked) 1 else 0
-            OrderTechicianCustomerDialog.newInstance(args.technician, byKurir).show(childFragmentManager, OrderTechicianCustomerDialog.TAG)
+            OrderTechicianCustomerDialog.newInstance(args.technician, byKurir)
+                .show(childFragmentManager, OrderTechicianCustomerDialog.TAG)
         }
 
         binding.backImageView.setOnClickListener {
@@ -78,11 +84,18 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
 
     private fun setupDisplay() {
         with(args.technician){
-//            if (this.teknisiFoto.isNotEmpty()) {
-//                Glide.with(this@ServiceDetailFragment)
-//                    .load(APP_TEKNISI_IMAGES_URL + teknisiFoto)
-//                    .into(binding.ivStore)
-//            }
+            if (this.teknisiFoto.isNotEmpty()) {
+                Glide.with(this@ServiceDetailCustomerFragment)
+                    .load(APP_TEKNISI_IMAGES_URL + teknisiFoto)
+                    .into(binding.ivStore)
+            }
+
+            if (this.teknisiSertifikat.isNotEmpty()) {
+                Glide.with(this@ServiceDetailCustomerFragment)
+                    .load(APP_SERTIFIKAT_IMAGES_URL + teknisiSertifikat)
+                    .into(binding.ivServiceSertifikat)
+            }
+
             binding.tvRatingCount.text = String.format("%.1f", (this.teknisiTotalScore.div(teknisiTotalResponden)))
             binding.tvStoreName.text = this.teknisiNamaToko ?: ""
             binding.tvName.text = this.teknisiNama ?: ""

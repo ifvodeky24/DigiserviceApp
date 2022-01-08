@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/seeAllServiceFragment"
-        android:name="com.example.feature_service.SeeAllServiceFragment"
+        android:name="com.example.feature_service.service_see_all.SeeAllServiceFragment"
         android:label="fragment_see_all_service"
         tools:layout="@layout/fragment_see_all_service" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/serviceDetailFragment"
-        android:name="com.example.feature_service.ServiceDetailCustomerFragment"
+        android:name="com.example.feature_service.service_detail.ServiceDetailCustomerFragment"
         android:label="fragment_service_detail"
         tools:layout="@layout/fragment_service_detail_customer" >
         <argument
