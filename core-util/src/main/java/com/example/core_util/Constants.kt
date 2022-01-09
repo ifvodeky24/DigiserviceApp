@@ -58,4 +58,12 @@ object Constants {
     const val KEY_SENDER_IMAGE = "senderImage"
     const val KEY_RECEIVER_IMAGE = "receiverImage"
     const val KEY_LAST_MESSAGE = "lastMessage"
+    const val KEY_AVAILABILITY = "availability"
+    const val REMOTE_MSG_AUTHORIZATION = "Authorization"
+    const val REMOTE_MSG_CONTENT_TYPE = "Content-Type"
+
+//    val remoteMsgHeaders = HashMap<String, String>()
+//    val getRemoteMsgHeaders = HashMap<String, String> {
+//
+//    }
 }

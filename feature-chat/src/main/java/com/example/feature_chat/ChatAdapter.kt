@@ -4,15 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.core_data.APP_PELANGGAN_IMAGES_URL
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IMAGES_URL
+import com.example.core_util.Constants
 import com.example.feature_chat.databinding.ItemContainerReceivedMessageBinding
 import com.example.feature_chat.databinding.ItemContainerSentMessageBinding
 import com.example.feature_chat.models.ChatMessage
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import timber.log.Timber
 
 class ChatAdapter(
     private val receiverPhoto: String,
     private val chatMessages: ArrayList<ChatMessage>,
-    private val senderId: String
+    private val senderId: String,
+    private val receiverName: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -41,7 +49,8 @@ class ChatAdapter(
         } else {
             (holder as ReceivedMessageViewHolder).setData(
                 chatMessages[position],
-                receiverPhoto
+                receiverPhoto,
+                receiverName
             )
         }
     }
@@ -67,7 +76,6 @@ class ChatAdapter(
             binding.textMessage.text = chatMessage.message
             binding.textDateTime.text = chatMessage.dateTime
         }
-
     }
 
     internal class ReceivedMessageViewHolder(itemContainerReceivedMessageBinding: ItemContainerReceivedMessageBinding) :
@@ -75,14 +83,34 @@ class ChatAdapter(
         private val binding: ItemContainerReceivedMessageBinding =
             itemContainerReceivedMessageBinding
 
-        fun setData(chatMessage: ChatMessage, receiverPhoto: String) {
+        fun setData(chatMessage: ChatMessage, receiverPhoto: String, receiverName: String) {
             binding.textMessage.text = chatMessage.message
             binding.textDateTime.text = chatMessage.dateTime
 
-            Glide.with(binding.root)
-                .load(APP_PRODUCT_IMAGES_URL +receiverPhoto)
-                .fitCenter()
-                .into(binding.imageProfile)
+            val database = FirebaseFirestore.getInstance()
+            database.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo("name", receiverName)
+                .get()
+                .addOnCompleteListener { task: Task<QuerySnapshot?> ->
+                    if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                        val teknisiId = task.result!!.documents[0].get("teknisiId")
+                        Timber.d("sdsdsd $teknisiId")
+
+                        val path = if (teknisiId.toString() != "0") {
+                            APP_TEKNISI_IMAGES_URL +receiverPhoto
+                        } else {
+                            APP_PELANGGAN_IMAGES_URL +receiverPhoto
+                        }
+
+                        Timber.d("sdsdsdsssssss $path)")
+                        Glide.with(binding.root)
+                            .load(path)
+                            .fitCenter()
+                            .into(binding.imageProfile)
+                    } else {
+                        Timber.d("Errorsdsds")
+                    }
+                }
         }
 
     }

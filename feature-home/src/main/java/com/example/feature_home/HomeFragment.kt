@@ -88,10 +88,10 @@ class HomeFragment : Fragment(), ModuleNavigator {
 //            }
 //            true
 //        }
-        
-        with(binding){
-            cvMarketplace.setOnClickListener {
 
+        with(binding) {
+            cvMarketplace.setOnClickListener {
+                navigateToProductActivity("")
             }
 
             cvChat.setOnClickListener {
@@ -296,6 +296,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
 
                         ratingBar.rating =
                             (item.teknisiTotalScore / item.teknisiTotalResponden).toFloat()
+
+                        Timber.d("sdsssssss ${item.teknisiFoto}")
 
                         Glide
                             .with(requireActivity())

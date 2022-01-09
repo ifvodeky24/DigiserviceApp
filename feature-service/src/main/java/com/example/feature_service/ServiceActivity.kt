@@ -7,9 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.core_util.BaseActivity
 import com.example.feature_service.databinding.ActivityServiceBinding
 
-class ServiceActivity : AppCompatActivity() {
+class ServiceActivity : BaseActivity() {
 
 //    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityServiceBinding

@@ -1,12 +1,16 @@
 package com.example.feature_chat
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
@@ -27,6 +31,7 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
     private var receiverId = ""
     private var senderId = ""
+    private var isReceiverAvailable = false
     private var receiverPhoto = ""
     private var receiverName = ""
     private var conversionId: String? = null
@@ -37,6 +42,8 @@ class ChatFragment : Fragment(), ModuleNavigator {
     private lateinit var database: FirebaseFirestore
 
     private val status by lazy { (activity as ChatActivity).status }
+    private val productName by lazy { (activity as ChatActivity).productName }
+    private val productImage by lazy { (activity as ChatActivity).productImage }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +67,8 @@ class ChatFragment : Fragment(), ModuleNavigator {
         chatAdapter = ChatAdapter(
             receiverPhoto,
             chatMessages,
-            senderId
+            senderId,
+            receiverName
         )
         binding?.chatRecyclerView?.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
@@ -71,10 +79,21 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
         binding?.textName?.text = receiverName
 
+        if (status == "3") {
+            binding?.cvProduct?.visibility = View.VISIBLE
+            binding?.tvProductName?.text = productName
+            Glide.with(requireActivity())
+                .load(APP_PRODUCT_IMAGES_URL + productImage)
+                .fitCenter()
+                .into(binding!!.ivProduct)
+        } else {
+            binding?.cvProduct?.visibility = View.GONE
+        }
+
         setListeners()
         listenMessages()
 
-        if (status == "2") {
+        if (status == "2" || status == "3") {
             binding?.imageBack?.setOnClickListener {
                 navigateToHomeActivity(true)
             }
@@ -125,6 +144,31 @@ class ChatFragment : Fragment(), ModuleNavigator {
         }
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
         binding?.inputMessage?.text = null
+    }
+
+    private fun listenAvailabilityOfReceiver() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            database.collection(Constants.KEY_COLLECTION_USERS).document(
+                receiverId
+            ).addSnapshotListener(requireActivity()) { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                if (value != null) {
+                    if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                        val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
+                        isReceiverAvailable = availability == 1
+                    }
+                }
+
+                if (isReceiverAvailable) {
+                    binding?.textAvailable?.visibility = View.VISIBLE
+                } else {
+                    binding?.textAvailable?.visibility = View.GONE
+                }
+
+            }
+        }, 2000)
     }
 
     private fun listenMessages() {
@@ -242,5 +286,14 @@ class ChatFragment : Fragment(), ModuleNavigator {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            listenAvailabilityOfReceiver()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
