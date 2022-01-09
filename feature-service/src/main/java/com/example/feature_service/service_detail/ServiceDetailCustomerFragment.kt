@@ -14,6 +14,7 @@ import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_SERTIFIKAT_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
+import com.example.core_data.APP_TEMPAT_USAHA_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -108,6 +109,12 @@ class ServiceDetailCustomerFragment : Fragment(), ModuleNavigator {
                 Glide.with(this@ServiceDetailCustomerFragment)
                     .load(APP_SERTIFIKAT_IMAGES_URL + teknisiSertifikat)
                     .into(binding.ivServiceSertifikat)
+            }
+
+            if (this.teknisiTempatUsaha.isNotEmpty()) {
+                Glide.with(this@ServiceDetailCustomerFragment)
+                    .load(APP_TEMPAT_USAHA_IMAGES_URL + teknisiTempatUsaha)
+                    .into(binding.ivTempatService)
             }
 
             binding.tvRatingCount.text = String.format("%.1f", (this.teknisiTotalScore.div(teknisiTotalResponden)))

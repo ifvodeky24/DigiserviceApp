@@ -419,7 +419,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="ContentDescription" />
 
-
             <LinearLayout
                 android:id="@+id/AddressConstraintLayout"
                 android:layout_width="match_parent"

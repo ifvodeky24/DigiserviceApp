@@ -41,7 +41,9 @@ internal data class TechnicianGetAllDataResponse(
     @Json(name = "teknisi_foto")
     val teknisiFoto: String = "",
     @Json(name = "teknisi_sertifikat")
-    val teknisiSertifikat: String = ""
+    val teknisiSertifikat: String = "",
+    @Json(name = "teknisi_tempat_usaha")
+    val teknisiTempatUsaha: String = ""
 )
 
 internal typealias ListTechnicianGetAllResponse = List<TechnicianGetAllDataResponse>
@@ -65,5 +67,6 @@ internal fun TechnicianGetAllDataResponse.toDomain() = TechnicianGetAll(
     teknisiTotalResponden = teknisiTotalResponden,
     teknisiDeskripsi = teknisiDeskripsi,
     teknisiFoto = teknisiFoto,
-    teknisiSertifikat = teknisiSertifikat
+    teknisiSertifikat = teknisiSertifikat,
+    teknisiTempatUsaha = teknisiTempatUsaha
 )

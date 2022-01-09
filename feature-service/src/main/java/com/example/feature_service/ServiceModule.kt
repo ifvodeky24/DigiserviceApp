@@ -11,5 +11,5 @@ val Application.serviceModule
     get() = module {
         viewModel { ServiceViewModel(get(), get()) }
         viewModel { ServiceDetailViewModel(get()) }
-        viewModel { OrderTechnicianViewModel(get(), get()) }
+        viewModel { OrderTechnicianViewModel(get()) }
     }

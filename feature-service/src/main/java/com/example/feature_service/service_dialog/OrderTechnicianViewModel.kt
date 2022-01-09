@@ -15,41 +15,14 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class OrderTechnicianViewModel(
-    private val authRepository: AuthRepository,
     private val serviceHandphoneRepository: ServiceHandphoneRepository
 ) : ViewModel() {
-
-    private val _liveJenisHp = MutableLiveData<ApiEvent<ListJenisHp?>>()
-    val liveJenisHp: LiveData<ApiEvent<ListJenisHp?>> = _liveJenisHp
-
-    private val _liveJenisKerusakan = MutableLiveData<ApiEvent<ListJenisKerusakan?>>()
-    val liveJenisKerusakan: LiveData<ApiEvent<ListJenisKerusakan?>> = _liveJenisKerusakan
 
     private val _isSuccess = MutableLiveData(false)
     val isSuccess: LiveData<Boolean> = _isSuccess
 
     private val saveForm = MutableLiveData<ApiEvent<CommonResponse?>>()
     val isSaveForm: LiveData<ApiEvent<CommonResponse?>> = saveForm
-
-    fun jenisHp() {
-        viewModelScope.launch {
-            authRepository.getJenisHpAll()
-                .onStart { emit(ApiEvent.OnProgress()) }
-                .collect {
-                    _liveJenisHp.value = it
-                }
-        }
-    }
-
-    fun jenisKerusakan() {
-        viewModelScope.launch {
-            authRepository.getJenisKerusakanAll()
-                .onStart { emit(ApiEvent.OnProgress()) }
-                .collect {
-                    _liveJenisKerusakan.value = it
-                }
-        }
-    }
 
     fun insertServiceHandphone(
         teknisiId: Int,
