@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/medium"
+    tools:context=".history.DetailPesananServiceFragment">
+
+    <TextView
+        android:id="@+id/tv_detail_pesanan_nama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Abdul Aziz" />
+
+    <TextView
+        android:id="@+id/merek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Merek :"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_pesanan_nama" />
+
+    <TextView
+        android:id="@+id/kerusakan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kerusakan :"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/merek" />
+
+    <TextView
+        android:id="@+id/deskripsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deskripsi :"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kerusakan" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.24817519" />
+
+    <TextView
+        android:id="@+id/tv_detail_pesanan_merek"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_pesanan_nama"
+        tools:text="Oppo" />
+
+    <TextView
+        android:id="@+id/tv_detail_pesanan_kerusakan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_pesanan_merek"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        tools:text="Hardware" />
+
+    <TextView
+        android:id="@+id/tv_detail_pesanan_deskripsi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_pesanan_kerusakan"
+        app:layout_constraintStart_toEndOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Layar sering nyentuh sendiri" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

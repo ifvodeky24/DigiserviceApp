@@ -35,7 +35,11 @@
         android:id="@+id/historyFragment"
         android:name="com.example.feature_home.history.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_detailPesananServiceFragment"
+            app:destination="@id/detailPesananServiceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.feature_home.account.AccountFragment"
@@ -103,6 +107,15 @@
         <action
             android:id="@+id/action_detailProdukFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPesananServiceFragment"
+        android:name="com.example.feature_home.history.DetailPesananServiceFragment"
+        android:label="fragment_detail_pesanan_service"
+        tools:layout="@layout/fragment_detail_pesanan_service" >
+        <argument
+            android:name="riwayat_service"
+            app:argType="com.example.core_data.domain.RiwayatService" />
     </fragment>
 
 </navigation>
