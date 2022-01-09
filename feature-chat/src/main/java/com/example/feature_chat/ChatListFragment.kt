@@ -19,7 +19,7 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatListFragment : Fragment() , RecentChatListener{
+class ChatListFragment : Fragment(), RecentChatListener {
 
     private var _binding: FragmentChatListBinding? = null
     private val binding get() = _binding
@@ -46,7 +46,7 @@ class ChatListFragment : Fragment() , RecentChatListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (status == "2"){
+        if (status == "2" || status == "3") {
             findNavController().navigate(R.id.chatFragment)
             onDestroyView()
         } else {
@@ -130,7 +130,7 @@ class ChatListFragment : Fragment() , RecentChatListener{
                 conversationsAdapter.notifyDataSetChanged()
                 binding?.conversationRecylerView?.smoothScrollToPosition(0)
 
-                if (conversations.isEmpty()){
+                if (conversations.isEmpty()) {
                     binding?.conversationRecylerView?.visibility = View.GONE
                     binding?.ivEmpty?.visibility = View.VISIBLE
                 } else {
@@ -142,10 +142,16 @@ class ChatListFragment : Fragment() , RecentChatListener{
 
     private fun listenConversations() {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_SENDER_ID))
+            .whereEqualTo(
+                Constants.KEY_SENDER_ID,
+                preferenceManager.getString(Constants.KEY_SENDER_ID)
+            )
             .addSnapshotListener(eventListener)
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_SENDER_ID))
+            .whereEqualTo(
+                Constants.KEY_RECEIVER_ID,
+                preferenceManager.getString(Constants.KEY_SENDER_ID)
+            )
             .addSnapshotListener(eventListener)
     }
 

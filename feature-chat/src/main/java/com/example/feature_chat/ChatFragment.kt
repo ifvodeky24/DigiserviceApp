@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
@@ -40,6 +42,8 @@ class ChatFragment : Fragment(), ModuleNavigator {
     private lateinit var database: FirebaseFirestore
 
     private val status by lazy { (activity as ChatActivity).status }
+    private val productName by lazy { (activity as ChatActivity).productName }
+    private val productImage by lazy { (activity as ChatActivity).productImage }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,10 +79,21 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
         binding?.textName?.text = receiverName
 
+        if (status == "3") {
+            binding?.cvProduct?.visibility = View.VISIBLE
+            binding?.tvProductName?.text = productName
+            Glide.with(requireActivity())
+                .load(APP_PRODUCT_IMAGES_URL + productImage)
+                .fitCenter()
+                .into(binding!!.ivProduct)
+        } else {
+            binding?.cvProduct?.visibility = View.GONE
+        }
+
         setListeners()
         listenMessages()
 
-        if (status == "2") {
+        if (status == "2" || status == "3") {
             binding?.imageBack?.setOnClickListener {
                 navigateToHomeActivity(true)
             }
@@ -132,28 +147,28 @@ class ChatFragment : Fragment(), ModuleNavigator {
     }
 
     private fun listenAvailabilityOfReceiver() {
-       Handler(Looper.getMainLooper()).postDelayed({
-           database.collection(Constants.KEY_COLLECTION_USERS).document(
-               receiverId
-           ).addSnapshotListener(requireActivity()) { value, error ->
-               if (error != null) {
-                   return@addSnapshotListener
-               }
-               if (value != null) {
-                   if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
-                       val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
-                       isReceiverAvailable = availability == 1
-                   }
-               }
+        Handler(Looper.getMainLooper()).postDelayed({
+            database.collection(Constants.KEY_COLLECTION_USERS).document(
+                receiverId
+            ).addSnapshotListener(requireActivity()) { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                if (value != null) {
+                    if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                        val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
+                        isReceiverAvailable = availability == 1
+                    }
+                }
 
-               if (isReceiverAvailable){
-                   binding?.textAvailable?.visibility = View.VISIBLE
-               } else {
-                   binding?.textAvailable?.visibility = View.GONE
-               }
+                if (isReceiverAvailable) {
+                    binding?.textAvailable?.visibility = View.VISIBLE
+                } else {
+                    binding?.textAvailable?.visibility = View.GONE
+                }
 
-           }
-       }, 2000)
+            }
+        }, 2000)
     }
 
     private fun listenMessages() {
@@ -275,6 +290,10 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
     override fun onResume() {
         super.onResume()
-        listenAvailabilityOfReceiver()
+        try {
+            listenAvailabilityOfReceiver()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
