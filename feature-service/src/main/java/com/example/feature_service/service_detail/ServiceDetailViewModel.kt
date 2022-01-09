@@ -22,15 +22,15 @@ class ServiceDetailViewModel(
     private val _liveSkils = MutableLiveData<ApiEvent<ResultSkils?>>()
     val liveSkils: LiveData<ApiEvent<ResultSkils?>> = _liveSkils
 
-//    init {
-//        viewModelScope.launch {
-//            authRepository.getCurrentUserAsFlow()
-//                .map { it.getData() }
-//                .collect {
-//                    _authUser.value = it
-//                }
-//        }
-//    }
+    init {
+        viewModelScope.launch {
+            authRepository.getCurrentUserAsFlow()
+                .map { it.getData() }
+                .collect {
+                    _authUser.value = it
+                }
+        }
+    }
 
     fun setCurrentSkill(teknisiId: Int){
         viewModelScope.launch {
