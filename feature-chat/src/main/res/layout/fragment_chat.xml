@@ -88,6 +88,40 @@
         android:textColor="@color/white"
         android:padding="@dimen/_2sdp"/>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/_8sdp"
+        android:visibility="gone"
+        app:cardMaxElevation="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/textAvailable">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_12sdp">
+
+            <ImageView
+                android:id="@+id/iv_product"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/tv_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
@@ -98,10 +132,9 @@
         android:padding="@dimen/_20sdp"
         android:visibility="gone"
         app:stackFromEnd="true"
-
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/viewBackground"
-        app:layout_constraintTop_toBottomOf="@id/textAvailable" />
+        app:layout_constraintTop_toBottomOf="@id/cv_product" />
 
     <ProgressBar
         android:id="@+id/progressBar"

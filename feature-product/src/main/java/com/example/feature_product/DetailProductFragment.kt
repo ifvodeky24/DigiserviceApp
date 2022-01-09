@@ -191,7 +191,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                             documentSnapshot.getString("foto")
                         )
 
-                        navigateToChatActivity(finnishCurrent = true, status = "2")
+                        navigateToChatActivity(finnishCurrent = true, status = "3", productName = data.jenisNama, productImage = data.fotoProduk)
                     } else {
                         Timber.d("gagal")
                         Toast.makeText(
