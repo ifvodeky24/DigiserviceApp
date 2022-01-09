@@ -9,18 +9,18 @@ import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.afollestad.vvalidator.util.hide
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_resource.showApiFailedDialog
-import com.example.core_resource.showProgressDialog
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentProductBinding
 import com.example.feature_home.viewHolder.ItemProductViewHolder
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class ProductFragment : Fragment() {
 
@@ -43,6 +43,8 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideBottomNavigation()
+
         observeUser()
 
         observeProductByUserId()
@@ -52,13 +54,16 @@ class ProductFragment : Fragment() {
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.action_add_product) {
-                val updateDirections = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)
-                findNavController().navigate(updateDirections)
+        binding.bottomStore.btnAddProduct
+            .setOnClickListener {
+                val toAddProductFragment = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)
+                findNavController().navigate(toAddProductFragment)
             }
-            true
-        }
+    }
+
+    private fun hideBottomNavigation() {
+        val bottomNavigation: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
+        bottomNavigation?.hide()
     }
 
     private fun observeUser() {

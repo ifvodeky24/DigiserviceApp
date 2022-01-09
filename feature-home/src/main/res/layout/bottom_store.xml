@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:background="@color/colorDodgerBlue"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageButton
+        android:id="@+id/btn_add_product"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_product"
+        android:background="@null"
+        android:layout_weight="1"
+        android:paddingVertical="@dimen/medium"
+        android:contentDescription="Tambah Produk" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_product"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_product"
+        android:background="@null"
+        android:paddingVertical="@dimen/medium"
+        android:layout_weight="1"
+        android:contentDescription="Hapus Produk" />
+
+    <ImageButton
+        android:id="@+id/btn_update_product"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_product"
+        android:background="@null"
+        android:layout_weight="1"
+        android:paddingVertical="@dimen/medium"
+        android:contentDescription="Edit Produk" />
+
+</LinearLayout>

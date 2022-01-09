@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.afollestad.vvalidator.util.hide
+import com.afollestad.vvalidator.util.show
 import com.example.core_data.APP_PELANGGAN_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.domain.auth.isTechnician
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentStoreBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StoreFragment : Fragment() {
@@ -34,6 +37,8 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showBottomNavigation()
+
         accountViewModel.authUser.observe(viewLifecycleOwner, { auth ->
             auth?.let {
                 val imageUrl = auth.level.let {
@@ -53,6 +58,11 @@ class StoreFragment : Fragment() {
         binding.seeProduct.setOnClickListener {
             findNavController().navigate(R.id.productFragment)
         }
+    }
+
+    private fun showBottomNavigation() {
+        val bottomNavigation: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
+        bottomNavigation?.show()
     }
 
     override fun onDestroyView() {
