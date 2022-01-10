@@ -148,25 +148,29 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
     private fun listenAvailabilityOfReceiver() {
         Handler(Looper.getMainLooper()).postDelayed({
-            database.collection(Constants.KEY_COLLECTION_USERS).document(
-                receiverId
-            ).addSnapshotListener(requireActivity()) { value, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                }
-                if (value != null) {
-                    if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
-                        val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
-                        isReceiverAvailable = availability == 1
+            try {
+                database.collection(Constants.KEY_COLLECTION_USERS).document(
+                    receiverId
+                ).addSnapshotListener(requireActivity()) { value, error ->
+                    if (error != null) {
+                        return@addSnapshotListener
                     }
-                }
+                    if (value != null) {
+                        if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                            val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
+                            isReceiverAvailable = availability == 1
+                        }
+                    }
 
-                if (isReceiverAvailable) {
-                    binding?.textAvailable?.visibility = View.VISIBLE
-                } else {
-                    binding?.textAvailable?.visibility = View.GONE
-                }
+                    if (isReceiverAvailable) {
+                        binding?.textAvailable?.visibility = View.VISIBLE
+                    } else {
+                        binding?.textAvailable?.visibility = View.GONE
+                    }
 
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }, 2000)
     }
