@@ -158,7 +158,6 @@ class ChooseFragment : Fragment(), ModuleNavigator {
             when (event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    //navigateToHomeActivity(finnishCurrent = true)
                     findNavController().navigate(R.id.loginFragment)
                 }
                 is ApiEvent.OnFailed -> {
