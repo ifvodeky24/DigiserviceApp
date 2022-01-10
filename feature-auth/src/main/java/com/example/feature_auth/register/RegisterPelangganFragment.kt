@@ -7,18 +7,22 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.net.Uri
+import android.os.*
+import android.provider.MediaStore
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import com.example.core_navigation.ModuleNavigator
@@ -40,6 +44,15 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
     private val mapsZoom: Float by lazy {
         12.0f
     }
+
+    var imageUriPhoto: Uri? = null
+    var imageUriIdentitas: Uri? = null
+
+    lateinit var filePathColumnPhoto: Array<String>
+    lateinit var filePathColumnIdentitas: Array<String>
+
+    private var imagePathPhoto: String? = null
+    private var imagePathIdentitas: String? = null
 
     private val callback = OnMapReadyCallback { googleMap ->
         val lat = authViewModel.lat
@@ -134,8 +147,38 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
         })
     }
 
+    @SuppressLint("NewApi")
     private fun setupInput() {
         with(binding){
+
+            btnChangePhoto.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Profile)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Profile)
+                    }
+                    else{
+                        requestPermissionProfile.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            cardFotoIdentitas.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Identitas)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Identitas)
+                    }
+                    else{
+                        requestPermissionIdentitas.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
             form {
                 useRealTimeValidation(disableSubmit = true)
 
@@ -161,6 +204,74 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
         }
     }
 
+    private fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @SuppressLint("NewApi")
+    private fun navigateToGallery(pickType: GalleryInputType) {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+        }
+
+        when(pickType.type){
+            GalleryInputType.Profile.type -> resultPickProfile.launch(intent)
+            GalleryInputType.Identitas.type -> resultPickIdentitas.launch(intent)
+        }
+    }
+
+    private val resultPickProfile = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result  ->
+        imageUriPhoto = result.data?.data
+        filePathColumnPhoto = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriPhoto != null){
+            binding.imageProfile.load(imageUriPhoto){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        }
+        if(imageUriPhoto != null && result.data != null){
+            imagePathPhoto = convertImagePath(result?.data!!, imageUriPhoto!!, filePathColumnPhoto)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickIdentitas = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        imageUriIdentitas = result.data?.data
+        filePathColumnIdentitas = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriIdentitas != null) {
+            binding.ivIdentitas.load(imageUriIdentitas){
+                crossfade(true)
+            }
+        }
+
+        if(imageUriIdentitas != null && result.data != null){
+            imagePathIdentitas = convertImagePath(result?.data!!, imageUriIdentitas!!, filePathColumnIdentitas)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionProfile = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Profile)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionIdentitas = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Identitas)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun registerService() {
         dismissKeyboard()
         with(binding) {
@@ -173,6 +284,12 @@ class RegisterPelangganFragment : Fragment(), ModuleNavigator {
                     teknisiAlamat = edtInputStoreAddress.text.toString(),
                     teknisiLat = authViewModel.lat.toFloat(),
                     teknisiLng = authViewModel.lng.toFloat(),
+                    fotoUri = imageUriPhoto!!,
+                    fotoPath = imagePathPhoto!!,
+                    identitasUri = imageUriIdentitas!!,
+                    identitasPath = imagePathIdentitas!!,
+                    contentResolver = requireContext().contentResolver,
+                    context = requireContext()
                 )
             }
         }

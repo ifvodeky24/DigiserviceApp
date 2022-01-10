@@ -1,5 +1,8 @@
 package com.example.feature_auth
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.response.CommonResponse
@@ -55,6 +58,16 @@ class AuthViewModel(
         teknisiLat: Float,
         teknisiLng: Float,
         teknisiDeskripsi: String,
+        fotoUri: Uri,
+        fotoPath: String,
+        sertifikatUri: Uri,
+        sertifikatPath: String,
+        identitasUri: Uri,
+        identitasPath: String,
+        tempatUsahaUri: Uri,
+        tempatUsahaPath: String,
+        contentResolver: ContentResolver,
+        context: Context
     ) {
         viewModelScope.launch {
             authRepository.registerService(
@@ -66,7 +79,17 @@ class AuthViewModel(
                 teknisiAlamat = teknisiAlamat,
                 teknisiLat = teknisiLat,
                 teknisiLng = teknisiLng,
-                teknisiDeskripsi = teknisiDeskripsi
+                teknisiDeskripsi = teknisiDeskripsi,
+                fotoUri = fotoUri,
+                fotoPath = fotoPath,
+                identitasUri = identitasUri,
+                identitasPath = identitasPath,
+                sertifikatUri = sertifikatUri,
+                sertifikatPath = sertifikatPath,
+                tempatUsahaUri = tempatUsahaUri,
+                tempatUsahaPath = tempatUsahaPath,
+                contentResolver = contentResolver,
+                context = context
             )
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect {
@@ -84,6 +107,12 @@ class AuthViewModel(
         teknisiAlamat: String,
         teknisiLat: Float,
         teknisiLng: Float,
+        fotoUri: Uri,
+        fotoPath: String,
+        identitasUri: Uri,
+        identitasPath: String,
+        contentResolver: ContentResolver,
+        context: Context
     ) {
         viewModelScope.launch {
             authRepository.registerPelanggan(
@@ -94,6 +123,12 @@ class AuthViewModel(
                 teknisiAlamat = teknisiAlamat,
                 teknisiLat = teknisiLat,
                 teknisiLng = teknisiLng,
+                fotoUri = fotoUri,
+                fotoPath = fotoPath,
+                identitasUri = identitasUri,
+                identitasPath = identitasPath,
+                contentResolver = contentResolver,
+                context = context
             )
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect {

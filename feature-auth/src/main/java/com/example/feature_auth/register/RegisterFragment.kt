@@ -7,18 +7,22 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.net.Uri
+import android.os.*
+import android.provider.MediaStore
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import com.example.core_util.*
@@ -40,6 +44,16 @@ class RegisterFragment : Fragment() {
         12.0f
     }
 
+    var imageUriPhoto : Uri? = null
+    var imageUriSertifikat : Uri? = null
+    var imageUriIdentitas : Uri? = null
+    var imageUriTempatUsaha : Uri? = null
+
+    lateinit var filePathColumnPhoto: Array<String>
+    lateinit var filePathColumnSertifikat: Array<String>
+    lateinit var filePathColumnIdentitas: Array<String>
+    lateinit var filePathColumnTempatUsaha: Array<String>
+
     private val callback = OnMapReadyCallback { googleMap ->
         val lat = authViewModel.lat
         val lng = authViewModel.lng
@@ -53,6 +67,11 @@ class RegisterFragment : Fragment() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, mapsZoom))
     }
+
+    private var imagePath: String? = null
+    private var sertifikatPath: String? = null
+    private var identitasPath: String? = null
+    private var tempatUsahaPath: String? = null
 
     private val textBtnNext by lazy {
         "LANJUTKAN DAFTAR"
@@ -181,8 +200,67 @@ class RegisterFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NewApi")
     private fun setupInput() {
+
         with(binding){
+
+            btnChangePhoto.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Profile)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Profile)
+                    }
+                    else{
+                        requestPermissionProfile.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            cardFotoSertifikat.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Sertifikat)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Sertifikat)
+                    }
+                    else{
+                        requestPermissionSertifikat.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            cardFotoTempatUsaha.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.TempatUsaha)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.TempatUsaha)
+                    }
+                    else{
+                        requestPermissionTempatUsaha.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            cardFotoIdentitas.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Identitas)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Identitas)
+                    }
+                    else{
+                        requestPermissionIdentitas.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
             form {
                 useRealTimeValidation(disableSubmit = true)
                 inputLayout(R.id.edt_layout_name){
@@ -214,6 +292,132 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionProfile = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Profile)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionSertifikat = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Sertifikat)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionTempatUsaha = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.TempatUsaha)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionIdentitas = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Identitas)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun navigateToGallery(galleryType: GalleryInputType) {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+        }
+
+        when(galleryType.type){
+            GalleryInputType.Profile.type -> resultPickProfile.launch(intent)
+            GalleryInputType.Sertifikat.type -> resultPickSertifikat.launch(intent)
+            GalleryInputType.TempatUsaha.type -> resultPickTempatUsaha.launch(intent)
+            GalleryInputType.Identitas.type -> resultPickIdentitas.launch(intent)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickProfile = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        imageUriPhoto = result.data?.data
+        filePathColumnPhoto = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriPhoto != null) {
+            binding.imageProfile.load(imageUriPhoto){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        }
+
+        if(imageUriPhoto != null && result.data != null){
+            imagePath = convertImagePath(result?.data!!, imageUriPhoto!!, filePathColumnPhoto)
+            //accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickSertifikat = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        imageUriSertifikat = result.data?.data
+        filePathColumnSertifikat = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriSertifikat != null) {
+            binding.ivSertifikat.load(imageUriSertifikat){
+                crossfade(true)
+            }
+        }
+
+        if(imageUriSertifikat != null && result.data != null){
+            sertifikatPath = convertImagePath(result?.data!!, imageUriSertifikat!!, filePathColumnSertifikat)
+            // accountViewModel.updateSertifikatTeknisi(teknisiId!!, sertifikatPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickTempatUsaha = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        imageUriTempatUsaha = result.data?.data
+        filePathColumnTempatUsaha = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriTempatUsaha != null) {
+            binding.ivTempatUsaha.load(imageUriTempatUsaha){
+                crossfade(true)
+            }
+        }
+
+        if(imageUriTempatUsaha != null && result.data != null){
+            tempatUsahaPath = convertImagePath(result?.data!!, imageUriTempatUsaha!!, filePathColumnTempatUsaha)
+            //accountViewModel.updateSertifikatTeknisi(teknisiId!!, sertifikatPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickIdentitas = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        imageUriIdentitas = result.data?.data
+        filePathColumnIdentitas = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUriIdentitas != null) {
+            binding.ivIdentitas.load(imageUriIdentitas){
+                crossfade(true)
+            }
+        }
+
+        if(imageUriIdentitas != null && result.data != null){
+            identitasPath = convertImagePath(result?.data!!, imageUriIdentitas!!, filePathColumnIdentitas)
+            //accountViewModel.updateSertifikatTeknisi(teknisiId!!, sertifikatPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
     private fun observeWhenSuccessLogin() {
         authViewModel.loginRequest.observe(viewLifecycleOwner) { event ->
             when(event) {
@@ -241,6 +445,16 @@ class RegisterFragment : Fragment() {
                 teknisiLat = authViewModel.lat.toFloat(),
                 teknisiLng = authViewModel.lng.toFloat(),
                 teknisiDeskripsi = edtInputStoreDescription.text.toString(),
+                fotoUri = imageUriPhoto!!,
+                fotoPath = imagePath!!,
+                sertifikatUri = imageUriSertifikat!!,
+                sertifikatPath = sertifikatPath!!,
+                identitasUri = imageUriIdentitas!!,
+                identitasPath = identitasPath!!,
+                tempatUsahaUri = imageUriTempatUsaha!!,
+                tempatUsahaPath = tempatUsahaPath!!,
+                contentResolver = requireContext().contentResolver,
+                context = requireContext()
             )
         }
     }
@@ -253,7 +467,7 @@ class RegisterFragment : Fragment() {
 
     private fun showProgress() = with(binding) {
         listOf(
-            btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+            btnNext, edtLayoutEmail, edtLayoutNoHp, edtLayoutStoreName, edtLayoutName, edtLayoutPwd,
             edtLayoutStoreAddress, edtLayoutStoreDescription,
         ).forEach { it.isEnabled = false }
 
@@ -264,7 +478,7 @@ class RegisterFragment : Fragment() {
         btnNext.postDelayed(
             {
                 listOf(
-                    btnNext, edtLayoutEmail, edtLayoutName, edtLayoutPwd,
+                    btnNext, edtLayoutEmail, edtLayoutNoHp, edtLayoutStoreName, edtLayoutName, edtLayoutPwd,
                     edtLayoutStoreAddress, edtLayoutStoreDescription,
                 ).forEach { it.isEnabled = true }
             }, 1000L
@@ -272,7 +486,8 @@ class RegisterFragment : Fragment() {
 
         btnNext.hideProgress(textBtnNext) {
             isEnable && with(binding) {
-                "${edtInputName.text}".isNotBlank() && "${edtInputEmail.text}".isNotBlank()
+                "${edtInputName.text}".isNotBlank() && "${edtInputEmail.text}".isNotBlank() && "${edtInputNoHp.text}".isNotBlank() && "${edtInputStoreName.text}".isNotBlank() && "${edtInputPwd.text}".isNotBlank()
+                        && "${edtInputStoreDescription.text}".isNotBlank() && "${edtInputStoreAddress.text}".isNotBlank()
             }
         }
     }
@@ -333,4 +548,11 @@ class RegisterFragment : Fragment() {
             binding.edtInputStoreAddress.text = authViewModel.address.toEditable()
         }
     }
+}
+
+internal enum class GalleryInputType(val type: String){
+    Profile("PROFILE"),
+    Sertifikat("SERTIFIKAT"),
+    TempatUsaha("TEMPAT_USAHA"),
+    Identitas("IDENTITAS")
 }

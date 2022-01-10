@@ -31,6 +31,36 @@
             android:layout_marginVertical="@dimen/medium"
             tools:context=".register.RegisterFragment">
 
+            <ImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="@dimen/profilePictureBig"
+                android:layout_height="@dimen/profilePictureBig"
+                android:layout_marginTop="@dimen/medium"
+                android:background="@drawable/shape_circle_placeholder"
+                android:contentDescription="Photo Profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.core_util.DigiButton
+                style="@style/Button"
+                android:id="@+id/btn_change_photo"
+                android:layout_width="150dp"
+                android:layout_height="@dimen/large_mid"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/medium"
+                android:background="@color/colorTransparent"
+                android:paddingStart="@dimen/medium_fit"
+                android:paddingEnd="@dimen/medium_fit"
+                android:text="PHOTO"
+                android:textAllCaps="true"
+                android:textColor="@color/colorCobaltBlue"
+                android:textSize="@dimen/text_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
@@ -39,7 +69,7 @@
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_change_photo"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -48,7 +78,7 @@
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold"
                 android:textColor="@color/colorRed"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_change_photo"
                 android:layout_marginHorizontal="@dimen/small"
                 app:layout_constraintStart_toEndOf="@+id/tv_name"/>
 
@@ -293,6 +323,7 @@
 
                 <com.example.core_util.DigiEditText
                     style="@style/EditText.Primary"
+                    android:gravity="top"
                     android:id="@+id/edt_input_store_address"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/very_large_plus"
@@ -300,6 +331,48 @@
                     android:background="@drawable/input_secondary" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_photo_identitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Foto Identitas"
+                android:layout_marginTop="@dimen/medium"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_address"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_foto_identitas"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/medium"
+                app:cardCornerRadius="@dimen/smaller"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toStartOf="@+id/tv_photo_identitas"
+                app:layout_constraintTop_toBottomOf="@+id/tv_photo_identitas">
+
+                <ImageView
+                    android:id="@+id/iv_identitas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey_20"
+                    android:scaleType="centerCrop" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium"
+                android:text="Masukan foto identitas Anda. \nKami merekomendasikan menggunakan 2160x1080px \ndan gambar tidak lebih dari 10MB."
+                android:textSize="@dimen/text_small"
+                app:layout_constraintBottom_toBottomOf="@+id/card_foto_identitas"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/card_foto_identitas"
+                app:layout_constraintTop_toTopOf="@+id/card_foto_identitas" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_daftar"
@@ -314,7 +387,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_address"
+                app:layout_constraintTop_toBottomOf="@+id/card_foto_identitas"
                 tools:ignore="TooManyViews" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
