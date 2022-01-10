@@ -1,7 +1,5 @@
 package com.example.core_data.domain.servicehp
 
-import com.squareup.moshi.Json
-
 data class ServiceHandphoneByCustomerGetAll(
     val pelangganId: Int = 0,
     val teknisiTotalScore: Int = 0,
@@ -9,6 +7,7 @@ data class ServiceHandphoneByCustomerGetAll(
     val teknisiLng: String = "",
     val serviceHandphoneId: Int = 0,
     val jenisKerusakan: String = "",
+    val deskripsiKerusakan: String = "",
     val createdAt: String = "",
     val teknisiId: Int = 0,
     val teknisiFoto: String = "",

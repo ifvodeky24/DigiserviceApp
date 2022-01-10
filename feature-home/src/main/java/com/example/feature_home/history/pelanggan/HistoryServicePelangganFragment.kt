@@ -101,7 +101,7 @@ class HistoryServicePelangganFragment : Fragment() {
                                 item.teknisiNama,
                                 item.jenisHp,
                                 item.jenisKerusakan,
-                                ""
+                                item.deskripsiKerusakan
                             )
                             val toRiwayatService = HistoryFragmentDirections
                                     .actionHistoryFragmentToDetailPesananServiceFragment(riwayatService)
