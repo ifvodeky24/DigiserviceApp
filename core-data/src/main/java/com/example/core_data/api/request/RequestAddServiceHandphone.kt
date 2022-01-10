@@ -13,6 +13,8 @@ data class RequestAddServiceHandphone(
     var jenisHp: String = "",
     @Json(name = "jenis_kerusakan")
     var jenisKerusakan: String = "",
+    @Json(name = "deskripsi_kerusakan")
+    var deskripsiKerusakan: String = "",
     @Json(name = "by_kurir")
     var byKurir: Int = 0
 )

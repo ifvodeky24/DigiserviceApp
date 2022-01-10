@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.core_data.dataModule
 import com.example.feature_auth.authModule
 import com.example.feature_home.homeModule
+import com.example.feature_service.serviceModule
 import io.armcha.debugBanner.Banner
 import io.armcha.debugBanner.DebugBanner
 import org.koin.android.ext.koin.androidContext
@@ -34,7 +35,8 @@ class App : Application() {
                 listOf(
                     dataModule,
                     authModule,
-                    homeModule
+                    homeModule,
+                    serviceModule
                 )
             )
         }

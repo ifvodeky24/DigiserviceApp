@@ -32,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class ServiceDetailFragment : Fragment(), ModuleNavigator{
+class ServiceDetailFragment : Fragment(), ModuleNavigator {
 
     private var _binding: FragmentServiceDetailBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +40,6 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator{
     private val args: ServiceDetailFragmentArgs by navArgs()
 
     private val accountViewModel: AccountViewModel by viewModel()
-    private val productViewModel: ProductViewModel by viewModel()
 
     private lateinit var preferenceManager : PreferenceManager
 

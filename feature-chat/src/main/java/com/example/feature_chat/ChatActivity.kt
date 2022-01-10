@@ -1,16 +1,16 @@
 package com.example.feature_chat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_util.BaseActivity
 import com.example.feature_chat.databinding.ActivityChatBinding
-import timber.log.Timber
 
-class ChatActivity : AppCompatActivity(), ModuleNavigator.ChatNav {
+class ChatActivity : BaseActivity(), ModuleNavigator.ChatNav {
 
     val status by statusParam()
+    val productName by productNameParam()
+    val productImage by productImageParam()
 
     private val binding by lazy {
         ActivityChatBinding.inflate(layoutInflater)

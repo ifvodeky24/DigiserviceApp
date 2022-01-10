@@ -19,7 +19,8 @@ data class TechnicianGetAll(
     val teknisiTotalResponden: Double = 0.0,
     val teknisiDeskripsi: String = "",
     val teknisiFoto: String = "",
-    val teknisiSertifikat: String = ""
+    val teknisiSertifikat: String = "",
+    val teknisiTempatUsaha: String = "",
 ) : Parcelable
 
 typealias ListTechnicianGetAll = List<TechnicianGetAll>

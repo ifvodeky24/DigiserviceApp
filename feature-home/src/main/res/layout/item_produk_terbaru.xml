@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:layout_width="190dp"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/_145sdp"
+    android:layout_height="@dimen/_225sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
     android:clickable="true"
     android:focusable="true"
@@ -45,8 +45,8 @@
                     android:layout_height="wrap_content"
                     app:digi_font_style="medium"
                     android:textSize="16sp"
-                    android:maxLines="1"
-                    android:singleLine="true"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     tools:text="Suspendisse ornare"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -55,6 +55,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     tools:text="Adipiscing" />
 
             </LinearLayout>

@@ -3,26 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/serviceCustomerFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.feature_service.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
+        android:id="@+id/serviceCustomerFragment"
+        android:name="com.example.feature_service.ServiceCustomerFragment"
+        android:label="fragment_service_customer"
+        tools:layout="@layout/fragment_service_customer" >
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_serviceCustomerFragment_to_seeAllServiceFragment"
+            app:destination="@id/seeAllServiceFragment" />
+        <action
+            android:id="@+id/action_serviceCustomerFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.feature_service.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:id="@+id/seeAllServiceFragment"
+        android:name="com.example.feature_service.service_see_all.SeeAllServiceFragment"
+        android:label="fragment_see_all_service"
+        tools:layout="@layout/fragment_see_all_service" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_seeAllServiceFragment_to_serviceDetailFragment"
+            app:destination="@id/serviceDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/serviceDetailFragment"
+        android:name="com.example.feature_service.service_detail.ServiceDetailCustomerFragment"
+        android:label="fragment_service_detail"
+        tools:layout="@layout/fragment_service_detail_customer" >
+        <argument
+            android:name="technician"
+            app:argType="com.example.core_data.domain.technician.TechnicianGetAll" />
     </fragment>
 </navigation>
