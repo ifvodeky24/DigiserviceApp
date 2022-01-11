@@ -22,6 +22,12 @@ internal abstract class AuthDao {
     @Query("UPDATE AuthEntity set foto=:foto WHERE id=:id")
     abstract suspend fun updateFoto(id: Int, foto: String)
 
+    @Query("UPDATE AuthEntity set teknisiIdentias=:photoIdentitas WHERE id=:id")
+    abstract suspend fun updatePhotoIdentitas(id: Int, photoIdentitas: String)
+
+    @Query("UPDATE AuthEntity set teknisiTempatUsaha=:photoTempatUsaha WHERE id=:id")
+    abstract suspend fun updatePhotoTempatUsaha(id: Int, photoTempatUsaha: String)
+
     @Query("UPDATE AuthEntity set teknisiSertifikat=:sertifikat WHERE id=:id")
     abstract suspend fun updateSertifikat(id: Int, sertifikat: String)
 

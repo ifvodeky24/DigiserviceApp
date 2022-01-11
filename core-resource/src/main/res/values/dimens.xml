@@ -87,6 +87,7 @@
 
     <dimen name="radius">20dp</dimen>
     <dimen name="radiusSmall">6dp</dimen>
+    <dimen name="radiusMedium">8dp</dimen>
     <dimen name="radiusCircle">200dp</dimen>
     <dimen name="radiusInput">10dp</dimen>
 

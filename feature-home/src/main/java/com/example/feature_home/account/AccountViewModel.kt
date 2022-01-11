@@ -51,7 +51,13 @@ class AccountViewModel(
     private val isSertifikatTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val sertifikatTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isSertifikatTeknisiUpdate
 
-    private val optionJenisHpForPost =HashMap<Int, JenisHp>()
+    private val isTempatUsahaTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val tempatUsahaTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isTempatUsahaTeknisiUpdate
+
+    private val isIdentitasTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val identitasTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isIdentitasTeknisiUpdate
+
+    private val optionJenisHpForPost = HashMap<Int, JenisHp>()
 
     private val optionJenisKerusakanForPost =HashMap<Int, Skils>()
 
@@ -192,9 +198,29 @@ class AccountViewModel(
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoTeknisi(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
         viewModelScope.launch {
-            authRepository.updatPhotoTeknisi(id, filePath, uri, contentResolver, context)
+            authRepository.updatePhotoTeknisi(id, filePath, uri, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { isPhotoTeknisiUpdate.value = it }
+        }
+    }
+
+    // foto tempat usaha
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoTempatUsaha(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updatePhotoTeknisiTempatUsaha(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isTempatUsahaTeknisiUpdate.value = it }
+        }
+    }
+
+    // foto identitas
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoIdentitas(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updatePhotoTeknisiIdentitas(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isIdentitasTeknisiUpdate.value = it }
         }
     }
 
@@ -218,6 +244,14 @@ class AccountViewModel(
 
     fun updateAuthPhotoLocally(authId: Int, foto: String) = viewModelScope.launch {
         authRepository.updateAuthPhotoLocally(authId, foto)
+    }
+
+    fun updateAuthTempatUsahaLocally(authId: Int, tempatUsaha: String) = viewModelScope.launch {
+        authRepository.updateAuthTempatUsahaLocally(authId, tempatUsaha)
+    }
+
+    fun updateAuthIdentitasLocally(authId: Int, identitas: String) = viewModelScope.launch {
+        authRepository.updateAuthIdentitasLocally(authId, identitas)
     }
 
     fun updateAuthSertifikatLocally(authId: Int, sertifikat: String) = viewModelScope.launch {

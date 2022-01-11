@@ -244,20 +244,91 @@
                 android:layout_marginTop="@dimen/medium"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/text_small"
-                android:text="@string/skils_jenis_kerusakan_hp"
+                android:text="Foto Sertifikat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/edt_layout_store_desc"/>
 
-            <ImageButton
-                android:id="@+id/btn_teknisi_sertifikat"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_teknisi_sertifikat"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:layout_marginTop="@dimen/medium"
+                app:cardCornerRadius="@dimen/radiusMedium"
                 app:layout_constraintTop_toBottomOf="@+id/tv_teknisi_sertifikat"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="Foto teknisi sertifikat"
-                android:background="@color/colorBorderCard"/>
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btn_teknisi_sertifikat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_teknisi_sertifikat"
+                    android:contentDescription="Foto teknisi sertifikat"
+                    android:background="@color/colorBorderCard"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.example.core_util.DigiTextView
+                android:id="@+id/tv_teknisi_identitas"
+                android:layout_marginTop="@dimen/medium"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/text_small"
+                android:text="Foto Identitas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/card_teknisi_sertifikat"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_teknisi_identitas"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:cardCornerRadius="@dimen/radiusMedium"
+                android:layout_marginTop="@dimen/medium"
+                app:layout_constraintTop_toBottomOf="@+id/tv_teknisi_identitas"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btn_teknisi_identitas"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Foto teknisi sertifikat"
+                    android:background="@color/colorBorderCard"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.example.core_util.DigiTextView
+                android:id="@+id/tv_teknisi_tempat_usaha"
+                android:layout_marginTop="@dimen/medium"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/text_small"
+                android:text="Foto Tempat Usaha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/card_teknisi_identitas"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_teknisi_tempat_usaha"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/medium"
+                app:cardCornerRadius="@dimen/radiusMedium"
+                app:layout_constraintTop_toBottomOf="@+id/tv_teknisi_tempat_usaha"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btn_teknisi_tempat_usaha"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Foto teknisi tempat usaha"
+                    android:background="@color/colorBorderCard"/>
+
+            </androidx.cardview.widget.CardView>
 
             <com.example.core_util.DigiTextView
                 android:id="@+id/tv_skils"
@@ -267,7 +338,7 @@
                 android:text="@string/skils_jenis_kerusakan_hp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/btn_teknisi_sertifikat"/>
+                app:layout_constraintTop_toBottomOf="@+id/card_teknisi_tempat_usaha"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_skils"

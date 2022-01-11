@@ -544,6 +544,169 @@ class AuthRepository internal constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoTeknisi(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoTeknisi
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoTeknisi(
+                    teknisiId = id,
+                    foto = MultipartBody.Part.createFormData(
+                        "teknisi_foto",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
+
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    // tempat usaha
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoTeknisiTempatUsaha(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoTempatUsaha
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoTempatUsahaTeknisi(
+                    teknisiId = id,
+                    fotoTempatUsaha = MultipartBody.Part.createFormData(
+                        "teknisi_tempat_usaha",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    // identitas
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoTeknisiIdentitas(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoIdentitas
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoIdentitasTeknisi(
+                    teknisiId = id,
+                    fotoIdentitas = MultipartBody.Part.createFormData(
+                        "teknisi_identitas",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
+
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoPelanggan(
         id: Int,
         filePath: String,
@@ -654,6 +817,14 @@ class AuthRepository internal constructor(
 
     suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
         dao.updateFoto(authId, foto)
+    }
+
+    suspend fun updateAuthTempatUsahaLocally(authId: Int, tempatUsaha: String) {
+        dao.updatePhotoTempatUsaha(authId, tempatUsaha)
+    }
+
+    suspend fun updateAuthIdentitasLocally(authId: Int, identitas: String) {
+        dao.updatePhotoIdentitas(authId, identitas)
     }
 
     suspend fun updateAuthSertifikatLocally(authId: Int, sertifikat: String) {

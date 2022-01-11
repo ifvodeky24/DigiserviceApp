@@ -25,7 +25,9 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.afollestad.vvalidator.form
 import com.example.core_data.APP_SERTIFIKAT_IMAGES_URL
+import com.example.core_data.APP_TEKNISI_IDENTITAS_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
+import com.example.core_data.APP_TEMPAT_USAHA_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.request.TeknisiRequest
 import com.example.core_data.api.request.UserRequest
@@ -53,8 +55,11 @@ class EditAccountTechnicianFragment : Fragment() {
     private var teknisiId: Int? = null
     private var userId: Int? = null
     private var authName: String? = null
+
     private var imagePath: String? = null
     private var sertifikatPath: String? = null
+    private var identitasPath: String? = null
+    private var tempatUsahaPath: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -91,6 +96,8 @@ class EditAccountTechnicianFragment : Fragment() {
         setInput()
         observePhotoTeknisi()
         observeSertifikatTeknisi()
+        observeIdentitasTeknisi()
+        observeTempatUsahaTeknisi()
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -121,6 +128,34 @@ class EditAccountTechnicianFragment : Fragment() {
                     }
                     else{
                         requestPermissionSertifikat.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            btnTeknisiTempatUsaha.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.TempatUsaha)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.TempatUsaha)
+                    }
+                    else{
+                        requestPermissionTempatUsaha.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            btnTeknisiIdentitas.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Identitas)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Identitas)
+                    }
+                    else{
+                        requestPermissionIdentitas.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }
                 }
             }
@@ -171,6 +206,26 @@ class EditAccountTechnicianFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionTempatUsaha = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.TempatUsaha)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionIdentitas = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Identitas)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun isCameraPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireActivity(),
@@ -183,10 +238,19 @@ class EditAccountTechnicianFragment : Fragment() {
             type = "image/*"
             putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
         }
-        if (galleryType.type == GalleryInputType.Profile.type) {
-            resultPickProfile.launch(intent)
-        } else {
-            resultPickSertifikat.launch(intent)
+        when(galleryType.type){
+            GalleryInputType.Profile.type -> {
+                resultPickProfile.launch(intent)
+            }
+            GalleryInputType.Sertifikat.type -> {
+                resultPickSertifikat.launch(intent)
+            }
+            GalleryInputType.TempatUsaha.type -> {
+                resultPickTempatUsaha.launch(intent)
+            }
+            GalleryInputType.Identitas.type -> {
+                resultPickIdentitas.launch(intent)
+            }
         }
     }
 
@@ -204,6 +268,38 @@ class EditAccountTechnicianFragment : Fragment() {
         if(imageUri != null && result.data != null){
             imagePath = convertImagePath(result?.data!!, imageUri, filePathColumn)
             accountViewModel.updatePhotoTeknisi(teknisiId!!, imagePath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickIdentitas = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        val imageUri: Uri? = result.data?.data
+        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUri != null) {
+            binding.btnTeknisiIdentitas.load(imageUri){
+                crossfade(true)
+            }
+        }
+
+        if(imageUri != null && result.data != null){
+            identitasPath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updatePhotoIdentitas(teknisiId!!, identitasPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickTempatUsaha = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        val imageUri: Uri? = result.data?.data
+        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
+        if (imageUri != null) {
+            binding.btnTeknisiTempatUsaha.load(imageUri){
+                crossfade(true)
+            }
+        }
+
+        if(imageUri != null && result.data != null){
+            tempatUsahaPath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updatePhotoTempatUsaha(teknisiId!!, tempatUsahaPath!!, imageUri, requireActivity().contentResolver, requireContext())
         }
     }
 
@@ -231,6 +327,16 @@ class EditAccountTechnicianFragment : Fragment() {
     private fun updateSertifikatAuthLocally(filePath: String) {
         val newFoto = "${authName}_$filePath"
         accountViewModel.updateAuthSertifikatLocally(userId as Int, newFoto)
+    }
+
+    private fun updateTempatUsahaAuthLocally(filePath: String) {
+        val newFoto = "${authName}_$filePath"
+        accountViewModel.updateAuthTempatUsahaLocally(userId as Int, newFoto)
+    }
+
+    private fun updateIdentitasAuthLocally(filePath: String) {
+        val newFoto = "${authName}_$filePath"
+        accountViewModel.updateAuthIdentitasLocally(userId as Int, newFoto)
     }
 
     private fun updateEdit() {
@@ -283,7 +389,12 @@ class EditAccountTechnicianFragment : Fragment() {
                             crossfade(true)
                         }
                     }
-
+                    if(auth.teknisiIdentitas.isNotEmpty()){
+                        btnTeknisiIdentitas.load(APP_TEKNISI_IDENTITAS_IMAGES_URL+auth.teknisiIdentitas)
+                    }
+                    if (auth.teknisiTempatUsaha.isNotEmpty()){
+                        btnTeknisiTempatUsaha.load(APP_TEMPAT_USAHA_IMAGES_URL+auth.teknisiTempatUsaha)
+                    }
                     edtInputName.text = auth.name.toEditable()
                     edtInputEmail.text = auth.email.toEditable()
                     edtInputHp.text = auth.hp.toEditable()
@@ -358,6 +469,49 @@ class EditAccountTechnicianFragment : Fragment() {
         }
     }
 
+    private fun observeTempatUsahaTeknisi() {
+        accountViewModel.tempatUsahaTeknisiUpdate.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {
+                    binding.btnTeknisiTempatUsaha.isEnabled = false
+                    showProgressDialog()
+                }
+                is ApiEvent.OnSuccess -> {
+                    binding.btnTeknisiTempatUsaha.isEnabled = true
+                    hideProgressDialog()
+                    Snackbar.make(requireContext(), requireView(), "Tempat usaha berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updateTempatUsahaAuthLocally(tempatUsahaPath.toString())
+                }
+                is ApiEvent.OnFailed -> {
+                    binding.btnTeknisiTempatUsaha.isEnabled = true
+                    hideProgressDialog()
+                    Snackbar.make(requireContext(), requireView(), "Tempat usaha gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun observeIdentitasTeknisi() {
+        accountViewModel.identitasTeknisiUpdate.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {
+                    binding.btnTeknisiIdentitas.isEnabled = false
+                    showProgressDialog()
+                }
+                is ApiEvent.OnSuccess -> {
+                    binding.btnTeknisiIdentitas.isEnabled = true
+                    hideProgressDialog()
+                    Snackbar.make(requireContext(), requireView(), "Identitas berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updateIdentitasAuthLocally(tempatUsahaPath.toString())
+                }
+                is ApiEvent.OnFailed -> {
+                    binding.btnTeknisiIdentitas.isEnabled = true
+                    hideProgressDialog()
+                    Snackbar.make(requireContext(), requireView(), "Identitas gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     private fun setupRecyclerSkils(listSkils: ResultSkils) {
         accountViewModel jenisKerusakan listSkils.skils
@@ -421,7 +575,9 @@ internal enum class TypeInput(val inputType: String){
 
 internal enum class GalleryInputType(val type: String) {
     Profile("PROFILE"),
-    Sertifikat("SERTIFIKAT")
+    Sertifikat("SERTIFIKAT"),
+    Identitas("IDENTITAS"),
+    TempatUsaha("TEMPAT_USAHA")
 }
 
 fun Fragment.replaceFragmentEditAccountTechnician(resId: Int){
