@@ -15,6 +15,7 @@ import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_navigation.ModuleNavigator
+import com.example.core_navigation.ModuleNavigator.ProductNav.Companion.JUAL_ID
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.Constants
 import com.example.core_util.Constants.KEY_RECEIVER_ID

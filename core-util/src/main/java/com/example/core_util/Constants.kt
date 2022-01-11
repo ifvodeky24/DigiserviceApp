@@ -61,9 +61,18 @@ object Constants {
     const val KEY_AVAILABILITY = "availability"
     const val REMOTE_MSG_AUTHORIZATION = "Authorization"
     const val REMOTE_MSG_CONTENT_TYPE = "Content-Type"
+    const val REMOTE_MSG_DATA = "data"
+    const val REMOTE_MSG_REGISTRATION_IDS = "registration_ids"
 
-//    val remoteMsgHeaders = HashMap<String, String>()
-//    val getRemoteMsgHeaders = HashMap<String, String> {
-//
-//    }
+    var remoteMsgHeaders: HashMap<String, String>? = null
+
+    fun getremoteMsgHeaders(): HashMap<String, String> {
+        if (remoteMsgHeaders == null) {
+            remoteMsgHeaders = HashMap()
+            remoteMsgHeaders!![REMOTE_MSG_AUTHORIZATION] =
+                "key=AAAArG2_a-Q:APA91bHonqxDzEg_WXDJOa-ZY6ZchHBqZCoYgkzjTY56mDNA3R1Osx5B8wd7e42gS8kqHjmUcAm7EAacB0Rvin1Rs4ksEgATCHfz7Wc2y2QczPoWRa5Ez4ppGMi4EMVjdlu6L8PzzPTE"
+            remoteMsgHeaders!![REMOTE_MSG_CONTENT_TYPE] = "application/json"
+        }
+        return remoteMsgHeaders as HashMap<String, String>
+    }
 }
