@@ -21,6 +21,7 @@ import coil.transform.CircleCropTransformation
 import com.afollestad.vvalidator.form
 import com.example.core_data.api.ApiEvent
 import androidx.navigation.fragment.findNavController
+import com.example.core_data.APP_PELANGGAN_IDENTITAS_IMAGES_URL
 import com.example.core_data.APP_PELANGGAN_IMAGES_URL
 import com.example.core_resource.hideProgressDialog
 import com.example.core_resource.showApiFailedDialog
@@ -45,6 +46,7 @@ class EditAccountCustomerFragment : Fragment() {
     private var userId: Int? = null
     private var authName: String? = null
     private var imagePath: String? = null
+    private var imageIdentitasPath: String? = null
 
     private val textHintEmptyEmail by lazy {
         "Email harus diisi"
@@ -74,6 +76,7 @@ class EditAccountCustomerFragment : Fragment() {
         observer()
         setInput()
         observePhotoPelanggan()
+        observeIdentitasPelanggan()
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -82,12 +85,25 @@ class EditAccountCustomerFragment : Fragment() {
 
             btnChangePhoto.setOnClickListener {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    navigateToGallery()
+                    navigateToGallery(GalleryInputType.Profile)
+                }
+                else {
+                    if (isCameraPermissionGranted()){
+                        navigateToGallery(GalleryInputType.Profile)
+                    } else{
+                        requestPermissionProfile.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+            }
+
+            btnTeknisiIdentitas.setOnClickListener {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    navigateToGallery(GalleryInputType.Identitas)
                 } else {
                     if (isCameraPermissionGranted()){
-                        navigateToGallery()
+                        navigateToGallery(GalleryInputType.Identitas)
                     } else{
-                        requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        requestPermissionIdentitas.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }
                 }
             }
@@ -108,6 +124,7 @@ class EditAccountCustomerFragment : Fragment() {
                 }
                 submitWith(R.id.btn_update) { updateEdit() }
             }
+
             btnUpdate.bindLifecycle(viewLifecycleOwner)
         }
     }
@@ -139,6 +156,11 @@ class EditAccountCustomerFragment : Fragment() {
                         crossfade(true)
                         transformations(CircleCropTransformation())
                     }
+
+                    if (auth.teknisiIdentitas.isNotEmpty()) btnTeknisiIdentitas.load(APP_PELANGGAN_IDENTITAS_IMAGES_URL+auth.teknisiIdentitas){
+                        crossfade(true)
+                    }
+
                     edtInputName.text = auth.name.toEditable()
                     edtInputEmail.text = auth.email.toEditable()
                     edtInputHp.text = auth.hp.toEditable()
@@ -166,9 +188,18 @@ class EditAccountCustomerFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+    private val requestPermissionProfile = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
         if (permission){
-            navigateToGallery()
+            navigateToGallery(GalleryInputType.Profile)
+        }
+        else{
+            Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val requestPermissionIdentitas = registerForActivityResult(ActivityResultContracts.RequestPermission()){ permission ->
+        if (permission){
+            navigateToGallery(GalleryInputType.Identitas)
         }
         else{
             Toast.makeText(requireContext(), "No Permission Granted", Toast.LENGTH_SHORT).show()
@@ -182,16 +213,23 @@ class EditAccountCustomerFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun navigateToGallery() {
+    private fun navigateToGallery(galleryType: GalleryInputType) {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
             putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
         }
-        resultPick.launch(intent)
+        when(galleryType.type){
+            GalleryInputType.Profile.type -> {
+                resultPickProfile.launch(intent)
+            }
+            GalleryInputType.Identitas.type -> {
+                resultPickIdentitas.launch(intent)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private val resultPick = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+    private val resultPickProfile = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         val imageUri: Uri? = result.data?.data
         val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
         binding.imageProfile.load(imageUri){
@@ -204,9 +242,25 @@ class EditAccountCustomerFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private val resultPickIdentitas = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        val imageUri: Uri? = result.data?.data
+        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
+        binding.btnTeknisiIdentitas.load(imageUri)
+        if(imageUri != null && result.data != null){
+            imageIdentitasPath = convertImagePath(result?.data!!, imageUri, filePathColumn)
+            accountViewModel.updateIdentitasPelanggan(pelangganId!!, imageIdentitasPath!!, imageUri, requireActivity().contentResolver, requireContext())
+        }
+    }
+
     private fun updatePhotoAuthLocally(imagePath: String) {
         val newFoto = "${authName}_$imagePath"
         accountViewModel.updateAuthPhotoLocally(userId as Int, newFoto)
+    }
+
+    private fun updateIdentitasAuthLocally(imagePath: String) {
+        val newFoto = "${authName}_$imagePath"
+        accountViewModel.updateAuthIdentitasLocally(userId as Int, newFoto)
     }
 
     private fun observePhotoPelanggan() {
@@ -223,6 +277,25 @@ class EditAccountCustomerFragment : Fragment() {
                 is ApiEvent.OnFailed -> {
                     binding.btnChangePhoto.isEnabled = true
                     Snackbar.make(requireActivity(), requireView(), "Foto gagal diupdate!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    
+    private fun observeIdentitasPelanggan() {
+        accountViewModel.identitasPelangganUpdate.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is ApiEvent.OnProgress -> {
+                    binding.btnTeknisiIdentitas.isEnabled = false
+                }
+                is ApiEvent.OnSuccess -> {
+                    binding.btnTeknisiIdentitas.isEnabled = true
+                    Snackbar.make(requireActivity(), requireView(), "Identitas berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
+                    updateIdentitasAuthLocally(imageIdentitasPath!!)
+                }
+                is ApiEvent.OnFailed -> {
+                    binding.btnTeknisiIdentitas.isEnabled = true
+                    Snackbar.make(requireActivity(), requireView(), "Identitas gagal diupdate!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

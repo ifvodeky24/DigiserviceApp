@@ -101,12 +101,24 @@ internal interface AuthService {
         @Part foto: MultipartBody.Part,
     ): CommonResponse
 
+
+    // region pelanggan
+
     @Multipart
     @POST(UpdatePhotoPelanggan)
     suspend fun updatePhotoPelanggan(
         @Path("pelanggan_id") pelangganId: Int,
         @Part foto: MultipartBody.Part,
     ): CommonResponse
+
+    @Multipart
+    @POST(UpdatePhotoIdentitasPelanggan)
+    suspend fun updatePhotoIdentitasPelanggan(
+        @Path("pelanggan_id") pelangganId: Int,
+        @Part fotoIdentitas: MultipartBody.Part
+    ) : CommonResponse
+
+    // endregion
 
     @Multipart
     @POST(UpdateSertifikatTeknisi)
@@ -145,6 +157,7 @@ internal interface AuthService {
         const val UpdatePhotoPelanggan = "update-pelanggan-foto/{pelanggan_id}"
         const val UpdateSertifikatTeknisi = "update-teknisi-sertifikat/{teknisi_id}"
         const val UpdatePhotoIdentitas = "update-teknisi-identitas/{teknisi_id}"
+        const val UpdatePhotoIdentitasPelanggan = "update-pelanggan-identitas/{pelanggan_id}"
         const val UpdatePhotoTempatUsaha = "update-teknisi-tempat-usaha/{teknisi_id}"
     }
 }
