@@ -45,7 +45,7 @@ internal interface AuthService {
         @Part sertifikat: MultipartBody.Part,
         @Part identitas: MultipartBody.Part,
         @Part tempatUsaha: MultipartBody.Part
-        ): CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST(RegiterPelanggan)
@@ -72,10 +72,13 @@ internal interface AuthService {
     ): JenisHpResponse
 
     @POST(SaveChoose)
-    suspend fun saveChoose(@Body request: RequestChoose) : CommonResponse
+    suspend fun saveChoose(@Body request: RequestChoose): CommonResponse
 
     @POST(UpdateTeknisi)
-    suspend fun updateTeknisi(@Path("id") id: Int, @Body request: RequestUpdateTeknisi) : CommonResponse
+    suspend fun updateTeknisi(
+        @Path("id") id: Int,
+        @Body request: RequestUpdateTeknisi
+    ): CommonResponse
 
     @FormUrlEncoded
     @POST(UpdatePelanggan)
@@ -96,7 +99,7 @@ internal interface AuthService {
     suspend fun updatePhotoTeknisi(
         @Path("teknisi_id") teknisiId: Int,
         @Part foto: MultipartBody.Part,
-    ) : CommonResponse
+    ): CommonResponse
 
 
     // region pelanggan
@@ -106,7 +109,7 @@ internal interface AuthService {
     suspend fun updatePhotoPelanggan(
         @Path("pelanggan_id") pelangganId: Int,
         @Part foto: MultipartBody.Part,
-    ) : CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST(UpdatePhotoIdentitasPelanggan)
@@ -122,7 +125,7 @@ internal interface AuthService {
     suspend fun updateSertifikatTeknisi(
         @Path("teknisi_id") teknisiId: Int,
         @Part foto: MultipartBody.Part,
-    ) : CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST(UpdatePhotoIdentitas)
