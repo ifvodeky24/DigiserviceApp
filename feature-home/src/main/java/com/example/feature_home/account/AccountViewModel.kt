@@ -45,8 +45,16 @@ class AccountViewModel(
     private val isPhotoTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val photoTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoTeknisiUpdate
 
+
+    // region pelanggan
+
     private val isPhotoPelangganUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val photoPelangganUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoPelangganUpdate
+
+    private val isIdentitasPelangganUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val identitasPelangganUpdate: LiveData<ApiEvent<CommonResponse?>> = isIdentitasPelangganUpdate
+
+    // endregion
 
     private val isSertifikatTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val sertifikatTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isSertifikatTeknisiUpdate
@@ -230,6 +238,15 @@ class AccountViewModel(
             authRepository.updatePhotoPelanggan(id, filePath, uri, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { isPhotoPelangganUpdate.value = it }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updateIdentitasPelanggan(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updatePhotoPelangganIdentitas(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isIdentitasPelangganUpdate.value = it }
         }
     }
 

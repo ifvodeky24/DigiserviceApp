@@ -651,7 +651,7 @@ class AuthRepository internal constructor(
         }
     }
 
-    // identitas
+    // identitas teknisi
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoTeknisiIdentitas(
         id: Int,
@@ -706,6 +706,7 @@ class AuthRepository internal constructor(
         }
     }
 
+    // pelanggan photo
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoPelanggan(
         id: Int,
@@ -754,6 +755,60 @@ class AuthRepository internal constructor(
 
             emit(apiEvent)
 
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    // identitas pelanggan
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoPelangganIdentitas(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoIdentitasPelanggan
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoIdentitasPelanggan(
+                    pelangganId = id,
+                    fotoIdentitas = MultipartBody.Part.createFormData(
+                        "pelanggan_identitas",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
@@ -814,7 +869,6 @@ class AuthRepository internal constructor(
         }
     }
 
-
     suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
         dao.updateFoto(authId, foto)
     }
@@ -824,6 +878,10 @@ class AuthRepository internal constructor(
     }
 
     suspend fun updateAuthIdentitasLocally(authId: Int, identitas: String) {
+        dao.updatePhotoIdentitas(authId, identitas)
+    }
+
+    suspend fun updateAuthIdentitasPelangganLocally(authId: Int, identitas: String) {
         dao.updatePhotoIdentitas(authId, identitas)
     }
 
