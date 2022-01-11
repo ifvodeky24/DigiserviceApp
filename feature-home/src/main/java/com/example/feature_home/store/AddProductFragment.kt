@@ -180,8 +180,8 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                 is ApiEvent.OnProgress -> showProgress()
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.productFragment)
                     hideProgress()
+                    activity?.onBackPressed()
                 }
                 is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed) {
                     hideProgress(true)
