@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.afollestad.recyclical.ViewHolder
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
@@ -219,6 +220,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
             dataSource = dataSourceTypedOf(listJenisHp)
             binding.rvTypePhone.setup {
                 withDataSource(dataSource)
+                withLayoutManager(GridLayoutManager(requireContext(),4))
                 withItem<JenisHp, ItemTypeHpViewHolder>(R.layout.layout_items_radio_button){
                     onBind(::ItemTypeHpViewHolder){ _, item ->
                         titleRadioButton.text = item.jenisNama
