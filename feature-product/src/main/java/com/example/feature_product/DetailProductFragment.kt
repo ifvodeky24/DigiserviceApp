@@ -7,15 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_navigation.ModuleNavigator
-import com.example.core_navigation.ModuleNavigator.ProductNav.Companion.JUAL_ID
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_util.Constants
 import com.example.core_util.Constants.KEY_RECEIVER_ID
@@ -67,6 +64,16 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
         setupInput()
         observeProductDetail()
         observeBuyProduct()
+
+        childFragmentManager.setFragmentResultListener(
+            BuyDialogFragment.KEY_RESULT_SUBMIT,
+            this@DetailProductFragment
+        ) { _, bundle ->
+            val result = bundle.getString(BuyDialogFragment.KEY_BUNDLE_SUBMIT)
+            if (result == BuyDialogFragment.TRUE) {
+                buyProduct()
+            }
+        }
     }
 
     private fun setupDisplay(jualIds: String?) {
@@ -192,7 +199,12 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                             documentSnapshot.getString("foto")
                         )
 
-                        navigateToChatActivity(finnishCurrent = true, status = "3", productName = data.jenisNama, productImage = data.fotoProduk)
+                        navigateToChatActivity(
+                            finnishCurrent = true,
+                            status = "3",
+                            productName = data.jenisNama,
+                            productImage = data.fotoProduk
+                        )
                     } else {
                         Timber.d("gagal")
                         Toast.makeText(
@@ -213,7 +225,8 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.btn_order -> {
-                buyProduct()
+                val bs = BuyDialogFragment()
+                bs.show(childFragmentManager, "BuyBottomSheet")
             }
         }
     }

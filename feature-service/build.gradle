@@ -6,6 +6,8 @@ plugins {
 apply(from: "../shared_dependencies_feature.gradle")
 
 dependencies {
+    implementation project(':feature-home')
+
     implementation deps.location
     implementation deps.coil
     implementation deps.validator
