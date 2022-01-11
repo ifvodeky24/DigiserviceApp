@@ -29,6 +29,7 @@ import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
+import com.example.core_util.getFormatRupiah
 import com.example.feature_home.databinding.FragmentHomeBinding
 import com.example.feature_home.service.navigateToServiceCustomerFragment
 import com.example.feature_home.store.ProductViewModel
@@ -245,7 +246,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
-                        tvPrice.text = "Rp. ${item.jualHarga.toString()}"
+                        tvPrice.text = getFormatRupiah(item.jualHarga)
                         Glide.with(requireActivity())
                             .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                             .centerCrop()

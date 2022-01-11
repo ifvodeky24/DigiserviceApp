@@ -12,6 +12,7 @@ import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_resource.showApiFailedDialog
 import com.example.core_resource.showProgressDialog
+import com.example.core_util.getFormatRupiah
 import com.example.feature_home.R
 import com.example.feature_home.databinding.FragmentDetailProdukBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -84,7 +85,7 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
         with(binding) {
             args.produk?.apply {
                 tvProductTitle.text = jualJudul
-                tvPrice.text = jualHarga.toString()
+                tvPrice.text =  getFormatRupiah(jualHarga)
                 tvDescription.text = jualDeskripsi
                 tvPhoneType.text = jenisNama
                 tvProductStatus.text = jualStatus

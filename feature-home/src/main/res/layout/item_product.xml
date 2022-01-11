@@ -57,6 +57,18 @@
                     android:maxLength="50"
                     tools:text="Adipiscing" />
 
+                <TextView
+                    android:id="@+id/tv_Price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:layout_marginTop="4dp"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    tools:text="Rp.20000" />
+
             </LinearLayout>
 
         </LinearLayout>

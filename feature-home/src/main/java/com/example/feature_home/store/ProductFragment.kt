@@ -15,6 +15,7 @@ import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_resource.showApiFailedDialog
+import com.example.core_util.getFormatRupiah
 import com.example.feature_home.R
 import com.example.feature_home.account.AccountViewModel
 import com.example.feature_home.databinding.FragmentProductBinding
@@ -99,6 +100,7 @@ class ProductFragment : Fragment() {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
+                        tvPrice.text = getFormatRupiah(item.jualHarga)
                         Glide.with(requireActivity())
                             .load(APP_PRODUCT_IMAGES_URL+item.pathPhoto)
                             .centerCrop()
