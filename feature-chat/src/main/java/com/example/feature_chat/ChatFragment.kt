@@ -14,12 +14,14 @@ import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
+import com.example.feature_auth.AuthViewModel
 import com.example.feature_chat.databinding.FragmentChatBinding
 import com.example.feature_chat.models.ChatMessage
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,6 +46,8 @@ class ChatFragment : Fragment(), ModuleNavigator {
     private val status by lazy { (activity as ChatActivity).status }
     private val productName by lazy { (activity as ChatActivity).productName }
     private val productImage by lazy { (activity as ChatActivity).productImage }
+
+    private val viewModel by sharedViewModel<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

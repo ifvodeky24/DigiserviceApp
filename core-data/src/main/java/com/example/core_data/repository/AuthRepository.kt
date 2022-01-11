@@ -16,12 +16,12 @@ import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.auth.toDomain
 import com.example.core_data.api.response.toDomain
 import com.example.core_data.api.service.AuthService
+import com.example.core_data.api.service.FCMService
 import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
 import com.example.core_data.persistence.dao.TechnicianDao
-import com.example.core_data.persistence.entity.auth.AuthEntity
 import com.example.core_data.persistence.entity.auth.toDomain
 import com.example.core_data.persistence.entity.auth.toEntity
 import com.example.core_data.persistence.entity.technician.toDomain
@@ -39,6 +39,7 @@ import java.io.FileOutputStream
 class AuthRepository internal constructor(
     private val apiExecutor: ApiExecutor,
     private val authService: AuthService,
+    private val fcmService: FCMService,
     private val dao: AuthDao,
     private val techDao: TechnicianDao,
     private val jsonParser: Moshi,
@@ -648,6 +649,45 @@ class AuthRepository internal constructor(
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    fun sendMessage(messageBody: String) : Flow<ApiEvent<String?>> = flow{
+        val REMOTE_MSG_AUTHORIZATION = "Authorization"
+        val REMOTE_MSG_CONTENT_TYPE = "Content-Type"
+
+        var remoteMsgHeaders: HashMap<String, String>? = null
+
+        fun getremoteMsgHeaders(): HashMap<String, String> {
+            if (remoteMsgHeaders == null) {
+                remoteMsgHeaders = HashMap()
+                remoteMsgHeaders!![REMOTE_MSG_AUTHORIZATION] =
+                    "key=AAAArG2_a-Q:APA91bHonqxDzEg_WXDJOa-ZY6ZchHBqZCoYgkzjTY56mDNA3R1Osx5B8wd7e42gS8kqHjmUcAm7EAacB0Rvin1Rs4ksEgATCHfz7Wc2y2QczPoWRa5Ez4ppGMi4EMVjdlu6L8PzzPTE"
+                remoteMsgHeaders!![REMOTE_MSG_CONTENT_TYPE] = "application/json"
+            }
+            return remoteMsgHeaders as HashMap<String, String>
+        }
+
+        runCatching {
+            val apiId = FCMService.Send
+            val apiResult = apiExecutor.callApi(apiId){
+                fcmService.sendMessage(
+                    getremoteMsgHeaders(),
+                    messageBody
+                )
+            }
+
+            val apiEvent: ApiEvent<String?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    ApiEvent.OnSuccess.fromServer(this)
+                }
+            }
+
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<String>())
         }
     }
 

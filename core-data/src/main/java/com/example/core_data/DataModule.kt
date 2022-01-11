@@ -7,9 +7,9 @@ import com.example.core_data.BuildConfig.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.apiClient
 import com.example.core_data.api.httpClient
+import com.example.core_data.api.service.*
 import com.example.core_data.api.service.AuthService
-import com.example.core_data.api.service.ServiceHandphoneService
-import com.example.core_data.api.service.StoreService
+import com.example.core_data.api.service.FCMService
 import com.example.core_data.api.service.TechnicianService
 import com.example.core_data.repository.AuthRepository
 import com.example.core_data.repository.ServiceHandphoneRepository
@@ -51,6 +51,7 @@ val Application.dataModule
         single { apiClient<TechnicianService>(BASE_URL, get()) }
         single { apiClient<StoreService>(BASE_URL, get()) }
         single { apiClient<ServiceHandphoneService>(BASE_URL, get()) }
+        single { apiClient<FCMService>(FCM_URL, get()) }
 
         single {
             Room.databaseBuilder(get(), CoreDatabase::class.java, DB_NAME)
@@ -60,7 +61,7 @@ val Application.dataModule
         single { get<CoreDatabase>().authDao() }
         single { get<CoreDatabase>().technicianDao() }
 
-        single { AuthRepository(get(), get(), get(), get(), get()) }
+        single { AuthRepository(get(), get(), get(), get(), get(), get()) }
         single { TechnicianRepository(get(), get(), get(), get()) }
         single { StoreRepository(get(), get()) }
         single { ServiceHandphoneRepository(get(), get()) }

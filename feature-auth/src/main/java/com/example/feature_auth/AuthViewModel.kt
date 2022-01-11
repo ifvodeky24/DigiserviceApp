@@ -40,6 +40,9 @@ class AuthViewModel(
     private val _liveSkills = MutableLiveData<ApiEvent<ResultSkils?>>()
     val liveSkills: LiveData<ApiEvent<ResultSkils?>> = _liveSkills
 
+    private val _sendMessageRequest = MutableLiveData<ApiEvent<String?>>()
+    val sendMessageRequest: LiveData<ApiEvent<String?>> = _sendMessageRequest
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
             authRepository.login(email, password)
@@ -138,12 +141,20 @@ class AuthViewModel(
         }
     }
 
-    fun setCurrentSkill(teknisiId: Int){
+    fun setCurrentSkill(teknisiId: Int) {
         viewModelScope.launch {
             authRepository.getCurrentSkilAll(teknisiId)
                 .collect {
                     _liveSkills.value = it
                 }
+        }
+    }
+
+    fun sendMessage(messageBody: String) {
+        viewModelScope.launch {
+            authRepository.sendMessage(messageBody)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { _sendMessageRequest.value = it }
         }
     }
 }
