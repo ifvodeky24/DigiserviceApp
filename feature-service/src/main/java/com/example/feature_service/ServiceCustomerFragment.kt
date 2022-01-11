@@ -72,6 +72,10 @@ class ServiceCustomerFragment : Fragment() {
                     findNavController().navigate(directionServiceSeeAll)
                 }
             }
+
+//        binding.toolbar.setOnMenuItemClickListener {
+//
+//        }
     }
 
     private fun checkPermissions(): Boolean {
