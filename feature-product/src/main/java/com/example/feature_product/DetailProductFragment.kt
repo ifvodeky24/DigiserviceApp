@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
 import com.example.core_data.api.ApiEvent
@@ -32,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener {
-    private val jualId by lazy { (activity as ProductActivity).jualId }
+    private var jualId: Int? = 0
     private val status by lazy { (activity as ProductActivity).status }
 
     private var _binding: FragmentDetailProductBinding? = null
@@ -58,19 +56,19 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val jualIds = arguments?.getString(MarketplaceFragment.JUAL_ID)
+        jualId = arguments?.getString(MarketplaceFragment.JUAL_ID)?.toInt()
 
         preferenceManager = PreferenceManager(requireActivity())
 
-        setupDisplay(jualIds)
+        setupDisplay(jualId)
         setupInput()
         observeProductDetail()
         observeBuyProduct()
     }
 
-    private fun setupDisplay(jualIds: String?) {
+    private fun setupDisplay(jualIds: Int?) {
         if (status == "2") {
-            productViewModel.productDetail(jualId.toInt())
+            jualId?.let { productViewModel.productDetail(it) }
         } else {
             if (jualIds != null) {
                 productViewModel.productDetail(jualIds.toInt())
@@ -134,7 +132,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
         )
 
         btnOrder.hideProgress("Beli") {
-            isEnable && jualId.isNotBlank() && "$beliPembeli".isNotBlank() && byKurir.isNotBlank()
+            isEnable && "$beliPembeli".isNotBlank() && byKurir.isNotBlank()
         }
     }
 
@@ -219,6 +217,6 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
     private fun buyProduct() {
         byKurir = if (binding.kurirYes.isChecked) "Ya" else "Tidak"
-        productViewModel.buyProduct(jualId.toInt(), byKurir, beliPembeli ?: 0)
+        productViewModel.buyProduct(jualId as Int, byKurir, beliPembeli ?: 0)
     }
 }
