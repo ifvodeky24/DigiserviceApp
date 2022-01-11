@@ -17,6 +17,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.afollestad.recyclical.ViewHolder
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.datasource.emptyDataSource
@@ -70,7 +72,6 @@ class AddProductFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentAddProductBinding.inflate(inflater, container, false)
         setupToolbar()
         return binding.root
@@ -219,6 +220,7 @@ class AddProductFragment : Fragment(), View.OnClickListener {
             dataSource = dataSourceTypedOf(listJenisHp)
             binding.rvTypePhone.setup {
                 withDataSource(dataSource)
+                withLayoutManager(GridLayoutManager(requireContext(),4))
                 withItem<JenisHp, ItemTypeHpViewHolder>(R.layout.layout_items_radio_button){
                     onBind(::ItemTypeHpViewHolder){ _, item ->
                         titleRadioButton.text = item.jenisNama
@@ -237,11 +239,12 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                                 titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
                             }
                         }
-                        ?: run {
+                        ?:
+                        run {
                             if (productViewModel.filter == "") {
                                 titleRadioButton.isChecked = item.jenisId == 1
                                 productViewModel.typeFilter = 1
-                                productViewModel.filter = "xiamoi"
+                                productViewModel.filter = "Xiaomi"
                             }
                             else {
                                 titleRadioButton.isChecked = item.jenisNama == productViewModel.filter
@@ -252,8 +255,10 @@ class AddProductFragment : Fragment(), View.OnClickListener {
                             if (isChecked){
                                 productViewModel.filter = item.jenisNama
                                 productViewModel.typeFilter = item.jenisId
-
-                                dataSource.set(listJenisHp)
+                                if (!binding.rvTypePhone.isComputingLayout && binding.rvTypePhone.scrollState == SCROLL_STATE_IDLE) {
+                                    binding.rvTypePhone.adapter?.notifyDataSetChanged()
+                                    dataSource.set(listJenisHp)
+                                }
                             }
                             else titleRadioButton.isChecked = false
                         }

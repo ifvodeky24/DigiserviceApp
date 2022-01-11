@@ -57,6 +57,7 @@ class ServiceCustomerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         serviceViewModel.technicianGetAll()
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         getLastLocation()
@@ -68,7 +69,8 @@ class ServiceCustomerFragment : Fragment() {
         arrayOf(binding.btnServicePopuler, binding.btnServiceTerdekat)
             .forEach { button ->
                 button.setOnClickListener {
-                    val directionServiceSeeAll = ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToSeeAllServiceFragment()
+                    val directionServiceSeeAll =
+                        ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToSeeAllServiceFragment()
                     findNavController().navigate(directionServiceSeeAll)
                 }
             }
@@ -156,7 +158,10 @@ class ServiceCustomerFragment : Fragment() {
                     location?.let {
                         serviceViewModel.lat = "${it.latitude}"
                         serviceViewModel.lng = "${it.longitude}"
-                        serviceViewModel.findNearbyTechnician(serviceViewModel.lat, serviceViewModel.lng)
+                        serviceViewModel.findNearbyTechnician(
+                            serviceViewModel.lat,
+                            serviceViewModel.lng
+                        )
                     } ?: run {
                         requestNewLocationData()
                     }
@@ -254,7 +259,9 @@ class ServiceCustomerFragment : Fragment() {
                             teknisiSertifikat = item.teknisiSertifikat
                         )
                         val directionTechnicianGetAll =
-                            ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(itemGetAll)
+                            ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(
+                                itemGetAll
+                            )
                         findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
@@ -291,7 +298,9 @@ class ServiceCustomerFragment : Fragment() {
                         teknisiSertifikat = item.teknisiSertifikat
                     )
                     val directionTechnicianGetAll =
-                        ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(itemGetAll)
+                        ServiceCustomerFragmentDirections.actionServiceCustomerFragmentToServiceDetailFragment(
+                            itemGetAll
+                        )
                     findNavController().navigate(directionTechnicianGetAll)
                 }
             }

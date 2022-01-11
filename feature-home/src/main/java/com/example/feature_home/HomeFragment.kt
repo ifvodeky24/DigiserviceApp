@@ -245,6 +245,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     onBind(::ItemProductViewHolder) { _, item ->
                         tvProductName.text = item.jualJudul
                         tvProductDesciption.text = item.jualDeskripsi
+                        tvPrice.text = "Rp. ${item.jualHarga.toString()}"
                         Glide.with(requireActivity())
                             .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                             .centerCrop()
@@ -334,6 +335,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnSuccessListener { unused: Void? -> Timber.d("Token updated successfuly") }
             .addOnFailureListener { e: Exception? -> Timber.d("Unable update token : ${e?.message}") }
+
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
     }
 
     override fun onDestroyView() {

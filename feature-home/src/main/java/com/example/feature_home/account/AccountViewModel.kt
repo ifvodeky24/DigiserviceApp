@@ -5,10 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.api.request.*
 import com.example.core_data.api.response.CommonResponse
@@ -24,6 +21,10 @@ import kotlinx.coroutines.launch
 class AccountViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    val auth = liveData<Auth?> {
+        emit(authRepository.getAuth())
+    }
 
     var email: String = ""
 
@@ -45,8 +46,16 @@ class AccountViewModel(
     private val isPhotoTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val photoTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoTeknisiUpdate
 
+
+    // region pelanggan
+
     private val isPhotoPelangganUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val photoPelangganUpdate: LiveData<ApiEvent<CommonResponse?>> = isPhotoPelangganUpdate
+
+    private val isIdentitasPelangganUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
+    val identitasPelangganUpdate: LiveData<ApiEvent<CommonResponse?>> = isIdentitasPelangganUpdate
+
+    // endregion
 
     private val isSertifikatTeknisiUpdate = MutableLiveData<ApiEvent<CommonResponse?>>()
     val sertifikatTeknisiUpdate: LiveData<ApiEvent<CommonResponse?>> = isSertifikatTeknisiUpdate
@@ -230,6 +239,15 @@ class AccountViewModel(
             authRepository.updatePhotoPelanggan(id, filePath, uri, contentResolver, context)
                 .onStart { emit(ApiEvent.OnProgress()) }
                 .collect { isPhotoPelangganUpdate.value = it }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updateIdentitasPelanggan(id: Int, filePath: String, uri: Uri, contentResolver: ContentResolver, context: Context){
+        viewModelScope.launch {
+            authRepository.updatePhotoPelangganIdentitas(id, filePath, uri, contentResolver, context)
+                .onStart { emit(ApiEvent.OnProgress()) }
+                .collect { isIdentitasPelangganUpdate.value = it }
         }
     }
 

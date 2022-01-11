@@ -16,12 +16,12 @@ import com.example.core_data.api.response.CommonResponse
 import com.example.core_data.api.response.auth.toDomain
 import com.example.core_data.api.response.toDomain
 import com.example.core_data.api.service.AuthService
+import com.example.core_data.api.service.FCMService
 import com.example.core_data.api.toFailedEvent
 import com.example.core_data.domain.*
 import com.example.core_data.domain.auth.Auth
 import com.example.core_data.persistence.dao.AuthDao
 import com.example.core_data.persistence.dao.TechnicianDao
-import com.example.core_data.persistence.entity.auth.AuthEntity
 import com.example.core_data.persistence.entity.auth.toDomain
 import com.example.core_data.persistence.entity.auth.toEntity
 import com.example.core_data.persistence.entity.technician.toDomain
@@ -39,6 +39,7 @@ import java.io.FileOutputStream
 class AuthRepository internal constructor(
     private val apiExecutor: ApiExecutor,
     private val authService: AuthService,
+    private val fcmService: FCMService,
     private val dao: AuthDao,
     private val techDao: TechnicianDao,
     private val jsonParser: Moshi,
@@ -651,7 +652,7 @@ class AuthRepository internal constructor(
         }
     }
 
-    // identitas
+    // identitas teknisi
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoTeknisiIdentitas(
         id: Int,
@@ -706,6 +707,7 @@ class AuthRepository internal constructor(
         }
     }
 
+    // pelanggan photo
     @RequiresApi(Build.VERSION_CODES.Q)
     fun updatePhotoPelanggan(
         id: Int,
@@ -754,6 +756,60 @@ class AuthRepository internal constructor(
 
             emit(apiEvent)
 
+
+        }.onFailure {
+            emit(it.toFailedEvent<CommonResponse>())
+        }
+    }
+
+    // identitas pelanggan
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun updatePhotoPelangganIdentitas(
+        id: Int,
+        filePath: String,
+        imageUri: Uri,
+        contentResolver: ContentResolver,
+        context: Context
+    ) : Flow<ApiEvent<CommonResponse?>> = flow{
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val imageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        val file = File(imageDir, filePath)
+        val outStream = FileOutputStream(file)
+        inputStream.copyTo(outStream)
+
+        val body = UploadRequestBody(file, "image")
+
+        runCatching {
+            val apiId = AuthService.UpdatePhotoIdentitasPelanggan
+            val apiResult = apiExecutor.callApi(apiId){
+                authService.updatePhotoIdentitasPelanggan(
+                    pelangganId = id,
+                    fotoIdentitas = MultipartBody.Part.createFormData(
+                        "pelanggan_identitas",
+                        file.name,
+                        body
+                    )
+                )
+            }
+
+            val apiEvent: ApiEvent<CommonResponse?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    when {
+                        this!!.message.equals(ApiException.FailedResponse.MESSAGE_FAILED, true) -> {
+                            ApiException.FailedResponse(message).let {
+                                it.toFailedEvent()
+                            }
+                        }
+                        else -> ApiEvent.OnSuccess.fromServer(this)
+                    }
+                }
+
+            }
+
+            emit(apiEvent)
 
         }.onFailure {
             emit(it.toFailedEvent<CommonResponse>())
@@ -814,6 +870,45 @@ class AuthRepository internal constructor(
         }
     }
 
+    fun sendMessage(messageBody: String) : Flow<ApiEvent<String?>> = flow{
+        val REMOTE_MSG_AUTHORIZATION = "Authorization"
+        val REMOTE_MSG_CONTENT_TYPE = "Content-Type"
+
+        var remoteMsgHeaders: HashMap<String, String>? = null
+
+        fun getremoteMsgHeaders(): HashMap<String, String> {
+            if (remoteMsgHeaders == null) {
+                remoteMsgHeaders = HashMap()
+                remoteMsgHeaders!![REMOTE_MSG_AUTHORIZATION] =
+                    "key=AAAArG2_a-Q:APA91bHonqxDzEg_WXDJOa-ZY6ZchHBqZCoYgkzjTY56mDNA3R1Osx5B8wd7e42gS8kqHjmUcAm7EAacB0Rvin1Rs4ksEgATCHfz7Wc2y2QczPoWRa5Ez4ppGMi4EMVjdlu6L8PzzPTE"
+                remoteMsgHeaders!![REMOTE_MSG_CONTENT_TYPE] = "application/json"
+            }
+            return remoteMsgHeaders as HashMap<String, String>
+        }
+
+        runCatching {
+            val apiId = FCMService.Send
+            val apiResult = apiExecutor.callApi(apiId){
+                fcmService.sendMessage(
+                    getremoteMsgHeaders(),
+                    messageBody
+                )
+            }
+
+            val apiEvent: ApiEvent<String?> = when(apiResult){
+                is ApiResult.OnFailed -> apiResult.exception.toFailedEvent()
+                is ApiResult.OnSuccess -> with(apiResult.response){
+                    ApiEvent.OnSuccess.fromServer(this)
+                }
+            }
+
+            emit(apiEvent)
+
+        }.onFailure {
+            emit(it.toFailedEvent<String>())
+        }
+    }
+
 
     suspend fun updateAuthPhotoLocally(authId: Int, foto: String) {
         dao.updateFoto(authId, foto)
@@ -824,6 +919,10 @@ class AuthRepository internal constructor(
     }
 
     suspend fun updateAuthIdentitasLocally(authId: Int, identitas: String) {
+        dao.updatePhotoIdentitas(authId, identitas)
+    }
+
+    suspend fun updateAuthIdentitasPelangganLocally(authId: Int, identitas: String) {
         dao.updatePhotoIdentitas(authId, identitas)
     }
 

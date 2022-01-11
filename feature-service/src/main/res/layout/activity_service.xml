@@ -16,5 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/service_navigation" />
+        app:navGraph="@navigation/service_navigation"
+        tools:ignore="FragmentTagUsage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

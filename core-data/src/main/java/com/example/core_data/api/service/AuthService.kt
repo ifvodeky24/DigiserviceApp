@@ -45,7 +45,7 @@ internal interface AuthService {
         @Part sertifikat: MultipartBody.Part,
         @Part identitas: MultipartBody.Part,
         @Part tempatUsaha: MultipartBody.Part
-        ): CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST(RegiterPelanggan)
@@ -72,10 +72,13 @@ internal interface AuthService {
     ): JenisHpResponse
 
     @POST(SaveChoose)
-    suspend fun saveChoose(@Body request: RequestChoose) : CommonResponse
+    suspend fun saveChoose(@Body request: RequestChoose): CommonResponse
 
     @POST(UpdateTeknisi)
-    suspend fun updateTeknisi(@Path("id") id: Int, @Body request: RequestUpdateTeknisi) : CommonResponse
+    suspend fun updateTeknisi(
+        @Path("id") id: Int,
+        @Body request: RequestUpdateTeknisi
+    ): CommonResponse
 
     @FormUrlEncoded
     @POST(UpdatePelanggan)
@@ -96,21 +99,33 @@ internal interface AuthService {
     suspend fun updatePhotoTeknisi(
         @Path("teknisi_id") teknisiId: Int,
         @Part foto: MultipartBody.Part,
-    ) : CommonResponse
+    ): CommonResponse
+
+
+    // region pelanggan
 
     @Multipart
     @POST(UpdatePhotoPelanggan)
     suspend fun updatePhotoPelanggan(
         @Path("pelanggan_id") pelangganId: Int,
         @Part foto: MultipartBody.Part,
+    ): CommonResponse
+
+    @Multipart
+    @POST(UpdatePhotoIdentitasPelanggan)
+    suspend fun updatePhotoIdentitasPelanggan(
+        @Path("pelanggan_id") pelangganId: Int,
+        @Part fotoIdentitas: MultipartBody.Part
     ) : CommonResponse
+
+    // endregion
 
     @Multipart
     @POST(UpdateSertifikatTeknisi)
     suspend fun updateSertifikatTeknisi(
         @Path("teknisi_id") teknisiId: Int,
         @Part foto: MultipartBody.Part,
-    ) : CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST(UpdatePhotoIdentitas)
@@ -142,6 +157,7 @@ internal interface AuthService {
         const val UpdatePhotoPelanggan = "update-pelanggan-foto/{pelanggan_id}"
         const val UpdateSertifikatTeknisi = "update-teknisi-sertifikat/{teknisi_id}"
         const val UpdatePhotoIdentitas = "update-teknisi-identitas/{teknisi_id}"
+        const val UpdatePhotoIdentitasPelanggan = "update-pelanggan-identitas/{pelanggan_id}"
         const val UpdatePhotoTempatUsaha = "update-teknisi-tempat-usaha/{teknisi_id}"
     }
 }

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    android:layout_width="@dimen/_145sdp"
-    android:layout_height="@dimen/_225sdp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_145sdp"
+    android:layout_height="@dimen/_245sdp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
     android:clickable="true"
     android:focusable="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:id="@+id/layoutCard"
@@ -43,21 +42,33 @@
                     android:id="@+id/tv_product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:digi_font_style="medium"
-                    android:textSize="16sp"
-                    android:maxLines="2"
                     android:ellipsize="end"
-                    tools:text="Suspendisse ornare"
-                    android:textColor="@color/colorTextPrimary" />
+                    android:maxLines="2"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="16sp"
+                    app:digi_font_style="medium"
+                    tools:text="Suspendisse ornare" />
 
                 <TextView
                     android:id="@+id/tv_product_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:maxLength="50"
                     android:maxLines="1"
-                    android:ellipsize="end"
                     tools:text="Adipiscing" />
+
+                <TextView
+                    android:id="@+id/tv_Price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:layout_marginTop="4dp"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    tools:text="Rp.20000" />
 
             </LinearLayout>
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
@@ -13,6 +14,7 @@ import com.example.core_data.APP_TEKNISI_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.technician.TechnicianGetAll
 import com.example.feature_service.R
+import com.example.feature_service.ServiceCustomerFragmentDirections
 import com.example.feature_service.ServiceViewModel
 import com.example.feature_service.databinding.FragmentSeeAllServiceBinding
 import com.example.feature_service.viewHolder.ItemServiceViewHolder
@@ -92,6 +94,32 @@ class SeeAllServiceFragment : Fragment() {
                             .load(APP_TEKNISI_IMAGES_URL + item.teknisiFoto)
                             .centerCrop()
                             .into(ivService)
+                    }
+
+                    onClick {
+                        val itemGetAll = TechnicianGetAll(
+                            teknisiId = item.teknisiId,
+                            email = item.email,
+                            teknisiNama = item.teknisiNama,
+                            teknisiNamaToko = item.teknisiNamaToko,
+                            teknisiAlamat = item.teknisiAlamat,
+                            teknisiLat = item.teknisiLat,
+                            teknisiLng = item.teknisiLng,
+                            teknisiHp = item.teknisiHp,
+                            createdAt = item.createdAt,
+                            updatedAt = item.updatedAt,
+                            teknisiTotalScore = item.teknisiTotalScore,
+                            teknisiTotalResponden = item.teknisiTotalResponden,
+                            teknisiDeskripsi = item.teknisiDeskripsi,
+                            teknisiFoto = item.teknisiFoto,
+                            teknisiSertifikat = item.teknisiSertifikat
+                        )
+
+                        val directionTechnicianGetAll =
+                            SeeAllServiceFragmentDirections.actionSeeAllServiceFragmentToServiceDetailFragment(
+                                itemGetAll
+                            )
+                        findNavController().navigate(directionTechnicianGetAll)
                     }
                 }
             }

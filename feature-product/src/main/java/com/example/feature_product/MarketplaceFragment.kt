@@ -109,6 +109,7 @@ class MarketplaceFragment : Fragment(), ModuleNavigator {
                 onBind(::ItemProductViewHolder) { _, item ->
                     tvProductName.text = item.jualJudul
                     tvProductDesciption.text = item.jualDeskripsi
+                    tvPrice.text = "Rp. ${item.jualHarga.toString()}"
                     Glide.with(requireActivity())
                         .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                         .centerCrop()

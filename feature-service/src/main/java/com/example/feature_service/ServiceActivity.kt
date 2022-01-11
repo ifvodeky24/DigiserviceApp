@@ -12,23 +12,17 @@ import com.example.feature_service.databinding.ActivityServiceBinding
 
 class ServiceActivity : BaseActivity() {
 
-//    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityServiceBinding
+    private val binding by lazy {
+        ActivityServiceBinding.inflate(layoutInflater)
+    }
+
+    private val navController by lazy { findNavController(R.id.nav_graph) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityServiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        val navController = findNavController(R.id.nav_host_fragment_content_service)
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+        supportActionBar?.hide()
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_content_service)
-//        return navController.navigateUp(appBarConfiguration)
-//                || super.onSupportNavigateUp()
-//    }
+    override fun onSupportNavigateUp() = navController.navigateUp()
 }

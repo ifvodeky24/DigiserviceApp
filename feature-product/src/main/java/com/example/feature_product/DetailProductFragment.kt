@@ -64,6 +64,16 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
         setupInput()
         observeProductDetail()
         observeBuyProduct()
+
+        childFragmentManager.setFragmentResultListener(
+            BuyDialogFragment.KEY_RESULT_SUBMIT,
+            this@DetailProductFragment
+        ) { _, bundle ->
+            val result = bundle.getString(BuyDialogFragment.KEY_BUNDLE_SUBMIT)
+            if (result == BuyDialogFragment.TRUE) {
+                buyProduct()
+            }
+        }
     }
 
     private fun setupDisplay(jualIds: Int?) {
@@ -189,7 +199,12 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
                             documentSnapshot.getString("foto")
                         )
 
-                        navigateToChatActivity(finnishCurrent = true, status = "3", productName = data.jenisNama, productImage = data.fotoProduk)
+                        navigateToChatActivity(
+                            finnishCurrent = true,
+                            status = "3",
+                            productName = data.jenisNama,
+                            productImage = data.fotoProduk
+                        )
                     } else {
                         Timber.d("gagal")
                         Toast.makeText(
@@ -210,7 +225,8 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.btn_order -> {
-                buyProduct()
+                val bs = BuyDialogFragment()
+                bs.show(childFragmentManager, "BuyBottomSheet")
             }
         }
     }
