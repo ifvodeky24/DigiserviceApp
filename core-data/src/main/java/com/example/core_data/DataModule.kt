@@ -6,6 +6,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core_data.BuildConfig.*
 import com.example.core_data.api.ApiExecutor
 import com.example.core_data.api.apiClient
+import com.example.core_data.api.apiClientFCM
 import com.example.core_data.api.httpClient
 import com.example.core_data.api.service.*
 import com.example.core_data.api.service.AuthService
@@ -51,7 +52,7 @@ val Application.dataModule
         single { apiClient<TechnicianService>(BASE_URL, get()) }
         single { apiClient<StoreService>(BASE_URL, get()) }
         single { apiClient<ServiceHandphoneService>(BASE_URL, get()) }
-        single { apiClient<FCMService>(FCM_URL, get()) }
+        single { apiClientFCM<FCMService>(FCM_URL, get()) }
 
         single {
             Room.databaseBuilder(get(), CoreDatabase::class.java, DB_NAME)

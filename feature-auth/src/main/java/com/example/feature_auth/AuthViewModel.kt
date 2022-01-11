@@ -150,11 +150,17 @@ class AuthViewModel(
         }
     }
 
-    fun sendMessage(messageBody: String) {
-        viewModelScope.launch {
-            authRepository.sendMessage(messageBody)
-                .onStart { emit(ApiEvent.OnProgress()) }
-                .collect { _sendMessageRequest.value = it }
+    fun sendMessage(messageBody: String, set: Boolean) {
+        var sets = set
+        if (sets == true){
+            viewModelScope.launch {
+                authRepository.sendMessage(messageBody)
+                    .onStart { emit(ApiEvent.OnProgress()) }
+                    .collect { _sendMessageRequest.value = it }
+            }
         }
+
+        sets = false
+
     }
 }

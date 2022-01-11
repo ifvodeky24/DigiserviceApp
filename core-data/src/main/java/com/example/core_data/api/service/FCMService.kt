@@ -7,7 +7,7 @@ import retrofit2.http.POST
 internal interface FCMService {
 
     @POST(Send)
-    fun sendMessage(
+    suspend fun sendMessage(
         @HeaderMap headers: HashMap<String, String>,
         @Body messageBody: String
     ): String

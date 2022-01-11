@@ -2,7 +2,7 @@ ext.versions = [
 
         code                 : 1,
         name                 : "1.0",
-        schemaDatabaseVersion: 2,
+        schemaDatabaseVersion: 3,
 
         compileSdkVersion    : 31,
         minSdkVersion        : 21,
@@ -90,7 +90,8 @@ ext.deps = [
         retrofit          : [
                 "com.squareup.retrofit2:retrofit:$versions.retrofit",
                 "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
-                "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+                "com.squareup.retrofit2:converter-moshi:$versions.retrofit",
+                "com.squareup.retrofit2:converter-scalars:$versions.retrofit"
         ],
         cookiejar         : [
                 "net.gotev:cookie-store:$versions.cookiejar",

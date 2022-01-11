@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.core_data.APP_PRODUCT_IMAGES_URL
+import com.example.core_data.api.ApiEvent
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
@@ -21,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import org.json.JSONArray
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -36,6 +39,7 @@ class ChatFragment : Fragment(), ModuleNavigator {
     private var isReceiverAvailable = false
     private var receiverPhoto = ""
     private var receiverName = ""
+    private var receiverFcmToken = ""
     private var conversionId: String? = null
 
     private lateinit var preferenceManager: PreferenceManager
@@ -60,6 +64,7 @@ class ChatFragment : Fragment(), ModuleNavigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         preferenceManager = PreferenceManager(requireActivity())
 
         receiverId = preferenceManager.getString(Constants.KEY_RECEIVER_ID).toString()
@@ -97,6 +102,12 @@ class ChatFragment : Fragment(), ModuleNavigator {
         setListeners()
         listenMessages()
 
+        try {
+            listenAvailabilityOfReceiver()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         if (status == "2" || status == "3") {
             binding?.imageBack?.setOnClickListener {
                 navigateToHomeActivity(true)
@@ -119,11 +130,15 @@ class ChatFragment : Fragment(), ModuleNavigator {
     }
 
     private fun sendMessage() {
+        var set = false
         val message = HashMap<String, Any?>()
         message[Constants.KEY_SENDER_ID] = senderId
         message[Constants.KEY_RECEIVER_ID] = receiverId
         message[Constants.KEY_MESSAGE] = binding?.inputMessage?.text.toString()
         message[Constants.KEY_TIMESTAMP] = Date()
+
+        val messages = binding?.inputMessage?.text.toString()
+        Timber.d("juuu $messages")
 
         if (conversionId != null) {
             updateConversion(binding?.inputMessage?.text.toString())
@@ -146,37 +161,94 @@ class ChatFragment : Fragment(), ModuleNavigator {
             conversion.put(Constants.KEY_TIMESTAMP, Date())
             addConversion(conversion)
         }
+
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
+
+        if (!isReceiverAvailable) {
+            database.collection(Constants.KEY_COLLECTION_USERS).document(
+                receiverId
+            ).addSnapshotListener(requireActivity()) { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                if (value != null) {
+                    if (value.getString(Constants.KEY_FCM_TOKEN) != null) {
+                        receiverFcmToken = value.getString(Constants.KEY_FCM_TOKEN)!!.toString()
+                    }
+                }
+
+                val tokens = JSONArray()
+                tokens.put(receiverFcmToken)
+
+                val data = JSONObject()
+                data.put(Constants.KEY_SENDER_ID, senderId)
+                data.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME).toString())
+                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN).toString())
+                data.put(Constants.KEY_MESSAGE, messages)
+
+                Timber.d("juuu 2 $messages")
+
+                val body = JSONObject()
+                body.put(Constants.REMOTE_MSG_DATA, data)
+                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens)
+
+                Timber.d("cekkkkk name = ${preferenceManager.getString(Constants.KEY_NAME)}")
+                Timber.d("cekkkkk senderId = $senderId")
+                Timber.d("cekkkkk fcmToken = ${preferenceManager.getString(Constants.KEY_FCM_TOKEN)}")
+                Timber.d("cekkkkk receiverFcmToken = ${receiverFcmToken}")
+                Timber.d("cekkkkk message = ${ binding!!.inputMessage.text.toString()}")
+
+                if (set == false) {
+                    viewModel.sendMessage(body.toString(), true)
+
+                    viewModel.sendMessageRequest.observe(viewLifecycleOwner, { sendMessage ->
+                        when (sendMessage) {
+                            is ApiEvent.OnProgress -> {
+                                Timber.d("Progress")
+                            }
+                            is ApiEvent.OnSuccess -> sendMessage.getData().let {
+                                Timber.d("cek hasill sukses $it")
+                            }
+                            is ApiEvent.OnFailed -> {
+                                Timber.d("cek hasill gagal ${sendMessage.getException()}")
+                            }
+                        }
+                    })
+
+                    set = true
+                }
+
+            }
+        }
+
         binding?.inputMessage?.text = null
     }
 
     private fun listenAvailabilityOfReceiver() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            try {
-                database.collection(Constants.KEY_COLLECTION_USERS).document(
-                    receiverId
-                ).addSnapshotListener(requireActivity()) { value, error ->
-                    if (error != null) {
-                        return@addSnapshotListener
-                    }
-                    if (value != null) {
-                        if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
-                            val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
-                            isReceiverAvailable = availability == 1
-                        }
-                    }
-
-                    if (isReceiverAvailable) {
-                        binding?.textAvailable?.visibility = View.VISIBLE
-                    } else {
-                        binding?.textAvailable?.visibility = View.GONE
-                    }
-
+        try {
+            database.collection(Constants.KEY_COLLECTION_USERS).document(
+                receiverId
+            ).addSnapshotListener(requireActivity()) { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                if (value != null) {
+                    if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                        val availability = value.getLong(Constants.KEY_AVAILABILITY)!!.toInt()
+                        isReceiverAvailable = availability == 1
+                    }
+                }
+
+                if (isReceiverAvailable) {
+                    binding?.textAvailable?.visibility = View.VISIBLE
+                } else {
+                    binding?.textAvailable?.visibility = View.GONE
+                }
+
             }
-        }, 2000)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun listenMessages() {
@@ -294,14 +366,5 @@ class ChatFragment : Fragment(), ModuleNavigator {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        try {
-            listenAvailabilityOfReceiver()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }
