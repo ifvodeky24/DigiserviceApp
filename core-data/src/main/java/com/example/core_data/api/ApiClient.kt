@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 internal inline fun <reified T> apiClient(
@@ -17,6 +18,16 @@ internal inline fun <reified T> apiClient(
     .baseUrl(baseUrl)
     .client(apiClient)
     .addConverterFactory(MoshiConverterFactory.create())
+    .build()
+    .create(T::class.java)
+
+internal inline fun <reified T> apiClientFCM(
+    baseUrl: String,
+    apiClient: OkHttpClient
+) = Retrofit.Builder()
+    .baseUrl(baseUrl)
+    .client(apiClient)
+    .addConverterFactory(ScalarsConverterFactory.create())
     .build()
     .create(T::class.java)
 

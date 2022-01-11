@@ -334,6 +334,8 @@ class HomeFragment : Fragment(), ModuleNavigator {
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnSuccessListener { unused: Void? -> Timber.d("Token updated successfuly") }
             .addOnFailureListener { e: Exception? -> Timber.d("Unable update token : ${e?.message}") }
+
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
     }
 
     override fun onDestroyView() {
