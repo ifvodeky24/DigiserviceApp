@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium"
+    tools:context=".store.DeleteProductDialogFragment">
+
+    <View
+        android:id="@+id/v_bs"
+        android:layout_width="@dimen/very_large_fit"
+        android:layout_height="@dimen/smaller"
+        android:alpha=".5"
+        android:background="@drawable/background_radius_16_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_submit_credential"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large"
+        android:text="Hapus"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_bs" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_submit_credential_info"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium"
+        android:text="Anda yakin ingin menghapus produk ini?"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_submit_credential" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/Widget.CoreTheme.Button.Secondary"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large"
+        android:layout_marginBottom="@dimen/medium_fit"
+        android:paddingVertical="@dimen/medium"
+        android:text="Hapus"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_small"
+        app:cornerRadius="@dimen/medium_fit"
+        app:layout_constraintEnd_toStartOf="@id/btn_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_submit_credential_info" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium"
+        android:paddingVertical="@dimen/medium"
+        android:text="Batal"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_small"
+        app:backgroundTint="@color/colorWhite"
+        app:cornerRadius="@dimen/medium_fit"
+        app:layout_constraintBottom_toBottomOf="@id/btn_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_submit"
+        app:layout_constraintTop_toTopOf="@id/btn_submit"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="@dimen/tiny" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

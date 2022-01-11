@@ -237,6 +237,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_jenis_hp"
                         android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/_50sdp"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/medium"
     tools:context=".service.ServiceCustomerFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -53,8 +54,9 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/medium"
                 android:background="?android:attr/listDivider"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/medium"
                 app:layout_constraintTop_toBottomOf="@+id/rv_service"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -63,18 +65,21 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/medium"
                 android:text="Pilihan Terdekat"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_service_terdekat"
-                style="TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium"
+                android:paddingBottom="@dimen/_10sdp"
                 android:text="Lihat Semua"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -94,18 +99,21 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/medium"
                 android:text="Terpopuler"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_service_terdekat" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_service_populer"
-                style="TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium"
+                android:paddingBottom="@dimen/_10sdp"
                 android:text="Lihat Semua"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView3" />

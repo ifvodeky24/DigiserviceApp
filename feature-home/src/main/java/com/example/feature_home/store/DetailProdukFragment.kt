@@ -1,10 +1,10 @@
 package com.example.feature_home.store
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -48,11 +48,23 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
             btnEditProduct.setOnClickListener(this@DetailProdukFragment)
             btnDeleteProduct.setOnClickListener(this@DetailProdukFragment)
         }
+
+        childFragmentManager.setFragmentResultListener(
+            DeleteProductDialogFragment.KEY_RESULT_SUBMIT,
+            this@DetailProdukFragment
+        ) { _, bundle ->
+            val result = bundle.getString(DeleteProductDialogFragment.KEY_BUNDLE_SUBMIT)
+            if (result == DeleteProductDialogFragment.TRUE) {
+                args.produk?.let { product ->
+                    productViewModel.deleteProduct(product.jualId)
+                }
+            }
+        }
     }
 
     private fun observer() {
         productViewModel.deleteProductResponse.observe(viewLifecycleOwner) { event ->
-            when(event) {
+            when (event) {
                 is ApiEvent.OnProgress -> {
                     showProgressDialog()
                 }
@@ -69,7 +81,7 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupDisplay() {
-        with(binding){
+        with(binding) {
             args.produk?.apply {
                 tvProductTitle.text = jualJudul
                 tvPrice.text = jualHarga.toString()
@@ -77,26 +89,33 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
                 tvPhoneType.text = jenisNama
                 tvProductStatus.text = jualStatus
                 Glide.with(this@DetailProdukFragment)
-                    .load(APP_PRODUCT_IMAGES_URL+pathPhoto)
+                    .load(APP_PRODUCT_IMAGES_URL + pathPhoto)
                     .into(ivCustomerPhoto)
             }
         }
     }
 
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             R.id.btn_add_product -> {
-                val toAddProductFragment = DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(null, null);
+                val toAddProductFragment =
+                    DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(
+                        null,
+                        null
+                    )
                 findNavController().navigate(toAddProductFragment)
             }
             R.id.btn_edit_product -> {
-                val updateDirections = DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(args.produk, null)
+                val updateDirections =
+                    DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(
+                        args.produk,
+                        null
+                    )
                 findNavController().navigate(updateDirections)
             }
             R.id.btn_delete_product -> {
-                args.produk?.let { product ->
-                    productViewModel.deleteProduct(product.jualId)
-                }
+                val bs = DeleteProductDialogFragment()
+                bs.show(childFragmentManager, "DeleteBottomSheet")
             }
         }
     }
