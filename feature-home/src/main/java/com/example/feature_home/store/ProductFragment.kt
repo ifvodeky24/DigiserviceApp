@@ -54,11 +54,13 @@ class ProductFragment : Fragment() {
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
 
-        binding.bottomStore.btnAddProduct
-            .setOnClickListener {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.action_add_product) {
                 val toAddProductFragment = ProductFragmentDirections.actionProductFragmentToAddProductFragment(null, null)
                 findNavController().navigate(toAddProductFragment)
             }
+            true
+        }
     }
 
     private fun hideBottomNavigation() {

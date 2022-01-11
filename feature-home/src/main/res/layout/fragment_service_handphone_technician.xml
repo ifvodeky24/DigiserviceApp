@@ -273,7 +273,7 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/itemOwnerConstraintLayout"
+        android:id="@+id/include_bottom_options"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorWhite"
