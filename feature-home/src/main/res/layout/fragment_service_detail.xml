@@ -380,6 +380,56 @@
 
                 </LinearLayout>
 
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/sertifikat_keahlian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small"
+                    android:text="Sertifikat Keahlian"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginHorizontal="@dimen/medium"
+                    app:digi_font_style="medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/jenisKerusakanHpConstraintLayout"/>
+
+                <ImageView
+                    android:id="@+id/iv_service_sertifikat"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:scaleType="centerCrop"
+                    android:background="@color/cardview_dark_background"
+                    android:layout_marginHorizontal="@dimen/medium"
+                    app:layout_constraintTop_toBottomOf="@+id/sertifikat_keahlian"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <com.example.core_util.DigiTextView
+                    android:id="@+id/tempat_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small"
+                    android:text="Tempat Usaha"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginHorizontal="@dimen/medium"
+                    app:digi_font_style="medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_service_sertifikat"/>
+
+                <ImageView
+                    android:id="@+id/iv_tempat_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:scaleType="centerCrop"
+                    android:background="@color/cardview_dark_background"
+                    android:layout_marginHorizontal="@dimen/medium"
+                    app:layout_constraintTop_toBottomOf="@+id/tempat_service"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="ContentDescription" />
+
                 <LinearLayout
                     android:id="@+id/AddressConstraintLayout"
                     android:layout_width="match_parent"
@@ -392,7 +442,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/jenisKerusakanHpConstraintLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/iv_tempat_service">
 
                     <com.example.core_util.DigiTextView
                         android:layout_width="wrap_content"

@@ -14,7 +14,10 @@ import coil.load
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.bumptech.glide.Glide
+import com.example.core_data.APP_SERTIFIKAT_IMAGES_URL
 import com.example.core_data.APP_TEKNISI_IMAGES_URL
+import com.example.core_data.APP_TEMPAT_USAHA_IMAGES_URL
 import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.JenisHp
 import com.example.core_data.domain.ResultSkils
@@ -41,7 +44,7 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
 
     private val accountViewModel: AccountViewModel by viewModel()
 
-    private lateinit var preferenceManager : PreferenceManager
+    private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +70,8 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
 
         binding.btnOrder.setOnClickListener {
             val byKurir = if (binding.kurirYes.isChecked) 1 else 0
-            OrderTechicianDialog.newInstance(args.technician, byKurir).show(childFragmentManager, OrderTechicianDialog.TAG)
+            OrderTechicianDialog.newInstance(args.technician, byKurir)
+                .show(childFragmentManager, OrderTechicianDialog.TAG)
         }
 
         binding.backImageView.setOnClickListener {
@@ -77,13 +81,11 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
 
     private fun setupObserver() {
         accountViewModel.liveSkils.observe(viewLifecycleOwner, { event ->
-            when(event)
-            {
+            when (event) {
                 is ApiEvent.OnSuccess -> event.getData()?.let {
                     setupRecyclerSkils(it)
                 }
-                is ApiEvent.OnFailed ->if (!event.hasNotBeenConsumed)
-                {
+                is ApiEvent.OnFailed -> if (!event.hasNotBeenConsumed) {
                     //hideProgress(true)
                 }
             }
@@ -91,13 +93,31 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
     }
 
     private fun setupDisplay() {
-        with(args.technician){
+        with(args.technician) {
             if (this?.teknisiFoto?.isNotEmpty() == true) binding.ivStore.load(
-                APP_TEKNISI_IMAGES_URL+teknisiFoto
-            ){
+                APP_TEKNISI_IMAGES_URL + teknisiFoto
+            ) {
                 crossfade(true)
             }
-            binding.tvRatingCount.text = String.format("%.1f", (this?.teknisiTotalScore?.div(teknisiTotalResponden)))
+
+            if (this?.teknisiSertifikat != null) {
+                if (this.teknisiSertifikat.isNotEmpty()) {
+                    Glide.with(requireActivity())
+                        .load(APP_SERTIFIKAT_IMAGES_URL + teknisiSertifikat)
+                        .into(binding.ivServiceSertifikat)
+                }
+            }
+
+            if (this?.teknisiTempatUsaha != null) {
+                if (this.teknisiTempatUsaha.isNotEmpty()) {
+                    Glide.with(requireActivity())
+                        .load(APP_TEMPAT_USAHA_IMAGES_URL + teknisiTempatUsaha)
+                        .into(binding.ivTempatService)
+                }
+            }
+
+            binding.tvRatingCount.text =
+                String.format("%.1f", (this?.teknisiTotalScore?.div(teknisiTotalResponden)))
             binding.tvStoreName.text = this?.teknisiNamaToko ?: ""
             binding.tvName.text = this?.teknisiNama ?: ""
             binding.tvNoHp.text = this?.teknisiHp ?: ""
@@ -115,14 +135,27 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
                     .addOnCompleteListener { task: Task<QuerySnapshot?> ->
                         if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
                             val documentSnapshot = task.result!!.documents[0]
-                            preferenceManager.putString(Constants.KEY_RECEIVER_ID, documentSnapshot.id)
-                            preferenceManager.putString(Constants.KEY_RECEIVER_NAME, documentSnapshot.getString("name"))
-                            preferenceManager.putString(Constants.KEY_RECEIVER_PHOTO, documentSnapshot.getString("foto"))
+                            preferenceManager.putString(
+                                Constants.KEY_RECEIVER_ID,
+                                documentSnapshot.id
+                            )
+                            preferenceManager.putString(
+                                Constants.KEY_RECEIVER_NAME,
+                                documentSnapshot.getString("name")
+                            )
+                            preferenceManager.putString(
+                                Constants.KEY_RECEIVER_PHOTO,
+                                documentSnapshot.getString("foto")
+                            )
 
                             navigateToChatActivity(finnishCurrent = true, status = "2")
                         } else {
                             Timber.d("gagal")
-                            Toast.makeText(requireContext(), "Pengguna ini tidak dapat melakukan chat", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Pengguna ini tidak dapat melakukan chat",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
             }
@@ -133,8 +166,8 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
         binding.rvJenisKerusakanHp.setup {
             withLayoutManager(LinearLayoutManager(requireContext()))
             withDataSource(dataSourceTypedOf(listSkils.skils))
-            withItem<Skils, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary){
-                onBind(::SkillsItemSecondaryViewHolder){ _, item ->
+            withItem<Skils, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary) {
+                onBind(::SkillsItemSecondaryViewHolder) { _, item ->
                     titleSkils.text = "- ${item.namaKerusakan}"
                 }
             }
@@ -142,8 +175,8 @@ class ServiceDetailFragment : Fragment(), ModuleNavigator {
         binding.rvJenisHp.setup {
             withLayoutManager(LinearLayoutManager(requireContext()))
             withDataSource(dataSourceTypedOf(listSkils.jenisHp))
-            withItem<JenisHp, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary){
-                onBind(::SkillsItemSecondaryViewHolder){ _, item ->
+            withItem<JenisHp, SkillsItemSecondaryViewHolder>(R.layout.item_skils_secondary) {
+                onBind(::SkillsItemSecondaryViewHolder) { _, item ->
                     titleSkils.text = "- ${item.jenisNama}"
                 }
             }

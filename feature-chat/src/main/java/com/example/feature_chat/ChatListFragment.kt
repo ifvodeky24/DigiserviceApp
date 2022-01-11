@@ -133,14 +133,17 @@ class ChatListFragment : Fragment(), RecentChatListener {
                 if (conversations.isEmpty()) {
                     binding?.conversationRecylerView?.visibility = View.GONE
                     binding?.ivEmpty?.visibility = View.VISIBLE
+                    binding?.shimmerChat?.hideShimmer()
                 } else {
                     binding?.conversationRecylerView?.visibility = View.VISIBLE
                     binding?.ivEmpty?.visibility = View.GONE
+                    binding?.shimmerChat?.hideShimmer()
                 }
             }
         }
 
     private fun listenConversations() {
+        binding?.shimmerChat?.showShimmer(true)
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
             .whereEqualTo(
                 Constants.KEY_SENDER_ID,

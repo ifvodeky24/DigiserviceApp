@@ -158,7 +158,7 @@ class ChooseFragment : Fragment(), ModuleNavigator {
             when (event) {
                 is ApiEvent.OnProgress -> {}
                 is ApiEvent.OnSuccess -> {
-                    navigateToHomeActivity(finnishCurrent = true)
+                    findNavController().navigate(R.id.loginFragment)
                 }
                 is ApiEvent.OnFailed -> {
                     Snackbar.make(requireContext(), requireView(), "Gagal menyimpan keahlian, mohon coba lagi!", Snackbar.LENGTH_SHORT).show()

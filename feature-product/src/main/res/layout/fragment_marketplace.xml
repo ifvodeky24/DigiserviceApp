@@ -31,15 +31,46 @@
         app:shimmer_clip_to_children="true"
         app:shimmer_colored="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_marketplace"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="8dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:ignore="RtlSymmetry"
-            tools:listitem="@layout/item_product" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_search"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginTop="@dimen/medium"
+                android:hint="Cari Produk"
+                app:boxStrokeColor="#AEA9A9"
+                app:helperTextTextAppearance="@dimen/text_small"
+                app:hintTextColor="#C8BDBD">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/edt_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:imeOptions="actionGo"
+                    android:maxLines="1"
+                    android:padding="@dimen/medium"
+                    android:scrollbars="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_marketplace"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="8dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:ignore="RtlSymmetry"
+                tools:listitem="@layout/item_product" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 

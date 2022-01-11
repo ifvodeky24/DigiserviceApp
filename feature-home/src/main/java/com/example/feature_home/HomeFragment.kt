@@ -252,7 +252,7 @@ class HomeFragment : Fragment(), ModuleNavigator {
                     }
 
                     onClick {
-                        navigateToProductActivity(item.jualId.toString())
+                        navigateToProductActivity(item.jualId.toString(), status = "2")
                     }
                 }
             }

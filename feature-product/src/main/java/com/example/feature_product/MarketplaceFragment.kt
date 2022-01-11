@@ -1,12 +1,15 @@
 package com.example.feature_product
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
+import com.afollestad.recyclical.datasource.emptyDataSource
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.bumptech.glide.Glide
@@ -30,6 +33,8 @@ class MarketplaceFragment : Fragment(), ModuleNavigator {
 
     private val jualId by lazy { (activity as ProductActivity).jualId }
     private val status by lazy { (activity as ProductActivity).status }
+
+    private var dataSource = emptyDataSource()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,27 +79,49 @@ class MarketplaceFragment : Fragment(), ModuleNavigator {
         val userId = preferenceManager.getString(Constants.ID)
         val filter = data.filter { it.jualUserId.toString() != userId }
         if (filter.isNotEmpty()) {
-            binding.rvMarketplace.setup {
-                withDataSource(dataSourceTypedOf(filter))
-                withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_produk_terbaru) {
-                    onBind(::ItemProductViewHolder) { _, item ->
-                        tvProductName.text = item.jualJudul
-                        tvProductDesciption.text = item.jualDeskripsi
-                        Glide.with(requireActivity())
-                            .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
-                            .centerCrop()
-                            .into(ivProductPhoto)
-                    }
+            dataSource = dataSourceTypedOf(filter)
+            setRecyclerView()
+        }
 
-                    onClick {
-                        val mBundle = Bundle()
-                        mBundle.putString(JUAL_ID, item.jualId.toString())
-                        findNavController().navigate(R.id.detailProductFragment, mBundle)
-                    }
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                val filters = data.filter { it.jualUserId.toString() != userId }
+
+                val datas = filters.filter { it.jenisNama.contains(p0.toString(), true)}
+
+                if (datas.isNotEmpty()) {
+                    dataSource = dataSourceTypedOf(datas)
+                    setRecyclerView()
+                }
+            }
+
+        })
+    }
+
+    private fun setRecyclerView() {
+        binding.rvMarketplace.setup {
+            withDataSource(dataSource)
+            withItem<ProductGetAll, ItemProductViewHolder>(R.layout.item_produk_terbaru) {
+                onBind(::ItemProductViewHolder) { _, item ->
+                    tvProductName.text = item.jualJudul
+                    tvProductDesciption.text = item.jualDeskripsi
+                    Glide.with(requireActivity())
+                        .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
+                        .centerCrop()
+                        .into(ivProductPhoto)
+                }
+
+                onClick {
+                    val mBundle = Bundle()
+                    mBundle.putString(JUAL_ID, item.jualId.toString())
+                    findNavController().navigate(R.id.detailProductFragment, mBundle)
                 }
             }
         }
-
     }
 
     override fun onDestroy() {
@@ -105,5 +132,4 @@ class MarketplaceFragment : Fragment(), ModuleNavigator {
     companion object {
         val JUAL_ID = "jualId"
     }
-
 }

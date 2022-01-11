@@ -43,7 +43,5 @@ dependencies {
 
     implementation deps.debug_banner
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
     debugImplementation deps.chucker_debug
 }

@@ -29,7 +29,9 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -90,21 +92,87 @@ class AuthRepository internal constructor(
         teknisiLat: Float,
         teknisiLng: Float,
         teknisiDeskripsi: String,
+        fotoUri: Uri,
+        fotoPath: String,
+        sertifikatUri: Uri,
+        sertifikatPath: String,
+        identitasUri: Uri,
+        identitasPath: String,
+        tempatUsahaUri: Uri,
+        tempatUsahaPath: String,
+        contentResolver: ContentResolver,
+        context: Context
     ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        // foto
+        val fotoParcelFileDescriptor = contentResolver.openFileDescriptor(fotoUri, "r", null)
+        val fotoInputStream = FileInputStream(fotoParcelFileDescriptor?.fileDescriptor)
+        val fotoImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val fotoFile = File(fotoImageDir, fotoPath)
+        val fotoOutStream = FileOutputStream(fotoFile)
+        fotoInputStream.copyTo(fotoOutStream)
+
+        // sertifikat
+        val sertifikatParcelFileDescriptor = contentResolver.openFileDescriptor(sertifikatUri, "r", null)
+        val sertifikatInputStream = FileInputStream(sertifikatParcelFileDescriptor?.fileDescriptor)
+        val sertifikatImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val sertifikatFile = File(sertifikatImageDir, sertifikatPath)
+        val sertifikatOutStream = FileOutputStream(sertifikatFile)
+        sertifikatInputStream.copyTo(sertifikatOutStream)
+
+        // identitas
+        val identitasParcelFileDescriptor = contentResolver.openFileDescriptor(identitasUri, "r", null)
+        val identitasInputStream = FileInputStream(identitasParcelFileDescriptor?.fileDescriptor)
+        val identitasImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val identitasFile = File(identitasImageDir, identitasPath)
+        val identitasOutStream = FileOutputStream(identitasFile)
+        identitasInputStream.copyTo(identitasOutStream)
+
+        // tempat usaha
+        val tempatUsahaParcelFileDescriptor = contentResolver.openFileDescriptor(tempatUsahaUri, "r", null)
+        val tempatUsahaInputStream = FileInputStream(tempatUsahaParcelFileDescriptor?.fileDescriptor)
+        val tempatUsahaImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val tempatUsahaFile = File(tempatUsahaImageDir, tempatUsahaPath)
+        val tempatUsahaOutStream = FileOutputStream(tempatUsahaFile)
+        tempatUsahaInputStream.copyTo(tempatUsahaOutStream)
+
+        val emailRB = email.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiNamaRB = teknisiNama.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiNoHpRB = teknisiNoHp.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiPasswordRB= password.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiNamaTokoRB= teknisiNamaToko.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiAlamatRB= teknisiAlamat.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiLatRB= "$teknisiLat".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiLngRB= "$teknisiLng".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiDeskripsiRB= teknisiDeskripsi.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiTotalScoreRB = "0".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val teknisiTotalRespondentRB = "0".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+
+        val fotoBody = UploadRequestBody(fotoFile, "image")
+        val sertifikatBody = UploadRequestBody(sertifikatFile, "image")
+        val identitasBody = UploadRequestBody(identitasFile, "image")
+        val tempatUsahaBody = UploadRequestBody(tempatUsahaFile, "image")
+
         runCatching {
             val apiId = AuthService.RegiterService
 
             val apiResult =apiExecutor.callApi(apiId) {
                 authService.registerService(
-                    teknisiNama = teknisiNama,
-                    teknisiNoHp = teknisiNoHp,
-                    password = password,
-                    email = email,
-                    teknisiNamaToko = teknisiNamaToko,
-                    teknisiAlamat = teknisiAlamat,
-                    teknisiLat = teknisiLat,
-                    teknisiLng = teknisiLng,
-                    teknisiDeskripsi = teknisiDeskripsi
+                    teknisiNama = teknisiNamaRB,
+                    teknisiNoHp = teknisiNoHpRB,
+                    password = teknisiPasswordRB,
+                    email = emailRB,
+                    teknisiNamaToko = teknisiNamaTokoRB,
+                    teknisiAlamat = teknisiAlamatRB,
+                    teknisiLat = teknisiLatRB,
+                    teknisiLng = teknisiLngRB,
+                    teknisiDeskripsi = teknisiDeskripsiRB,
+                    teknisiTotalScore = teknisiTotalScoreRB,
+                    teknisiTotalRespondent = teknisiTotalRespondentRB,
+                    foto = MultipartBody.Part.createFormData("teknisi_foto", fotoFile.name, fotoBody),
+                    sertifikat = MultipartBody.Part.createFormData("teknisi_sertifikat", sertifikatFile.name, sertifikatBody),
+                    identitas = MultipartBody.Part.createFormData("teknisi_identitas", identitasFile.name, identitasBody),
+                    tempatUsaha = MultipartBody.Part.createFormData("teknisi_tempat_usaha", tempatUsahaFile.name, tempatUsahaBody)
                 )
             }
 
@@ -136,19 +204,55 @@ class AuthRepository internal constructor(
         teknisiAlamat: String,
         teknisiLat: Float,
         teknisiLng: Float,
+        fotoUri: Uri,
+        fotoPath: String,
+        identitasUri: Uri,
+        identitasPath: String,
+        contentResolver: ContentResolver,
+        context: Context
     ) : Flow<ApiEvent<CommonResponse?>> = flow {
+
+        // foto
+        val fotoParcelFileDescriptor = contentResolver.openFileDescriptor(fotoUri, "r", null)
+        val fotoInputStream = FileInputStream(fotoParcelFileDescriptor?.fileDescriptor)
+        val fotoImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val fotoFile = File(fotoImageDir, fotoPath)
+        val fotoOutStream = FileOutputStream(fotoFile)
+        fotoInputStream.copyTo(fotoOutStream)
+
+        // identitas
+        val identitasParcelFileDescriptor = contentResolver.openFileDescriptor(identitasUri, "r", null)
+        val identitasInputStream = FileInputStream(identitasParcelFileDescriptor?.fileDescriptor)
+        val identitasImageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        val identitasFile = File(identitasImageDir, identitasPath)
+        val identitasOutStream = FileOutputStream(identitasFile)
+        identitasInputStream.copyTo(identitasOutStream)
+
+        val fotoBody = UploadRequestBody(fotoFile, "image")
+        val identitasBody = UploadRequestBody(identitasFile, "image")
+
+        val emailRB = email.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val namaRB = teknisiNama.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val noHpRB = teknisiNoHp.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val passwordRB= password.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val alamatRB= teknisiAlamat.toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val latRB= "$teknisiLat".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+        val lngRB= "$teknisiLng".toRequestBody("multypart/form-data".toMediaTypeOrNull())
+
         runCatching {
             val apiId = AuthService.RegiterService
 
             val apiResult =apiExecutor.callApi(apiId) {
                 authService.registerPelanggan(
-                    pelangganNama = teknisiNama,
-                    pelangganNoHp = teknisiNoHp,
-                    password = password,
-                    email = email,
-                    pelangganAlamat = teknisiAlamat,
-                    pelangganLat = teknisiLat,
-                    pelangganLng = teknisiLng,
+                    pelangganNama = namaRB,
+                    pelangganNoHp = noHpRB,
+                    password = passwordRB,
+                    email = emailRB,
+                    pelangganAlamat = alamatRB,
+                    pelangganLat = latRB,
+                    pelangganLng = lngRB,
+                    foto = MultipartBody.Part.createFormData("pelanggan_foto", fotoFile.name, fotoBody),
+                    identitas = MultipartBody.Part.createFormData("pelanggan_identitas", identitasFile.name, identitasBody)
                 )
             }
 
@@ -401,7 +505,6 @@ class AuthRepository internal constructor(
         val outStream = FileOutputStream(file)
         inputStream.copyTo(outStream)
 
-//        val idRB: RequestBody = "$id".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val body = UploadRequestBody(file, "image")
 
         runCatching {

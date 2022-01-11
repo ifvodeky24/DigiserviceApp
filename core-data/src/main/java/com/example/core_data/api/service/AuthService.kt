@@ -8,6 +8,7 @@ import com.example.core_data.api.response.JenisKerusakanResponse
 import com.example.core_data.api.response.SkilsResponse
 import com.example.core_data.api.response.auth.LoginResponse
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -26,30 +27,38 @@ internal interface AuthService {
     @GET(GetJenisKerusakanAll)
     suspend fun getJenisKerusakanAll(): JenisKerusakanResponse
 
-    @FormUrlEncoded
+    @Multipart
     @POST(RegiterService)
     suspend fun registerService(
-        @Field("teknisi_nama") teknisiNama: String,
-        @Field("teknisi_hp") teknisiNoHp: String,
-        @Field("password") password: String,
-        @Field("email") email: String,
-        @Field("teknisi_nama_toko") teknisiNamaToko: String,
-        @Field("teknisi_alamat") teknisiAlamat: String,
-        @Field("teknisi_lat") teknisiLat: Float,
-        @Field("teknisi_lng") teknisiLng: Float,
-        @Field("teknisi_deskripsi") teknisiDeskripsi: String,
-    ): CommonResponse
+        @Part("teknisi_nama") teknisiNama: RequestBody,
+        @Part("teknisi_hp") teknisiNoHp: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("teknisi_nama_toko") teknisiNamaToko: RequestBody,
+        @Part("teknisi_alamat") teknisiAlamat: RequestBody,
+        @Part("teknisi_lat") teknisiLat: RequestBody,
+        @Part("teknisi_lng") teknisiLng: RequestBody,
+        @Part("teknisi_deskripsi") teknisiDeskripsi: RequestBody,
+        @Part("teknisi_total_score") teknisiTotalScore: RequestBody,
+        @Part("teknisi_total_responden") teknisiTotalRespondent: RequestBody,
+        @Part foto: MultipartBody.Part,
+        @Part sertifikat: MultipartBody.Part,
+        @Part identitas: MultipartBody.Part,
+        @Part tempatUsaha: MultipartBody.Part
+        ): CommonResponse
 
-    @FormUrlEncoded
+    @Multipart
     @POST(RegiterPelanggan)
     suspend fun registerPelanggan(
-        @Field("pelanggan_nama") pelangganNama: String,
-        @Field("pelanggan_hp") pelangganNoHp: String,
-        @Field("password") password: String,
-        @Field("email") email: String,
-        @Field("pelanggan_alamat") pelangganAlamat: String,
-        @Field("pelanggan_lat") pelangganLat: Float,
-        @Field("pelanggan_lng") pelangganLng: Float,
+        @Part("pelanggan_nama") pelangganNama: RequestBody,
+        @Part("pelanggan_hp") pelangganNoHp: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("pelanggan_alamat") pelangganAlamat: RequestBody,
+        @Part("pelanggan_lat") pelangganLat: RequestBody,
+        @Part("pelanggan_lng") pelangganLng: RequestBody,
+        @Part foto: MultipartBody.Part,
+        @Part identitas: MultipartBody.Part
     ): CommonResponse
 
     @GET(SkilsBy)
