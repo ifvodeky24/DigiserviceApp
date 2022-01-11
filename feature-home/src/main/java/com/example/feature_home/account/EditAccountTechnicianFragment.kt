@@ -502,7 +502,7 @@ class EditAccountTechnicianFragment : Fragment() {
                     binding.btnTeknisiIdentitas.isEnabled = true
                     hideProgressDialog()
                     Snackbar.make(requireContext(), requireView(), "Identitas berhasil diupdate!", Snackbar.LENGTH_SHORT).show()
-                    updateIdentitasAuthLocally(tempatUsahaPath.toString())
+                    updateIdentitasAuthLocally(identitasPath.toString())
                 }
                 is ApiEvent.OnFailed -> {
                     binding.btnTeknisiIdentitas.isEnabled = true
