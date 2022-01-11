@@ -19,6 +19,7 @@ import com.example.core_data.domain.store.ProductGetAll
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_util.Constants
 import com.example.core_util.PreferenceManager
+import com.example.core_util.getFormatRupiah
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_home.viewHolder.ItemProductViewHolder
 import com.example.feature_product.databinding.FragmentMarketplaceBinding
@@ -109,7 +110,7 @@ class MarketplaceFragment : Fragment(), ModuleNavigator {
                 onBind(::ItemProductViewHolder) { _, item ->
                     tvProductName.text = item.jualJudul
                     tvProductDesciption.text = item.jualDeskripsi
-                    tvPrice.text = "Rp. ${item.jualHarga.toString()}"
+                    tvPrice.text = getFormatRupiah(item.jualHarga)
                     Glide.with(requireActivity())
                         .load(APP_PRODUCT_IMAGES_URL + item.pathPhoto)
                         .centerCrop()

@@ -14,13 +14,10 @@ import com.example.core_data.api.ApiEvent
 import com.example.core_data.domain.store.ProductDetail
 import com.example.core_navigation.ModuleNavigator
 import com.example.core_resource.showApiFailedDialog
-import com.example.core_util.Constants
+import com.example.core_util.*
 import com.example.core_util.Constants.KEY_RECEIVER_ID
 import com.example.core_util.Constants.KEY_RECEIVER_NAME
 import com.example.core_util.Constants.KEY_RECEIVER_PHOTO
-import com.example.core_util.PreferenceManager
-import com.example.core_util.hideProgress
-import com.example.core_util.showProgress
 import com.example.feature_home.store.ProductViewModel
 import com.example.feature_product.databinding.FragmentDetailProductBinding
 import com.google.android.gms.tasks.Task
@@ -172,7 +169,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
             tvProductStatus.text = data.jualStatus
             tvName.text = data.jualJudul
             tvDate.text = data.jualTglPenjualan
-            tvPrice.text = "Rp. ${data.jualHarga}"
+            tvPrice.text = getFormatRupiah(data.jualHarga)
             tvTypeName.text = data.jenisNama
             tvDescription.text = data.jualDeskripsi
             Glide.with(requireActivity())
