@@ -14,7 +14,7 @@
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/itemOwnerConstraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/include_bottom_options"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -512,7 +512,7 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/itemOwnerConstraintLayout"
+            android:id="@+id/include_bottom_options"
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -33,8 +33,8 @@ class ServiceHandphoneRepository internal constructor(
                     teknisiId,
                     pelangganId,
                     jenisHp,
-                    deskripsiKerusakan,
                     jenisKerusakan,
+                    deskripsiKerusakan,
                     byKurir
                 )
             }

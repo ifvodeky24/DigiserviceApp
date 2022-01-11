@@ -8,6 +8,7 @@ data class ServiceHandphoneByTechnicianGetAll(
     val pelangganId: Int = 0,
     val serviceHandphoneId: Int = 0,
     val jenisKerusakan: String = "",
+    val deskripsiKerusakan: String = "",
     val createdAt: String = "",
     val pelangganLat: String = "",
     val teknisiId: Int = 0,

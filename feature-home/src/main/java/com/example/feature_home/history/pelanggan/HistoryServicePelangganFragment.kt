@@ -97,16 +97,9 @@ class HistoryServicePelangganFragment : Fragment() {
                             .into(ivServiceHpUserPhoto)
 
                         btnToRiwayatService.setOnClickListener {
-                            val riwayatService = RiwayatService(
-                                item.teknisiNama,
-                                item.jenisHp,
-                                item.jenisKerusakan,
-                                ""
-                            )
-                            val toRiwayatService = HistoryFragmentDirections
-                                    .actionHistoryFragmentToDetailPesananServiceFragment(riwayatService)
-
-                            findNavController().navigate(toRiwayatService)
+                            val toDetailService = HistoryFragmentDirections
+                                .actionHistoryFragmentToServiceHandphoneCustomerFragment(item)
+                            findNavController().navigate(toDetailService)
                         }
                     }
                 }

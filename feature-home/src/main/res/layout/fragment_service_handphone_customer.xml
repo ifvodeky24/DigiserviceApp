@@ -23,7 +23,7 @@
             android:paddingBottom="80dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_customer_photo"
+                android:id="@+id/iv_teknisi_photo"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
@@ -64,16 +64,16 @@
                     android:background="@color/colorWhite">
 
                     <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_customer_name"
+                        android:id="@+id/tv_teknisi_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="@dimen/text_big"
                         app:digi_font_style="medium"
-                        tools:text="Customer name" />
+                        tools:text="Teknisi name" />
 
                     <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_customer_email"
+                        android:id="@+id/tv_teknisi_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/small_fit"
@@ -82,7 +82,7 @@
                         tools:text="Email" />
 
                     <com.example.core_util.DigiTextView
-                        android:id="@+id/tv_customer_no_hp"
+                        android:id="@+id/tv_teknisi_no_hp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/small_fit"
@@ -170,7 +170,7 @@
                     app:digi_font_style="medium" />
 
                 <com.example.core_util.DigiTextView
-                    android:id="@+id/tv_customer_hp_name"
+                    android:id="@+id/tv_teknisi_hp_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Lenovo"
@@ -204,7 +204,7 @@
                     app:digi_font_style="medium" />
 
                 <com.example.core_util.DigiTextView
-                    android:id="@+id/tv_customer_hp_damage_name"
+                    android:id="@+id/tv_teknisi_hp_damage_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="LCD Pecah"
@@ -300,7 +300,7 @@
             android:layout_marginVertical="@dimen/large"
             android:paddingVertical="@dimen/small_fit"
             app:backgroundTint="@color/grey_60"
-            android:text="TOLAK"
+            android:text="BATAL"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -315,7 +315,7 @@
             android:layout_marginHorizontal="@dimen/medium"
             android:layout_marginVertical="@dimen/large"
             android:paddingVertical="@dimen/small_fit"
-            android:text="TERIMA"
+            android:text="SELESAI"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_reject"

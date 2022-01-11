@@ -37,8 +37,11 @@
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
         <action
-            android:id="@+id/action_historyFragment_to_detailPesananServiceFragment"
-            app:destination="@id/detailPesananServiceFragment" />
+            android:id="@+id/action_historyFragment_to_serviceHandphoneTechnicianFragment"
+            app:destination="@id/serviceHandphoneTechnicianFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_serviceHandphoneCustomerFragment"
+            app:destination="@id/serviceHandphoneCustomerFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -109,13 +112,12 @@
             app:destination="@id/addProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailPesananServiceFragment"
-        android:name="com.example.feature_home.history.DetailPesananServiceFragment"
-        android:label="fragment_detail_pesanan_service"
-        tools:layout="@layout/fragment_detail_pesanan_service" >
+        android:id="@+id/serviceHandphoneCustomerFragment"
+        android:name="com.example.feature_home.service.ServiceHandphoneCustomerFragment"
+        android:label="ServiceHandphoneCustomerFragment" >
         <argument
-            android:name="riwayat_service"
-            app:argType="com.example.core_data.domain.RiwayatService" />
+            android:name="serviceHandphoneDetail"
+            app:argType="com.example.core_data.domain.servicehp.ServiceHandphoneByCustomerGetAll" />
     </fragment>
 
 </navigation>

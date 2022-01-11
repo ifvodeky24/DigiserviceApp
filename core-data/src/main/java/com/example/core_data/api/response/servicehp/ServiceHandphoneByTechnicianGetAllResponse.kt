@@ -26,6 +26,8 @@ data class ServiceHandphoneByTechnicianGetAllDataResponse(
 	val serviceHandphoneId: Int = 0,
 	@Json(name="jenis_kerusakan")
 	val jenisKerusakan: String = "",
+	@Json(name="deskripsi_kerusakan")
+	val deskripsiKerusakan: String = "",
 	@Json(name="created_at")
 	val createdAt: String = "",
 	@Json(name="pelanggan_lat")
@@ -67,6 +69,7 @@ fun ServiceHandphoneByTechnicianGetAllDataResponse.toDomain() =
 		pelangganId = pelangganId,
 		serviceHandphoneId = serviceHandphoneId,
 		jenisKerusakan = jenisKerusakan,
+		deskripsiKerusakan = deskripsiKerusakan,
 		createdAt = createdAt,
 		pelangganLat = pelangganLat,
 		teknisiId = teknisiId,

@@ -43,9 +43,10 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
             activity?.onBackPressed()
         }
 
-        binding.apply {
-            btnEdit.setOnClickListener(this@DetailProdukFragment)
-            btnDelete.setOnClickListener(this@DetailProdukFragment)
+        binding.includeBottomOptions.apply {
+            btnAddProduct.setOnClickListener(this@DetailProdukFragment)
+            btnEditProduct.setOnClickListener(this@DetailProdukFragment)
+            btnDeleteProduct.setOnClickListener(this@DetailProdukFragment)
         }
     }
 
@@ -84,11 +85,15 @@ class DetailProdukFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.btn_edit -> {
+            R.id.btn_add_product -> {
+                val toAddProductFragment = DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(null, null);
+                findNavController().navigate(toAddProductFragment)
+            }
+            R.id.btn_edit_product -> {
                 val updateDirections = DetailProdukFragmentDirections.actionDetailProdukFragmentToAddProductFragment(args.produk, null)
                 findNavController().navigate(updateDirections)
             }
-            R.id.btn_delete -> {
+            R.id.btn_delete_product -> {
                 args.produk?.let { product ->
                     productViewModel.deleteProduct(product.jualId)
                 }

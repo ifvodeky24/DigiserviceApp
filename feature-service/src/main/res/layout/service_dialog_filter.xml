@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/order_technician"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/medium">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/small">
 
     <TextView
         android:id="@+id/hp_merk"
@@ -65,36 +63,6 @@
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/hp_kerusakan_deskripsi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deskripsi : "
-        android:textSize="@dimen/text_medium"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/til_hp_kerusakan_deskripsi"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/til_hp_kerusakan_deskripsi" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_hp_kerusakan_deskripsi"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/til_hp_kerusakan">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_deskripsi_kerusakan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:maxLines="6"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
@@ -111,5 +79,5 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_hp_kerusakan_deskripsi" />
+        app:layout_constraintTop_toBottomOf="@+id/til_hp_kerusakan" />
 </androidx.constraintlayout.widget.ConstraintLayout>
