@@ -16,7 +16,7 @@ class DetailPesananServiceFragment : Fragment() {
     private val binding: FragmentDetailPesananServiceBinding
         get() = _binding as FragmentDetailPesananServiceBinding
 
-    private val args: DetailPesananServiceFragmentArgs by navArgs()
+//    private val args: DetailPesananServiceFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +29,9 @@ class DetailPesananServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val riwayatService = args.riwayatService
+//        val riwayatService = args.riwayatService
 
-        setupRiwayatSerice(riwayatService)
+//        setupRiwayatSerice(riwayatService)
     }
 
     private fun setupRiwayatSerice(riwayatService: RiwayatService) {

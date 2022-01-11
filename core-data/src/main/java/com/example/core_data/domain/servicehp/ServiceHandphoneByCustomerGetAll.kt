@@ -1,5 +1,9 @@
 package com.example.core_data.domain.servicehp
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ServiceHandphoneByCustomerGetAll(
     val pelangganId: Int = 0,
     val teknisiTotalScore: Int = 0,
@@ -23,6 +27,6 @@ data class ServiceHandphoneByCustomerGetAll(
     val teknisiNamaToko: String = "",
     val teknisiLat: String = "",
     val email: String = ""
-)
+) : Parcelable
 
 typealias ListServiceHandphoneByCustomerGetAll = List<ServiceHandphoneByCustomerGetAll>
