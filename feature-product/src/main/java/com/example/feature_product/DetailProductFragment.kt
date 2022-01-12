@@ -57,6 +57,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
 
         preferenceManager = PreferenceManager(requireActivity())
 
+        observeAuth()
         setupDisplay(jualId)
         setupInput()
         observeProductDetail()
@@ -69,6 +70,14 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
             val result = bundle.getString(BuyDialogFragment.KEY_BUNDLE_SUBMIT)
             if (result == BuyDialogFragment.TRUE) {
                 buyProduct()
+            }
+        }
+    }
+
+    private fun observeAuth() {
+        productViewModel.auth.observe(viewLifecycleOwner) { auth ->
+            auth?.apply {
+                beliPembeli = auth.id
             }
         }
     }
@@ -163,7 +172,7 @@ class DetailProductFragment : Fragment(), ModuleNavigator, View.OnClickListener 
     @SuppressLint("SetTextI18n")
     private fun onDataProductDetailLoaded(data: ProductDetail) {
 
-        beliPembeli = data.jualUserId
+//        beliPembeli = data.jualUserId
 
         with(binding) {
             tvProductStatus.text = data.jualStatus
