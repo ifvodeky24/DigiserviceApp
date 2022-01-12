@@ -41,8 +41,8 @@ class ServiceHandphoneCustomerFragment : Fragment(), View.OnClickListener {
         setupDisplay(serviceHandphoneByCustomer)
 
         val isEnabled = (
-            serviceHandphoneByCustomer.statusService != "dibatalkan" ||
-            serviceHandphoneByCustomer.statusService != "ditolak"
+            serviceHandphoneByCustomer.statusService == "diterima" ||
+            serviceHandphoneByCustomer.statusService == "proses"
         )
 
         setupButton(isEnabled)
